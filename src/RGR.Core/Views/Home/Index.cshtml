@@ -1,0 +1,106 @@
+﻿@using Microsoft.AspNetCore.Html;
+@using RGR.Core.Controllers;
+@functions {
+    string GetDayOfWeek(DateTime Time)
+    {
+        DayOfWeek day = Time.DayOfWeek;
+
+        switch (day)
+        {
+            case DayOfWeek.Friday:
+                return "пятница";
+            case DayOfWeek.Monday:
+                return "понедельник";
+            case DayOfWeek.Saturday:
+                return "суббота";
+            case DayOfWeek.Sunday:
+                return "воскресенье";
+            case DayOfWeek.Thursday:
+                return "четверг";
+            case DayOfWeek.Tuesday:
+                return "вторник";
+            case DayOfWeek.Wednesday:
+                return "среда";
+            default:
+                return "O.o";
+        }
+    }
+
+    HtmlString sample()
+    {
+        string s = "<a href=\"/\">Тыц!<><br />";
+        return new HtmlString(s);
+    }
+}
+
+@{
+    ViewData["Title"] = "Новости";
+
+    var weekDay = GetDayOfWeek(DateTime.Now);
+    var today   = DateTime.Now.Date.ToString().Remove(10);
+}
+
+<div class="carousel-box">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img width="860" src="~/images/banner1.png" alt="Акция" class="img-responsive" />
+                <div class="carousel-caption" role="option">
+                    <h1>
+                        
+                        Засыпной пер., 14а, 5 комнат
+                    </h1><br />
+                    <p><font size="2">Хабаровск, г., Центральный, Засыпной пер., 14а, 5 комнат</font></p>
+                </div>
+            </div>
+            <div class="item">
+                <img width="860" height ="399" src="~/images/lib.png" alt="Акция" class="img-responsive" />
+                <div class="carousel-caption" role="option">
+                    <h1>
+                        ул. Муравьёва-Амурского, 1, 1 комната
+                    </h1><br />
+                    <p><font size="2">Хабаровск, г., Центральный, ул. Муравьёва-Амурского, 1, 1 комната</font></p>
+                </div>
+            </div>
+            <div class="item">
+                <img width="860" height ="399" src="~/images/palace.png" alt="Акция" class="img-responsive" />
+                <div class="carousel-caption" role="option">
+                    <h1>
+                        ул. Тургенева, 27, 8 комнат
+                    </h1><br />
+                    <p><font size="2">Хабаровск, г., Центральный, ул. Тургенева, 27, 8 комнат</font></p>
+                </div>
+            </div>
+            <div class="item">
+                <img width="860" height ="399" src="~/images/pioner.png" alt="Акция" class="img-responsive" />
+                <div class="carousel-caption" role="option">
+                    <h1>
+                        ул. Суворова, 44, 3 комнаты
+                    </h1><br />
+                    <p><font size="2">Хабаровск, г., индустриальный, ул. Суворова, 44, 3 комнаты</font></p>
+                </div>
+            </div>
+        </div>
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            
+        </a>
+        <a class="iconbox-left" href="#myCarousel" data-slide="prev"><img src="~/images/c_left.png" /></a>
+        <a class="iconbox-right" href="#myCarousel" data-slide="next"><img src="~/images/c_right.png" /></a>
+    </div>
+</div>
+
+    <img height ="399"src="~/images/sample-banner.gif" /><br /><br /><br />
+    <img src="~/images/news.png" />
+    <img src="~/images/video.png" />
+

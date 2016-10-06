@@ -1,0 +1,95 @@
+﻿<form action="search">
+    <div class="search-box">
+
+        <input type="radio" name="search" checked="checked" id="tab0" /><label for="tab0"><br />Квартира</label>
+        <input type="radio" name="search" id="tab1" /><label for="tab1"><br />Комната</label>
+        <input type="radio" name="search" id="tab2" /><label for="tab2"><br />Дом</label>
+        <input type="radio" name="search" id="tab3" /><label for="tab3"><br />Участок</label>
+        <input type="radio" name="search" id="tab4" /><label for="tab4"><br />Для бизнеса</label>
+        <input type="radio" name="search" id="tab5" /><label for="tab5"><br />Гараж</label>
+
+        <!--Квартира-->
+        <div>
+            <div action="search" class="search-box-inner">
+                <input name="objType" value="0" hidden="hidden" />
+                <div style="position: absolute; top: 65px;color: #fff;font-family: HelveticaNeueCyr; font-weight: 300;font-size: medium;">
+                    Цена от
+                    <input type="text" name="priceFrom" /> до
+                    <input type="text" name="priceTo" /> ₽
+                </div>
+                <div class="search-box-inner-checkbox" style="top:65px; left:480px">
+                    <span style="position: absolute; top:12px">Комнат</span>
+                    <input type="checkbox" name="room1" id="check-room-1" hidden="hidden" /><label for="check-room-1"><br />1</label>
+                    <input type="checkbox" name="room2" id="check-room-2" hidden="hidden" /><label for="check-room-2"><br />2</label>
+                    <input type="checkbox" name="room3" id="check-room-3" hidden="hidden" /><label for="check-room-3"><br />3</label>
+                    <input type="checkbox" name="room4" id="check-room-4" hidden="hidden" /><label for="check-room-4"><br />4 и более</label>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--Комната-->
+        <div>
+            <div action="search" class="search-box-inner">
+                <div style="position: absolute; top: 65px;color: #fff;font-family: HelveticaNeueCyr; font-weight: 300;font-size: medium;">
+                    Цена от
+                    <input type="text" name="_priceFrom" /> до
+                    <input type="text" name="_priceTo" /> ₽
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <!--Дом-->
+            <table border="0" cellpadding="0" cellspacing="0" style="width: 900px;height: 30px">
+                <tbody>
+                    <tr>
+                        <td><input checked="checked" name="isCottage" type="radio" value="on">Коттедж &nbsp;&nbsp;<input name="isCottage" type="radio" value="off">Таунхаус</td>
+                        <td>Комнат:&nbsp;<input type="checkbox" value="room1">1<input type="checkbox" value="room2">2<input type="checkbox" value="room3">3<input type="checkbox" value="room4">4<input type="checkbox" value="room5">5<input type="checkbox" value="room6">6 и более</td>
+                    </tr>
+                    <tr>
+                        <td>Этажей:&nbsp;<input name="maxFloors" type="text"></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>Цена от <input name="priceFrom" type="text">&nbsp;до <input name="priceTo" type="text">&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <!--Участок-->
+            четвертая вкладка
+        </div>
+
+        <div>
+            <!--Коммерческая-->
+            пятая вкладка
+        </div>
+
+        <div>
+            <!--гараж-->
+            шестая вкладка
+        </div>
+
+    </div>
+    <div class="search-box-footer">
+        <div class="search-box-footer-inner">
+            <input type="submit" value="Показать" />
+            <label><span class="search-box-footer-inner-label">23</span></label>
+            <img src="images/search/glass.png" />
+        </div>
+        <span style="position:absolute; right: 10px; bottom: 10px; color:#fff;"><a href="#win1">Расширенный поиск</a></span>
+    </div>
+</form> 
+
+
+   <!-- Модальное окно №1 -->
+<a href="#x" class="overlay" id="win1"></a>
+<div class="popup">
+    Placeholder
+    <a class="close" title="Закрыть" href="#close"></a>
+</div>
