@@ -29,7 +29,7 @@ namespace RGR.Core.Controllers
         {
             if (ModelState.IsValid)
             {
-                string hash = PasswordUtils.Hashify(model.Password, 3);
+                string hash = PasswordUtils.GenerateMD5PasswordHash(model.Password);
                 Users user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.PasswordHash == hash);
                 if (user != null)
                 {
@@ -55,7 +55,7 @@ namespace RGR.Core.Controllers
                 Users user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
-                    string hash = PasswordUtils.Hashify(model.Password, 3);
+                    string hash = PasswordUtils.GenerateMD5PasswordHash(model.Password);
                     // добавляем пользователя в бд
                     db.Users.Add(new Users { Email = model.Email, PasswordHash = hash });
                     await db.SaveChangesAsync();
