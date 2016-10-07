@@ -1,7 +1,7 @@
 ﻿
 namespace RGR.Core.Controllers.Account
 {
-    public class Register
+  /*  public class Register
     {
         public bool EmailOK = false;
         public bool PasswordOK = false;
@@ -28,5 +28,5 @@ namespace RGR.Core.Controllers.Account
         //[DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Пароль введен неверно")]
         public string ConfirmPassword { get; set; }
-    }
+    }*/
 }
