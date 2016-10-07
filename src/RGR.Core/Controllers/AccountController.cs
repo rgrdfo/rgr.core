@@ -29,7 +29,8 @@ namespace RGR.Core.Controllers
         {
             if (ModelState.IsValid)
             {
-                Users user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+                string hash = PasswordUtils.Hashify(model.Password, 3);
+                Users user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.PasswordHash == hash);
                 if (user != null)
                 {
                     await Authenticate(model.Email); // аутентификация
@@ -54,8 +55,9 @@ namespace RGR.Core.Controllers
                 Users user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
+                    string hash = PasswordUtils.Hashify(model.Password, 3);
                     // добавляем пользователя в бд
-                    db.Users.Add(new Users { Email = model.Email, Password = model.Password });
+                    db.Users.Add(new Users { Email = model.Email, PasswordHash = hash });
                     await db.SaveChangesAsync();
 
                     await Authenticate(model.Email); // аутентификация
@@ -86,6 +88,7 @@ namespace RGR.Core.Controllers
         {
             await HttpContext.Authentication.SignOutAsync("Cookies");
             return RedirectToAction("Login", "Account");
+            //db.Users.Add()
         }
     }
 }
