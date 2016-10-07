@@ -10,27 +10,26 @@
 
 .search-bar{
     position: absolute;
-    width:100%;
-    height:389px;
+    width:100% !important;
+    height:390px;
     background-color:#666d71;
-    background-image:url(../images/search/back.png);
+    background:url(../images/search/back.png) no-repeat;
     font-family: HelveticaNeueCyr;
     text-align:center;
 
 }
 
 .search-bar-inner{
-    margin: auto;
-    margin-top: 40px;
-    width:970px;
-    height:285px;
+    margin: 40px 25%;    
+    width: 50%;/*970px;*/
+    height:280px;
     position: relative;
 }
 
  .search-box > div, .search-box > input {
      display: none;
-     width: 970px;
-     height: 165px;
+     width: 100%;
+     height: 240px;
      position: absolute;
      top: 40px;
      text-align:center;
@@ -46,9 +45,10 @@
         background-color: rgba(26,57,86,0);
         color: #fff;
         height:40px;
-        border-radius: 5px 20px 0 0;
+        border-radius: 5px 50px 7px 0;
         text-anchor:middle;
         font-size:small;
+        font-family: HelveticaNeueCyr_Roman;
     }
     .search-box label:nth-of-type(1){left: 10px;  width: 110px;}
     .search-box label:nth-of-type(2){left: 120px; width: 110px;}
@@ -66,25 +66,20 @@
     .search-box > input:nth-of-type(5):checked ~ div:nth-of-type(5),
     .search-box > input:nth-of-type(6):checked ~ div:nth-of-type(6) { display: block;  }
 
-    .search-box-inner{
-        position: relative;
-        padding: 10px;
-        padding-right: 25px;
-    }
 
     .search-box-inner input{
-        background-color: #559abd;
-        border-radius: 5px;
-        text-align: right;
-        border: none;
-        outline: none;
+        background-color: transparent;
+        border-radius: 8px;
+        text-align: center;
+        border: 1.5px solid #559abd ;
         height: 40px;
-        padding-right: 5px;
+        padding: 3%;
         color: #fff;
-        font-family: HelveticaNeueCyr;
+        font-family: HelveticaNeueCyr_Roman;
         font-weight: 300;
         font-size: medium;
-    }
+        margin: 3%;
+    }    
 
     .search-box-inner-checkbox{ 
         position: absolute;
@@ -117,17 +112,17 @@
     .search-box-inner-checkbox > input:nth-of-type(3):checked ~ div:nth-of-type(3),
     .search-box-inner-checkbox > input:nth-of-type(4):checked ~ div:nth-of-type(4) { display: block; }
 
-    .search-box-inner-checkbox label:nth-of-type(1){left: 58px;  width: 40px; border-radius: 5px 0 0 5px}
-    .search-box-inner-checkbox label:nth-of-type(2){left: 98px; width: 40px;}
-    .search-box-inner-checkbox label:nth-of-type(3){left: 138px; width: 40px; }
-    .search-box-inner-checkbox label:nth-of-type(4){left: 178px; width: 80px; border-radius: 0 5px 5px 0}
+    .search-box-inner-checkbox label:nth-of-type(1){left: 58px;  min-width: 40px; border-radius: 5px 0 0 5px}
+    .search-box-inner-checkbox label:nth-of-type(2){left: 98px; min-width: 40px;}
+    .search-box-inner-checkbox label:nth-of-type(3){left: 138px; min-width: 40px; }
+    .search-box-inner-checkbox label:nth-of-type(4){left: 178px; min-width: 80px; border-radius: 0 5px 5px 0}
 
     .search-box-footer{
         position: absolute;
-        height:80px;
+        height: 33%; /*80px;*/
         background-color: #1a3956;
         padding: 0px;
-        width: 970px;
+        width: 100%;
         bottom:0px;
         border-radius: 0 0 10px 10px;
         box-shadow: 0 10px 20px rgba(0,0,0,0.5);

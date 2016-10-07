@@ -10,19 +10,28 @@
 
         <!--Квартира-->
         <div>
-            <div class="search-box-inner">
+            <div action="search" class="search-box-inner">                
                 <div class="row">
                     <div class="col-lg-5">
-                        <input name="apartButton" type="button" value="Квартира"/>
-                        <input name="roomButton" type="button" value="Комната"/> <br/> 
-                        <label>Цена от</label><input name="priceFrom" type="text" v />
-                        <label>до</label><input name="priceTo" type="text" />
-
+                        <div class="search-box-inner-checkbox">
+                            <input name="check_shelter1" type="checkbox" checked /><label for="check_shelter1">Квартира</label>
+                            <input name="ceck_shelter2" type="checkbox" /> <label for="check_shelter2">Квартира</label>
+                            <span>Цена от</span><input name="priceFrom" type="text" />
+                            <span>до</span><input name="priceTo" type="text" />
+                        </div>
                     </div>
-                    <div class="col-lg-5"></div>
-                    <div class="col-lg-2"></div>
+                    <div class="col-lg-7">
+                        <div class="search-box-inner-checkbox">
+                            <span style="position: absolute; top:12px">Комнат</span>
+                            <input type="checkbox" name="room1" id="check-room-1" hidden="hidden" /><label for="check-room-1"><br />1</label>
+                            <input type="checkbox" name="room2" id="check-room-2" hidden="hidden" /><label for="check-room-2"><br />2</label>
+                            <input type="checkbox" name="room3" id="check-room-3" hidden="hidden" /><label for="check-room-3"><br />3</label>
+                            <input type="checkbox" name="room4" id="check-room-4" hidden="hidden" /><label for="check-room-4"><br />4 и более</label>
+                        </div>
+                    </div>                    
                 </div>
             </div>
+
             <!--<div action="search" class="search-box-inner">
                 <input name="objType" value="0" hidden="hidden" />
                 <div style="position: absolute; top: 65px;color: #fff;font-family: HelveticaNeueCyr; font-weight: 300;font-size: medium;">
