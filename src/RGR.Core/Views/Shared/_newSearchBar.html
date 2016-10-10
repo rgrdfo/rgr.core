@@ -1,32 +1,47 @@
-﻿<form action="search">
-    <div class="search-box">
-        <div>
-            <input type="radio" name="search_box" id="tab0" checked="checked"><label for="tab0">Квартира</label>
-            <input type="radio" name="search_box" id="tab1"><label for="tab1">Дом</label>
-            <input type="radio" name="search_box" id="tab2"><label for="tab2">Участок</label>
-            <input type="radio" name="search_box" id="tab3"><label for="tab3">Гараж</label>
-            <input type="radio" name="search_box" id="tab4"><label for="tab4">Для бизнеса</label>
-            <input type="radio" name="search_box" id="tab5"><label for="tab5">Сохраненные запросы</label>
-        </div>
+﻿<div class="search-bar">
+    <div class="search-box">        
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#panel1">Квартира</a></li>
+            <li><a data-toggle="tab" href="#panel2">Дом</a></li>
+            <li><a data-toggle="tab" href="#panel4">Участок</a></li>
+            <li><a data-toggle="tab" href="#panel5">Гараж</a></li>
+            <li><a data-toggle="tab" href="#panel6">Для бизнеса</a></li> 
+            <li><a data-toggle="tab" href="#panel6">Сохраненные запросы</a></li>            
+        </ul>
 
         <!--Квартира-->
-        <div action="search_box" class="search-box-inner">
-            <div class="row">
-                <div class="col-lg-5">
-                    <div style="float:left;" class="search-box-inner-radio">                        
-                            <input name="check_shelter" id="sh1" type="radio" checked /><label for="sh1">Квартира</label><input name="check_shelter" id="sh2" type="radio" /><label for="sh2">Комната</label>                        
+        <div class="tab-content">
+            <div id="panel1" action="search_box" class="tab-pane in active search-box-inner">
+                <div class="row">
+                    <div class="col-lg-5">                        
+                            <div style="float:left;" class="search-box-inner-radio">
+                                <form action="search">
+                                    <input name="check_shelter" id="sh1" type="radio" checked /><label for="sh1">Квартира</label><input name="check_shelter" id="sh2" type="radio" /><label for="sh2">Комната</label>
+                                </form>
+                            </div>
+                            <div class="search-box-inner-select">
+                                <div class="inner-select">
+                                    <form action="search">
+                                        <input name="check_type" id="t1" type="checkbox" checked /><label for="t1">раздельные</label>
+                                        <input name="check_type" id="t2" type="checkbox" /><label for="t1">смежные</label>
+                                        <input name="check_type" id="t3" type="checkbox" /><label for="t1">смежно-раздельные</label>
+                                    </form>
+                                </div>
+                            </div>             
                     </div>
+                    <div class="col-lg-7"></div>
                 </div>
-                <div class="col-lg-7"></div>
+            </div>
+            <!--Дом-->
+            <div id="panel2" action="search_box" class="tab-pane search-box-inner">11111111111</div>
+            <div class="search-box-footer">
+                <div class="search-box-footer-inner"></div>
             </div>
         </div>
-        <!--Дом-->
-        <div action="search_box" class="search-box-inner">11111111111</div>
-        <div>111111111</div>
-        <div></div>
-        <div></div>
-        <div></div>
+        
     </div>
-</form>
+</div>
+
+
 
 

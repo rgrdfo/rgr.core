@@ -20,86 +20,75 @@
     margin:0;    
 
 }
-.search-box {
-    margin-top: 50px;
-    white-space: nowrap;
-    overflow: hidden;
-    width: 50%;
-    height: 280px;   
-    position:relative; 
+.nav-tabs{
+    position: relative;    
+    background-color:transparent;
+    text-align: center;
+    font-weight: 300;
+    float:none;
+    width:50%;
     left:25%;
+    top: 45px;
+    font-size: 11pt;    
+}
+.nav-tabs li{
+    background-color: transparent;
+    border: none;     
+    margin: 0;
+}
+.nav-tabs li a{
+    border-radius: 5px 40px 0px 0;
+    text-decoration:none !important;
+    padding: 10px 25px 10px 10px;
+    color: #fff !important;    
+}
+.nav-tabs > li.active > a  {  
+    background-color: #22496d !important;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+}
+ 
+.search-box {    
+   /* white-space: nowrap;        */
+    height: 280px;   
+    position:relative;     
 }
 
 .search-box input {
     display: none;
 }
 
-.search-box > input + label {
-    font-size: 11pt;
-    background-color: transparent;
-    display: inline-block;
-    border-radius: 5px 40px 0px 0;
-    padding: 10px 25px 10px 10px;
-    position: relative;
-    font-weight: 300;
-    margin-bottom:0;   
-}
-
-.search-box > input + label:not(:last-of-type) {
-    border-right: none;
-}
-
-.search-box > input + label:last-of-type::after {
-    display: block;
-    border-radius: 5px 40px 0px 0;
-    width: 2000px;
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    left: 100%;
-}
-
-
-/*.search-box > input:checked + label:last-of-type::after {
-    bottom: 0px;
-}*/
-
-.search-box > input:nth-of-type(1):checked ~ div:nth-of-type(1),
-.search-box > input:nth-of-type(2):checked ~ div:nth-of-type(2),
-.search-box > input:nth-of-type(3):checked ~ div:nth-of-type(3),
-.search-box > input:nth-of-type(4):checked ~ div:nth-of-type(4)
-.search-box > input:nth-of-type(5):checked ~ div:nth-of-type(5)
-.search-box > input:nth-of-type(6):checked ~ div:nth-of-type(6) {
-    display: block;
-}
-
-.search-box input[type="radio"]:checked + label { background-color: #22496d; box-shadow: 5px 4px 10px rgba(0,0,0,0.5);}
-
 .search-box-inner {
     position: relative;
     height: 240px;
     background-color: #22496d;
-    border-radius: 0 8px 8px 8px;    
+    border-radius: 0 8px 8px 8px !important;    
     margin-bottom: 10px;
-    text-align: center;       
+    text-align: center; 
+    width:50%; 
+    left:25%;
+    top: 45px;     
 }
 
 .search-box-inner input ~label{
     height: 40px;
-    padding: 10px; 
+    padding: 10px;
+    border: 1px solid #559abd;
+    border-radius: 8px;     
 }
 
 .search-box-inner-radio label:nth-of-type(1){border-radius: 8px 0 0 8px;}
 .search-box-inner-radio label:nth-of-type(2){border-radius: 0 8px 8px 0;}
 
+.search-box-inner-radio, .search-box-inner-select {
+    padding-bottom: 20px;
+    width:100%;
+}
 .search-box-inner-radio input{
     position: absolute;
 }
 .search-box-inner-radio label{
-    width: 140px;   
-    display: inline-block;    
-    border: 1px solid #559abd;
-    border-radius: 8px;        
+    width: 50%;   
+    display: inline-block;            
 }
 
 .search-box-inner-radio input:checked + label {
@@ -108,9 +97,49 @@
     box-shadow: none !important;
 }
 .row {
-    padding: 10px !important;
-    margin: 0px !important;
+    padding: 10px;
+    margin: 0px;
+    display:inline;    
+    }
+.search-box-footer{
+    position: absolute;
+    height: 33%;
+    left:25%;
+    top:83%;
+    background-color: #1a3956;
+    padding: 0px;
+    width: 50%;
+    bottom:0px;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+
 }
+.search-box-footer-inner {
+    position: relative;
+    margin: auto;
+    margin-top: 15px;    
+    }
+.search-box-inner-select{    
+     height: 40px;     
+     padding: 10px;
+     background-color: #eff0f0;
+     border: 1px solid #559abd;
+     border-radius: 8px;
+     color: #143c60;
+     float:left;
+     width: 100%;
+}
+.inner-select{
+    display: none;
+    position: absolute;
+}
+.inner-select input{
+    border: none !important;
+    text-align: center;
+    display: inline;
+}
+
+
 
     
 
