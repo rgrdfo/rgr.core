@@ -1,38 +1,52 @@
-﻿<form action="search">
-    <div class="search-box">
-
-        <input type="radio" name="search" checked="checked" id="tab0" /><label for="tab0"><br />Квартира</label>
-        <input type="radio" name="search" id="tab1" /><label for="tab1"><br />Комната</label>
-        <input type="radio" name="search" id="tab2" /><label for="tab2"><br />Дом</label>
-        <input type="radio" name="search" id="tab3" /><label for="tab3"><br />Участок</label>
-        <input type="radio" name="search" id="tab4" /><label for="tab4"><br />Для бизнеса</label>
-        <input type="radio" name="search" id="tab5" /><label for="tab5"><br />Гараж</label>
+﻿    <div class="search-box">
+        <form action="search">
+            <input type="radio" name="search" checked="checked" id="tab0" /><label for="tab0"><br />Квартира</label>
+            <input type="radio" name="search" id="tab1" /><label for="tab1"><br />Комната</label>
+            <input type="radio" name="search" id="tab2" /><label for="tab2"><br />Дом</label>
+            <input type="radio" name="search" id="tab3" /><label for="tab3"><br />Участок</label>
+            <input type="radio" name="search" id="tab4" /><label for="tab4"><br />Для бизнеса</label>
+            <input type="radio" name="search" id="tab5" /><label for="tab5"><br />Гараж</label>
+        </form>
 
         <!--Квартира-->
         <div>
-            <div action="search" class="search-box-inner">                
+            
+            <!--<div action="search" class="search-box-inner">                
                 <div class="row">
-                    <div class="col-lg-5">
-                        <div class="search-box-inner-checkbox">
-                            <input name="check_shelter1" type="checkbox" checked /><label for="check_shelter1">Квартира</label>
-                            <input name="ceck_shelter2" type="checkbox" /> <label for="check_shelter2">Квартира</label>
-                            <span>Цена от</span><input name="priceFrom" type="text" />
-                            <span>до</span><input name="priceTo" type="text" />
-                        </div>
+                    <div class="col-lg-5">                       
+                            <div class="search-box-inner-checkbox">
+                                <form action="search">
+                                    <input name="check_shelter1" type="checkbox" checked /><label for="check_shelter1">Квартира</label>
+                                    <input name="ceck_shelter2" type="checkbox" /> <label for="check_shelter2">Квартира</label>
+                                </form>
+                            </div>
+                        <form action="search">
+                           <select multiple class="search-box-inner-select">
+                                <option>раздельные</option>
+                                <option>смежные</option>
+                                <option>смежно-раздельные</option>
+                            </select>
+                        </form>
                     </div>
                     <div class="col-lg-7">
-                        <div class="search-box-inner-checkbox">
-                            <span style="position: absolute; top:12px">Комнат</span>
-                            <input type="checkbox" name="room1" id="check-room-1" hidden="hidden" /><label for="check-room-1"><br />1</label>
-                            <input type="checkbox" name="room2" id="check-room-2" hidden="hidden" /><label for="check-room-2"><br />2</label>
-                            <input type="checkbox" name="room3" id="check-room-3" hidden="hidden" /><label for="check-room-3"><br />3</label>
-                            <input type="checkbox" name="room4" id="check-room-4" hidden="hidden" /><label for="check-room-4"><br />4 и более</label>
+                        <div class="search-box-inner-text" style="display: inline-block;">
+                            <span>Цена от</span><input name="price" type="text" />
+                            <span>до</span><input name="price" type="text" />
                         </div>
-                    </div>                    
+                        <div style="display: inline-block;">
+                            <div class="search-box-inner-checkbox">
+                                <span style="position: absolute; top:12px">Комнат</span>
+                                <input type="checkbox" name="room1" id="check-room-1" hidden="hidden" /><label for="check-room-1"><br />1</label>
+                                <input type="checkbox" name="room2" id="check-room-2" hidden="hidden" /><label for="check-room-2"><br />2</label>
+                                <input type="checkbox" name="room3" id="check-room-3" hidden="hidden" /><label for="check-room-3"><br />3</label>
+                                <input type="checkbox" name="room4" id="check-room-4" hidden="hidden" /><label for="check-room-4"><br />4 и более</label>
+                            </div>
+                        </div>
+                    </div>               
                 </div>
-            </div>
+            </div> --> 
 
-            <!--<div action="search" class="search-box-inner">
+           <div action="search" class="search-box-inner">
                 <input name="objType" value="0" hidden="hidden" />
                 <div style="position: absolute; top: 65px;color: #fff;font-family: HelveticaNeueCyr; font-weight: 300;font-size: medium;">
                     Цена от
@@ -47,7 +61,7 @@
                     <input type="checkbox" name="room4" id="check-room-4" hidden="hidden" /><label for="check-room-4"><br />4 и более</label>
                 </div>
 
-            </div>-->
+            </div>
 
         </div>
 
@@ -106,7 +120,7 @@
         </div>
         <span style="position:absolute; right: 10px; bottom: 10px; color:#fff;"><a href="#win1">Расширенный поиск</a></span>
     </div>
-</form> 
+
 
 
    <!-- Модальное окно №1 -->

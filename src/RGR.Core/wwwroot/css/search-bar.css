@@ -8,6 +8,7 @@
     src: url(../fonts/HelveticaNeueCyr-Roman.otf);
    }
 
+
 .search-bar{
     position: absolute;
     width:100% !important;
@@ -71,24 +72,23 @@
         background-color: transparent;
         border-radius: 8px;
         text-align: center;
-        border: 1.5px solid #559abd ;
-        height: 40px;
+        border: 1.5px solid rgb(85,154,189) ;        
         padding: 3%;
         color: #fff;
         font-family: HelveticaNeueCyr_Roman;
         font-weight: 300;
         font-size: medium;
         margin: 3%;
-    }    
-
-    .search-box-inner-checkbox{ 
+        height: 40px;
+    }  
+ 
+    .search-box-inner-checkbox{         
         position: absolute;
         font-family: HelveticaNeueCyr;
         font-weight: 300;
         font-size: medium;
-    }
-    .search-box-inner-checkbox input [type="checkbox"]{
-        height: 40px;
+    }    
+    .search-box-inner-checkbox input [type="checkbox"]{        
         width: 40px;
         display:none;
     }

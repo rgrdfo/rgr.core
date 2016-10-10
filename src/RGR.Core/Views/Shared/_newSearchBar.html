@@ -1,18 +1,32 @@
 ﻿<form action="search">
-    <div class="search-box">   
-        <input type="radio" name="search_box" id="tab0" checked="checked"><label for="tab0">Первая вкладка</label>
-        <input type="radio" name="search_box" id="tab1"><label for="tab1">Первая вкладка</label>
-        <input type="radio" name="search_box" id="tab2"><label for="tab2">Первая вкладка</label>
-        <input type="radio" name="search_box" id="tab3"><label for="tab3">Первая вкладка</label>
-        <input type="radio" name="search_box" id="tab4"><label for="tab4">Первая вкладка</label>
-        <input type="radio" name="search_box" id="tab5"><label for="tab5">Первая вкладка</label>
-        <div class="search-box-inner">
-            1111
+    <div class="search-box">
+        <div>
+            <input type="radio" name="search_box" id="tab0" checked="checked"><label for="tab0">Квартира</label>
+            <input type="radio" name="search_box" id="tab1"><label for="tab1">Дом</label>
+            <input type="radio" name="search_box" id="tab2"><label for="tab2">Участок</label>
+            <input type="radio" name="search_box" id="tab3"><label for="tab3">Гараж</label>
+            <input type="radio" name="search_box" id="tab4"><label for="tab4">Для бизнеса</label>
+            <input type="radio" name="search_box" id="tab5"><label for="tab5">Сохраненные запросы</label>
         </div>
-        <div>11111111111</div>
+
+        <!--Квартира-->
+        <div action="search_box" class="search-box-inner">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div style="float:left;" class="search-box-inner-radio">                        
+                            <input name="check_shelter" id="sh1" type="radio" checked /><label for="sh1">Квартира</label><input name="check_shelter" id="sh2" type="radio" /><label for="sh2">Комната</label>                        
+                    </div>
+                </div>
+                <div class="col-lg-7"></div>
+            </div>
+        </div>
+        <!--Дом-->
+        <div action="search_box" class="search-box-inner">11111111111</div>
         <div>111111111</div>
         <div></div>
         <div></div>
-        <div></div>        
+        <div></div>
     </div>
 </form>
+
+
