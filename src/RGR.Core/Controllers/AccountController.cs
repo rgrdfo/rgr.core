@@ -13,6 +13,9 @@ namespace RGR.Core.Controllers
 {
     public class AccountController : Controller
     {
+
+
+
         private rgrContext db;
         public AccountController(rgrContext context)
         {
@@ -29,15 +32,22 @@ namespace RGR.Core.Controllers
         {
             if (ModelState.IsValid)
             {
-                string hash = PasswordUtils.GenerateMD5PasswordHash(model.Password);
-                Users user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.PasswordHash == hash);
+                Users user = await db.Users.FirstOrDefaultAsync(u => u.Login == model.Login && u.PasswordHash == PasswordUtils.GenerateMD5PasswordHash(model.Password));
                 if (user != null)
                 {
-                    await Authenticate(model.Email); // аутентификация
+                    if (!user.Blocked)
+                    {
+                        await Authenticate(model.Login); // аутентификация
+                        user.LastLogin = DateTime.UtcNow; //обновление информации о входе
+                        await db.SaveChangesAsync();
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                        ModelState.AddModelError(string.Empty, $"К сожалению, пользователь {user.Login} заблокирован");
 
-                    return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                else
+                    ModelState.AddModelError(string.Empty, "Проверьте логин и пароль!");
             }
             return View(model);
         }
@@ -52,15 +62,25 @@ namespace RGR.Core.Controllers
         {
             if (ModelState.IsValid)
             {
-                Users user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+                Users user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Login);
                 if (user == null)
                 {
-                    string hash = PasswordUtils.GenerateMD5PasswordHash(model.Password);
                     // добавляем пользователя в бд
-                    db.Users.Add(new Users { Email = model.Email, PasswordHash = hash });
+                    db.Users.Add(new Users
+                    {
+                        Login = model.Login,
+                        Email = model.Login,
+                        PasswordHash = PasswordUtils.GenerateMD5PasswordHash(model.Password),
+                        FirstName = "",
+                        SurName = "",
+                        LastName = "",
+                        Blocked = true,
+                        Activated = false,
+                        Phone = ""
+                    });
                     await db.SaveChangesAsync();
 
-                    await Authenticate(model.Email); // аутентификация
+                    await Authenticate(model.Login); // аутентификация
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -88,7 +108,86 @@ namespace RGR.Core.Controllers
         {
             await HttpContext.Authentication.SignOutAsync("Cookies");
             return RedirectToAction("Login", "Account");
-            //db.Users.Add()
         }
     }
 }
+
+
+
+        //    private rgrContext db;
+        //    public AccountController(rgrContext context)
+        //    {
+        //        db = context;
+        //    }
+        //    [HttpGet]
+        //    public IActionResult Login()
+        //    {
+        //        return View();
+        //    }
+        //    [HttpPost]
+        //    [ValidateAntiForgeryToken]
+        //    public async Task<IActionResult> Login(LoginModel model)
+        //    {
+
+
+
+        //        //if (ModelState.IsValid)
+        //        //{
+        //        //    var loginCorrect = await model.CheckLoginPossilblityAsync();
+        //        //    if (loginCorrect)
+        //        //    {
+        //        //        await Authenticate(model.Email); // аутентификация
+        //        //        ViewData["Success"] = true;
+        //        //        return RedirectToAction("Index", "Home");
+        //        //    }
+        //        //    else
+        //        //        ViewData["Success"] = false;
+        //        //}
+        //        //return View(model);
+        //    }
+        //    [HttpGet]
+        //    public IActionResult Register()
+        //    {
+        //        return View();
+        //    }
+        //    [HttpPost]
+        //    [ValidateAntiForgeryToken]
+        //    public async Task<IActionResult> Register(RegisterModel model)
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            //Попытка зарегистрировать пользователя. В случае успеха - авторизовать
+        //            if (await model.TryRegisterAsync() == true)
+        //            {
+        //                await Authenticate(model.Email); // аутентификация
+        //                ViewData["Success"] = true;
+        //                return RedirectToAction("Index", "Home");
+        //            }
+        //            else
+        //                ViewData["Success"] = false;
+        //        }
+        //        return View(model);
+        //    }
+
+        //    private async Task Authenticate(string userName)
+        //    {
+        //        // создаем один claim
+        //        var claims = new List<Claim>
+        //                {
+        //                    new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+        //                };
+        //        // создаем объект ClaimsIdentity
+        //        ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
+        //            ClaimsIdentity.DefaultRoleClaimType);
+        //        // установка аутентификационных куки
+        //        await HttpContext.Authentication.SignInAsync("Cookies", new ClaimsPrincipal(id));
+        //    }
+
+        //    public async Task<IActionResult> Logout()
+        //    {
+        //        await HttpContext.Authentication.SignOutAsync("Cookies");
+        //        return RedirectToAction("Login", "Account");
+        //        //db.Users.Add()
+        //    }
+        //}
+    //}
