@@ -36,6 +36,10 @@ namespace RGR.Core
             services.AddDbContext<rgrContext>(options =>
                 options.UseSqlServer(connection));
 
+            //Кэш памяти и сессии
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
             // Add framework services.
             services.AddMvc();
         }
@@ -67,6 +71,8 @@ namespace RGR.Core
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true
             });
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

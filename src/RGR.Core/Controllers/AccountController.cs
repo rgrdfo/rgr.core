@@ -8,13 +8,12 @@ using System.Security.Claims;
 
 using RGR.Core.Controllers.Account;
 using RGR.Core.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace RGR.Core.Controllers
 {
     public class AccountController : Controller
     {
-
-
 
         private rgrContext db;
         public AccountController(rgrContext context)
@@ -37,7 +36,7 @@ namespace RGR.Core.Controllers
                 {
                     if (!user.Blocked)
                     {
-                        await Authenticate(model.Login); // аутентификация
+                        await Authenticate(model.Login, model.Password); // аутентификация
                         user.LastLogin = DateTime.UtcNow; //обновление информации о входе
                         await db.SaveChangesAsync();
                         return RedirectToAction("Index", "Home");
@@ -65,7 +64,7 @@ namespace RGR.Core.Controllers
                 Users user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Login);
                 if (user == null)
                 {
-                    // добавляем пользователя в бд
+                    // добавление пользователя в бд
                     db.Users.Add(new Users
                     {
                         Login = model.Login,
@@ -80,7 +79,7 @@ namespace RGR.Core.Controllers
                     });
                     await db.SaveChangesAsync();
 
-                    await Authenticate(model.Login); // аутентификация
+                    await Authenticate(model.Login, model.Password); // аутентификация
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -90,23 +89,36 @@ namespace RGR.Core.Controllers
             return View(model);
         }
 
-        private async Task Authenticate(string userName)
+        /// <summary>
+        /// Аутентификация. Используется только внутри логина или регистрации
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="Password"></param>
+        /// <returns></returns>
+        private async Task Authenticate(string userName, string Password)
         {
-            // создаем один claim
+            // создание одного claim
             var claims = new List<Claim>
                     {
                         new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
                     };
-            // создаем объект ClaimsIdentity
+            // создание объекта ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
                 ClaimsIdentity.DefaultRoleClaimType);
             // установка аутентификационных куки
             await HttpContext.Authentication.SignInAsync("Cookies", new ClaimsPrincipal(id));
+            // установка сессии
+            string hash = PasswordUtils.GenerateMD5PasswordHash(Password);
+            Users user = await db.Users.SingleAsync(u => u.Login == userName && u.PasswordHash == hash);
+            if (user == null)
+                throw new NullReferenceException("Ошибка аутентификации! Вероятно, пользователь был удалён или пара логин/пароль была изменена администратором");
+            SessionUtils.SetUser(HttpContext, user);
         }
 
         public async Task<IActionResult> Logout()
         {
             await HttpContext.Authentication.SignOutAsync("Cookies");
+            HttpContext.Session.Clear();
             return RedirectToAction("Login", "Account");
         }
     }

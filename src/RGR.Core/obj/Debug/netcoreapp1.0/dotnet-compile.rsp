@@ -53,6 +53,7 @@
 --reference:C:\Users\eastwing\.nuget\packages\Microsoft.AspNetCore.Routing.Abstractions\1.0.0\lib\netstandard1.3\Microsoft.AspNetCore.Routing.Abstractions.dll
 --reference:C:\Users\eastwing\.nuget\packages\Microsoft.AspNetCore.Server.IISIntegration\1.0.0\lib\netstandard1.3\Microsoft.AspNetCore.Server.IISIntegration.dll
 --reference:C:\Users\eastwing\.nuget\packages\Microsoft.AspNetCore.Server.Kestrel\1.0.0\lib\netstandard1.3\Microsoft.AspNetCore.Server.Kestrel.dll
+--reference:C:\Users\eastwing\.nuget\packages\Microsoft.AspNetCore.Session\1.0.0\lib\netstandard1.3\Microsoft.AspNetCore.Session.dll
 --reference:C:\Users\eastwing\.nuget\packages\Microsoft.AspNetCore.StaticFiles\1.0.0\lib\netstandard1.3\Microsoft.AspNetCore.StaticFiles.dll
 --reference:C:\Users\eastwing\.nuget\packages\Microsoft.AspNetCore.WebUtilities\1.0.0\lib\netstandard1.3\Microsoft.AspNetCore.WebUtilities.dll
 --reference:C:\Users\eastwing\.nuget\packages\Microsoft.CodeAnalysis.Common\1.3.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll
@@ -217,6 +218,7 @@ C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Controllers\Affairs\analyzer.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Controllers\Affairs\Generators.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Controllers\Enums\EnumDescriptionAttribute.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Controllers\Enums\EstateTypes.cs
+C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Controllers\Search\RequestPassport.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Controllers\Search\SearchPassports.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Migrations\20160909010616_Initial.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Migrations\20160909010616_Initial.Designer.cs

@@ -1,16 +1,17 @@
-﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
+﻿using Danko.TextJobs;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using RGR.Core.Controllers.Enums;
+using RGR.Core.Models;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Html;
-using RGR.Core.Models;
-using RGR.Core.Controllers.Enums;
-using Danko.TextJobs;
 
 namespace RGR.Core.Controllers
 {
@@ -21,7 +22,7 @@ namespace RGR.Core.Controllers
         {
             db = context;
         }
-
+        
         //Расширенный (а на самом деле - основной) поиск
         public async Task<IActionResult> Search()
         {
@@ -72,6 +73,12 @@ namespace RGR.Core.Controllers
             return View();
         }
 
+        /*[Authorize]
+        public async Task<IActionResult> SaveQuery(string Title, string Query)
+        {
+            
+        }*/
+
         public async Task<IActionResult> Info()
         {
             if (!Request.Query.ContainsKey("id"))
@@ -95,7 +102,7 @@ namespace RGR.Core.Controllers
         }
 
         #region Фильтрация объектов
-        //Поиск квартир и возвращение результата
+        //Поиск недвижимости и возвращение результата
         private async Task<string> GetObjects(EstateTypes EstateType)
         {
             {
@@ -763,5 +770,7 @@ namespace RGR.Core.Controllers
                     throw new ArgumentException("Указан некорректный тип недвижимости");
             }
         }
+
+
     }
 }
