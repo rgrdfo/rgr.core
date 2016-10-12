@@ -13,13 +13,13 @@
         <div class="tab-content">
             <div id="panel1" action="search_box" class="tab-pane in active search-box-inner">
                 <div class="row">
-                    <div class="col-lg-5">                        
+                    <div class="col-lg-4">                        
                             <div style="float:left;" class="search-box-inner-radio">
                                 <form action="search">
                                     <input name="check_shelter" id="sh1" type="radio" checked /><label for="sh1">Квартира</label><input name="check_shelter" id="sh2" type="radio" /><label for="sh2">Комната</label>
                                 </form>
                             </div>
-                            <div class="search-box-inner-select">
+                            <div class="search-box-inner-select"><label>Тип комнат</label>
                                 <div class="inner-select">
                                     <form action="search">
                                         <input name="check_type" id="t1" type="checkbox" checked /><label for="t1">раздельные</label>
@@ -29,13 +29,31 @@
                                 </div>
                             </div>             
                     </div>
-                    <div class="col-lg-7"></div>
+                    <div class="col-lg-8">
+                        <div class="search-box-inner-radio">
+                            <div class="search-box-inner-radio-numb">
+                                <span>Комнат</span>
+                                <form action="search">
+                                    <input name="numb" id="n1" type="radio" checked /><label for="n1">1</label><input name="numb" id="n2" type="radio" /><label for="n2">2</label><input name="numb" id="n3" type="radio" /><label for="n3">3</label><input name="numb" id="n4" type="radio" /><label for="n4">4 и более</label>
+                                </form>                                
+                            </div>
+                            <!--<div style="width: 40% !important;"><form action="search"><input name="id" id="i1" type="text" /><label for="i1">Идентификатор</label></form></div>-->
+                        </div>
+                        <div class="search-box-inner-text"></div><form action="search"><input name="id" id="i1" type="text" /><label for="i1">Идентификатор</label></form>
+                    </div>
                 </div>
             </div>
             <!--Дом-->
             <div id="panel2" action="search_box" class="tab-pane search-box-inner">11111111111</div>
+            
+            <!--Footer-->
             <div class="search-box-footer">
-                <div class="search-box-footer-inner"></div>
+                <div class="search-box-footer-inner">
+                    <form action="search"><input type="submit" value="Показать" /></form>
+                        <label><span class="search-box-footer-inner-label">23</span></label>
+                        <img src="images/search/glass.png" />
+</div>
+                <span style="position:absolute; right:5%; bottom:40%;"><a href="#win1">Расширенный поиск</a></span>
             </div>
         </div>
         
