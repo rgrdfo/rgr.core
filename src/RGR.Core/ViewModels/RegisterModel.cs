@@ -4,15 +4,10 @@ using RGR.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace RGR.Core.Controllers.Account
+namespace RGR.Core.ViewModels
 {
-    public enum RegError : byte { LoginInvalid, UserExists, ShortPassword, PasswordsDontMatch }
+    //public enum RegError : byte { LoginInvalid, UserExists, ShortPassword, PasswordsDontMatch }
 
-    /// <summary>
-    /// Регистрация нового пользователя. При объявлении экземпляра следует указать БД и переменную класса Users, которая будет доавлена в базу
-    /// После конструкции экземпляра следует вызвать метод TryRegisterAsync В случае отсутствия ошибок регистрации переменной User будет присвоено имя,
-    /// переданное в метод, а так же хэш пароля, на основе аргумента password
-    /// </summary>
     public class RegisterModel
     {
         [Required(ErrorMessage = "Не указан Email")]

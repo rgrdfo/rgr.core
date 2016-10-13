@@ -4,9 +4,8 @@ using RGR.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace RGR.Core.Controllers.Account
+namespace RGR.Core.ViewModels
 {
-
     public class LoginModel
     {
         [Required(ErrorMessage = "Не указан Email")]

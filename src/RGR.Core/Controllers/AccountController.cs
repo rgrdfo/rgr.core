@@ -8,6 +8,7 @@ using System.Security.Claims;
 
 using RGR.Core.Controllers.Account;
 using RGR.Core.Models;
+using RGR.Core.ViewModels;
 using Microsoft.AspNetCore.Http;
 
 namespace RGR.Core.Controllers
@@ -109,10 +110,11 @@ namespace RGR.Core.Controllers
             await HttpContext.Authentication.SignInAsync("Cookies", new ClaimsPrincipal(id));
             // установка сессии
             string hash = PasswordUtils.GenerateMD5PasswordHash(Password);
-            Users user = await db.Users.SingleAsync(u => u.Login == userName && u.PasswordHash == hash);
+            Users user = await db.Users.FirstOrDefaultAsync(u => u.Login == userName && u.PasswordHash == hash);
+            //ну, знаете, мало ли.
             if (user == null)
                 throw new NullReferenceException("Ошибка аутентификации! Вероятно, пользователь был удалён или пара логин/пароль была изменена администратором");
-            SessionUtils.SetUser(HttpContext, user);
+            SessionUtils.SetUser(HttpContext.Session, user);
         }
 
         public async Task<IActionResult> Logout()

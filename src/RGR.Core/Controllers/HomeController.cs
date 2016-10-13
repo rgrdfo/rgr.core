@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using RGR.Core.Models;
 using Microsoft.AspNetCore.Html;
+using RGR.Core.Controllers.Account;
 
 namespace RGR.Core.Controllers
 {

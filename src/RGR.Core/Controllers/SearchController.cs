@@ -13,6 +13,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using RGR.Core.ViewModels;
+using RGR.Core.Controllers.Account;
+
 namespace RGR.Core.Controllers
 {
     public class SearchController : Controller
@@ -73,11 +76,33 @@ namespace RGR.Core.Controllers
             return View();
         }
 
-        /*[Authorize]
-        public async Task<IActionResult> SaveQuery(string Title, string Query)
+        //Сохранение запроса
+        [Authorize]
+        public async Task<IActionResult> SaveRequest(SaveRequestModel model)
         {
-            
-        }*/
+            model.Query = (Request.Query.ContainsKey("query")) ? Request.Query["query"].ToString() : "н/д";
+            ViewData["Query"] = model.Query;
+            if (ModelState.IsValid)
+            {
+                var request = new SearchRequests()
+                {
+                    UserId = SessionUtils.GetUserId(HttpContext.Session),
+                    Title = model.Caption,
+                    SearchUrl = model.Query,
+                    TimesUsed = 0,
+                    DateCreated = DateTime.UtcNow,
+                };
+                if (request.UserId < -1)
+                    ModelState.AddModelError("", "Ошибка сохранения запроса: некорректный индекс пользователя!");
+                else
+                {
+                    db.SearchRequests.Add(request);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            return View();
+        }
 
         public async Task<IActionResult> Info()
         {

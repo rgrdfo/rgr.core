@@ -6,37 +6,90 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 
 using RGR.Core.Models;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace RGR.Core.Controllers.Account
 {
-    public class SessionUtils
+    public static class SessionUtils
     {
         /// <summary>
-        /// Сериализовать пользователя и записать его в сессию 
+        /// Записать в сессию индекс БД пользователя, а так же некоторые часто употребимые данные (например, имя)
         /// </summary>
         /// <param name="Context"></param>
         /// <param name="User"></param>
-        public static void SetUser(HttpContext Context, Users User)
+        public static void SetUser(ISession Session, Users User)
         {
-            var json = JsonConvert.SerializeObject(User);
-            Context.Session.SetString("user", json);
+            Session.SetString("UserId", User.Id.ToString());
+            Session.SetString("FirstName", User.FirstName);
+            Session.SetString("SurName", User.SurName);
+            Session.SetString("LastName", User.LastName);
         }
 
         /// <summary>
         /// Получить текущего пользователя из сессии. Если пользователь не задан, возвращается null
         /// </summary>
-        /// <param name="Context"></param>
-        /// <returns></returns>
-        public static Users GetUser(HttpContext Context)
+        private static Users GetUser(ISession Session, rgrContext db)
         {
-            if(Context.Session.Keys.Contains("user"))
-                if(!string.IsNullOrEmpty(Context.Session.GetString("user")))
+            if (Session.Keys.Contains("UserId"))
+            {
+                string strId = Session.GetString("UserId");
+                if (!string.IsNullOrEmpty(strId))
                 {
-                    string json = Context.Session.GetString("user");
-                    return JsonConvert.DeserializeObject<Users>(json);
+                    var id = long.Parse(strId);
+                    return db.Users.SingleOrDefault(s => s.Id == id);
                 }
+            }
+                
             return null;        
+        }
+
+        /// <summary>
+        /// Получение имени пользователя из сессии. Если записи нет, сесия неактивна или запись некорректна, возвращается пустая строка
+        /// </summary>
+        /// <param name="Session"></param>
+        /// <returns></returns>
+        public static string GetFirstName (ISession Session)
+        {
+            if (Session.Keys.Contains("FirstName"))
+                return Session.GetString("FirstName");
+            else
+                return "";
+        }
+
+        /// <summary>
+        /// Получить ФИО пользователя из сессии
+        /// </summary>
+        /// <param name="Session">Ссылка на текущую сессию</param>
+        /// <param name="LastNameFirst">Выводить имя в формате "Фамилия Имя Отчество" (по умолчанию) или "Имя Отчество Фамилия"</param>
+        /// <returns></returns>
+        public static string GetFullName(ISession Session, bool LastNameFirst = true)
+        {
+            string firstName, surName, lastName;
+
+            firstName = (Session.Keys.Contains("FirstName")) ? Session.GetString("FirstName") : "";
+            surName   = (Session.Keys.Contains("SurName"))   ? Session.GetString("SurName")   : "";
+            lastName  = (Session.Keys.Contains("LastName"))  ? Session.GetString("LastName")  : "";
+
+            if(LastNameFirst)
+                return $"{lastName} {firstName} {surName}";
+            else
+                return $"{firstName} {surName} {lastName}";
+        }
+
+        /// <summary>
+        /// Получение индекса БД пользователя из сессии. Если записи нет, сесия неактивна или запись некорректна, возвращается -1
+        /// </summary>
+        /// <param name="Session"></param>
+        /// <returns></returns>
+        public static long GetUserId(ISession Session)
+        {
+            if (Session.Keys.Contains("UserId"))
+            {
+                long id;
+                if (long.TryParse(Session.GetString("UserId"), out id))
+                    return id;
+            }
+                return -1;
         }
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using RGR.Core.Models;
 
+
 namespace RGR.Core
 {
     public class Startup
@@ -38,7 +39,11 @@ namespace RGR.Core
 
             //Кэш памяти и сессии
             services.AddDistributedMemoryCache();
-            services.AddSession();
+            services.AddSession(options =>
+            {
+                options.CookieName = ".RGR.Core.Session";
+                options.IdleTimeout = TimeSpan.FromHours(1);
+            });
 
             // Add framework services.
             services.AddMvc();
@@ -78,6 +83,7 @@ namespace RGR.Core
             {
                 routes.MapRoute("search", "search", new { controller = "Search", action = "Search" });
                 routes.MapRoute("info", "info" , new { controller = "Search", action = "Info" });
+                routes.MapRoute("saveRequest", "saveRequest", new { controller = "Search", action = "SaveRequest" });
 
                 routes.MapRoute(
                     name: "default",

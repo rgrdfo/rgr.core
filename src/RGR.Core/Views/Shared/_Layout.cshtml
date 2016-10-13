@@ -1,5 +1,18 @@
 ﻿@using RGR.Core.Views.Helpers;
+@using RGR.Core.Controllers.Account;
 
+@{ 
+    string greetings = ":-[";
+    if (Context.Session.IsAvailable)
+    {
+        string name = SessionUtils.GetFirstName(Context.Session);
+        if (!string.IsNullOrEmpty(name))
+        {
+            greetings = $"Привет, {name}!";
+        }
+    }
+    else { greetings = "ТЫ КТООААА?!"; }
+}
 
 <!DOCTYPE html>
 <html>
@@ -22,6 +35,7 @@
                     <h1 class="logo">
                             <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><img height="100" src="~/images/logo_rgrdfo_text.png" /></a>
                     </h1>
+                    
                 </div>
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="About"  ><font size="2">О нас</font></a></li>
@@ -31,7 +45,9 @@
                     <li>
                         <div class="img-button">
                             <img src="~/images/btn_login_up.png" />
+                            <font size="1">@greetings</font>
                         </div>
+                        
                     </li>
                     <li>
                             <font face="Segoe UI" size="4">(4212) 244-264</font>
