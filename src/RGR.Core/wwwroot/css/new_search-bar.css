@@ -30,7 +30,7 @@ label
     text-align: center;
     font-weight: 300;
     float:none;
-    width:970px;
+    width: 50%;
     left:25%;
     top: 45px;
     font-size: 11pt;    
@@ -101,16 +101,18 @@ label
 }
 .search-box-inner-radio-numb {
     float: left;
-    width: 100%;                 
+    width: 100%;
+    padding-bottom: 20px;                 
 }
-.row span {
-    padding: 10px 0;    
-    width: 12%;
+.row span {    
+    padding: 10px 0px;   
     float:left;
-    text-align: left;
 }
+.search-box-inner-radio-numb .radio_numb_panel1  span{max-width: 12%;}
+.search-box-inner-radio-numb .radio_numb_panel2 span,
+.search-box-inner-radio-numb .radio_floor_panel2  span {padding-right:5px;}
 
-.search-box-inner-text input {    
+.search-box-inner-text input{    
     display:block;
     text-align: left;    
     height: 40px;
@@ -121,37 +123,84 @@ label
     border: 1px solid #559abd;
     border-radius: 8px;        
 }
- .line_price {
-     text-align: left;     
-     position: absolute;
-     width: 66%;
-     height: 40px;
-     top:85px;
-     left: 34%;
-     float: left;
+
+
+ .search-box-line { 
+     float: left;       
+     height: 40px;     
  }
- .line_price span {
+ .search-box-line span {
      padding: 10px 10px;
      width: auto;
  }
- .line_price span, .line_price input  {
+.search-box-line span, .search-box-line input  {
      float: left;
      color: #fff;     
  }
-.line_price input {
-    width: 25%;
+#panel1 .search-box-line input,
+#panel2 .search-box-line input {width: 25%;}
+#panel3 .search-box-line input,
+#panel4 .search-box-line input,
+#panel5 .search-box-line input {width: 27%;}
+
+#panel1 .search-box-line {position: absolute; width: 66%; top:85px; left: 34%;}
+#panel2 .search-box-line {position: relative;}
+#panel2 .search-box-line span {padding: 10px; min-width: 15%;}
+
+
+.search-box-inner-radio-numb .radio_numb_panel1 label:nth-of-type(1){border-radius: 8px 0 0 8px; max-width:13%}
+.search-box-inner-radio-numb .radio_numb_panel1 label:nth-of-type(2){border-radius: 0; max-width:13%}
+.search-box-inner-radio-numb .radio_numb_panel1 label:nth-of-type(3){border-radius: 0; max-width:13%}
+.search-box-inner-radio-numb .radio_numb_panel1 label:nth-of-type(4){border-radius: 0 8px 8px 0; max-width:30%}
+
+.search-box-inner-radio-numb .radio_floor_panel2  label:nth-of-type(1){border-radius: 8px 0 0 8px; max-width:15%}
+.search-box-inner-radio-numb .radio_floor_panel2 label:nth-of-type(2){border-radius: 0; max-width:15%}
+.search-box-inner-radio-numb .radio_floor_panel2 label:nth-of-type(3){border-radius: 0 8px 8px 0; max-width:37%}
+
+.search-box-inner-radio-numb .radio_numb_panel2 label:nth-of-type(1){border-radius: 8px 0 0 8px; max-width:11%}
+.search-box-inner-radio-numb .radio_numb_panel2 label:nth-of-type(2){border-radius: 0; max-width:11%}
+.search-box-inner-radio-numb .radio_numb_panel2 label:nth-of-type(3){border-radius: 0; max-width:11%}
+.search-box-inner-radio-numb .radio_numb_panel2 label:nth-of-type(4){border-radius: 0; max-width:11%}
+.search-box-inner-radio-numb .radio_numb_panel2 label:nth-of-type(5){border-radius: 0; max-width:11%}
+.search-box-inner-radio-numb .radio_numb_panel2 label:nth-of-type(6){border-radius: 0 8px 8px 0; max-width:25%}
+
+#panel2 .col-lg-4 {width: 32%;}
+#panel2 .col-lg-2 {width:23%; padding-left:5px;}
+#panel2 .col-lg-6 {width: 45%;}
+
+#panel3 .search-box-line  {
+    width: 100%;
 }
-.col-lg-5 .search-box-inner-radio label:nth-of-type(1){border-radius: 8px 0 0 8px; width:13%}
-.col-lg-5 .search-box-inner-radio label:nth-of-type(2){border-radius: 0; width:13%}
-.col-lg-5 .search-box-inner-radio label:nth-of-type(3){border-radius: 0; width:13%}
-.col-lg-5 .search-box-inner-radio label:nth-of-type(4){border-radius: 0 8px 8px 0; width:30% }
+#panel3 .search-box-line .search-box-inner-select,
+#panel5 .search-box-line .search-box-inner-select {     
+    background-color: transparent;
+    color: #fff;   
+}
+#panel3 .col-lg-6, #panel4 .col-lg-6, #panel5 .col-lg-5   {padding-top: 0; padding-right:0;}
+#panel3 .col-lg-3 {width: 22%;}
+#panel3 .col-lg-4 {width: 32%;}
+#panel3 .col-lg-2 {width: 24%;}
+
+#panel3 .inner-select, #panel5 .inner-select {
+    background-color: #22496d;
+}
+#panel4 .col-lg-4 { margin: 0;}
+#panel4 .search-box-inner-radio {padding-bottom:0;}
+
+
+.search-box-line-inner{
+
+}
+
 .row {    
     margin: 0px !important;
     display:inline;   
     padding: 10px 0; 
     }
 
-.search-box-inner-select{    
+/*Выпадающие списки*/
+.search-box-inner-select{
+    position: relative;    
      font-weight: 300;
      text-align: left;    
      height: 40px;     
@@ -160,18 +209,56 @@ label
      border: 1px solid #559abd;
      border-radius: 8px;
      color: #143c60;
-     float:left;
-     width: 100%;
+     float:left;     
+}
+
+.search-box-inner-select :hover ~.inner-select,
+.inner-select :hover
+{
+    display: block;       
 }
 
 .inner-select{
+    white-space:nowrap;
     display: none;
     position: absolute;
+    left:-0.5px;
+    top: 85%;    
+    z-index: 2;
+    height: auto;
+    width: 101%;
+    border: 1px solid #559abd;    
+    border-radius: 0 0 8px 8px; 
+    border-top: none;  
+    background-color: #eff0f0;
 }
-.inner-select input{ 
-    display: inline;
+.inner-select label:before{
+    content: "";
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin: 0 10px;
+	position: absolute;
+	left: 0;    	
+	background-color: transparent;       
+    border-radius: 5px;
+    border: 1px solid #cdcdcd;
+    
+}
+.inner-select input ~label{ 
+    display: block;
+    width: auto;
+    border: none;
+    padding: 3px 40px;    
+}
+.inner-select label:nth-of-type(1) {
+    border-radius: 0;
+    margin-top: 7px;
+    border-top: 1px solid #559abd; 
+    padding-top: 10px;
 }
 
+/*Подвал формы*/
 .search-box-footer{
     position: absolute;
     text-align: center;
@@ -208,6 +295,9 @@ label
     font-size: medium;
     font-weight: 600;    
 }
+.search-box-footer input:hover {
+    background-color: #e9b30f;
+}
 .search-box-footer-inner label {
     position: absolute;
     border: 1px solid;
@@ -239,12 +329,12 @@ label
     left: 42%;
 }
 .search-box-footer a ,
-.search-box-footer a:hover,
 .search-box-footer a:active,
 .search-box-footer a:focus {
     text-decoration: none;
     color: #fff; 
 }
+.search-box-footer a:hover {color: #559abd; text-decoration: none;}
 
 
    

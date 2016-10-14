@@ -3,69 +3,231 @@
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#panel1">Квартира</a></li>
             <li><a data-toggle="tab" href="#panel2">Дом</a></li>
-            <li><a data-toggle="tab" href="#panel4">Участок</a></li>
-            <li><a data-toggle="tab" href="#panel5">Гараж</a></li>
-            <li><a data-toggle="tab" href="#panel6">Для бизнеса</a></li> 
+            <li><a data-toggle="tab" href="#panel3">Участок</a></li>
+            <li><a data-toggle="tab" href="#panel4">Гараж</a></li>
+            <li><a data-toggle="tab" href="#panel5">Для бизнеса</a></li> 
             <li><a data-toggle="tab" href="#panel6">Сохраненные запросы</a></li>            
         </ul>
 
         <!--Квартира-->
-        <div class="tab-content">
-            <div id="panel1" action="search_box" class="tab-pane in active search-box-inner">
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div style="float:left;" class="search-box-inner-radio">
-                            <form action="search">
-                                <input name="check_shelter" id="sh1" type="radio" checked /><label for="sh1">Квартира</label><input name="check_shelter" id="sh2" type="radio" /><label for="sh2">Комната</label>
-                            </form>
-                        </div>
-                        <div class="search-box-inner-select">
-                            <label>Тип комнат</label>
-                            <div class="inner-select">
-                                <form action="search">
-                                    <input name="check_type" id="t1" type="checkbox" checked /><label for="t1">раздельные</label>
-                                    <input name="check_type" id="t2" type="checkbox" /><label for="t1">смежные</label>
-                                    <input name="check_type" id="t3" type="checkbox" /><label for="t1">смежно-раздельные</label>
-                                </form>
+        <div class="tab-content">           
+                <div id="panel1" action="search_box" class="tab-pane in active search-box-inner">
+                    <form action="search">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="search-box-inner-radio">
+                                    <input name="check_shelter" id="sh1" type="radio" checked /><label for="sh1">Квартира</label><input name="check_shelter" id="sh2" type="radio" /><label for="sh2">Комната</label>
+                                </div>
+                                <div class="search-box-inner-select">
+                                    <label>Тип комнат</label>
+                                    <div class="inner-select">
+                                        <input name="check_type" id="t1" type="checkbox" checked /><label for="t1">Раздельные</label>
+                                        <input name="check_type" id="t2" type="checkbox" /><label for="t2">Смежные</label>
+                                        <input name="check_type" id="t3" type="checkbox" /><label for="t3">Смежно-раздельные</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="search-box-inner-radio">
+                                    <div class="search-box-inner-radio-numb">
+                                        <div class="radio_numb_panel1">
+                                            <span>Комнат</span>
+                                            <input name="numb" id="n1" type="checkbox" /><label for="n1">1</label><input name="numb" id="n2" type="checkbox" /><label for="n2">2</label><input name="numb" id="n3" type="checkbox" /><label for="n3">3</label><input name="numb" id="n4" type="checkbox" /><label for="n4">4 и более</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="search-box-inner-text"><input name="id" id="i1" type="text" value="Идентификатор" /></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="search-box-inner-radio">
-                            <div class="search-box-inner-radio-numb">
-                                <span>Комнат</span>
-                                <input name="numb" id="n1" type="radio" checked /><label for="n1">1</label><input name="numb" id="n2" type="radio" /><label for="n2">2</label><input name="numb" id="n3" type="radio" /><label for="n3">3</label><input name="numb" id="n4" type="radio" /><label for="n4">4 и более</label>
-                            </div>                            
-                        </div>                        
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="search-box-inner-text"><input name="id" id="i1" type="text" value="Идентификатор" /></div>
-                    </div>
+                        <div class="search-box-line">
+                            <div class="search-box-inner-text">
+                                <span style="padding-right: 15px;">Цена от</span><input name="price" id="pr1_p1" type="text"><span>до</span><input name="price" id="pr2_p1" type="text"><span>₽</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>            
+                <!--Дом-->
+                <div id="panel2" action="search_box" class="tab-pane search-box-inner">
+                    <form action="search">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="search-box-inner-radio">
+                                    <input name="check_shelter" id="sh3" type="radio" checked /><label for="sh3">Дом, коттедж</label><input name="check_shelter" id="sh4" type="radio" /><label for="sh4">Таунхаус</label>
+                                </div>
+                                <div class="search-box-inner-radio">
+                                    <div class="search-box-inner-radio-numb">
+                                        <div class="radio_floor_panel2">
+                                            <span>Этажность</span>
+                                            <input name="floor" id="f1" type="checkbox" checked /><label for="f1">1</label><input name="floor" id="f2" type="checkbox" /><label for="f2">2</label><input name="floor" id="f3" type="checkbox" /><label for="f3">3 и более</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="search-box-inner-radio">
+                                    <div class="search-box-inner-radio-numb">
+                                        <div class="radio_numb_panel2">
+                                            <span>Комнат</span>
+                                            <input name="numb2" id="n2_1" type="checkbox" checked /><label for="n2_1">1</label><input name="numb2" id="n2_2" type="checkbox" /><label for="n2_2">2</label><input name="numb2" id="n2_3" type="checkbox" /><label for="n2_3">3</label><input name="numb2" id="n2_4" type="checkbox" /><label for="n2_4">4</label><input name="numb2" id="n2_5" type="checkbox" /><label for="n2_5">5</label><input name="numb2" id="n2_6" type="checkbox" /><label for="n2_6">6 и более</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="search-box-line">
+                                    <div class="search-box-inner-text">
+                                        <span style="padding-left: 0;">Цена от</span><input name="price" id="pr1_p2" type="text"><span>до</span><input name="price" id="pr2_p2" type="text"><span>₽</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="search-box-inner-text"><input name="id" id="i1" type="text" value="Идентификатор" /></div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="line_price">
-                    <div class="search-box-inner-text">
-                        <span style="padding-right: 15px;">Цена от</span><input name="price" id="p1" type="text"><span>до</span><input name="price" id="p2" type="text"><span>₽</span>
-                    </div>
+                <!--Участок-->
+                <div id="panel3" action="search_box" class="tab-pane search-box-inner">
+                    <form action="search">
+                        <div class="search-box-line">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="search-box-inner-select">
+                                        <label>Категория</label>
+                                        <div class="inner-select">
+                                            <input name="category" id="c1" type="checkbox" checked /><label for="c1">Категория 1</label>
+                                            <input name="category" id="c2" type="checkbox" /><label for="c2">Категория 2</label>
+                                            <input name="category" id="c3" type="checkbox" /><label for="c3">Категория 3</label>
+                                        </div>                              
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="search-box-inner-select">
+                                        <label>Название</label>
+                                        <div class="inner-select">
+                                            <input name="title" id="tit1" type="checkbox" checked /><label for="tir1">Название 1</label>
+                                            <input name="title" id="tit2" type="checkbox" /><label for="tit2">Название 2</label>
+                                            <input name="title" id="tit3" type="checkbox" /><label for="tit3">Название 3</label>
+                                        </div>                             
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="search-box-inner-select">
+                                        <label>Особенности расположения</label>
+                                        <div class="inner-select">
+                                            <input name="position" id="pos1" type="checkbox" checked /><label for="pos1">Название 1</label>
+                                            <input name="position" id="pos2" type="checkbox" /><label for="pos2">Название 2</label>
+                                            <input name="position" id="pos3" type="checkbox" /><label for="pos3">Название 3</label>
+                                        </div>                                        
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="search-box-inner-text"><input style="width:80%; color: #84abbf;" name="id" id="i1" type="text" value="Идентификатор" /></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="search-box-inner-text">
+                                        <span style="padding-left: 0;">Цена от</span><input name="price" id="pr1_p3" type="text"><span>до</span><input name="price" id="pr2_p3" type="text"><span>₽</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6" style="padding-left:0;">
+                                    <div class="search-box-inner-text">
+                                        <span style="padding-left: 0;">Площадь от</span><input name="place" id="pl1_p3" type="text"><span>до</span><input name="place" id="pl2_p3" type="text"><span>м2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </div>
-            <!--Дом-->
-            <div id="panel2" action="search_box" class="tab-pane search-box-inner">
 
-            </div>
-            
-            <!--Footer-->
-            <div class="search-box-footer">
-                <div class="search-box-footer-inner">
-                    <input type="submit" value="Показать" />
+                <!--Гараж-->
+                <div id="panel4" action="search_box" class="tab-pane search-box-inner">
+                    <form action="search">
+                        <div class="search-box-line">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="search-box-inner-radio">
+                                        <input name="check_shelter" id="sh5" type="checkbox" checked /><label for="sh5">Гараж</label><input name="check_shelter" id="sh6" type="checkbox" /><label for="sh6">Машиноместо</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="search-box-inner-text"><input style="color: #84abbf; width: 40%!important;" name="id" id="i1" type="text" value="Идентификатор" /></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="search-box-inner-text">
+                                        <span style="padding-left: 0;">Цена от</span><input name="price" id="pr1_p4" type="text"><span>до</span><input name="price" id="pr2_p4" type="text"><span>₽</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6" style="padding-left:0;">
+                                    <div class="search-box-inner-text">
+                                        <span style="padding-left: 0;">Площадь от</span><input name="place" id="pl1_p4" type="text"><span>до</span><input name="place" id="pl2_p4" type="text"><span>м2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--Бизнес-->
+                <div id="panel5" action="search_box" class="tab-pane search-box-inner">
+                    <form action="search">
+                        <div class="search-box-line">
+                            <div calss="row">
+                                <div class="col-lg-4">
+                                    <div class="search-box-inner-radio">
+                                        <input name="check_shelter" id="sh7" type="radio" checked /><label for="sh7">Помещение</label><input name="check_shelter" id="sh8" type="radio" /><label for="sh8">Здание</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="search-box-inner-select">
+                                        <label>Назначение</label>
+                                        <div class="inner-select">
+                                            <input name="purpose" id="pur1" type="checkbox" checked /><label for="pur1">Назначение 1</label>
+                                            <input name="purpose" id="pur2" type="checkbox" /><label for="pur2">Назначение 2</label>
+                                            <input name="purpose" id="pur3" type="checkbox" /><label for="pur3">Назначение 3</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="search-box-inner-text"><input style="color: #84abbf; width: 80%;" name="id" id="i1" type="text" value="Идентификатор" /></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-5">
+                                    <div class="search-box-inner-text">
+                                        <span style="padding-left: 0;">Цена от</span><input name="price" id="pr1_p5" type="text"><span>до</span><input name="price" id="pr2_p5" type="text"><span>₽</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="search-box-inner-radio">
+                                        <input name="check_place" id="pl1" type="radio" checked /><label for="pl1">Все</label><input name="check_shelter" id="pl2" type="radio" /><label for="pl2">м2</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="search-box-inner-text">
+                                        <span style="padding-left: 0;">Площадь от</span><input name="place" id="pl1_p5" type="text"><span>до</span><input name="place" id="pl2_p5" type="text"><span>м2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!--Footer-->
+                <div class="search-box-footer">
+                    <div class="search-box-footer-inner">
+                        <input type="submit" value="Показать" />
                         <label><span class="search-box-footer-inner-label">23</span></label>
                         <img src="images/search/glass.png" />
+                    </div>
+                    <span style="position:absolute; right:5%; bottom:40%;"><a href="#win1">Расширенный поиск</a></span>
                 </div>
-                <span style="position:absolute; right:5%; bottom:40%;"><a href="#win1">Расширенный поиск</a></span>
+</div>
+
             </div>
         </div>
-        
-    </div>
-</div>
 
 
 
