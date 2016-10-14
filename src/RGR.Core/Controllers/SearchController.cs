@@ -10,23 +10,24 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using RGR.Core.ViewModels;
 using RGR.Core.Controllers.Account;
+using RGR.Core.Controllers.Search;
 
 namespace RGR.Core.Controllers
 {
     public class SearchController : Controller
     {
         private rgrContext db;
-        public SearchController(rgrContext context)
+        public SearchController(rgrContext context, IServiceProvider serviceProvider)
         {
             db = context;
+            var Utils = serviceProvider.GetService(typeof(SearchUtils));
         }
         
-        //Расширенный (а на самом деле - основной) поиск
+        //Поиск
         public async Task<IActionResult> Search()
         {
             Stopwatch watch = new Stopwatch();
@@ -69,6 +70,7 @@ namespace RGR.Core.Controllers
             }
             ViewData["Type"] = EstateType;
             ViewData["Result"] = await GetObjects(EstateType);
+            ViewData["Context"] = db;
 
             watch.Stop();
             ViewData["Timer"] = new HtmlString($"<br/><b>Время поиска:</b> {watch.Elapsed.TotalSeconds:0.00} с <br/><b>БД:</b> {db.Database.GetDbConnection().ConnectionString}");
@@ -90,7 +92,7 @@ namespace RGR.Core.Controllers
                     Title = model.Caption,
                     SearchUrl = model.Query,
                     TimesUsed = 0,
-                    DateCreated = DateTime.UtcNow,
+                    DateCreated = DateTime.UtcNow
                 };
                 if (request.UserId < -1)
                     ModelState.AddModelError("", "Ошибка сохранения запроса: некорректный индекс пользователя!");

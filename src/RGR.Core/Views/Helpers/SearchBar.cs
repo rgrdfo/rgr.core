@@ -9,7 +9,6 @@ namespace RGR.Core.Views.Helpers
 {
     public class SearchBar
     {
-
         public static HtmlString Render()
         {
             string s = File.ReadAllText("Views/Shared/_Searchbar.html");

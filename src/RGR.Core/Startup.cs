@@ -22,6 +22,8 @@ namespace RGR.Core
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+            string AppPath = env.ContentRootPath;
+            string wwwRootPath = env.WebRootPath;
             Configuration = builder.Build();
         }
 
