@@ -16,7 +16,7 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="search-box-inner-radio">
-                                    <input name="check_shelter" id="sh1" type="radio" checked /><label for="sh1">Квартира</label><input name="check_shelter" id="sh2" type="radio" /><label for="sh2">Комната</label>
+                                    <input name="objType" id="sh1" type="radio" value="0" checked /><label for="sh1">Квартира</label><input name="objType" id="sh2" type="radio" value="1" /><label for="sh2">Комната</label>
                                 </div>
                                 <div class="search-box-inner-select">
                                     <label>Тип комнат</label>
@@ -32,18 +32,18 @@
                                     <div class="search-box-inner-radio-numb">
                                         <div class="radio_numb_panel1">
                                             <span>Комнат</span>
-                                            <input name="numb" id="n1" type="checkbox" /><label for="n1">1</label><input name="numb" id="n2" type="checkbox" /><label for="n2">2</label><input name="numb" id="n3" type="checkbox" /><label for="n3">3</label><input name="numb" id="n4" type="checkbox" /><label for="n4">4 и более</label>
+                                            <input name="room" id="n1" type="checkbox" value="1"/><label for="n1">1</label><input name="room" id="n2" type="checkbox" value="2" /><label for="n2">2</label><input name="room" id="n3" type="checkbox"value="3" /><label for="n3">3</label><input name="room" id="n4" type="checkbox" value="4" /><label for="n4">4 и более</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-3">
-                                <div class="search-box-inner-text"><input name="id" id="i1" type="text" value="Идентификатор" /></div>
+                                <div class="search-box-inner-text"><input name="id" id="i1" type="text" placeholder="Идентификатор" /></div>
                             </div>
                         </div>
                         <div class="search-box-line">
                             <div class="search-box-inner-text">
-                                <span style="padding-right: 15px;">Цена от</span><input name="price" id="pr1_p1" type="text"><span>до</span><input name="price" id="pr2_p1" type="text"><span>₽</span>
+                                <span style="padding-right: 15px;">Цена от</span><input name="priceFrom" id="pr1_p1" type="text"><span>до</span><input name="priceTo" id="pr2_p1" type="text"><span>₽</span>
                             </div>
                         </div>
                         <div class="search-box-footer">
