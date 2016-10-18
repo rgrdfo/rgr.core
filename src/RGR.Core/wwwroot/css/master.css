@@ -54,6 +54,28 @@ nav {
     padding: 0px 0;
     overflow-y: hidden;
     overflow-x: hidden;
+    height: 100%;
+}
+/*------иряър-----*/
+nav {
+    font-family: HelveticaNeueCyr_Roman;
+    font-size: 11pt;  
+}
+nav ul li:nth-of-type(2),
+nav ul li:nth-of-type(3),
+nav ul li:nth-of-type(4),
+nav ul li:nth-of-type(5)
+ {
+    padding-top: 30px;
+    
+}
+nav li a,
+nav li a:active,
+nav li a:hover,
+nav li a:focus {
+   color: #252e34;
+   text-decoration: none;
+   outline: none;
 }
 
 .logo-box {

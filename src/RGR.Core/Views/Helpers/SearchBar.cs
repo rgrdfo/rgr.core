@@ -11,7 +11,8 @@ namespace RGR.Core.Views.Helpers
     {
         public static HtmlString Render()
         {
-            string s = File.ReadAllText("Views/Shared/_Searchbar.html");
+            //string s = File.ReadAllText("Views/Shared/_Searchbar.html");
+            string s = File.ReadAllText("Views/Shared/_newSearchbar.html");
             return new HtmlString(s);
         }
     }

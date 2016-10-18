@@ -1415,8 +1415,7 @@ a.bg-danger:focus {
 }
 ul,
 ol {
-  margin-top: 0;
-  margin-bottom: 10px;
+  margin-top: 0;  
 }
 ul ul,
 ol ul,
@@ -1615,9 +1614,8 @@ pre code {
 }
 .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
   position: relative;
-  min-height: 1px;
-  padding-right: 15px;
-  padding-left: 15px;
+  min-height: 1px; 
+  padding: 20px 5px 20px 15px; 
 }
 .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
   float: left;
@@ -2508,8 +2506,7 @@ legend {
 }
 label {
   display: inline-block;
-  max-width: 100%;
-  margin-bottom: 5px;
+  max-width: 100%;  
   font-weight: bold;
 }
 input[type="search"] {
@@ -3990,8 +3987,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .nav > li > a:hover,
 .nav > li > a:focus {
-  text-decoration: none;
-  background-color: #eee;
+  text-decoration: none; 
 }
 .nav > li.disabled > a {
   color: #777;
@@ -4000,13 +3996,11 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav > li.disabled > a:focus {
   color: #777;
   text-decoration: none;
-  cursor: not-allowed;
-  background-color: transparent;
+  cursor: not-allowed;  
 }
 .nav .open > a,
 .nav .open > a:hover,
-.nav .open > a:focus {
-  background-color: #eee;
+.nav .open > a:focus {  
   border-color: #337ab7;
 }
 .nav .nav-divider {
@@ -4018,30 +4012,22 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav > li > a > img {
   max-width: none;
 }
-.nav-tabs {
-  border-bottom: 1px solid #ddd;
-}
+
 .nav-tabs > li {
   float: left;
   margin-bottom: -1px;
 }
 .nav-tabs > li > a {
   margin-right: 2px;
-  line-height: 1.42857143;
-  border: 1px solid transparent;
-  border-radius: 4px 4px 0 0;
+  line-height: 1.42857143;    
 }
-.nav-tabs > li > a:hover {
-  border-color: #eee #eee #ddd;
-}
+
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
-.nav-tabs > li.active > a:focus {
-  color: #555;
-  cursor: default;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-bottom-color: transparent;
+.nav-tabs > li.active > a:focus {  
+  cursor: default;  
+  border: none;
+  border-bottom-color: transparent;  
 }
 .nav-tabs.nav-justified {
   width: 100%;

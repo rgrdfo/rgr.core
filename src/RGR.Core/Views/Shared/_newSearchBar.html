@@ -1,0 +1,288 @@
+﻿<div class="search-bar">
+    <div class="search-box">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#panel1">Квартира</a></li>
+            <li><a data-toggle="tab" href="#panel2">Дом</a></li>
+            <li><a data-toggle="tab" href="#panel3">Участок</a></li>
+            <li><a data-toggle="tab" href="#panel4">Гараж</a></li>
+            <li><a data-toggle="tab" href="#panel5">Для бизнеса</a></li>
+            <!-- <li><a data-toggle="tab" href="#panel6">Сохраненные запросы</a></li>-->
+        </ul>
+
+        <!--Квартира-->
+        <div class="tab-content">
+            <div id="panel1" action="search_box" class="tab-pane in active search-box-inner">
+                <form action="search">                    
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="search-box-inner-radio">
+                                <input name="objType" id="sh1" type="radio" value="0" checked /><label for="sh1">Квартира</label><input name="objType" id="sh2" type="radio" value="1" /><label for="sh2">Комната</label>
+                            </div>
+                            <div>
+                                <ul class="search-box-inner-select">
+                                    <li>
+                                        Тип комнат
+                                        <ul class="inner-select">
+                                            <li id="inner_sel_li"><input name="roomType" id="rt1" type="checkbox" value="roomSep" /><label>Раздельные</label></li>
+                                            <li><input name="roomType" id="rt2" type="checkbox" value="roomAdj" /><label>Смежные</label></li>
+                                            <li><input name="roomType" id="rt3" type="checkbox" value="roomBoth" /><label>Смежно-раздельные</label></li>
+                                            <li><input name="roomType" id="rt4" type="checkbox" value="roomIkar" /><label>"Икарус"</label></li>
+                                            <li><input name="roomType" id="rt5" type="checkbox" value="roomFree" /><label>Свободная планировка</label></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="search-box-inner-radio">
+                                <div class="search-box-inner-radio-numb">
+                                    <div class="radio_numb_panel1">
+                                        <span>Комнат</span>
+                                        <input name="room1" id="n1" type="checkbox"/><label for="n1">1</label><input name="room2" id="n2" type="checkbox"/><label for="n2">2</label><input name="room3" id="n3" type="checkbox"/><label for="n3">3</label><input name="room4" id="n4" type="checkbox"/><label for="n4">4 и более</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="search-box-inner-text"><input name="id" id="i1" type="text" placeholder="Идентификатор" /></div>
+                        </div>
+                    </div>
+                    <div class="search-box-line">
+                        <div class="search-box-inner-text">
+                            <span style="padding-right: 15px;">Цена от</span><input name="priceFrom" id="pr1_p1" type="text"><span>до</span><input name="priceTo" id="pr2_p1" type="text"><span>₽</span>
+                        </div>
+                    </div>
+                    <div class="search-box-footer">
+                        <div class="search-box-footer-inner">
+                            <input type="submit" value="Показать" />
+                            <label><span class="search-box-footer-inner-label">23</span></label>
+                            <img src="images/search/glass.png" />
+                        </div>
+                        <span style="position:absolute; right:5%; bottom:40%;"><a href="#win1">Расширенный поиск</a></span>
+                    </div>
+                </form>
+            </div>
+
+            <!--Дом-->
+            <div id="panel2" action="search_box" class="tab-pane search-box-inner">
+                <form action="search">
+                    <input type="hidden" name="objType" value="2">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="search-box-inner-radio">
+                                <input name="objType" id="sh3" type="radio" value="2" checked /><label for="sh3">Дом, коттедж</label><input name="objType" id="sh4" type="radio" value="2"/><label for="sh4">Таунхаус</label>
+                            </div>
+                            <div class="search-box-inner-radio">
+                                <div class="search-box-inner-radio-numb">
+                                    <div class="radio_floor_panel2">
+                                        <span>Этажность</span>
+                                        <input name="floor" id="f1" type="checkbox" value="1" checked /><label for="f1">1</label><input name="floor" id="f2" type="checkbox"  value="2" /><label for="f2">2</label><input name="floor" id="f3" type="checkbox" value="3"/><label for="f3">3 и более</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="search-box-inner-radio">
+                                <div class="search-box-inner-radio-numb">
+                                    <div class="radio_numb_panel2">
+                                        <span>Комнат</span>
+                                        <input name="room" id="n2_1" type="checkbox" value="1" checked /><label for="n2_1">1</label><input name="room" id="n2_2" type="checkbox" value="1" /><label for="n2_2">2</label><input name="room" id="n2_3" type="checkbox" value="1" /><label for="n2_3">3</label><input name="room" id="n2_4" type="checkbox" value="1" /><label for="n2_4">4</label><input name="room" id="n2_5" type="checkbox" value="1" /><label for="n2_5">5</label><input name="room" id="n2_6" type="checkbox" value="1" /><label for="n2_6">6 и более</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="search-box-line">
+                                <div class="search-box-inner-text">
+                                    <span style="padding-left: 0;">Цена от</span><input name="priceFrom" id="pr1_p2" type="text"><span>до</span><input name="priceTo" id="pr2_p2" type="text"><span>₽</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="search-box-inner-text"><input name="id" id="i1" type="text" placeholder="Идентификатор" /></div>
+                        </div>
+                    </div>
+                    <div class="search-box-footer">
+                        <div class="search-box-footer-inner">
+                            <input type="hidden" name="objType" value="2">
+                            <input type="submit" value="Показать" />
+                            <label><span class="search-box-footer-inner-label">23</span></label>
+                            <img src="images/search/glass.png" />
+                        </div>
+                        <span style="position:absolute; right:5%; bottom:40%;"><a href="#win1">Расширенный поиск</a></span>
+                    </div>
+                </form>
+            </div>
+
+            <!--Участок-->
+            <div id="panel3" action="search_box" class="tab-pane search-box-inner">
+                <form action="search">
+                    <div class="search-box-line">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <ul class="search-box-inner-select">
+                                    <li> Категория
+                                        <ul class="inner-select">
+                                            <li id="inner_sel_li"><input style="width: auto;" name="lndApp" id="с1" type="checkbox" checked value="lndAppPers" /><label>Индивидуальное жилищное строительство</label></li>
+                                            <li><input style="width: auto;" name="lndApp" id="с2" type="checkbox" value="lndAppDach" /><label>Дачное строительство</label></li>
+                                            <li><input style="width: auto;" name="lndApp" id="с3" type="checkbox" value="lndAppLPH" /><label>ЛПХ</label></li>
+                                        </ul>
+                                    </li>
+                                </ul>                                                               
+                            </div>
+                            <div class="col-lg-3">
+                                <ul class="search-box-inner-select">
+                                    <li>Назначение
+                                        <ul class="inner-select">
+                                            <li id="inner_sel_li"><input style="width: auto;" name="lndApp" id="с1" type="checkbox" checked value="lndAppPers" /><label>Индивидуальное жилищное строительство</label></li>
+                                            <li><input style="width: auto;" name="lndApp" id="с2" type="checkbox" value="lndAppDach" /><label>Дачное строительство</label></li>
+                                            <li><input style="width: auto;" name="lndApp" id="с3" type="checkbox" value="lndAppLPH" /><label>ЛПХ</label></li>
+                                        </ul>
+                                    </li>
+                                </ul>                                
+                            </div>
+                            <div class="col-lg-4">
+                                <ul class="search-box-inner-select">
+                                    <li>
+                                        Особенности расположения
+                                        <ul class="inner-select">
+                                            <li id="inner_sel_li"><input style="width: auto;" name="lndApp" id="с1" type="checkbox" checked value="lndAppPers" /><label>Индивидуальное жилищное строительство</label></li>
+                                            <li><input style="width: auto;" name="lndApp" id="с2" type="checkbox" value="lndAppDach" /><label>Дачное строительство</label></li>
+                                            <li><input style="width: auto;" name="lndApp" id="с3" type="checkbox" value="lndAppLPH" /><label>ЛПХ</label></li>
+                                        </ul>
+                                    </li>
+                                </ul>                                
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="search-box-inner-text"><input style="width:80%; color: #84abbf;" name="id" id="i1" type="text" placeholder="Идентификатор" /></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="search-box-inner-text">
+                                    <span style="padding-left: 0;">Цена от</span><input name="priceFrom" id="pr1_p3" type="text"><span>до</span><input name="priceTo" id="pr2_p3" type="text"><span>₽</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" style="padding-left:0;">
+                                <div class="search-box-inner-text">
+                                    <span style="padding-left: 0;">Площадь от</span><input name="commonSquareFrom" id="pl1_p3" type="text"><span>до</span><input name="commonSquareTo" id="pl2_p3" type="text"><span>м2</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-box-footer">
+                        <div class="search-box-footer-inner">
+                            <input type="hidden" name="objType" value="3">
+                            <input type="submit" value="Показать" />
+                            <label><span class="search-box-footer-inner-label">23</span></label>
+                            <img src="images/search/glass.png" />
+                        </div>
+                        <span style="position:absolute; right:5%; bottom:40%;"><a href="#win1">Расширенный поиск</a></span>
+                    </div>                                        
+                </form>
+            </div>
+
+
+            <!--Гараж-->
+            <div id="panel4" action="search_box" class="tab-pane search-box-inner">
+                <form action="search">
+                    <div class="search-box-line">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="search-box-inner-radio">
+                                    <input name="objType" id="sh5" type="checkbox" value="4" checked /><label for="sh5">Гараж</label><input name="objType" id="sh6" type="checkbox" value="5" /><label for="sh6">Машиноместо</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="search-box-inner-text"><input style="color: #84abbf; width: 40%!important;" name="id" id="i1" type="text" placeholder="Идентификатор" /></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="search-box-inner-text">
+                                    <span style="padding-left: 0;">Цена от</span><input name="priceFrom" id="pr1_p4" type="text"><span>до</span><input name="priceTo" id="pr2_p4" type="text"><span>₽</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" style="padding-left:0;">
+                                <div class="search-box-inner-text">
+                                    <span style="padding-left: 0;">Площадь от</span><input name="commonSquareFrom" id="pl1_p4" type="text"><span>до</span><input name="commonSquareTo" id="pl2_p4" type="text"><span>м2</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-box-footer">
+                        <div class="search-box-footer-inner">
+                            <input type="hidden" name="objType" value="4">
+                            <input type="submit" value="Показать" />
+                            <label><span class="search-box-footer-inner-label">23</span></label>
+                            <img src="images/search/glass.png" />
+                        </div>
+                        <span style="position:absolute; right:5%; bottom:40%;"><a href="#win1">Расширенный поиск</a></span>
+                    </div>
+                </form>
+            </div>
+
+            <!--Бизнес-->
+            <div id="panel5" action="search_box" class="tab-pane search-box-inner">
+                <form action="search">
+                    <div class="search-box-line">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="search-box-inner-radio">
+                                    <input name="objType" id="sh7" type="radio" value="6" checked /><label for="sh7">Помещение</label><input name="objType" id="sh8" type="radio"  value="7"/><label for="sh8">Здание</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <ul class="search-box-inner-select">
+                                    <li>Назначение
+                                        <ul class="inner-select">
+                                            <li id="inner_sel_li"><input style="width: auto;" name="lndApp" id="с1" type="checkbox" checked value="lndAppPers" /><label>Индивидуальное жилищное строительство</label></li>
+                                            <li><input style="width: auto;" name="lndApp" id="с2" type="checkbox" value="lndAppDach" /><label>Дачное строительство</label></li>
+                                            <li><input style="width: auto;" name="lndApp" id="с3" type="checkbox" value="lndAppLPH" /><label>ЛПХ</label></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="search-box-inner-text"><input style="color: #84abbf; width: 80%;" name="id" id="i1" type="text" placeholder="Идентификатор" /></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5" style="width:38%;">
+                                <div class="search-box-inner-text">
+                                    <span style="padding-left: 0;">Цена от</span><input name="priceFrom" id="pr1_p5" type="text"><span>до</span><input name="priceTo" id="pr2_p5" type="text"><span>₽</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="search-box-inner-radio">
+                                    <input name="pricePerSqM" id="pl1" type="radio" value="on" checked /><label for="pl1">Все</label><input name="pricePerSqM" id="pl2" type="radio"value="off" /><label for="pl2">м2</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-5" style="width:50%;">
+                                <div class="search-box-inner-text">
+                                    <span style="padding-left: 0;">Площадь от</span><input name="commonSquareFrom" id="pl1_p5" type="text"><span>до</span><input name="commonSquareTo" id="pl2_p5" type="text"><span>м2</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-box-footer">
+                        <div class="search-box-footer-inner">
+                            <input type="hidden" name="objType" value="5">
+                            <input type="submit" value="Показать" />
+                            <label><span class="search-box-footer-inner-label">23</span></label>
+                            <img src="images/search/glass.png" />
+                        </div>
+                        <span style="position:absolute; right:5%; bottom:40%;"><a href="#win1">Расширенный поиск</a></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>        
+
+
+
+            
+        
+
+
+
+

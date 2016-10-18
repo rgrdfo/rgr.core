@@ -22,14 +22,17 @@
     <title>@ViewData["Title"] - РГР ДФО</title>
 
     <link rel="stylesheet" href="~/css/style-modal.css" />
-    <link rel="stylesheet" href="~/css/search-bar.css" />
+    <!--<link rel="stylesheet" href="~/css/search-bar.css" />-->
+    <link rel="stylesheet" href="~/css/new_search-bar.css" />    
     <link rel="stylesheet" href="~/css/master.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>    
 
 </head>
 <body>
     <div class="wrapper">
         <div class="header">
+<<<<<<< HEAD
             <nav>
                 <div class="logo-box">
                     <h1 class="logo">
@@ -42,6 +45,14 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Members"><font size="2">Члены НП</font></a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Educ"><font size="2">Учебный центр</font></a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact"><font size="2">Контакты</font></a></li>
+=======
+            <nav>     <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><img height="75" src="~/images/logo_rgrdfo_text.png" /></a>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">О нас</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Members">Члены НП</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Educ">Учебный центр</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Контакты</a></li>
+>>>>>>> refs/heads/frontend
                     <li>
                         <div class="img-button">
                             <img src="~/images/btn_login_up.png" />
@@ -50,7 +61,7 @@
                         
                     </li>
                     <li>
-                            <font face="Segoe UI" size="4">(4212) 244-264</font>
+                        <font face="Segoe UI" size="4">(4212) 244-264</font>
                     </li>
                     <li>
                         <div class="img-block">
@@ -59,13 +70,13 @@
                             </a>
                         </div>
                     </li>
-                </ul>
+                </ul>                
             </nav>
         </div>
 
         <br />
         
-        <div class="container search-bar">
+        <div class="search-bar">
             <div class="search-bar-inner">
                 @SearchBar.Render()
             </div>
