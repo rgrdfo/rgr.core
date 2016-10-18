@@ -1,4 +1,5 @@
-﻿using Danko.TextJobs;
+﻿//using Danko.TextJobs;
+using Eastwing.Parser;
 using RGR.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -42,10 +43,16 @@ namespace RGR.Core.Controllers.Storage
         /// <returns></returns>
         public static string GetFileViewPath(string URI, rgrContext db)
         {
+            var parser = new Parser()
+            {
+                Letters = "",
+                Separators = "",
+                Brackets = ""
+            };
             long Id;
             //Разбор URI и попытка вычленить Id файла
-            var lexemes = TextAnalyzer.GetLexemes(URI);
-            var strId = lexemes.FirstOrDefault(l => l.type == LexemeType.IntValue).content;
+            var lexemes = parser.Parse(URI);
+            var strId = lexemes.FirstOrDefault(l => l.Category == Category.Integer).Lexeme;
             if (strId == null)
                 return null;
 
