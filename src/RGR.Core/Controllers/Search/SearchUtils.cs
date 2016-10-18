@@ -44,72 +44,155 @@ namespace RGR.Core.Controllers.Search
                 new ExplainedRequest
                 {
                     Title = r.Title,
-                    Explaination = Explain(r.SearchUrl, uriParser, valParser)
+                    Explanation = Explain(r.SearchUrl, uriParser, valParser)
                 });
 
             return JsonConvert.SerializeObject(ExplainedRequests);
         }
 
+        //генерация описания запроса на основе строки запроса
         private static string Explain(string query, Parser uriParser, Parser valParser)
         {
             var sb = new StringBuilder();
+            var dict = new Dictionary<string, string>();
 
-            var tokens = uriParser.Parse(query).Where(t => t.Category != Category.Separator && t.Category != Category.Equals).ToArray();
+            //Парсинг строки запроса, исключение пробелов и разделителей
+            var tokens = uriParser.Parse(query).Where(t => t.Category != Category.Separator && t.Category != Category.Space).ToList();
 
-                //case ("objtype"):
-                //    if (tokens[i + 1].Category == Category.Integer)
-                //    {
-                //        switch (tokens[i + 1].Lexeme)
-                //        {
-                //            #region Тип объекта
-                //            case "0":
-                //                sb.Append("Квартиры");
-                //                break;
+            //Построение словаря
+            for (int i = 0; i < tokens.Count; i++)
+            {
+                if (tokens[i].Category == Category.Equals)
+                {
+                    //Незатейливая проверка, что текущий ключ не пустой
+                    if (i + 2 < tokens.Count)
+                        if (tokens[i + 2].Category == Category.Equals)
+                            continue;
 
-                //            case "1":
-                //                sb.Append("Комнаты");
-                //                break;
+                    //Добавление в словарь ключа и его значения
+                    dict.Add(tokens[i - 1].Lexeme.ToUpper(), tokens[i + 1].Lexeme.ToUpper());
+                }
+            }
 
-                //            case "2":
-                //                sb.Append("Дома");
-                //                break;
+            # region Расшифровка словаря
+            if (dict.ContainsKey("OBJTYPE"))
+            {
+                switch (dict["OBJTYPE"])
+                {
+                    #region Тип объекта
+                    case "0":
+                        sb.Append("Квартиры");
+                        break;
 
-                //            case "3":
-                //                sb.Append("Участки");
-                //                break;
+                    case "1":
+                        sb.Append("Комнаты");
+                        break;
 
-                //            case "4":
-                //                sb.Append("Офисная недвижимость");
-                //                break;
+                    case "2":
+                        sb.Append("Дома");
+                        break;
 
-                //            case "5":
-                //                sb.Append("Гаражи / парковочные места");
-                //                break;
-                //                #endregion
-                //        }
-                //        sb.Append(' ');
-                //    }
-                //    break;
+                    case "3":
+                        sb.Append("Участки");
+                        break;
 
-                //case ("pricefrom"):
-                //    if (tokens[i + 1].Category == Category.Integer)
-                //    {
-                //        if (!sb.ToString().Contains("ценой"))
-                //            sb.Append("ценой ");
+                    case "4":
+                        sb.Append("Офисная недвижимость");
+                        break;
 
-                //        sb.Append($"от {tokens[i + 1]:### ### ##0}₽");
-                //    }
-                //    break;
+                    case "5":
+                        sb.Append("Гаражи / парковочные места");
+                        break;
+                        #endregion
+                }
+                sb.Append(' ');
+            }
 
-                //case ("priceto"):
-                //    if (tokens[i + 1].Category == Category.Integer)
-                //    {
-                //        if (!sb.ToString().Contains("ценой"))
-                //            sb.Append("ценой ");
+            if (dict.ContainsKey("PRICEFROM"))
+            {
+                if (!sb.ToString().Contains("ценой"))
+                    sb.Append("ценой ");
 
-                //        sb.Append($"до {tokens[i + 1]:### ### ##0}₽");
-                //    }
-                //    break;
+                sb.Append($"от {dict["PRICEFROM"]:### ### ##0}₽");
+            }
+
+            if (dict.ContainsKey("PRICETO"))
+            {
+                if (!sb.ToString().Contains("ценой"))
+                    sb.Append("ценой ");
+
+                sb.Append($"до {dict["PRICETO"]:### ### ##0}₽, ");
+            }
+
+            if (dict.ContainsKey("LIVINGSQUAREFROM"))
+            {
+                if (!sb.ToString().Contains("жилой площадью"))
+                    sb.Append("жилой площадью ");
+
+                sb.Append($"от {dict["LIVINGSQUAREFROM"]:### ###.00} м² ");
+            }
+
+            if (dict.ContainsKey("LIVINGSQUARETO"))
+            {
+                if (!sb.ToString().Contains("жилой площадью"))
+                    sb.Append("жилой площадью ");
+
+                sb.Append($"до {dict["LIVINGSQUARETO"]:### ###.00} м² ");
+            }
+
+            if (dict.ContainsKey("MINFLOOR"))
+            {
+                string prefix, postfix;
+                if (dict.ContainsKey("MAXFLOOR"))
+                {
+                    prefix = "на";
+                    postfix = "-";
+                }
+                else
+                {
+                    prefix = "не ниже";
+                    postfix = " этажа";
+                }
+
+                sb.Append($"{prefix} {dict["MINFLOOR"]}{postfix}");
+            }
+
+            if (dict.ContainsKey("MAXFLOOR"))
+            {
+                string prefix, postfix;
+                if (dict.ContainsKey("MINFLOOR"))
+                {
+                    prefix = "";
+                    postfix = "этажах";
+                }
+                else
+                {
+                    prefix = "не выше ";
+                    postfix = "этажа";
+                }
+
+                sb.Append($"{prefix}{dict["MAXFLOOR"]} {postfix}");
+            }
+
+            if (dict.ContainsKey("MINHOUSEFLOORS"))
+            {
+                string postfix = "";
+                if (dict.ContainsKey("MAXHOUSEFLOORS"))
+                    postfix = " этажей";
+                sb.Append($"в доме от {dict["MINHOUSEFLOORS"]}{postfix}");
+            }
+
+            if (dict.ContainsKey("MAXHOUSEFLOORS"))
+            {
+                string prefix = "";
+                if (dict.ContainsKey("MINHOUSEFLOORS"))
+                    prefix = "в доме до ";
+                sb.Append($"{prefix}{dict["MAXHOUSEFLOORS"]} этажей");
+            }
+
+            #endregion
+
+            return sb.ToString();
         }
     }
 }
