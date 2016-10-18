@@ -609,11 +609,19 @@ namespace RGR.Core.Controllers
                     }
                 }
 
+                var searchParser = new Parser()
+                {
+                    Letters = "",
+                    Digits = "",
+                    Brackets = "",
+                    Separators = ","
+                };
+
                 //Улица
                 if (!string.IsNullOrEmpty(Request.Query["street"]))
                 {
                     //Разбор строки со списком улиц на отдельные названия
-                    var streets = TextAnalyzer.GetLexemes(Request.Query["street"]);
+                    var streets = searchParser.Parse(Request.Query["street"]);
                     relevant = relevant.Where(estate => 
                     {
                         long? streetId = addr.Single(a => a.ObjectId == estate.Id).StreetId;
@@ -622,7 +630,7 @@ namespace RGR.Core.Controllers
                             return false;
                         foreach (var street in streets)
                         {
-                            if (geoStreet.Name.Contains(street.content))
+                            if (geoStreet.Name.Contains(street.Lexeme))
                                 return true;
                         }
                         return false; 
@@ -635,7 +643,7 @@ namespace RGR.Core.Controllers
                 if (!string.IsNullOrEmpty(Request.Query["company"]))
                 {
                     //Разбор строки со списком компаний на отдельные названия
-                    var companies = TextAnalyzer.GetLexemes(Request.Query["company"]);
+                    var companies = searchParser.Parse(Request.Query["company"]);
                     relevant = relevant.Where(estate =>
                     {
                         var user = usrs.SingleOrDefault(u => u.Id == estate.UserId);
@@ -645,7 +653,7 @@ namespace RGR.Core.Controllers
 
                         foreach (var company in companies)
                         {
-                            if (comp.Name.Contains(company.content)) return true;
+                            if (comp.Name.Contains(company.Lexeme)) return true;
                         }
                         return false;
                     }).ToArray();
@@ -655,7 +663,7 @@ namespace RGR.Core.Controllers
                 if (!string.IsNullOrEmpty(Request.Query["agent"]))
                 {
                     //Разбор строки со списком компаний на отдельные названия
-                    var users = TextAnalyzer.GetLexemes(Request.Query["agent"]);
+                    var users = searchParser.Parse(Request.Query["agent"]);
 
                     relevant = relevant.Where(estate =>
                     {
@@ -665,7 +673,7 @@ namespace RGR.Core.Controllers
                         foreach (var user in users)
                         {
                             string fio = $"{dbUser.LastName} {dbUser.FirstName} {dbUser.SurName}";
-                            if (fio.Contains(user.content))
+                            if (fio.Contains(user.Lexeme))
                                 return true;
                         }
                         return false;

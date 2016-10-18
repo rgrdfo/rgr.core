@@ -75,7 +75,7 @@ label
     margin-bottom: 10px;
     text-align: center; 
     width:50%;
-    min-width: 970px; 
+    min-width: 792px; 
     left:25%;
     top: 45px;     
 }
@@ -203,7 +203,7 @@ label
 
 
 .row {    
-    /*margin: 0px !important;*/
+    margin: 0px !important;
     display:inline;   
     padding: 10px 0; 
     }
