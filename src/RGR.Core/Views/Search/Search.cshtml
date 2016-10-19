@@ -44,20 +44,29 @@
     </script>
 </head>
 
-<!--Отладочная информация, убрать к релизу-->
-<font size="1">@ViewData["Timer"] </font> <br /> <br />
+<div class="search-result">
+    <!--Отладочная информация, убрать к релизу-->
+    <font size="1">@ViewData["Timer"] </font> <br /> <br />
 
-@*<a href='@url.action("saverequest", "search")'> сохранить запрос </a>*@ 
-<form action="saveRequest">
-    <input name="query" value="@Context.Request.QueryString.ToString()" hidden="hidden" />
-    <input type="submit" value="Сохранить запрос" />
-</form>
-
-<div style="float:left; width: 1370px; position: relative">
+    @*<a href='@url.action("saverequest", "search")'> сохранить запрос </a>*@
+    <form action="saveRequest">
+        <input name="query" value="@Context.Request.QueryString.ToString()" hidden="hidden" />
+        <input type="submit" value="Сохранить запрос" />
+    </form>
     <div class="search-result-box">
+        @*<div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3"></div>
+        </div>*@
         @SearchResult.Render((string)ViewData["Result"], (EstateTypes)ViewData["Type"])
     </div>
     <!--<div id="map" style="width: 400px; height: 400px; border:1px solid black; position: absolute; top:0; left:560px"></div>-->
+    
 </div>
 
 

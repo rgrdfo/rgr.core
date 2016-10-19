@@ -1,0 +1,29 @@
+﻿
+.search-result {
+    height: auto;
+    width: 100%;
+    min-width: 900px;
+    padding: 0;
+    margin: 50px 0;
+    font-family: HelveticaNeueCyr_Roman;      
+}
+ .search-result input {
+     padding: 10px;
+     margin: 0 10px;
+     color: #fff;
+     background: #22496d;
+     border-radius: 8px;
+     border: none;
+ }
+ .search-result-box {
+     margin: 10px;
+     background: #fff;
+     border-radius: 8px;
+ }
+ .search-result-box row {
+     margin:0;
+     padding: 10px;
+ }
+ .search-result-box table {
+     margin: 10px;
+ }
