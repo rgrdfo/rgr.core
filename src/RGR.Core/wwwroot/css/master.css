@@ -123,6 +123,7 @@ li a:hover:after{
     margin-top:399px;
     max-width: 1170px;
     min-width: 960px;
+
     position: relative;
 }
 
@@ -130,6 +131,7 @@ li a:hover:after{
     background-color:#204262;
     color:#d2e6ff;
     height:100px;
+    width: 100%;
     flex: 0 0 auto;
     bottom: 0px;
     left:0px;

@@ -54,20 +54,12 @@
         <input type="submit" value="Сохранить запрос" />
     </form>
     <div class="search-result-box">
-        @*<div class="row">
-            <div class="col-lg-3"></div>
-            <div class="col-lg-1"></div>
-            <div class="col-lg-1"></div>
-            <div class="col-lg-2"></div>
-            <div class="col-lg-1"></div>
-            <div class="col-lg-1"></div>
-            <div class="col-lg-3"></div>
-        </div>*@
+        @SearchResult.HeadResult((EstateTypes)ViewData["Type"])
         @SearchResult.Render((string)ViewData["Result"], (EstateTypes)ViewData["Type"])
+        <!--<div id="map" style="width: 400px; height: 400px; border:1px solid black; position: absolute; top:0; left:560px"></div>-->
     </div>
-    <!--<div id="map" style="width: 400px; height: 400px; border:1px solid black; position: absolute; top:0; left:560px"></div>-->
-    
 </div>
+    
 
 
 

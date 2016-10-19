@@ -1,4 +1,10 @@
 ﻿
+#head {
+    border-bottom: 2px solid #eff0f0;
+    text-transform:uppercase;
+    color: #eff0f0;    
+    text-align: left;
+}
 .search-result {
     height: auto;
     width: 100%;
@@ -19,11 +25,27 @@
      margin: 10px;
      background: #fff;
      border-radius: 8px;
+     font-size: 8pt;
  }
  .search-result-box row {
      margin:0;
      padding: 10px;
  }
- .search-result-box table {
-     margin: 10px;
+
+ .search-result-box h1 {
+     padding:0;
+     margin: 0;
+     height: auto;
+     font-size: 11pt;
+     font-weight:100;
  }
+ .search-result-box span {
+     padding:0;
+     border-bottom: 1px solid #eff0f0;
+ }
+ .search-result-box .col-lg-1 {width:12.5%;}
+.search-result-box .col-lg-2 {width:15%;}
+.search-result-box .col-lg-3 {width: 20%;}
+
+
+
