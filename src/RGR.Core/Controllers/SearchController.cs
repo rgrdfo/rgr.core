@@ -95,7 +95,7 @@ namespace RGR.Core.Controllers
                     TimesUsed = 0,
                     DateCreated = DateTime.UtcNow
                 };
-                if (request.UserId < -1)
+                if (request.UserId < 1)
                     ModelState.AddModelError("", "Ошибка сохранения запроса: некорректный индекс пользователя!");
                 else
                 {
@@ -104,7 +104,7 @@ namespace RGR.Core.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-            return View();
+            return View(model);
         }
 
         public async Task<IActionResult> Info()
