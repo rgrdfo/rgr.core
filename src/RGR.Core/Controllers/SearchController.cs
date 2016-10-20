@@ -83,28 +83,50 @@ namespace RGR.Core.Controllers
         [Authorize]
         public async Task<IActionResult> SaveRequest(SaveRequestModel model)
         {
-            model.Query = (Request.Query.ContainsKey("query")) ? Request.Query["query"].ToString() : "н/д";
-            ViewData["Query"] = model.Query;
-            if (ModelState.IsValid)
+            string TODO = "Тестовая версия!!";
+            var requests = await db.SearchRequests.ToArrayAsync();
+            var uri = Request.Query["query"].ToString();
+
+            if (requests.Where(r => r.UserId == SessionUtils.GetUserId(HttpContext.Session)).Any(r => r.SearchUrl == uri) == false)
             {
+                int count = requests.Count();
                 var request = new SearchRequests()
                 {
                     UserId = SessionUtils.GetUserId(HttpContext.Session),
-                    Title = model.Caption,
-                    SearchUrl = model.Query,
+                    Title = $"Запрос {count}",
+                    SearchUrl = uri,
                     TimesUsed = 0,
                     DateCreated = DateTime.UtcNow
                 };
-                if (request.UserId < 1)
-                    ModelState.AddModelError("", "Ошибка сохранения запроса: некорректный индекс пользователя!");
-                else
-                {
-                    db.SearchRequests.Add(request);
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Index", "Home");
-                }
+
+                db.SearchRequests.Add(request);
+                await db.SaveChangesAsync();
             }
-            return View(model);
+
+            return RedirectToAction("Index", "Home");
+
+            //model.Query = (Request.Query.ContainsKey("query")) ? Request.Query["query"].ToString() : "";
+            //ViewData["Query"] = model.Query;
+            //if (ModelState.IsValid)
+            //{
+            //    var request = new SearchRequests()
+            //    {
+            //        UserId = SessionUtils.GetUserId(HttpContext.Session),
+            //        Title = model.Caption,
+            //        SearchUrl = model.Query,
+            //        TimesUsed = 0,
+            //        DateCreated = DateTime.UtcNow
+            //    };
+            //    if (request.UserId < 1)
+            //        ModelState.AddModelError("", "Ошибка сохранения запроса: некорректный индекс пользователя!");
+            //    else
+            //    {
+            //        db.SearchRequests.Add(request);
+            //        await db.SaveChangesAsync();
+            //        return RedirectToAction("Index", "Home");
+            //    }
+            //}
+            //return View(model);
         }
 
         public async Task<IActionResult> Info()

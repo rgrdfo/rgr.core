@@ -221,7 +221,6 @@ C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Controllers\Affairs\Generators.
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Controllers\Affairs\Parser.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Controllers\Enums\EnumDescriptionAttribute.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Controllers\Enums\EstateTypes.cs
-C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Controllers\Search\RequestPassport.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Controllers\Search\SearchPassports.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Controllers\Search\SearchUtils.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Controllers\Storage\StorageUtils.cs
@@ -229,7 +228,6 @@ C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Migrations\20160909010616_Initi
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Migrations\20160909010616_Initial.Designer.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Migrations\ContextModelSnapshot.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Models\Achievments.cs
-C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Models\AdditionalTypes.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Models\Addresses.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Models\Articles.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Models\AuditEvents.cs

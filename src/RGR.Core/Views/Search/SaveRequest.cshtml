@@ -20,7 +20,7 @@
         }
         @err
 
-        <form asp-action="SaveRequest" asp-controller="Search" asp-anti-forgery="true">
+        <form asp-action="SaveRequest" asp-controller="Search" asp-anti-forgery="false">
             <div class="validation" asp-validation-summary="ModelOnly" />
             <div>
                 <div class="form-group">
@@ -28,10 +28,11 @@
                     <input type="text" asp-for="Caption" />
                     <span asp-validation-for="Caption" />
                 </div>
-                <div class="form-group">
+               <!--<div class="form-group">
                     <label asp-for="Query">Строка запроса: </label>
-                    <label asp-for="Query">@ViewData["Query"] </label>
-                </div>
+                    <input type="text" asp-for="Query">@**@ViewData["Query"] @*</input>*@
+                    <span asp-validation-for="Query" />
+                </div>-->
                 <div class="form-group">
                     <input type="submit" value="Сохранить" class="btn" />
                 </div>

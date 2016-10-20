@@ -190,7 +190,7 @@ namespace RGR.Core.Controllers
         public string Category = "н/д"; //TODO
         public string Specifics = "н/д";//TODO
 
-        public double? PricePerSquareMetter => Price / Square;
+        //public double? PricePerSquareMetter => Price / Square;
 
         public LandPassport(List<Addresses> Addresses, List<GeoCities> Cities, List<GeoStreets> Streets, List<ObjectMainProperties> MainProp,
             List<ObjectAdditionalProperties> AdditionalProp, List<DictionaryValues> DictValues, List<Companies> Companies, List<Users> Users, 
