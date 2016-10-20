@@ -208,6 +208,7 @@
 --reference:C:\Users\eastwing\.nuget\packages\System.Xml.ReaderWriter\4.0.11\ref\netstandard1.3\System.Xml.ReaderWriter.dll
 --reference:C:\Users\eastwing\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll
 --resource:"C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\obj\Debug\netcoreapp1.0\RGR.Coredotnet-compile.deps.json",RGR.Core.deps.json
+C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Implement.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Program.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Startup.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Controllers\AccountController.cs

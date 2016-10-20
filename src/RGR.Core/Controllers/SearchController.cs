@@ -766,11 +766,11 @@ namespace RGR.Core.Controllers
             {
                 case EstateTypes.Flat:
                     var flat_result = new List<FlatPassport>();
+                    var flpassport = new FlatPassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, rtng);
                     foreach (var flat in relevant)
                     {
-                        var passport = new FlatPassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, rtng);
-                        passport.Set(flat);
-                        flat_result.Add(passport);
+                        flpassport = flpassport.Reinit(flat);
+                        flat_result.Add(flpassport);
                     }
                     return JsonConvert.SerializeObject(flat_result); 
 

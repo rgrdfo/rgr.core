@@ -174,6 +174,53 @@ namespace RGR.Core.Controllers
             var rating = rtng.SingleOrDefault(r => r.Id == Flat.Id);
             WC = (rating != null)?(rating.Wc ?? "н/д") : "н/д";
         }
+
+
+        public FlatPassport Reinit(EstateObjects obj)
+        {
+            Id = obj.Id;
+
+            Date = (obj.DateModified == null) ? obj.DateCreated : obj.DateModified; //Присвоить дату создания, если нет даты изменения
+
+            Addresses dbAddress = addr.Single(x => x.ObjectId == obj.Id);
+            mainProp = main.Single(x => x.ObjectId == obj.Id);
+
+            if (dbAddress.StreetId > 0) //Если это условие не выполняется - запись некорректна
+            {
+                //string StreetName = "";
+                var street = strt.SingleOrDefault(x => x.Id == dbAddress.StreetId);
+                var StreetName = (street != null) ? street.Name : null;
+                Address = (StreetName != null) ? $"{StreetName}, {dbAddress.House}, кв. {dbAddress.Flat}" : "н/д";
+            }
+            else
+                Address = "";
+
+            if (dbAddress.CityId > 0)
+            {
+                City = city.Single(x => x.Id == dbAddress.CityId).Name;
+            }
+            else
+                City = "";
+
+            Price = main.Single(x => x.ObjectId == obj.Id).Price;
+            Square = main.Single(x => x.ObjectId == obj.Id).TotalArea;
+
+            var agent = usrs.SingleOrDefault(u => u.Id == obj.Id);
+            AgentPhone = (agent != null) ? agent.Phone : "н/д";
+
+            var company = cmps.SingleOrDefault(c => c.Id == obj.Id);
+            Agency = (company != null) ? company.Name : "н/д";
+
+            Rooms = addtProp.RoomsCount;
+            LivingSquare = mainProp.ActualUsableFloorArea;
+
+            var rating = rtng.SingleOrDefault(r => r.Id == obj.Id);
+            WC = (rating != null) ? (rating.Wc ?? "н/д") : "н/д";
+
+            return this;
+        }
+
+
     }
     /// <summary>
     /// Карточка земельного участка для удобного оперирования при выводе результатов поиска
