@@ -155,130 +155,183 @@ namespace RGR.Core.Controllers
         //Поиск недвижимости и возвращение результата
         private async Task<string> GetObjects(EstateTypes EstateType)
         {
+            //Получение основных таблиц
+            var main = await db.ObjectMainProperties.ToListAsync();
+            var addt = await db.ObjectAdditionalProperties.ToListAsync();
+            var rtng = await db.ObjectRatingProperties.ToListAsync();
+            var addr = await db.Addresses.ToListAsync();
+            var strt = await db.GeoStreets.ToListAsync();
+            var city = await db.GeoCities.ToListAsync();
+            var vals = await db.DictionaryValues.ToListAsync();
+            var usrs = await db.Users.ToListAsync();
+            var cmps = await db.Companies.ToListAsync();
+            var comm = await db.ObjectCommunications.ToListAsync();
+            var mdia = await db.ObjectMedias.ToListAsync();
+
+            bool isCottage = false;      //Переключатель "коттедж/таунхаус" (для дома)
+            bool pricePerMetter = false; //Переключатель "искать по цене за квадратный метр" (по умолчанию - по цене за объект)
+
+            #region Инициализация поиска
+            //Общая цена или цена за кв. м.
+            if (!string.IsNullOrEmpty(Request.Query["pricePerSqM"]))
+                pricePerMetter = (Request.Query["pricePerSqM"] == "on");
+
+            //Проверяем, ищется ли коттедж
+            if (Request.Query.ContainsKey("isCottage"))
+                isCottage = (Request.Query["isCottage"] == "on");
+            
+            //Попытка определить начальную цену
+            double priceFrom = 0;
+            if (!string.IsNullOrEmpty(Request.Query["priceFrom"]))
+                double.TryParse(Request.Query["priceFrom"], out priceFrom);
+
+            //Попытка определить конечную цену
+            double priceTo = 0;
+            if (!string.IsNullOrEmpty(Request.Query["priceFrom"]))
+                double.TryParse(Request.Query["priceTo"], out priceTo);
+
+            //Попытка определить минимальную общую площадь
+            double sqFrom = 0;
+            if (!string.IsNullOrEmpty(Request.Query["commonSquareFrom"]))
+                double.TryParse(Request.Query["commonSquareFrom"], out sqFrom);
+
+            //Попытка определить максимальную общую площадь
+            double sqTo = 0;
+            if (!string.IsNullOrEmpty(Request.Query["commonSquareTo"]))
+                double.TryParse(Request.Query["commonSquareTo"], out sqTo);
+
+            //Попытка определить минимальную жилую площадь
+            double sqLivFrom = 0;
+            if (!string.IsNullOrEmpty(Request.Query["livingSquareFrom"]))
+                double.TryParse(Request.Query["livingSquareFrom"], out sqLivFrom);
+
+            //Попытка определить максимальную жилую площадь
+            double sqLivTo = 0;
+            if (!string.IsNullOrEmpty(Request.Query["livingSquareTo"]))
+                double.TryParse(Request.Query["livingSquareTo"], out sqLivTo);
+
+            //Попытка определить минимальную площадь кухни
+            double sqKitchenFrom = 0;
+            if (!string.IsNullOrEmpty(Request.Query["kitchenSquareFrom"]))
+                double.TryParse(Request.Query["livingSquareFrom"], out sqKitchenFrom);
+
+            //Попытка определить максимальную площадь кухни
+            double sqKitchenTo = 0;
+            if (!string.IsNullOrEmpty(Request.Query["kitchenSquareTo"]))
+                double.TryParse(Request.Query["livingSquareTo"], out sqKitchenTo);
+
+            //Минимальный этаж
+            byte minFloor = 0;
+            if (!string.IsNullOrEmpty(Request.Query["minFloor"]))
+                byte.TryParse(Request.Query["minFloor"], out minFloor);
+
+            //Максимальный этаж
+            byte maxFloor = 0;
+            if (!string.IsNullOrEmpty(Request.Query["maxFloor"]))
+                byte.TryParse(Request.Query["maxFloor"], out maxFloor);
+            #endregion
+
+            //Минимум этажей в здании
+            byte minHouseFloors = 0;
+            if (!string.IsNullOrEmpty(Request.Query["minHouseFloors"]))
+                byte.TryParse(Request.Query["minHouseFloors"], out minHouseFloors);
+
+            //Максимум этажей в здании
+            byte maxHouseFloors = 0;
+            if (!string.IsNullOrEmpty(Request.Query["maxHouseFloors"]))
+                byte.TryParse(Request.Query["maxHouseFloors"], out maxHouseFloors);
+
+            //Город
+            long CityId = -1;
+            if (!string.IsNullOrEmpty(Request.Query["city"]))
+                long.TryParse(Request.Query["city"], out CityId);
+
+            //Фильтрация
+            var relevant = await db.EstateObjects.Where(estate => estate.ObjectType == (short)EstateType).ToArrayAsync();
+            relevant = relevant.Where(estate =>
             {
-                //Получаем основные таблицы
-                var main = await db.ObjectMainProperties.ToListAsync();
-                var addt = await db.ObjectAdditionalProperties.ToListAsync();
-                var rtng = await db.ObjectRatingProperties.ToListAsync();
-                var addr = await db.Addresses.ToListAsync();
-                var strt = await db.GeoStreets.ToListAsync();
-                var city = await db.GeoCities.ToListAsync();
-                var vals = await db.DictionaryValues.ToListAsync();
-                var usrs = await db.Users.ToListAsync();
-                var cmps = await db.Companies.ToListAsync();
-                var comm = await db.ObjectCommunications.ToListAsync();
-                var mdia = await db.ObjectMedias.ToListAsync();
-
-                bool isCottage = false;      //Переключатель "коттедж/таунхаус" (для дома)
-                bool pricePerMetter = false; //Переключатель "искать по цене за квадратный метр" (по умолчанию - по цене за объект)
-                
-                //Все объекты нужного типа
-                var relevant = await db.EstateObjects.Where(x => x.ObjectType == (short)EstateType).ToArrayAsync();
-
                 #region Обычный поиск (общее)
                 //Инициализация фильтра по цене
-                if (!string.IsNullOrEmpty(Request.Query["pricePerSqM"]))
-                {
-                    pricePerMetter = (Request.Query["pricePerSqM"] == "on");
-                }
-
                 //Фильтр по нижней цене
-                if (!string.IsNullOrEmpty(Request.Query["priceFrom"]))
+                if (priceFrom > 0)
                 {
-                    double priceFrom;
-                    if (double.TryParse(Request.Query["priceFrom"], out priceFrom))
+                    if (!pricePerMetter)
                     {
-                        if (!pricePerMetter)
-                            relevant = relevant.Where(estate => main.Single(x => x.ObjectId == estate.Id).Price >= priceFrom).ToArray();
-                        else
-                        {
-                            relevant = relevant.Where(estate =>
-                            {
-                                var price = main.Single(x => x.ObjectId == estate.Id).Price;
-                                var square = main.Single(x => x.ObjectId == estate.Id).TotalArea;
-                                if (price == null || square == null) return false; //Не возвращать объекты, у которых не указана цена и/или площадь
-                                var ppm = price / square;
-                                return ppm >= priceFrom;
-                            }).ToArray();
-                        }
+                        if (main.FirstOrDefault(m => m.ObjectId == estate.Id).Price < priceFrom)
+                            return false;
                     }
-
+                    else
+                    {
+                        var price = main.Single(x => x.ObjectId == estate.Id).Price;
+                        var square = main.Single(x => x.ObjectId == estate.Id).TotalArea;
+                        if (price / square < priceFrom)
+                            return false;
+                    }
                 }
 
                 //Фильтр по верхней цене
-                if (!string.IsNullOrEmpty(Request.Query["priceTo"]))
+                if (priceTo > 0)
                 {
-                    double priceTo;
-                    if (double.TryParse(Request.Query["priceTo"], out priceTo))
+                    if (!pricePerMetter)
                     {
-                        if (!pricePerMetter)
-                            relevant = relevant.Where(estate => main.Single(x => x.ObjectId == estate.Id).Price <= priceTo).ToArray();
-                        else
-                        {
-                            relevant = relevant.Where(estate =>
-                            {
-                                var price = main.Single(x => x.ObjectId == estate.Id).Price;
-                                var square = main.Single(x => x.ObjectId == estate.Id).TotalArea;
-                                if (price == null || square == null) return false; //Не возвращать объекты, у которых не указана цена и/или площадь
-                                var ppm = price / square;
-                                return ppm <= priceTo;
-                            }).ToArray();
-                        }
+                        if (main.FirstOrDefault(m => m.ObjectId == estate.Id).Price > priceTo)
+                            return false;
                     }
-                }
-
-                //Проверяем, ищется ли коттедж
-                if (Request.Query.ContainsKey("isCottage"))
-                {
-                    isCottage = (Request.Query["isCottage"] == "on");
+                    else
+                    {
+                        var price = main.Single(x => x.ObjectId == estate.Id).Price;
+                        var square = main.Single(x => x.ObjectId == estate.Id).TotalArea;
+                        if (price / square > priceTo)
+                            return false;
+                    }
                 }
 
                 //Фильтр по количеству комнат.
                 if (Request.Query.ContainsKey("room1") || Request.Query.ContainsKey("room2") ||
                     Request.Query.ContainsKey("room3") || Request.Query.ContainsKey("room4") ||
-                    Request.Query.ContainsKey("room5") || Request.Query.ContainsKey("room6") )
-                {
-                    relevant = (from estate in relevant
-                               where (Request.Query.ContainsKey("room1") && addt.First(a => a.ObjectId == estate.Id).RoomsCount == 1) ||
-                                     (Request.Query.ContainsKey("room2") && addt.First(a => a.ObjectId == estate.Id).RoomsCount == 2) ||
-                                     (Request.Query.ContainsKey("room3") && addt.First(a => a.ObjectId == estate.Id).RoomsCount == 3) ||
-                                     (Request.Query.ContainsKey("room4") && addt.First(a => a.ObjectId == estate.Id).RoomsCount >= 4 && !isCottage) ||
-                                     (Request.Query.ContainsKey("room4") && addt.First(a => a.ObjectId == estate.Id).RoomsCount == 4 &&  isCottage) ||
-                                     (Request.Query.ContainsKey("room5") && addt.First(a => a.ObjectId == estate.Id).RoomsCount == 5) ||
-                                     (Request.Query.ContainsKey("room6") && addt.First(a => a.ObjectId == estate.Id).RoomsCount >= 6)
-                                select estate).ToArray();
+                    Request.Query.ContainsKey("room5") || Request.Query.ContainsKey("room6"))
+                { 
+                    if (!(
+                    (Request.Query["room1"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomsCount == 1) ||
+                    (Request.Query["room2"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomsCount == 2) ||
+                    (Request.Query["room3"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomsCount == 3) ||
+                    (Request.Query["room4"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomsCount >= 4 && !isCottage) ||
+                    (Request.Query["room4"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomsCount == 4 && isCottage) ||
+                    (Request.Query["room5"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomsCount == 5) ||
+                    (Request.Query["room6"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomsCount >= 6)
+                    )) return false;
                 }
 
                 //Фильтр по типу комнат
                 if (Request.Query.ContainsKey("roomSep") || //Раздельные
                     Request.Query.ContainsKey("roomAdj") || //Смежные
-                    Request.Query.ContainsKey("roomBoth")|| //Смежно-раздельные
-                    Request.Query.ContainsKey("roomIkar")|| //"Икарус"
+                    Request.Query.ContainsKey("roomBoth") || //Смежно-раздельные
+                    Request.Query.ContainsKey("roomIkar") || //"Икарус"
                     Request.Query.ContainsKey("roomFree"))  //Свободная планировка
                 {
-                    relevant = (from estate in relevant
-                               where (Request.Query.ContainsKey("roomSep" ) && addt.First(a => a.ObjectId == estate.Id).RoomPlanning == 12) ||
-                                     (Request.Query.ContainsKey("roomAdj" ) && addt.First(a => a.ObjectId == estate.Id).RoomPlanning == 13) ||
-                                     (Request.Query.ContainsKey("roomBoth") && addt.First(a => a.ObjectId == estate.Id).RoomPlanning == 14) ||
-                                     (Request.Query.ContainsKey("roomIkar") && addt.First(a => a.ObjectId == estate.Id).RoomPlanning == 15) ||
-                                     (Request.Query.ContainsKey("roomFree") && addt.First(a => a.ObjectId == estate.Id).RoomPlanning == 16)
-                               select estate).ToArray();
+                    if (!(
+                    (Request.Query["roomSep"] == "on"  && addt.First(a => a.ObjectId == estate.Id).RoomPlanning == 12) ||
+                    (Request.Query["roomAdj"] == "on"  && addt.First(a => a.ObjectId == estate.Id).RoomPlanning == 13) ||
+                    (Request.Query["roomBoth"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomPlanning == 14) ||
+                    (Request.Query["roomIkar"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomPlanning == 15) ||
+                    (Request.Query["roomFree"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomPlanning == 16)
+                    )) return false;
                 }
                 #endregion
 
                 #region Обычный поиск (участок)
-                //TODO: категория учатска
+                //TODO "категория учатска"
 
                 //Назначение
                 if (Request.Query.ContainsKey("lndAppPers") || //Индивидуальное жилищное строительство
                     Request.Query.ContainsKey("lndAppDach") || //Дачное строительство
-                    Request.Query.ContainsKey("lndAppLPH")  )  //ЛПХ
+                    Request.Query.ContainsKey("lndAppLPH"))  //ЛПХ
                 {
-                    relevant = (from estate in relevant
-                                where (Request.Query.ContainsKey("lndAppPers") && main.First(m => m.ObjectId == estate.Id).LandAssignment.Contains("307")) ||
-                                      (Request.Query.ContainsKey("lndAppDach") && main.First(m => m.ObjectId == estate.Id).LandAssignment.Contains("309")) ||
-                                      (Request.Query.ContainsKey("lndAppLPH" ) && main.First(m => m.ObjectId == estate.Id).LandAssignment.Contains("247"))
-                                select estate).ToArray();
+                    if (!(
+                    (Request.Query["lndAppPers"] == "on" && main.First(m => m.ObjectId == estate.Id).LandAssignment.Contains("307")) ||
+                    (Request.Query["lndAppDach"] == "on" && main.First(m => m.ObjectId == estate.Id).LandAssignment.Contains("309")) ||
+                    (Request.Query["lndAppLPH" ] == "on" && main.First(m => m.ObjectId == estate.Id).LandAssignment.Contains("247"))
+                    )) return false;
                 }
 
                 //TODO: особенности расположения
@@ -290,238 +343,207 @@ namespace RGR.Core.Controllers
 
                 #region обычный поиск (офисная)
                 //Назначение
-                if (Request.Query.ContainsKey("bldAppShop")    || //Магазин
-                    Request.Query.ContainsKey("bldAppOffice")  || //Офис
+                if (Request.Query.ContainsKey("bldAppShop") || //Магазин
+                    Request.Query.ContainsKey("bldAppOffice") || //Офис
                     Request.Query.ContainsKey("bldAppProduct") || //Производство
                     Request.Query.ContainsKey("bldAppStorage") || //Склад
-                    Request.Query.ContainsKey("bldAppSalePt")  || //Торговая точка
-                    Request.Query.ContainsKey("bldAppCafe")    || //Кафе, ресторан
+                    Request.Query.ContainsKey("bldAppSalePt") || //Торговая точка
+                    Request.Query.ContainsKey("bldAppCafe") || //Кафе, ресторан
                     Request.Query.ContainsKey("bldAppService") || //Сервис
-                    Request.Query.ContainsKey("bldAppHotel")   || //Гостиница
-                    Request.Query.ContainsKey("bldAppFree")     ) //Свободное
+                    Request.Query.ContainsKey("bldAppHotel") || //Гостиница
+                    Request.Query.ContainsKey("bldAppFree")) //Свободное
                 {
-                    relevant = (from estate in relevant
-                                where (Request.Query["bldAppShop"]    == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("75"))  ||
-                                      (Request.Query["bldAppOffice"]  == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("76"))  ||
-                                      (Request.Query["bldAppProduct"] == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("77"))  ||
-                                      (Request.Query["bldAppStorage"] == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("78"))  ||
-                                      (Request.Query["bldAppSalePt"]  == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("79"))  ||
-                                      (Request.Query["bldAppCafe"]    == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("377")) ||
-                                      (Request.Query["bldAppService"] == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("378")) ||
-                                      (Request.Query["bldAppHotel"]   == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("379")) ||
-                                      (Request.Query["bldAppFree"]    == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("385"))
-                                select estate).ToArray();
+                    if (!(
+                    (Request.Query["bldAppShop"] == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("75")) ||
+                    (Request.Query["bldAppOffice"] == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("76")) ||
+                    (Request.Query["bldAppProduct"] == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("77")) ||
+                    (Request.Query["bldAppStorage"] == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("78")) ||
+                    (Request.Query["bldAppSalePt"] == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("79")) ||
+                    (Request.Query["bldAppCafe"] == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("377")) ||
+                    (Request.Query["bldAppService"] == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("378")) ||
+                    (Request.Query["bldAppHotel"] == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("379")) ||
+                    (Request.Query["bldAppFree"] == "on" && main.Single(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("385"))
+                    )) return false;
                 }
                 #endregion
 
                 #region Удобства
                 //Водоснабжение
-                if (Request.Query.ContainsKey("wtrHotCenter")  || //Горячая централизованно
-                    Request.Query.ContainsKey("wtrHotAuton")   || //Горячая автономно
+                if (Request.Query.ContainsKey("wtrHotCenter") || //Горячая централизованно
+                    Request.Query.ContainsKey("wtrHotAuton") || //Горячая автономно
                     Request.Query.ContainsKey("wtrColdCenter") || //Холодная централизованно
-                    Request.Query.ContainsKey("wtrColdWell")   || //Холодная - колодец, скважина
-                    Request.Query.ContainsKey("wtrSummer")     || //Летний водопровод
-                    Request.Query.ContainsKey("wtrNone")        ) //Нету
+                    Request.Query.ContainsKey("wtrColdWell") || //Холодная - колодец, скважина
+                    Request.Query.ContainsKey("wtrSummer") || //Летний водопровод
+                    Request.Query.ContainsKey("wtrNone")) //Нету
                 {
-                    relevant = (from estate in relevant
-                                where (Request.Query["wtrHotCenter"]  == "on" && comm.Single(c => c.ObjectId == estate.Id).Water.Contains("315")) ||
-                                      (Request.Query["wtrHotAuton"]   == "on" && comm.Single(c => c.ObjectId == estate.Id).Water.Contains("206")) ||
-                                      (Request.Query["wtrColdCenter"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Water.Contains("318")) ||
-                                      (Request.Query["wtrColdWell"]   == "on" && comm.Single(c => c.ObjectId == estate.Id).Water.Contains("316")) ||
-                                      (Request.Query["wtrSummer"]     == "on" && comm.Single(c => c.ObjectId == estate.Id).Water.Contains("372")) ||
-                                      (Request.Query["wtrNone"]       == "on" && comm.Single(c => c.ObjectId == estate.Id).Water.Contains("205")) 
-                                select estate).ToArray();
+                    if (!(
+                    (Request.Query["wtrHotCenter"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Water.Contains("315")) ||
+                    (Request.Query["wtrHotAuton"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Water.Contains("206")) ||
+                    (Request.Query["wtrColdCenter"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Water.Contains("318")) ||
+                    (Request.Query["wtrColdWell"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Water.Contains("316")) ||
+                    (Request.Query["wtrSummer"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Water.Contains("372")) ||
+                    (Request.Query["wtrNone"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Water.Contains("205"))
+                    )) return false;
                 }
 
                 //Электричество
-                if (Request.Query.ContainsKey("elSupplied")  || //Подведено
+                if (Request.Query.ContainsKey("elSupplied") || //Подведено
                     Request.Query.ContainsKey("elConnected") || //Подключение
-                    Request.Query.ContainsKey("elPossible")   ) //Возможно подведение
+                    Request.Query.ContainsKey("elPossible")) //Возможно подведение
                 {
-                    relevant = (from estate in relevant
-                                where (Request.Query["elSupplied"]  == "on" && comm.Single(c => c.ObjectId == estate.Id).Electricy.Contains("167")) ||
-                                      (Request.Query["elConnected"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Electricy.Contains("168")) ||
-                                      (Request.Query["elPossible"]  == "on" && comm.Single(c => c.ObjectId == estate.Id).Electricy.Contains("169"))
-                                select estate).ToArray();
+                    if(!( 
+                    (Request.Query["elSupplied"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Electricy.Contains("167")) ||
+                    (Request.Query["elConnected"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Electricy.Contains("168")) ||
+                    (Request.Query["elPossible"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Electricy.Contains("169"))
+                    )) return false;
                 }
 
                 //Отопление
                 if (Request.Query.ContainsKey("heatCentral") || //Центральное
-                    Request.Query.ContainsKey("heatFuel")    || //Дрова, уголь, жидкое
-                    Request.Query.ContainsKey("heatGas")     || //Газ
-                    Request.Query.ContainsKey("heatElectr")  || //Электричество
-                    Request.Query.ContainsKey("heatNone")     ) //Нетъ
+                    Request.Query.ContainsKey("heatFuel") || //Дрова, уголь, жидкое
+                    Request.Query.ContainsKey("heatGas") || //Газ
+                    Request.Query.ContainsKey("heatElectr") || //Электричество
+                    Request.Query.ContainsKey("heatNone")) //Нетъ
                 {
-                    relevant = (from estate in relevant
-                                where (Request.Query["heatCentral"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Heating.Contains("306")) ||
-                                      (Request.Query["heatFuel"]    == "on" && comm.Single(c => c.ObjectId == estate.Id).Heating.Contains("209")) ||
-                                      (Request.Query["heatGas"]     == "on" && comm.Single(c => c.ObjectId == estate.Id).Heating.Contains("208")) ||
-                                      (Request.Query["heatElectr"]  == "on" && comm.Single(c => c.ObjectId == estate.Id).Heating.Contains("304")) ||
-                                      (Request.Query["heatNone"]    == "on" && comm.Single(c => c.ObjectId == estate.Id).Heating.Contains("305"))
-                                select estate).ToArray();
+                    if (!(
+                    (Request.Query["heatCentral"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Heating.Contains("306")) ||
+                    (Request.Query["heatFuel"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Heating.Contains("209")) ||
+                    (Request.Query["heatGas"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Heating.Contains("208")) ||
+                    (Request.Query["heatElectr"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Heating.Contains("304")) ||
+                    (Request.Query["heatNone"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Heating.Contains("305"))
+                    )) return false;
                 }
 
                 //Канализация
                 if (Request.Query.ContainsKey("sewAuto") || //Автономная
                     Request.Query.ContainsKey("sewCent") || //Централизованная
                     Request.Query.ContainsKey("sewSham") || //Шамбо
-                    Request.Query.ContainsKey("sewNone")  ) //Нетъ
+                    Request.Query.ContainsKey("sewNone")) //Нетъ
                 {
-                    relevant = (from estate in relevant
-                                where (Request.Query["sewAuto"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Sewer == 207) ||
-                                      (Request.Query["sewCent"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Sewer == 313) ||
-                                      (Request.Query["sewSham"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Sewer == 314) ||
-                                      (Request.Query["sewNone"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Sewer == 312)
-                                select estate).ToArray();
+                    if (!(
+                    (Request.Query["sewAuto"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Sewer == 207) ||
+                    (Request.Query["sewCent"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Sewer == 313) ||
+                    (Request.Query["sewSham"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Sewer == 314) ||
+                    (Request.Query["sewNone"] == "on" && comm.Single(c => c.ObjectId == estate.Id).Sewer == 312)
+                    )) return false;
                 }
                 #endregion
 
                 #region Фильтры площади
                 //Фильтр по общей площади: минимальная
-                if (!string.IsNullOrEmpty(Request.Query["commonSquareFrom"]))
+                if (sqFrom > 0)
                 {
-                    double sqFrom;
-                    if (double.TryParse(Request.Query["commonSquareFrom"], out sqFrom))
-                    {
-                        relevant = relevant.Where(estate => main.Single(x => x.ObjectId == estate.Id).TotalArea >= sqFrom).ToArray(); 
-                    }
+                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).TotalArea < sqFrom)
+                        return false;
                 }
 
                 //Фильтр по общей площади: максимальная
-                if (!string.IsNullOrEmpty(Request.Query["commonSquareTo"]))
+                if (sqTo > 0)
                 {
-                    double sqTo;
-                    if (double.TryParse(Request.Query["commonSquareTo"], out sqTo))
-                    {
-                        relevant = relevant.Where(estate => main.Single(x => x.ObjectId == estate.Id).TotalArea <= sqTo).ToArray();
-                    }
+                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).TotalArea > sqTo)
+                        return false;
                 }
 
                 //Фильтр по жилой площади: минимальная
-                if (!string.IsNullOrEmpty(Request.Query["livingSquareFrom"]))
+                if (sqLivFrom > 0)
                 {
-                    double sqFrom;
-                    if (double.TryParse(Request.Query["livingSquareFrom"], out sqFrom))
-                    {
-                        relevant = relevant.Where(estate => main.Single(x => x.ObjectId == estate.Id).ActualUsableFloorArea >= sqFrom).ToArray();
-                    }
+                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).ActualUsableFloorArea < sqLivFrom)
+                        return false;
                 }
 
                 //Фильтр по жилой площади: максимальная
                 if (!string.IsNullOrEmpty(Request.Query["livingSquareTo"]))
                 {
-                    double sqTo;
-                    if (double.TryParse(Request.Query["livingSquareTo"], out sqTo))
+                    if (sqLivTo > 0)
                     {
-                        relevant = relevant.Where(estate => main.Single(x => x.ObjectId == estate.Id).ActualUsableFloorArea <= sqTo).ToArray();
+                        if (main.FirstOrDefault(x => x.ObjectId == estate.Id).ActualUsableFloorArea > sqLivTo)
+                            return false;
                     }
                 }
 
                 //Фильтр площади кухни: минимальная
                 if (!string.IsNullOrEmpty(Request.Query["kitchenSquareFrom"]))
                 {
-                    double sqFrom;
-                    if (double.TryParse(Request.Query["kitchenSquareFrom"], out sqFrom))
+                    if (sqKitchenFrom > 0)
                     {
-                        relevant = relevant.Where(estate => main.Single(x => x.ObjectId == estate.Id).KitchenFloorArea >= sqFrom).ToArray();
+                        if (main.FirstOrDefault(x => x.ObjectId == estate.Id).KitchenFloorArea < sqKitchenFrom)
+                            return false;
                     }
                 }
 
                 //Фильтр по площади кухни: максимальная
                 if (!string.IsNullOrEmpty(Request.Query["kitchenSquareTo"]))
                 {
-                    double sqTo;
-                    if (double.TryParse(Request.Query["kitchenSquareTo"], out sqTo))
+                    if (sqKitchenTo > 0)
                     {
-                        relevant = relevant.Where(estate => main.Single(x => x.ObjectId == estate.Id).KitchenFloorArea <= sqTo).ToArray();
+                        if (main.FirstOrDefault(x => x.ObjectId == estate.Id).KitchenFloorArea > sqKitchenTo)
+                            return false;
                     }
                 }
                 #endregion
 
                 #region Фильтры этажности
                 //Фильтр по минимальному желаемому этажу
-                if (!string.IsNullOrEmpty(Request.Query["minFloor"]))
+                if (minFloor > 0)
                 {
-                    byte minFloor;
-                    if (byte.TryParse(Request.Query["minFloor"], out minFloor))
-                    {
-                        relevant = relevant.Where(estate => main.Single(x => x.ObjectId == estate.Id).FloorNumber >= minFloor).ToArray();
-                    }
+                    if (main.Single(x => x.ObjectId == estate.Id).FloorNumber < minFloor)
+                        return false;
                 }
 
                 //Фильтр по максимальному желаемому этажу
-                if (!string.IsNullOrEmpty(Request.Query["maxFloor"]))
+                if (maxFloor > 0)
                 {
-                    byte maxFloor;
-                    if (byte.TryParse(Request.Query["maxFloor"], out maxFloor))
-                    {
-                        relevant = relevant.Where(estate => main.Single(x => x.ObjectId == estate.Id).FloorNumber <= maxFloor).ToArray();
-                    }
+                    if (main.Single(x => x.ObjectId == estate.Id).FloorNumber > maxFloor)
+                        return false;
                 }
 
                 //Первый и/или последний (не) предлагать!!!
                 if (Request.Query.ContainsKey("noFirstFloor") || Request.Query.ContainsKey("noLastFloor"))
                 {
-                    relevant = (from estate in relevant
-                               where (Request.Query.ContainsKey("noFirstFloor") && main.Single(x => x.ObjectId == estate.Id).FloorNumber > 1) ||
-                                     (Request.Query.ContainsKey("noLastFloor")  && main.Single(x => x.ObjectId == estate.Id).FloorNumber <
-                                                                                   main.Single(x => x.ObjectId == estate.Id).TotalFloors) //Этаж текущей квартиры меньше максимального числа этажей в здании
-                               select estate).ToArray();
+                    if (!(
+                    (Request.Query.ContainsKey("noFirstFloor") && main.Single(x => x.ObjectId == estate.Id).FloorNumber > 1) ||
+                    (Request.Query.ContainsKey("noLastFloor") && main.Single(x => x.ObjectId == estate.Id).FloorNumber < //Этаж текущей квартиры меньше максимального числа этажей в здании
+                        main.Single(x => x.ObjectId == estate.Id).TotalFloors) 
+                    )) return false;
                 }
 
                 //Этажей в доме: минимум
-                if (!string.IsNullOrEmpty(Request.Query["minHouseFloors"]))
+                if (minHouseFloors > 0)
                 {
-                    byte minHouseFloors;
-                    if (byte.TryParse(Request.Query["minHouseFloors"], out minHouseFloors))
-                    {
-                        relevant = relevant.Where(estate => main.Single(x => x.ObjectId == estate.Id).TotalFloors >= minHouseFloors).ToArray();
-                    }
+                    if (main.Single(x => x.ObjectId == estate.Id).TotalFloors < minHouseFloors)
+                        return false;
                 }
 
                 //Этажей в доме: максимум
-                if (!string.IsNullOrEmpty(Request.Query["maxHouseFloors"]))
+                if (maxHouseFloors > 0)
                 {
-                    byte maxHouseFloors;
-                    if (byte.TryParse(Request.Query["maxHouseFloors"], out maxHouseFloors))
-                    {
-                        relevant = relevant.Where(estate => main.Single(x => x.ObjectId == estate.Id).TotalFloors <= maxHouseFloors).ToArray();
-                    }
+                    if (main.Single(x => x.ObjectId == estate.Id).TotalFloors > maxHouseFloors)
+                        return false;
                 }
                 #endregion
 
                 #region Фильтры: санузел, балкон/лоджия, тип дома, материал постройки, состояние
                 //Санузел
-                if (Request.Query.ContainsKey("wc")) 
+                if (Request.Query.ContainsKey("wc"))
                 {
                     switch (Request.Query["wc"])
                     {
                         case "sep": //раздельный
-                            relevant = relevant.Where(estate => 
-                            {
-                                string s = rtng.Single(r => r.ObjectId == estate.Id).Wc;
-                                if (s == null)
-                                    return false;
+                            string sep = rtng.Single(r => r.ObjectId == estate.Id).Wc;
+                            if (sep == null)
+                                return false;
 
-                                if (s.Contains("226"))
-                                    return true;
-                                else
-                                    return false;
-                            }).ToArray();
+                            if (!sep.Contains("226"))
+                                return false;
                             break;
 
                         case "adj": //смежный
-                            relevant = relevant.Where(estate => 
-                            {
-                                string s = rtng.Single(r => r.ObjectId == estate.Id).Wc;
-                                if (s == null)
-                                    return false;
+                            string adj = rtng.Single(r => r.ObjectId == estate.Id).Wc;
+                            if (adj == null)
+                                return false;
 
-                                if (s.Contains("227"))
-                                    return true;
-                                else
-                                    return false;
-                            }).ToArray();
+                            if (!adj.Contains("227"))
+                                return false;
                             break;
                     }
                 }
@@ -529,86 +551,84 @@ namespace RGR.Core.Controllers
                 //Балкон/лоджия
                 if (Request.Query.ContainsKey("blPresent"))
                 {
-                    relevant = (from estate in relevant
-                               where addt.Single(a => a.ObjectId == estate.Id).BalconiesCount > 0 ||
-                                     addt.Single(a => a.ObjectId == estate.Id).LoggiasCount   > 0
-                               select estate).ToArray();
+                    if (!(addt.Single(a => a.ObjectId == estate.Id).BalconiesCount > 0 ||
+                    addt.Single(a => a.ObjectId == estate.Id).LoggiasCount > 0))
+                        return false;
+                    
+                                
                 }
 
                 //Тип дома
                 if (Request.Query.ContainsKey("bldBarak") || //Жильё низкого качества, барак
-                    Request.Query.ContainsKey("bldDorm")  || //Малосемейка, общежитие
-                    Request.Query.ContainsKey("bldStal")  || //Сталинка
+                    Request.Query.ContainsKey("bldDorm") || //Малосемейка, общежитие
+                    Request.Query.ContainsKey("bldStal") || //Сталинка
                     Request.Query.ContainsKey("bldHrush") || //Хрущ
                     Request.Query.ContainsKey("bldBrovi") || //Брежневки (улучшенной планировки)
-                    Request.Query.ContainsKey("bldNew")   || //Новая планировка
-                    Request.Query.ContainsKey("bldFree")   ) //Индивидуальная планировка
+                    Request.Query.ContainsKey("bldNew") || //Новая планировка
+                    Request.Query.ContainsKey("bldFree")) //Индивидуальная планировка
                 {
-                    relevant = (from estate in relevant
-                               where (Request.Query.ContainsKey("bldBarak") && main.Single(m => m.ObjectId == estate.Id).HouseType == 138) ||
-                                     (Request.Query.ContainsKey("bldDorm")  && main.Single(m => m.ObjectId == estate.Id).HouseType == 143) ||
-                                     (Request.Query.ContainsKey("bldStal")  && main.Single(m => m.ObjectId == estate.Id).HouseType == 144) ||
-                                     (Request.Query.ContainsKey("bldHrush") && main.Single(m => m.ObjectId == estate.Id).HouseType == 146) ||
-                                     (Request.Query.ContainsKey("bldBrovi") && main.Single(m => m.ObjectId == estate.Id).HouseType == 145) || // Будем считать, что улучшенки
-                                     (Request.Query.ContainsKey("bldBrovi") && main.Single(m => m.ObjectId == estate.Id).HouseType == 137) || // и брежневки - одно и то же
-                                     (Request.Query.ContainsKey("bldNew")   && main.Single(m => m.ObjectId == estate.Id).HouseType == 142) ||
-                                     (Request.Query.ContainsKey("bldFree")  && main.Single(m => m.ObjectId == estate.Id).HouseType == 139) 
-                               select estate).ToArray();
+                    if (!(
+                        (Request.Query.ContainsKey("bldBarak") && main.Single(m => m.ObjectId == estate.Id).HouseType == 138) ||
+                        (Request.Query.ContainsKey("bldDorm") && main.Single(m => m.ObjectId == estate.Id).HouseType == 143) ||
+                        (Request.Query.ContainsKey("bldStal") && main.Single(m => m.ObjectId == estate.Id).HouseType == 144) ||
+                        (Request.Query.ContainsKey("bldHrush") && main.Single(m => m.ObjectId == estate.Id).HouseType == 146) ||
+                        (Request.Query.ContainsKey("bldBrovi") && main.Single(m => m.ObjectId == estate.Id).HouseType == 145) || // Будем считать, что улучшенки
+                        (Request.Query.ContainsKey("bldBrovi") && main.Single(m => m.ObjectId == estate.Id).HouseType == 137) || // и брежневки - одно и то же
+                        (Request.Query.ContainsKey("bldNew") && main.Single(m => m.ObjectId == estate.Id).HouseType == 142) ||
+                        (Request.Query.ContainsKey("bldFree") && main.Single(m => m.ObjectId == estate.Id).HouseType == 139)
+                     )) return false;
                 }
 
                 //Материал постройки
-                if (Request.Query.ContainsKey("matWood")  || //Дерево
+                if (Request.Query.ContainsKey("matWood") || //Дерево
                     Request.Query.ContainsKey("matBrick") || //Кирпич
                     Request.Query.ContainsKey("matPanel") || //Панельный
-                    Request.Query.ContainsKey("matMono")  || //Монолит
-                    Request.Query.ContainsKey("matOther") )  //Другой
+                    Request.Query.ContainsKey("matMono") || //Монолит
+                    Request.Query.ContainsKey("matOther"))  //Другой
                 {
-                    relevant = (from estate in relevant
-                                where (Request.Query.ContainsKey("matWood")  && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("61")) ||
-                                      (Request.Query.ContainsKey("matBrick") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("62")) ||
-                                      (Request.Query.ContainsKey("matBrick") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("66")) || //Монолитно-кирпичный
-                                      (Request.Query.ContainsKey("matPanel") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("68")) ||
-                                      (Request.Query.ContainsKey("matMono")  && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("65")) ||
-                                      (Request.Query.ContainsKey("matMono")  && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("67")) || //В базе два значения соответствуют монолиту. Все вопросы туда.
-                                      (Request.Query.ContainsKey("matMono")  && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("66")) || //Монолитно-кирпичный
-                                      (Request.Query.ContainsKey("matOther") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("63")) || //МЕТАЛЛ
-                                      (Request.Query.ContainsKey("matOther") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("64")) || //Бетонные блоки
-                                      (Request.Query.ContainsKey("matOther") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("69")) || //Пенобетон
-                                      (Request.Query.ContainsKey("matOther") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("70"))    //Туфоблок
-                                select estate).ToArray();
+                    if (!(
+                    (Request.Query.ContainsKey("matWood") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("61")) ||
+                        (Request.Query.ContainsKey("matBrick") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("62")) ||
+                        (Request.Query.ContainsKey("matBrick") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("66")) || //Монолитно-кирпичный
+                        (Request.Query.ContainsKey("matPanel") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("68")) ||
+                        (Request.Query.ContainsKey("matMono") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("65")) ||
+                        (Request.Query.ContainsKey("matMono") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("67")) || //В базе два значения соответствуют монолиту. Все вопросы туда.
+                        (Request.Query.ContainsKey("matMono") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("66")) || //Монолитно-кирпичный
+                        (Request.Query.ContainsKey("matOther") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("63")) || //МЕТАЛЛ
+                        (Request.Query.ContainsKey("matOther") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("64")) || //Бетонные блоки
+                        (Request.Query.ContainsKey("matOther") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("69")) || //Пенобетон
+                        (Request.Query.ContainsKey("matOther") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("70"))    //Туфоблок
+                    )) return false;
                 }
 
                 if (Request.Query.ContainsKey("stAfterBuilders") || //После строителей
-                    Request.Query.ContainsKey("stCapRepair")     || //Требуется капитальный ремонт
-                    Request.Query.ContainsKey("stCosRepair")     || //Требуется косметический ремонт
-                    Request.Query.ContainsKey("stPassably")      || //Удовлетворительное
-                    Request.Query.ContainsKey("stGood")          || //Хорошее
-                    Request.Query.ContainsKey("stGreat")         || //Отличное
-                    Request.Query.ContainsKey("stEuro")           ) //"Евроремонт"
+                    Request.Query.ContainsKey("stCapRepair") || //Требуется капитальный ремонт
+                    Request.Query.ContainsKey("stCosRepair") || //Требуется косметический ремонт
+                    Request.Query.ContainsKey("stPassably") || //Удовлетворительное
+                    Request.Query.ContainsKey("stGood") || //Хорошее
+                    Request.Query.ContainsKey("stGreat") || //Отличное
+                    Request.Query.ContainsKey("stEuro")) //"Евроремонт"
                 {
-                    relevant = (from estate in relevant
-                                where (Request.Query["stAfterBuilders"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 85) ||
-                                      (Request.Query["stCapRepair"]     == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 86) ||
-                                      (Request.Query["stCapRepair"]     == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 87) || //Частичный ремонт
-                                      (Request.Query["stCosRepair"]     == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 88) ||
-                                      (Request.Query["stPassably"]      == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 89) ||
-                                      (Request.Query["stPassably"]      == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 90) || //Нормальное
-                                      (Request.Query["stGood"]          == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 91) ||
-                                      (Request.Query["stGreat"]         == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 92) ||
-                                      (Request.Query["stEuro"]          == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 93) 
-                                select estate).ToArray();
+                    if (!(
+                        (Request.Query["stAfterBuilders"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 85) ||
+                        (Request.Query["stCapRepair"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 86) ||
+                        (Request.Query["stCapRepair"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 87) || //Частичный ремонт
+                        (Request.Query["stCosRepair"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 88) ||
+                        (Request.Query["stPassably"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 89) ||
+                        (Request.Query["stPassably"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 90) || //Нормальное
+                        (Request.Query["stGood"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 91) ||
+                        (Request.Query["stGreat"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 92) ||
+                        (Request.Query["stEuro"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 93)
+                    )) return false;
                 }
                 #endregion
 
                 #region Фильтры по адресу
                 //Населённый пункт (сити, ну)
-                if (!string.IsNullOrEmpty(Request.Query["city"])) 
+                if (CityId > -1)
                 {
-                    long CityId;
-                    if (long.TryParse(Request.Query["city"], out CityId))
-                    {
-                        relevant = relevant.Where(estate => addr.Single(a => a.ObjectId == estate.Id).CityId == CityId).ToArray();
-                    }
+                    if (addr.FirstOrDefault(a => a.ObjectId == estate.Id).CityId != CityId)
+                    return false; 
                 }
 
                 //Район
@@ -644,7 +664,7 @@ namespace RGR.Core.Controllers
                 {
                     //Разбор строки со списком улиц на отдельные названия
                     var streets = searchParser.Parse(Request.Query["street"]);
-                    relevant = relevant.Where(estate => 
+                    relevant = relevant.Where(estate =>
                     {
                         long? streetId = addr.Single(a => a.ObjectId == estate.Id).StreetId;
                         var geoStreet = strt.SingleOrDefault(s => s.Id == streetId);
@@ -655,101 +675,15 @@ namespace RGR.Core.Controllers
                             if (geoStreet.Name.Contains(street.Lexeme))
                                 return true;
                         }
-                        return false; 
+                        return false;
                     }).ToArray();
                 }
                 #endregion
 
-                #region Фильтры: Риелтор, период, наличие фото
-                //Компания
-                if (!string.IsNullOrEmpty(Request.Query["company"]))
-                {
-                    //Разбор строки со списком компаний на отдельные названия
-                    var companies = searchParser.Parse(Request.Query["company"]);
-                    relevant = relevant.Where(estate =>
-                    {
-                        var user = usrs.SingleOrDefault(u => u.Id == estate.UserId);
-                        if (user == null) return false;
-                        var comp = cmps.Single(c => c.Id == user.CompanyId);
-                        if (comp == null) return false;
+                return true;
+            }).ToArray();
 
-                        foreach (var company in companies)
-                        {
-                            if (comp.Name.Contains(company.Lexeme)) return true;
-                        }
-                        return false;
-                    }).ToArray();
-                }
-
-                //Агент
-                if (!string.IsNullOrEmpty(Request.Query["agent"]))
-                {
-                    //Разбор строки со списком компаний на отдельные названия
-                    var users = searchParser.Parse(Request.Query["agent"]);
-
-                    relevant = relevant.Where(estate =>
-                    {
-                        var dbUser = usrs.SingleOrDefault(u => u.Id == estate.UserId);
-                        if (dbUser == null) return false;
-
-                        foreach (var user in users)
-                        {
-                            string fio = $"{dbUser.LastName} {dbUser.FirstName} {dbUser.SurName}";
-                            if (fio.Contains(user.Lexeme))
-                                return true;
-                        }
-                        return false;
-                    }).ToArray();
-                }
-
-                //Период поиска
-                if (!string.IsNullOrEmpty(Request.Query["period"]))
-                {
-                    var startpoint = DateTime.MinValue;
-                    switch (Request.Query["period"]) //любое не перечисленное здесь значение - без ограничений
-                    {
-                        case "day":
-                            startpoint = DateTime.Today;
-                            break;
-
-                        case "week":
-                            startpoint = DateTime.Today.AddDays(-7);
-                            break;
-
-                        case "month":
-                            startpoint = DateTime.Today.AddMonths(-1);
-                            break;
-
-                        case "3month":
-                            startpoint = DateTime.Today.AddMonths(-3);
-                            break;
-                    }
-
-                    if (startpoint != DateTime.MinValue) //Если период не указан, нет смысла фильтровать
-                        relevant = relevant.Where(estate =>
-                        {
-                            if (estate.DateModified != null) //Если данные обновлялись после добавления объекта в БД
-                                return (estate.DateModified >= startpoint);
-                            else
-                                return (estate.DateCreated >= startpoint);
-                        }).ToArray();
-                }
-
-                //Наличие фото
-                if (!string.IsNullOrEmpty(Request.Query["withPhotoOnly"]))
-                {
-                    if (Request.Query["withPhotoOnly"] == "on")
-                    {
-                        
-                        
-                        //Наличие хотя бы одного медиа (которые все фото)
-                        relevant = relevant.Where(estate => mdia.FirstOrDefault(m => m.ObjectId == estate.Id) != null).ToArray();
-                    }
-                }
-                #endregion
-
-                return ConvertToPassports(EstateType, relevant, addr, city, strt, main, addt, vals, cmps, usrs, mdia, comm, rtng);
-            }
+            return ConvertToPassports(EstateType, relevant, addr, city, strt, main, addt, vals, cmps, usrs, mdia, comm, rtng);
         }
         #endregion
 
@@ -758,7 +692,6 @@ namespace RGR.Core.Controllers
             List<GeoStreets> strt, List<ObjectMainProperties> main, List<ObjectAdditionalProperties> addt, List<DictionaryValues> vals,
             List<Companies> cmps, List<Users> usrs, List<ObjectMedias> mdia, List<ObjectCommunications> comm, List<ObjectRatingProperties> rtng)
         {
-
             if (EstateType == EstateTypes.Unset)
                 EstateType = (EstateTypes)relevant.First().ObjectType;
 
@@ -766,10 +699,11 @@ namespace RGR.Core.Controllers
             {
                 case EstateTypes.Flat:
                     var flat_result = new List<FlatPassport>();
-                    var flpassport = new FlatPassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, rtng);
+                    
                     foreach (var flat in relevant)
                     {
-                        flpassport = flpassport.Reinit(flat);
+                        var flpassport = new FlatPassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, rtng);
+                        flpassport.Set(flat);
                         flat_result.Add(flpassport);
                     }
                     return JsonConvert.SerializeObject(flat_result); 
