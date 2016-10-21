@@ -202,8 +202,8 @@ label
 #panel5 .col-lg-4 { padding-bottom: 0;}
 
 
-.row {    
-    margin: 0px !important;
+.row {
+    margin:0 !important;    
     display:inline;   
     padding: 10px 0; 
     }

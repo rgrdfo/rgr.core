@@ -12,29 +12,62 @@ namespace RGR.Core.Views.Helpers
 {
     public class SearchResult
     {
-        
+        //Button btType = new Button();
+
+        //public static HtmlString SortResult(string Source, EstateTypes EstateType)
+        //{
+        //    var sb = new StringBuilder("<div id=\"bodyResult\">");
+        //    //List<String> adresses = new List<string>();            
+        //    switch (EstateType)
+        //    {
+        //        case EstateTypes.Flat:                    
+        //            var flats = JsonConvert.DeserializeObject<IEnumerable<FlatPassport>>(Source);
+        //            //foreach (var flat in flats)
+        //            //{
+        //            //    adresses.Add(flat.Address);
+        //            //}
+        //            //adresses.Sort();
+        //            flats = flats.OrderBy(f => f.Address);
+        //            foreach (var flat in flats)
+        //            {
+        //                sb.Append(CommonStart(flat));
+        //                sb.Append($"<div class=\"col-lg-2\"><h1>{flat.Rooms}-комнатная</h1><br/>{flat.HouseMaterial}<br/>{flat.HouseType}</div>");
+        //                sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Square} кв.м.</h1><br />кухня {flat.KitchenSquare}<br />жилая {flat.LivingSquare}</div>");
+        //                sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Floor} этаж из {flat.FloorCount}</h1><br />{flat.Balcony}<br />{flat.Description}</div>");
+        //                sb.Append(CommonEnd(flat));
+
+        //                //aF = adresses.ElementAt(adresses.BinarySearch(adressFlat));
+        //                //foreach (var flat in flats)
+        //                //{
+        //                //    if(aF==flat.Address)
+        //                //    {
+        //                //        sb.Append(CommonStart(flat));
+        //                //        sb.Append($"<div class=\"col-lg-2\"><h1>{flat.Rooms}-комнатная</h1><br/>{flat.HouseMaterial}<br/>{flat.HouseType}</div>");
+        //                //        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Square} кв.м.</h1><br />кухня {flat.KitchenSquare}<br />жилая {flat.LivingSquare}</div>");
+        //                //        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Floor} этаж из {flat.FloorCount}</h1><br />{flat.Balcony}<br />{flat.Description}</div>");
+        //                //        sb.Append(CommonEnd(flat));
+        //                //    }
+        //                //}
+        //            }                    
+        //            break;
+        //    }
+        //    return new HtmlString((sb.ToString()));
+        //}
+
+
         public static HtmlString Render(string Source, EstateTypes EstateType)
         {
-            var sb = new StringBuilder("<div>");
+            var sb = new StringBuilder("<div id=\"bodyResult\">");
             switch (EstateType)
             {
                 case EstateTypes.Flat:
-                    var flats = JsonConvert.DeserializeObject<List<FlatPassport>>(Source);
-
-                    //sb.Append($"<div class=\"row\" id=\"head\"><div class=\"col-lg-2\">Адрес</div>");
-                    //sb.Append($"<div class=\"col-lg-1\">Дата</div>");
-                    //sb.Append($"<div class=\"col-lg-1\">Цена</div>");
-                    //sb.Append($"<div class=\"col-lg-1\">Комнаты</div>");
-                    //sb.Append($"<div class=\"col-lg-1\">Площадь</div>");
-                    //sb.Append($"<div class=\"col-lg-1\">Этажность</div>");
-                    //sb.Append($"<div class=\"col-lg-1\"> </div></div>");
-
+                    var flats = JsonConvert.DeserializeObject<List<FlatPassport>>(Source);                 
                     foreach (var flat in flats)
                     {                        
                         sb.Append(CommonStart(flat));
-                        sb.Append($"<div class=\"col-lg-2\"><h1>{flat.Rooms}-комнатная<br/>{flat.HouseMaterial}<br/>{flat.HouseType}</h1></div>");
-                        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Square} кв.м.<br />кухня {flat.KitchenSquare}<br />жилая {flat.LivingSquare}</h1></div>");
-                        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Floor} этаж из {flat.FloorCount}<br />{flat.Balcony}<br />{flat.Description}</h1></div>");
+                        sb.Append($"<div class=\"col-lg-2\"><h1>{flat.Rooms}-комнатная</h1><br/>{flat.HouseMaterial}<br/>{flat.HouseType}</div>");
+                        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Square} кв.м.</h1><br />кухня {flat.KitchenSquare}<br />жилая {flat.LivingSquare}</div>");
+                        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Floor} этаж из {flat.FloorCount}</h1><br />{flat.Description}</div>");       /*{ flat.Balcony}< br />*/
                         sb.Append(CommonEnd(flat));
                     }
                     break;
@@ -56,8 +89,8 @@ namespace RGR.Core.Views.Helpers
                     foreach (var garage in garages)
                     {                    
                         sb.Append(CommonStart(garage));
-                        sb.Append($"<div class=\"col-lg-2\">Гараж<br />материал: {garage.HouseMaterial}</div>");
-                        sb.Append($"<div class=\"col-lg-2\">{garage.Square:###.##} кв. м</div>");
+                        sb.Append($"<div class=\"col-lg-3\">Гараж<br />материал: {garage.HouseMaterial}</div>");
+                        sb.Append($"<div class=\"col-lg-3\">{garage.Square:###.##} кв. м</div>");
                         sb.Append(CommonEnd(garage));
                     }
                     break;
@@ -79,8 +112,8 @@ namespace RGR.Core.Views.Helpers
                     foreach (var land in lands)
                     {                    
                         sb.Append(CommonStart(land));
-                        sb.Append($"<div class=\"col-lg-2\">{land.Square:###.##} кв. м<br /><br/>отопление: {land.Heating}<br/>вода: {land.Water}<br/>электричество: {land.Electricy}<br/>канализация: {land.Sewer}</div>");
-                        sb.Append($"<div class=\"col-lg-2\">{land.Purpose}<br />{land.Category}<br />{land.Specifics}</div>");
+                        sb.Append($"<div class=\"col-lg-3\">{land.Square:###.##} кв. м<br /><br/>отопление: {land.Heating}<br/>вода: {land.Water}<br/>электричество: {land.Electricy}<br/>канализация: {land.Sewer}</div>");
+                        sb.Append($"<div class=\"col-lg-3\">{land.Purpose}<br />{land.Category}<br />{land.Specifics}</div>");
                         sb.Append(CommonEnd(land));
                     }
                     break;
@@ -90,8 +123,8 @@ namespace RGR.Core.Views.Helpers
                     foreach (var office in offices)
                     {                        
                         sb.Append(CommonStart(office));
-                        sb.Append($"<div class=\"col-lg-2\">{office.Square:###.##} кв. м<br />материал: {office.HouseMaterial}<br />состояние: {office.State}</div>");
-                        sb.Append($"<div class=\"col-lg-2\">{office.FloorCount}<br /><br/>отопление: {office.Heating}<br/>вода: {office.Water}<br/>электричество: {office.Electricy}<br/>канализация: {office.Sewer}</div>");
+                        sb.Append($"<div class=\"col-lg-3\">{office.Square:###.##} кв. м<br />материал: {office.HouseMaterial}<br />состояние: {office.State}</div>");
+                        sb.Append($"<div class=\"col-lg-3\">{office.FloorCount}<br /><br/>отопление: {office.Heating}<br/>вода: {office.Water}<br/>электричество: {office.Electricy}<br/>канализация: {office.Sewer}</div>");
                         sb.Append(CommonEnd(office));
                     }
                     break;
@@ -103,19 +136,19 @@ namespace RGR.Core.Views.Helpers
             return new HtmlString(sb.ToString());
         }
 
-        private static string CommonStart(ObjectPassport Obj)
+        public static string CommonStart(ObjectPassport Obj)
         {
             //TODO: Список фотографий объекта!!!11
 
             DateTime date = Obj.Date ?? DateTime.MinValue;
             string DateToShow = (date != DateTime.MinValue) ? date.ToString("d MMM yy") : "н/д";
 
-            return $"<div class=\"row\"><div class=\"col-lg-3\"><h1><span>{Obj.Address}</span><br /><span>{Obj.City}</span></h1></div>" +
+            return $"<div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{Obj.Address}<br/>{Obj.City}</span></h1></div>" +
                    $"<div class=\"col-lg-1\"><h1>{DateToShow}</h1><br />ID: {Obj.Id:0000000}</div>" +
                    $"<div class=\"col-lg-1\"><h1>{Obj.Price: ### ### ###}</h1><br />{Obj.PricePerSquareMetter:### ###.##} руб. / кв. м</div>";
         }
 
-        private static string CommonEnd(ObjectPassport Obj)
+        public static string CommonEnd(ObjectPassport Obj)
         {
             //TODO: Логотип агентства!!11
             return  $"<div class=\"col-lg-2\">{Obj.Agency}<br/>{Obj.AgentPhone}</div>" +
@@ -124,51 +157,45 @@ namespace RGR.Core.Views.Helpers
         }
         public static HtmlString HeadResult(EstateTypes EstateType)
         {
-            var sb = new StringBuilder("<div class=\"row\">");
-            sb.Append($"<div class=\"col-lg-3\">Адрес</div>");
-            sb.Append($"<div class=\"col-lg-1\">Дата</div>");
-            sb.Append($"<div class=\"col-lg-1\">Цена</div>");
-            if (EstateType == EstateTypes.Flat && EstateType==EstateTypes.House)
+            var sb = new StringBuilder("<div class=\"search-box-head\">");
+            sb.Append($"<div class=\"row\"><div class=\"col-lg-3\"><a href=\"#\" OnClick=\"met\">Адрес</a></div>");            
+            sb.Append($"<div class=\"col-lg-1\"><label>Дата</label></div>");
+            sb.Append($"<div class=\"col-lg-1\"><label>Цена</label></div>");
+            switch (EstateType)
             {
-                sb.Append($"<div class=\"col-lg-3\">Комнаты</div>");
-                sb.Append($"<div class=\"col-lg-1\">Площадь</div>");
-                sb.Append($"<div class=\"col-lg-1\">Этажность</div>");
-            }
-            else if (EstateType==EstateTypes.Room) {
-                sb.Append($"<div class=\"col-lg-2\">Тип</div>");
-                sb.Append($"<div class=\"col-lg-1\">Площадь</div>");
-                sb.Append($"<div class=\"col-lg-1\">Этажность</div>");
-            }
-            else if (EstateType == EstateTypes.Garage)
-            {
-                sb.Append($"<div class=\"col-lg-1\">Тип</div>");
-                sb.Append($"<div class=\"col-lg-1\">Площадь</div>");
-            }
-            else if (EstateType == EstateTypes.Land && EstateType == EstateTypes.Office)
-            {
-                sb.Append($"<div class=\"col-lg-1\">Площадь</div>");
-                sb.Append($"<div class=\"col-lg-1\">Этажей</div>");
-            }
-            sb.Append($"<div class=\"col-lg-2\"></br></div>");
+                case EstateTypes.Flat:
+                    sb.Append($"<div class=\"col-lg-2\"><label>Комнаты</label></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><label>Площадь</label></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><label>Этажность</label></div>");
+                    break;
+                case EstateTypes.Room:
+                    sb.Append($"<div class=\"col-lg-2\"><label>Тип</label></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><label>Площадь</label></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><label>Этажность</label></div>");
+                    break;
+                case EstateTypes.House:
+                    sb.Append($"<div class=\"col-lg-2\"><label>Комнаты</label></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><label>Площадь</label></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><label>Этажность</label></div>");
+                    break;
+                case EstateTypes.Garage:
+                    sb.Append($"<div class=\"col-lg-3\"><label>Тип</label></div>");
+                    sb.Append($"<div class=\"col-lg-3\"><label>Площадь</label></div>");
+                    break;
+                case EstateTypes.Land:
+                    sb.Append($"<div class=\"col-lg-3\"><label>Площадь</label></div>");
+                    sb.Append($"<div class=\"col-lg-3\"><label>Этажей</label></div>");
+                    break;
+                case EstateTypes.Office:
+                    sb.Append($"<div class=\"col-lg-3\"><label>Площадь</label></div>");
+                    sb.Append($"<div class=\"col-lg-3\"><label>Этажей</label></div>");
+                    break;
+            }            
+            sb.Append($"<div class=\"col-lg-2\"><label></br></label></div></div>");
             sb.Append($"</div>");
-
             return new HtmlString((sb.ToString()));
-            //switch (EstateType)
-            //{
-            //    case EstateTypes.Flat:
-            //        return $"<div class=\"col-lg-3\">Комнаты</div>" +
-            //        $"<div class=\"col-lg-1\">Площадь</div>" +
-            //        $"<div class=\"col-lg-1\">Этажность</div>";                    
-            //    case EstateTypes.Room:
-            //        return $"<div class=\"col-lg-2\">Тип</div>" +
-            //            $"<div class=\"col-lg-1\">Площадь</div>" +
-            //            $"<div class=\"col-lg-1\">Этажность</div>";
-            //    case EstateTypes.House:
-            //        return $"<div class=\"col-lg-2\">Комнаты</div>" +
-            //            $"<div class=\"col-lg-1\">Площадь</div>" +
-            //            $"<div class=\"col-lg-1\">Этажность</div>";
-            //}
         }
+              
 
     }
 }
