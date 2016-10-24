@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace RGR.Core
 {
-    static class Implement
+    static class Extenders
     {
         /// <summary>
-        /// Принимает в качестве параметра коллекцию строк, и проверяет, содержится ли хотя бы одна из них внутри данной строки
+        /// Принимает в качестве параметра коллекцию или последовательность строк, и проверяет, содержится ли хотя бы одна из них внутри данной строки
         /// </summary>
         /// <param name="source"></param>
         /// <param name="Items"></param>

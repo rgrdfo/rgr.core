@@ -71,10 +71,10 @@ namespace RGR.Core.Controllers
             }
             ViewData["Type"] = EstateType;
             ViewData["Result"] = await GetObjects(EstateType);
-            ViewData["Context"] = db;
+            //ViewData["Context"] = db;
 
             watch.Stop();
-            ViewData["Timer"] = new HtmlString($"<br/><b>Время поиска:</b> {watch.Elapsed.TotalSeconds:0.00} с <br/><b>БД:</b> {db.Database.GetDbConnection().ConnectionString}");
+            ViewData["Timer"] = new HtmlString($"<br/><b>Время поиска:</b> {watch.Elapsed.TotalSeconds:0.00} с <br/>");
 
             return View();
         }
@@ -171,9 +171,21 @@ namespace RGR.Core.Controllers
             bool isCottage = false;      //Переключатель "коттедж/таунхаус" (для дома)
             bool pricePerMetter = false; //Переключатель "искать по цене за квадратный метр" (по умолчанию - по цене за объект)
 
+            //Парсер для разбора составных параметров запроса на отедльные элементы
+            var searchParser = new Parser()
+            {
+                Letters = "",
+                Digits = "",
+                Brackets = "",
+                Separators = ","
+            };
+
+            //параметры поискового запроса, извлечённые из строки GET
+            var SearchOptions = new Dictionary<string, object>();
+
             #region Инициализация поиска
             //Общая цена или цена за кв. м.
-            if (!string.IsNullOrEmpty(Request.Query["pricePerSqM"]))
+            if (Request.Query.ContainsKey("pricePerSqM"))
                 pricePerMetter = (Request.Query["pricePerSqM"] == "on");
 
             //Проверяем, ищется ли коттедж
@@ -181,107 +193,217 @@ namespace RGR.Core.Controllers
                 isCottage = (Request.Query["isCottage"] == "on");
             
             //Попытка определить начальную цену
-            double priceFrom = 0;
-            if (!string.IsNullOrEmpty(Request.Query["priceFrom"]))
-                double.TryParse(Request.Query["priceFrom"], out priceFrom);
+            if (Request.Query.ContainsKey("priceFrom"))
+            {
+                double priceFrom;
+                if(double.TryParse(Request.Query["priceFrom"], out priceFrom))
+                    SearchOptions.Add("priceFrom", priceFrom);
+            }
 
             //Попытка определить конечную цену
-            double priceTo = 0;
-            if (!string.IsNullOrEmpty(Request.Query["priceFrom"]))
-                double.TryParse(Request.Query["priceTo"], out priceTo);
+            if (Request.Query.ContainsKey("priceTo"))
+            {
+                double priceTo;
+                if (double.TryParse(Request.Query["priceTo"], out priceTo))
+                    SearchOptions.Add("priceTo", priceTo);
+            }
 
             //Попытка определить минимальную общую площадь
-            double sqFrom = 0;
-            if (!string.IsNullOrEmpty(Request.Query["commonSquareFrom"]))
-                double.TryParse(Request.Query["commonSquareFrom"], out sqFrom);
+            if (Request.Query.ContainsKey("commonSquareFrom"))
+            {
+                double sqFrom;
+                if (double.TryParse(Request.Query["commonSquareFrom"], out sqFrom))
+                    SearchOptions.Add("sqFrom", sqFrom);
+            }
 
             //Попытка определить максимальную общую площадь
-            double sqTo = 0;
-            if (!string.IsNullOrEmpty(Request.Query["commonSquareTo"]))
-                double.TryParse(Request.Query["commonSquareTo"], out sqTo);
+            if (Request.Query.ContainsKey("commonSquareTo"))
+            {
+                double sqTo;
+                if(double.TryParse(Request.Query["commonSquareTo"], out sqTo))
+                    SearchOptions.Add("sqTo", sqTo);
+            }
 
             //Попытка определить минимальную жилую площадь
-            double sqLivFrom = 0;
-            if (!string.IsNullOrEmpty(Request.Query["livingSquareFrom"]))
-                double.TryParse(Request.Query["livingSquareFrom"], out sqLivFrom);
+            if (Request.Query.ContainsKey("livingSquareFrom"))
+            {
+                double sqLivFrom;
+                if (double.TryParse(Request.Query["livingSquareFrom"], out sqLivFrom))
+                    SearchOptions.Add("sqLivFrom", sqLivFrom);
+            }
 
             //Попытка определить максимальную жилую площадь
-            double sqLivTo = 0;
-            if (!string.IsNullOrEmpty(Request.Query["livingSquareTo"]))
-                double.TryParse(Request.Query["livingSquareTo"], out sqLivTo);
+            if (Request.Query.ContainsKey("livingSquareTo"))
+            {
+                double sqLivTo;
+                if (double.TryParse(Request.Query["livingSquareTo"], out sqLivTo))
+                    SearchOptions.Add("sqLivTo", sqLivTo);
+            }
 
             //Попытка определить минимальную площадь кухни
-            double sqKitchenFrom = 0;
-            if (!string.IsNullOrEmpty(Request.Query["kitchenSquareFrom"]))
-                double.TryParse(Request.Query["livingSquareFrom"], out sqKitchenFrom);
+            if (Request.Query.ContainsKey("kitchenSquareFrom"))
+            {
+                double sqKitchenFrom;
+                if (double.TryParse(Request.Query["livingSquareFrom"], out sqKitchenFrom))
+                    SearchOptions.Add("sqKitchenFrom", sqKitchenFrom);
+            }
 
             //Попытка определить максимальную площадь кухни
-            double sqKitchenTo = 0;
-            if (!string.IsNullOrEmpty(Request.Query["kitchenSquareTo"]))
-                double.TryParse(Request.Query["livingSquareTo"], out sqKitchenTo);
+            if (Request.Query.ContainsKey("kitchenSquareTo"))
+            {
+                double sqKitchenTo;
+                if(double.TryParse(Request.Query["livingSquareTo"], out sqKitchenTo))
+                    SearchOptions.Add("sqKitchenTo", sqKitchenTo);
+            }
 
             //Минимальный этаж
-            byte minFloor = 0;
-            if (!string.IsNullOrEmpty(Request.Query["minFloor"]))
-                byte.TryParse(Request.Query["minFloor"], out minFloor);
+            if (Request.Query.ContainsKey("minFloor"))
+            {
+                byte minFloor;
+                if (byte.TryParse(Request.Query["minFloor"], out minFloor))
+                        SearchOptions.Add("minFloor", minFloor);
+            }
 
             //Максимальный этаж
-            byte maxFloor = 0;
-            if (!string.IsNullOrEmpty(Request.Query["maxFloor"]))
-                byte.TryParse(Request.Query["maxFloor"], out maxFloor);
-            #endregion
+            if (Request.Query.ContainsKey("maxFloor"))
+            {
+                byte maxFloor;
+                if (byte.TryParse(Request.Query["maxFloor"], out maxFloor))
+                    SearchOptions.Add("maxFloor", maxFloor);
+            }
 
             //Минимум этажей в здании
-            byte minHouseFloors = 0;
-            if (!string.IsNullOrEmpty(Request.Query["minHouseFloors"]))
-                byte.TryParse(Request.Query["minHouseFloors"], out minHouseFloors);
+            if (Request.Query.ContainsKey("minHouseFloors"))
+            {
+                byte minHouseFloors;
+                if (byte.TryParse(Request.Query["minHouseFloors"], out minHouseFloors))
+                    SearchOptions.Add("minHouseFloors", minHouseFloors);
+            }
 
             //Максимум этажей в здании
-            byte maxHouseFloors = 0;
-            if (!string.IsNullOrEmpty(Request.Query["maxHouseFloors"]))
-                byte.TryParse(Request.Query["maxHouseFloors"], out maxHouseFloors);
+            if (Request.Query.ContainsKey("maxHouseFloors"))
+            {
+                byte maxHouseFloors;
+                if (byte.TryParse(Request.Query["maxHouseFloors"], out maxHouseFloors))
+                    SearchOptions.Add("maxHouseFloors", maxHouseFloors);
+            }
 
             //Город
-            long CityId = -1;
-            if (!string.IsNullOrEmpty(Request.Query["city"]))
-                long.TryParse(Request.Query["city"], out CityId);
+            if (Request.Query.ContainsKey("city"))
+            {
+                long CityId;
+                if (long.TryParse(Request.Query["city"], out CityId))
+                    SearchOptions.Add("CityId", CityId);
+            }
+
+            //Район
+            if (Request.Query.ContainsKey("district"))
+            {
+                long DistrictId;
+                if (long.TryParse(Request.Query["district"], out DistrictId))
+                    SearchOptions.Add("DistrictId", DistrictId);
+            }
+
+            //Жилмассив
+            if (Request.Query.ContainsKey("area"))
+            {
+                long AreaId;
+                if (long.TryParse(Request.Query["area"], out AreaId))
+                    SearchOptions.Add("AreaId", AreaId);
+            }
+
+            //Улицы
+            if (Request.Query.ContainsKey("street"))
+            {
+                var streets = searchParser.Parse(Request.Query["street"]).Where(s => s.Category != Category.Space && s.Category != Category.Separator);
+                if (streets.Count() > 0)
+                    SearchOptions.Add("Streets", streets.Select(s => s.Lexeme).ToArray());
+            }
+
+            //Агенства
+            if (Request.Query.ContainsKey("agency"))
+            {
+                var agencies = searchParser.Parse(Request.Query["agency"]).Where(s => s.Category != Category.Space && s.Category != Category.Separator);
+                if (agencies.Count() > 0)
+                    SearchOptions.Add("Agencies", agencies.Select(s => s.Lexeme).ToArray());
+            }
+
+            //Агенты
+            if (Request.Query.ContainsKey("agent"))
+            {
+                var agents = searchParser.Parse(Request.Query["agent"]).Where(s => s.Category != Category.Space && s.Category != Category.Separator);
+                if (agents.Count() > 0)
+                    SearchOptions.Add("Agents", agents.Select(s => s.Lexeme).ToArray());
+            }
+
+            //Стартовая дата для поиска
+            if (Request.Query.ContainsKey("period"))
+            {
+                var startpoint = DateTime.MinValue;
+                switch (Request.Query["period"]) //любое не перечисленное здесь значение - без ограничений
+                {
+                    case "day":
+                        startpoint = DateTime.Today;
+                        break;
+
+                    case "week":
+                        startpoint = DateTime.Today.AddDays(-7);
+                        break;
+
+                    case "month":
+                        startpoint = DateTime.Today.AddMonths(-1);
+                        break;
+
+                    case "3month":
+                        startpoint = DateTime.Today.AddMonths(-3);
+                        break;
+                }
+
+                if (startpoint != DateTime.MinValue) //Если период не указан, нет смысла фильтровать
+                    SearchOptions.Add("StartDate", startpoint);
+            }
+            #endregion
 
             //Фильтрация
             var relevant = await db.EstateObjects.Where(estate => estate.ObjectType == (short)EstateType).ToArrayAsync();
             relevant = relevant.Where(estate =>
             {
+                //Фильтрация некорректных записей
+                if(main.FirstOrDefault(m => m.ObjectId == estate.Id).Price == null)
+                    return false;
+
                 #region Обычный поиск (общее)
                 //Инициализация фильтра по цене
                 //Фильтр по нижней цене
-                if (priceFrom > 0)
+                if (SearchOptions.ContainsKey("priceFrom"))
                 {
                     if (!pricePerMetter)
                     {
-                        if (main.FirstOrDefault(m => m.ObjectId == estate.Id).Price < priceFrom)
+                        if (main.FirstOrDefault(m => m.ObjectId == estate.Id).Price < (double)SearchOptions["priceFrom"])
                             return false;
                     }
                     else
                     {
                         var price = main.Single(x => x.ObjectId == estate.Id).Price;
                         var square = main.Single(x => x.ObjectId == estate.Id).TotalArea;
-                        if (price / square < priceFrom)
+                        if (price / square < (double)SearchOptions["priceFrom"])
                             return false;
                     }
                 }
 
                 //Фильтр по верхней цене
-                if (priceTo > 0)
+                if (SearchOptions.ContainsKey("(priceTo"))
                 {
                     if (!pricePerMetter)
                     {
-                        if (main.FirstOrDefault(m => m.ObjectId == estate.Id).Price > priceTo)
+                        if (main.FirstOrDefault(m => m.ObjectId == estate.Id).Price > (double)SearchOptions["priceTo"])
                             return false;
                     }
                     else
                     {
                         var price = main.Single(x => x.ObjectId == estate.Id).Price;
                         var square = main.Single(x => x.ObjectId == estate.Id).TotalArea;
-                        if (price / square > priceTo)
+                        if (price / square > (double)SearchOptions["priceTo"])
                             return false;
                     }
                 }
@@ -431,69 +553,60 @@ namespace RGR.Core.Controllers
 
                 #region Фильтры площади
                 //Фильтр по общей площади: минимальная
-                if (sqFrom > 0)
+                if (SearchOptions.ContainsKey("sqFrom"))
                 {
-                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).TotalArea < sqFrom)
+                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).TotalArea < (double)SearchOptions["sqFrom"])
                         return false;
                 }
 
                 //Фильтр по общей площади: максимальная
-                if (sqTo > 0)
+                if (SearchOptions.ContainsKey("sqTo"))
                 {
-                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).TotalArea > sqTo)
+                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).TotalArea > (double)SearchOptions["sqTo"])
                         return false;
                 }
 
                 //Фильтр по жилой площади: минимальная
-                if (sqLivFrom > 0)
+                if (SearchOptions.ContainsKey("sqLivFrom"))
                 {
-                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).ActualUsableFloorArea < sqLivFrom)
+                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).ActualUsableFloorArea < (double)SearchOptions["sqLivFrom"])
                         return false;
                 }
 
                 //Фильтр по жилой площади: максимальная
-                if (!string.IsNullOrEmpty(Request.Query["livingSquareTo"]))
+                if (SearchOptions.ContainsKey("sqLivTo"))
                 {
-                    if (sqLivTo > 0)
-                    {
-                        if (main.FirstOrDefault(x => x.ObjectId == estate.Id).ActualUsableFloorArea > sqLivTo)
-                            return false;
-                    }
+                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).ActualUsableFloorArea > (double)SearchOptions["sqLivTo"])
+                        return false;
                 }
 
                 //Фильтр площади кухни: минимальная
-                if (!string.IsNullOrEmpty(Request.Query["kitchenSquareFrom"]))
+                if (SearchOptions.ContainsKey("sqKitchenFrom"))
                 {
-                    if (sqKitchenFrom > 0)
-                    {
-                        if (main.FirstOrDefault(x => x.ObjectId == estate.Id).KitchenFloorArea < sqKitchenFrom)
-                            return false;
-                    }
+                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).KitchenFloorArea < (double)SearchOptions["sqKitchenFrom"])
+                        return false;
                 }
 
                 //Фильтр по площади кухни: максимальная
-                if (!string.IsNullOrEmpty(Request.Query["kitchenSquareTo"]))
+                if (SearchOptions.ContainsKey("sqKitchenTo"))
                 {
-                    if (sqKitchenTo > 0)
-                    {
-                        if (main.FirstOrDefault(x => x.ObjectId == estate.Id).KitchenFloorArea > sqKitchenTo)
-                            return false;
-                    }
+                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).KitchenFloorArea > (double)SearchOptions["sqKitchenTo"])
+                        return false;
                 }
                 #endregion
 
                 #region Фильтры этажности
                 //Фильтр по минимальному желаемому этажу
-                if (minFloor > 0)
+                if (SearchOptions.ContainsKey("minFloor"))
                 {
-                    if (main.Single(x => x.ObjectId == estate.Id).FloorNumber < minFloor)
+                    if (main.Single(x => x.ObjectId == estate.Id).FloorNumber < (byte)SearchOptions["minFloor"])
                         return false;
                 }
 
                 //Фильтр по максимальному желаемому этажу
-                if (maxFloor > 0)
+                if (SearchOptions.ContainsKey("maxFloor"))
                 {
-                    if (main.Single(x => x.ObjectId == estate.Id).FloorNumber > maxFloor)
+                    if (main.Single(x => x.ObjectId == estate.Id).FloorNumber > (byte)SearchOptions["maxFloor"])
                         return false;
                 }
 
@@ -508,16 +621,16 @@ namespace RGR.Core.Controllers
                 }
 
                 //Этажей в доме: минимум
-                if (minHouseFloors > 0)
+                if (SearchOptions.ContainsKey("minHouseFloors"))
                 {
-                    if (main.Single(x => x.ObjectId == estate.Id).TotalFloors < minHouseFloors)
+                    if (main.Single(x => x.ObjectId == estate.Id).TotalFloors < (byte)SearchOptions["minHouseFloors"])
                         return false;
                 }
 
                 //Этажей в доме: максимум
-                if (maxHouseFloors > 0)
+                if (SearchOptions.ContainsKey("maxHouseFloors"))
                 {
-                    if (main.Single(x => x.ObjectId == estate.Id).TotalFloors > maxHouseFloors)
+                    if (main.Single(x => x.ObjectId == estate.Id).TotalFloors > (byte)SearchOptions["maxHouseFloors"])
                         return false;
                 }
                 #endregion
@@ -625,88 +738,119 @@ namespace RGR.Core.Controllers
 
                 #region Фильтры по адресу
                 //Населённый пункт (сити, ну)
-                if (CityId > -1)
+                if (SearchOptions.ContainsKey("CityId"))
                 {
-                    if (addr.FirstOrDefault(a => a.ObjectId == estate.Id).CityId != CityId)
-                    return false; 
+                    if (addr.FirstOrDefault(a => a.ObjectId == estate.Id).CityId != (long)SearchOptions["CityId"])
+                        return false; 
                 }
 
                 //Район
-                if (!string.IsNullOrEmpty(Request.Query["district"]))
+                if (SearchOptions.ContainsKey("DistrictId"))
                 {
-                    long DistrictId;
-                    if (long.TryParse(Request.Query["district"], out DistrictId))
-                    {
-                        relevant = relevant.Where(estate => addr.Single(a => a.ObjectId == estate.Id).CityDistrictId == DistrictId).ToArray();
-                    }
+                    if (addr.Single(a => a.ObjectId == estate.Id).CityDistrictId != (long)SearchOptions["DistrictId"])
+                        return false;
                 }
+
 
                 //Жилмассив
-                if (!string.IsNullOrEmpty(Request.Query["area"]))
+                if (SearchOptions.ContainsKey("AreaId"))
                 {
-                    long AreaId;
-                    if (long.TryParse(Request.Query["area"], out AreaId))
-                    {
-                        relevant = relevant.Where(estate => addr.Single(a => a.ObjectId == estate.Id).DistrictResidentialAreaId == AreaId).ToArray();
-                    }
+                    if (addr.Single(a => a.ObjectId == estate.Id).DistrictResidentialAreaId != (long)SearchOptions["AreaId"])
+                        return false;
                 }
 
-                var searchParser = new Parser()
-                {
-                    Letters = "",
-                    Digits = "",
-                    Brackets = "",
-                    Separators = ","
-                };
-
                 //Улица
-                if (!string.IsNullOrEmpty(Request.Query["street"]))
+                if (SearchOptions.ContainsKey("Streets"))
                 {
-                    //Разбор строки со списком улиц на отдельные названия
-                    var streets = searchParser.Parse(Request.Query["street"]);
-                    relevant = relevant.Where(estate =>
-                    {
-                        long? streetId = addr.Single(a => a.ObjectId == estate.Id).StreetId;
-                        var geoStreet = strt.SingleOrDefault(s => s.Id == streetId);
-                        if (geoStreet == null)
-                            return false;
-                        foreach (var street in streets)
-                        {
-                            if (geoStreet.Name.Contains(street.Lexeme))
-                                return true;
-                        }
+                    long? streetId = addr.Single(a => a.ObjectId == estate.Id).StreetId;
+                    var geoStreet = strt.SingleOrDefault(s => s.Id == streetId);
+                    if (geoStreet == null)
                         return false;
-                    }).ToArray();
+
+                    bool streetPresent = geoStreet.Name.ContainsOne((string[])SearchOptions["Streets"]);
+
+                    if (!streetPresent)
+                        return false;
+                }
+                #endregion
+
+                #region Фильтры: Риелтор, период, наличие фото
+                //Компания
+                if (SearchOptions.ContainsKey("Agencies"))
+                {
+                    var user = usrs.FirstOrDefault(u => u.Id == estate.UserId);
+                    if (user == null)
+                        return false;
+
+                    var comp = cmps.FirstOrDefault(c => c.Id == user.CompanyId);
+                    if (comp == null)
+                        return false;
+
+                    bool companyPresent = comp.Name.ContainsOne((string[])SearchOptions["Agencies"]);
+
+                    if (!companyPresent)
+                        return false;
+                }
+
+                //Агент
+                if (SearchOptions.ContainsKey("Agents"))
+                {
+                    var user = usrs.FirstOrDefault(u => u.Id == estate.UserId);
+                    if (user == null)
+                        return false;
+
+                    string fio = $"{user.LastName} {user.SurName} {user.FirstName}";
+                    bool companyPresent = fio.ContainsOne((string[])SearchOptions["Agencies"]);
+
+                    if (!companyPresent)
+                        return false;
+                }
+
+                //Период поиска
+                if (SearchOptions.ContainsKey("StartDate"))
+                {
+
+                    if (estate.DateModified != null) //Если данные обновлялись после добавления объекта в БД
+                        if (estate.DateModified < (DateTime)SearchOptions["StartDate"])
+                            return false;
+                    else
+                        if (estate.DateCreated < (DateTime)SearchOptions["StartDate"])
+                            return false;
+                }
+
+                //Наличие фото
+                if (!string.IsNullOrEmpty(Request.Query["withPhotoOnly"]))
+                {
+                    if (Request.Query["withPhotoOnly"] == "on")
+                    {
+                        //Наличие хотя бы одного медиа (которые все фото)
+                        if (mdia.FirstOrDefault(m => m.ObjectId == estate.Id) == null)
+                            return false;
+                    }
                 }
                 #endregion
 
                 return true;
             }).ToArray();
 
-            return ConvertToPassports(EstateType, relevant, addr, city, strt, main, addt, vals, cmps, usrs, mdia, comm, rtng);
-        }
-        #endregion
-
-        //Построение списка результатов
-        private string ConvertToPassports(EstateTypes EstateType, EstateObjects[] relevant, List<Addresses> addr, List<GeoCities> city, 
-            List<GeoStreets> strt, List<ObjectMainProperties> main, List<ObjectAdditionalProperties> addt, List<DictionaryValues> vals,
-            List<Companies> cmps, List<Users> usrs, List<ObjectMedias> mdia, List<ObjectCommunications> comm, List<ObjectRatingProperties> rtng)
-        {
+            //return ConvertToPassports(EstateType, relevant, addr, city, strt, main, addt, vals, cmps, usrs, mdia, comm, rtng);
             if (EstateType == EstateTypes.Unset)
                 EstateType = (EstateTypes)relevant.First().ObjectType;
 
+            string json;
             switch (EstateType)
             {
                 case EstateTypes.Flat:
                     var flat_result = new List<FlatPassport>();
-                    
+
                     foreach (var flat in relevant)
                     {
                         var flpassport = new FlatPassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, rtng);
                         flpassport.Set(flat);
                         flat_result.Add(flpassport);
                     }
-                    return JsonConvert.SerializeObject(flat_result); 
+                    json = JsonConvert.SerializeObject(flat_result);
+                    break;
 
                 case EstateTypes.Room:
                     var room_result = new List<RoomPassport>();
@@ -716,7 +860,8 @@ namespace RGR.Core.Controllers
                         passport.Set(room);
                         room_result.Add(passport);
                     }
-                    return JsonConvert.SerializeObject(room_result);
+                    json = JsonConvert.SerializeObject(room_result);
+                    break;
 
                 case EstateTypes.House:
                     var house_result = new List<HousePassport>();
@@ -726,7 +871,8 @@ namespace RGR.Core.Controllers
                         passport.Set(house);
                         house_result.Add(passport);
                     }
-                    return JsonConvert.SerializeObject(house_result);
+                    json = JsonConvert.SerializeObject(house_result);
+                    break;
 
                 case EstateTypes.Land:
                     var land_result = new List<LandPassport>();
@@ -736,7 +882,8 @@ namespace RGR.Core.Controllers
                         passport.Set(house);
                         land_result.Add(passport);
                     }
-                    return JsonConvert.SerializeObject(land_result);
+                    json = JsonConvert.SerializeObject(land_result);
+                    break;
 
                 case EstateTypes.Office:
                     var office_result = new List<OfficePassport>();
@@ -746,7 +893,8 @@ namespace RGR.Core.Controllers
                         passport.Set(house);
                         office_result.Add(passport);
                     }
-                    return JsonConvert.SerializeObject(office_result);
+                    json = JsonConvert.SerializeObject(office_result);
+                    break;
 
                 case EstateTypes.Garage:
                     var garage_result = new List<GaragePassport>();
@@ -756,12 +904,92 @@ namespace RGR.Core.Controllers
                         passport.Set(garage);
                         garage_result.Add(passport);
                     }
-                    return JsonConvert.SerializeObject(garage_result);
+                    json = JsonConvert.SerializeObject(garage_result);
+                    break;
 
                 default:
                     throw new ArgumentException("Указан некорректный тип недвижимости");
             }
+
+            return json;
         }
+        #endregion
+
+        ////Построение списка результатов
+        //private string ConvertToPassports(EstateTypes EstateType, EstateObjects[] relevant, List<Addresses> addr, List<GeoCities> city, 
+        //    List<GeoStreets> strt, List<ObjectMainProperties> main, List<ObjectAdditionalProperties> addt, List<DictionaryValues> vals,
+        //    List<Companies> cmps, List<Users> usrs, List<ObjectMedias> mdia, List<ObjectCommunications> comm, List<ObjectRatingProperties> rtng)
+        //{
+        //    if (EstateType == EstateTypes.Unset)
+        //        EstateType = (EstateTypes)relevant.First().ObjectType;
+
+        //    switch (EstateType)
+        //    {
+        //        case EstateTypes.Flat:
+        //            var flat_result = new List<FlatPassport>();
+                    
+        //            foreach (var flat in relevant)
+        //            {
+        //                var flpassport = new FlatPassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, rtng);
+        //                flpassport.Set(flat);
+        //                flat_result.Add(flpassport);
+        //            }
+        //            return JsonConvert.SerializeObject(flat_result); 
+
+        //        case EstateTypes.Room:
+        //            var room_result = new List<RoomPassport>();
+        //            foreach (var room in relevant)
+        //            {
+        //                var passport = new RoomPassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia);
+        //                passport.Set(room);
+        //                room_result.Add(passport);
+        //            }
+        //            return JsonConvert.SerializeObject(room_result);
+
+        //        case EstateTypes.House:
+        //            var house_result = new List<HousePassport>();
+        //            foreach (var house in relevant)
+        //            {
+        //                var passport = new HousePassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, rtng, comm);
+        //                passport.Set(house);
+        //                house_result.Add(passport);
+        //            }
+        //            return JsonConvert.SerializeObject(house_result);
+
+        //        case EstateTypes.Land:
+        //            var land_result = new List<LandPassport>();
+        //            foreach (var house in relevant)
+        //            {
+        //                var passport = new LandPassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, comm);
+        //                passport.Set(house);
+        //                land_result.Add(passport);
+        //            }
+        //            return JsonConvert.SerializeObject(land_result);
+
+        //        case EstateTypes.Office:
+        //            var office_result = new List<OfficePassport>();
+        //            foreach (var house in relevant)
+        //            {
+        //                var passport = new OfficePassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, comm);
+        //                passport.Set(house);
+        //                office_result.Add(passport);
+        //            }
+        //            return JsonConvert.SerializeObject(office_result);
+
+        //        case EstateTypes.Garage:
+        //            var garage_result = new List<GaragePassport>();
+        //            foreach (var garage in relevant)
+        //            {
+        //                var passport = new GaragePassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia);
+        //                passport.Set(garage);
+        //                garage_result.Add(passport);
+        //            }
+        //            return JsonConvert.SerializeObject(garage_result);
+
+        //        default:
+        //            throw new ArgumentException("Указан некорректный тип недвижимости");
+        //    }
+        //}
 
 
     }
