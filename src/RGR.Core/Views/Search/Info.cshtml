@@ -1,16 +1,32 @@
-﻿@{
+﻿@using RGR.Core.Controllers.Enums;
+@using RGR.Core.Controllers;
+@using RGR.Core.Views.Helpers;
+
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Html;
+@using System.Text;
+
+@{
     ViewData["Title"] = "Карточка объекта";
 }
 
-@ViewData["Data"]
-
 <div class="search-result">
-    <div class="search-box-head">
-        <div class="row">
-            <div class="=col-lg-3"></div>
-            <div class="col-lg-9"></div>
+    <div class="search-result-row-sm">
+        <div class="search-result-box">
+            <div class="row">
+                <img src="~/images/img_house.jpg" />
+            </div>
         </div>
-        <div class=""
-        
+    </div>
+    <div class="search-result-row-lg">
+        <div class="search-result-box">
+            <div class="search-box-head">
+                <div class="row">
+                    <div class="col-lg-4"><h1>Свойства</h1></div>
+                    <div class="col-lg-9"><h1>Значение</h1></div>
+                </div>
+            </div>
+            @SearchResult.FullResult((string)ViewData["Data"])
+        </div>
     </div>
 </div>
