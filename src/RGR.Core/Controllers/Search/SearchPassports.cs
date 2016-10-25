@@ -15,7 +15,9 @@ namespace RGR.Core.Controllers
     {
         //private EstateObjects obj;
         //private rgrContext db;
-    
+
+        protected const string NA = "--";
+
         protected List<Addresses> addr;
         protected List<ObjectMainProperties> main;
         protected List<ObjectAdditionalProperties> addt;
@@ -67,7 +69,7 @@ namespace RGR.Core.Controllers
                 //string StreetName = "";
                 var street = strt.SingleOrDefault(x => x.Id == dbAddress.StreetId);
                 var StreetName = (street != null)? street.Name : null;
-                Address = (StreetName != null) ? $"{StreetName}, {dbAddress.House}, кв. {dbAddress.Flat}" : "н/д";
+                Address = (StreetName != null) ? $"{StreetName}, {dbAddress.House}, кв. {dbAddress.Flat}" : NA;
             }
             else
                 Address = "";
@@ -83,10 +85,10 @@ namespace RGR.Core.Controllers
             Square = main.Single(x => x.ObjectId == obj.Id).TotalArea;
 
             var agent = usrs.SingleOrDefault(u => u.Id == obj.Id);
-            AgentPhone = (agent != null) ? agent.Phone:"н/д";
+            AgentPhone = (agent != null) ? agent.Phone:NA;
 
             var company = cmps.SingleOrDefault(c => c.Id == obj.Id);
-            Agency = (company != null) ? company.Name:"н/д";
+            Agency = (company != null) ? company.Name:NA;
 
 
         }
@@ -124,7 +126,7 @@ namespace RGR.Core.Controllers
 
             addtProp = addt.Single(x => x.ObjectId == Room.Id);
 
-            HouseMaterial = mainProp.BuildingMaterial ?? "н/д";
+            HouseMaterial = mainProp.BuildingMaterial ?? NA;
 
             if (mainProp.BuildingType != null)
                 HouseType = vals.Single(x => x.Id == mainProp.BuildingType).Value;
@@ -172,7 +174,7 @@ namespace RGR.Core.Controllers
             LivingSquare = mainProp.ActualUsableFloorArea;
 
             var rating = rtng.SingleOrDefault(r => r.Id == Flat.Id);
-            WC = (rating != null)?(rating.Wc ?? "н/д") : "н/д";
+            WC = (rating != null)?(rating.Wc ?? NA) : NA;
         }
 
 
@@ -190,7 +192,7 @@ namespace RGR.Core.Controllers
                 //string StreetName = "";
                 var street = strt.SingleOrDefault(x => x.Id == dbAddress.StreetId);
                 var StreetName = (street != null) ? street.Name : null;
-                Address = (StreetName != null) ? $"{StreetName}, {dbAddress.House}, кв. {dbAddress.Flat}" : "н/д";
+                Address = (StreetName != null) ? $"{StreetName}, {dbAddress.House}, кв. {dbAddress.Flat}" : NA;
             }
             else
                 Address = "";
@@ -206,16 +208,16 @@ namespace RGR.Core.Controllers
             Square = main.Single(x => x.ObjectId == obj.Id).TotalArea;
 
             var agent = usrs.SingleOrDefault(u => u.Id == obj.Id);
-            AgentPhone = (agent != null) ? agent.Phone : "н/д";
+            AgentPhone = (agent != null) ? agent.Phone : NA;
 
             var company = cmps.SingleOrDefault(c => c.Id == obj.Id);
-            Agency = (company != null) ? company.Name : "н/д";
+            Agency = (company != null) ? company.Name : NA;
 
             Rooms = addtProp.RoomsCount;
             LivingSquare = mainProp.ActualUsableFloorArea;
 
             var rating = rtng.SingleOrDefault(r => r.Id == obj.Id);
-            WC = (rating != null) ? (rating.Wc ?? "н/д") : "н/д";
+            WC = (rating != null) ? (rating.Wc ?? NA) : NA;
 
             return this;
         }
@@ -234,8 +236,8 @@ namespace RGR.Core.Controllers
         public bool? Water = null;
         public bool? Electricy = null;
         public bool? Sewer = null;
-        public string Category = "н/д"; //TODO
-        public string Specifics = "н/д";//TODO
+        public string Category = NA; //TODO
+        public string Specifics = NA;//TODO
 
         //public double? PricePerSquareMetter => Price / Square;
 
@@ -252,7 +254,7 @@ namespace RGR.Core.Controllers
         {
             base.Set(Land);
 
-            Purpose = mainProp.LandAssignment ?? "н/д";
+            Purpose = mainProp.LandAssignment ?? NA;
 
             var landComm = comm.SingleOrDefault(c => c.Id == Land.Id);
             if (landComm != null)
@@ -276,8 +278,8 @@ namespace RGR.Core.Controllers
         public bool? Water = null;
         public bool? Electricy = null;
         public bool? Sewer = null;
-        public string Category = "н/д"; //TODO
-        public string Specifics = "н/д";//TODO
+        public string Category = NA; //TODO
+        public string Specifics = NA;//TODO
 
 
         //public double? PricePerSquareMetter => Price / Square;
@@ -295,7 +297,7 @@ namespace RGR.Core.Controllers
         {
             base.Set(Land);
 
-            Purpose = mainProp.ObjectAssignment ?? "н/д";
+            Purpose = mainProp.ObjectAssignment ?? NA;
 
             var landComm = comm.SingleOrDefault(c => c.Id == Land.Id);
             if (landComm != null)
@@ -325,7 +327,7 @@ namespace RGR.Core.Controllers
         {
             base.Set(Garage);
 
-            HouseMaterial = mainProp.BuildingMaterial ?? "н/д";
+            HouseMaterial = mainProp.BuildingMaterial ?? NA;
         }
     }
     /// <summary>
@@ -589,7 +591,7 @@ namespace RGR.Core.Controllers
                     passport.EstateType = "Гараж";
                     break;
                 default:
-                    passport.EstateType = "н/д";
+                    passport.EstateType = NA;
                     break;
                     #endregion
             }
