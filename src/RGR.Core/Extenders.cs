@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +22,25 @@ namespace RGR.Core
                     return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Склеивает коллекцию в одну строку. Для склейки используется экземпляр StringBuilder
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string Flatten(this IEnumerable<string> source)
+        {
+            if (!source.Any() || source == null)
+                return null;
+
+            var sb = new StringBuilder("");
+            foreach (var str in source)
+            {
+                sb.Append(str);
+            }
+
+            return sb.ToString();
         }
     }
 }

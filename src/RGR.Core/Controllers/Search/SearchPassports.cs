@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using RGR.Core.Models;
 using RGR.Core.Controllers.Enums;
 using Microsoft.EntityFrameworkCore;
+using Eastwing.Parser;
 
 namespace RGR.Core.Controllers
 {
@@ -84,8 +85,26 @@ namespace RGR.Core.Controllers
             Price  = main.Single(x => x.ObjectId == obj.Id).Price;
             Square = main.Single(x => x.ObjectId == obj.Id).TotalArea;
 
+            var parser = new Parser()
+            {
+                Letters = "",
+                Separators = "",
+                Brackets = "()"
+            };
+
             var agent = usrs.SingleOrDefault(u => u.Id == obj.Id);
             AgentPhone = (agent != null) ? agent.Phone:NA;
+
+            //if (agent == null)
+            //    AgentPhone = NA;
+            //else
+            //{
+            //    var rawPhone = parser.Parse(agent.Phone)
+            //        .Where(t => t.Category == Category.Integer)
+            //        .Select(t => t.Lexeme)
+            //        .Flatten();
+            //    AgentPhone = rawPhone;
+            //}
 
             var company = cmps.SingleOrDefault(c => c.Id == obj.Id);
             Agency = (company != null) ? company.Name:NA;
