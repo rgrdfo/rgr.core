@@ -70,7 +70,7 @@ namespace RGR.Core.Controllers.Search
                             continue;
 
                     //Добавление в словарь ключа и его значения
-                    dict.Add(tokens[i - 1].Lexeme.ToUpper(), tokens[i + 1].Lexeme.ToUpper());
+                    dict.Add(tokens[i - 1].Lexeme.ToUpper(), tokens[i + 1].Lexeme);
                 }
             }
 
@@ -110,85 +110,64 @@ namespace RGR.Core.Controllers.Search
 
             if (dict.ContainsKey("PRICEFROM"))
             {
-                if (!sb.ToString().Contains("ценой"))
-                    sb.Append("ценой ");
-
-                sb.Append($"от {dict["PRICEFROM"]:### ### ##0}₽");
+                sb.Append($"по цене от {dict["PRICEFROM"]:### ### ##0}₽ ");
             }
 
             if (dict.ContainsKey("PRICETO"))
             {
-                if (!sb.ToString().Contains("ценой"))
-                    sb.Append("ценой ");
-
-                sb.Append($"до {dict["PRICETO"]:### ### ##0}₽, ");
+                string prefix = (dict.ContainsKey("PRICEFROM")) ? "" : prefix = "по цене ";
+                sb.Append($"{prefix}до {dict["PRICETO"]:### ### ##0}₽, ");
             }
 
             if (dict.ContainsKey("LIVINGSQUAREFROM"))
             {
-                if (!sb.ToString().Contains("жилой площадью"))
-                    sb.Append("жилой площадью ");
-
-                sb.Append($"от {dict["LIVINGSQUAREFROM"]:### ###.00} м² ");
+                sb.Append($"жилой площадью от {dict["LIVINGSQUAREFROM"]:### ###.00} м² ");
             }
 
             if (dict.ContainsKey("LIVINGSQUARETO"))
             {
-                if (!sb.ToString().Contains("жилой площадью"))
-                    sb.Append("жилой площадью ");
-
-                sb.Append($"до {dict["LIVINGSQUARETO"]:### ###.00} м² ");
+                string prefix = (dict.ContainsKey("LIVINGSQUAREFROM")) ? "" : "жилой площадью ";
+                sb.Append($"{prefix}до {dict["LIVINGSQUARETO"]:### ###.00} м² ");
             }
 
             if (dict.ContainsKey("MINFLOOR"))
             {
-                string prefix, postfix;
-                if (dict.ContainsKey("MAXFLOOR"))
-                {
-                    prefix = "на";
-                    postfix = "-";
-                }
-                else
-                {
-                    prefix = "не ниже";
-                    postfix = " этажа";
-                }
+                bool maxSetted = dict.ContainsKey("MAXFLOOR");
 
-                sb.Append($"{prefix} {dict["MINFLOOR"]}{postfix}");
+                string prefix  = maxSetted ? "на" : "не ниже";
+                string postfix = maxSetted ? "-" : " этажа";
+
+                sb.Append($", {prefix} {dict["MINFLOOR"]}{postfix}");
             }
 
             if (dict.ContainsKey("MAXFLOOR"))
             {
-                string prefix, postfix;
-                if (dict.ContainsKey("MINFLOOR"))
-                {
-                    prefix = "";
-                    postfix = "этажах";
-                }
-                else
-                {
-                    prefix = "не выше ";
-                    postfix = "этажа";
-                }
+                bool minSetted = dict.ContainsKey("MINFLOOR");
 
-                sb.Append($"{prefix}{dict["MAXFLOOR"]} {postfix}");
+                string prefix  = minSetted ? "" : ", не выше ";
+                string postfix = minSetted ? "этажах" : "этажа";
+
+                sb.Append($"{prefix}{dict["MAXFLOOR"]} {postfix} ");
             }
 
             if (dict.ContainsKey("MINHOUSEFLOORS"))
             {
-                string postfix = "";
-                if (dict.ContainsKey("MAXHOUSEFLOORS"))
-                    postfix = " этажей";
+                string postfix = dict.ContainsKey("MAXHOUSEFLOORS") ? " этажей" : "";
                 sb.Append($"в доме от {dict["MINHOUSEFLOORS"]}{postfix}");
             }
 
             if (dict.ContainsKey("MAXHOUSEFLOORS"))
             {
-                string prefix = "";
-                if (dict.ContainsKey("MINHOUSEFLOORS"))
-                    prefix = "в доме до ";
-                sb.Append($"{prefix}{dict["MAXHOUSEFLOORS"]} этажей");
+                string prefix = dict.ContainsKey("MINHOUSEFLOORS") ? "в доме до " : "";
+                sb.Append($"{prefix}{dict["MAXHOUSEFLOORS"]} этажей, ");
             }
+
+            if (dict.ContainsKey("WC"))
+            {
+                sb.Append(dict["WC"].ToUpper() == "SEP" ? ", с раздельным санузлом" : ", со смежным санузлом");
+            }
+
+
 
             #endregion
 

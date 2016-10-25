@@ -2,3 +2,5 @@
 /src/RGR.Core/bin/*
 *.tmp
 *.suo
+/.vs/
+/.vs/*

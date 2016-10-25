@@ -1,12 +1,12 @@
---temp-output:C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\obj\Debug\netcoreapp1.0\
---out:C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\bin\Debug\netcoreapp1.0\RGR.Core.dll
---define:DEBUG
+--temp-output:C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\obj\Release\netcoreapp1.0\
+--out:C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\bin\Release\netcoreapp1.0\RGR.Core.dll
+--define:RELEASE
 --define:TRACE
 --define:NETCOREAPP1_0
 --suppress-warning:CS1701
 --suppress-warning:CS1702
 --suppress-warning:CS1705
---optimize:False
+--optimize:True
 --emit-entry-point:True
 --output-name:RGR.Core
 --file-version:1.0.0.0
@@ -207,7 +207,7 @@
 --reference:C:\Users\eastwing\.nuget\packages\System.Threading.Timer\4.0.1\ref\netstandard1.2\System.Threading.Timer.dll
 --reference:C:\Users\eastwing\.nuget\packages\System.Xml.ReaderWriter\4.0.11\ref\netstandard1.3\System.Xml.ReaderWriter.dll
 --reference:C:\Users\eastwing\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll
---resource:"C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\obj\Debug\netcoreapp1.0\RGR.Coredotnet-compile.deps.json",RGR.Core.deps.json
+--resource:"C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\obj\Release\netcoreapp1.0\RGR.Coredotnet-compile.deps.json",RGR.Core.deps.json
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Extenders.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Program.cs
 C:\Users\eastwing\projects\RGR.Core\src\RGR.Core\Startup.cs
