@@ -191,18 +191,21 @@ namespace RGR.Core.Controllers
             //Проверяем, ищется ли коттедж
             if (Request.Query.ContainsKey("isCottage"))
                 isCottage = (Request.Query["isCottage"] == "on");
-            
+
+            //double priceFrom = 0, priceTo = 0;
             //Попытка определить начальную цену
             if (Request.Query.ContainsKey("priceFrom"))
             {
+                //priceFrom = double.Parse(Request.Query["priceFrom"]);
                 double priceFrom;
-                if(double.TryParse(Request.Query["priceFrom"], out priceFrom))
+                if (double.TryParse(Request.Query["priceFrom"], out priceFrom))
                     SearchOptions.Add("priceFrom", priceFrom);
             }
 
             //Попытка определить конечную цену
             if (Request.Query.ContainsKey("priceTo"))
             {
+                //priceTo = double.Parse(Request.Query["priceTo"]);
                 double priceTo;
                 if (double.TryParse(Request.Query["priceTo"], out priceTo))
                     SearchOptions.Add("priceTo", priceTo);
@@ -392,7 +395,7 @@ namespace RGR.Core.Controllers
                 }
 
                 //Фильтр по верхней цене
-                if (SearchOptions.ContainsKey("(priceTo"))
+                if (SearchOptions.ContainsKey("priceTo"))
                 {
                     if (!pricePerMetter)
                     {
@@ -910,7 +913,7 @@ namespace RGR.Core.Controllers
                 default:
                     throw new ArgumentException("Указан некорректный тип недвижимости");
             }
-
+            
             return json;
         }
         #endregion
