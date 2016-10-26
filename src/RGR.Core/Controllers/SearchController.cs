@@ -151,7 +151,6 @@ namespace RGR.Core.Controllers
             return View();
         }
 
-        #region Фильтрация объектов
         //Поиск недвижимости и возвращение результата
         private async Task<string> GetObjects(EstateTypes EstateType)
         {
@@ -374,6 +373,8 @@ namespace RGR.Core.Controllers
                 var curMain = (main.FirstOrDefault(m => m.ObjectId == estate.Id));
                 var curAddt = (addt.FirstOrDefault(m => m.ObjectId == estate.Id));
                 var curAddr = (addr.FirstOrDefault(m => m.ObjectId == estate.Id));
+
+
 
                 #region Фильтрация некорректных записей
                 if (curMain.Price == null ||
@@ -926,7 +927,6 @@ namespace RGR.Core.Controllers
             
             return json;
         }
-        #endregion
 
         ////Построение списка результатов
         //private string ConvertToPassports(EstateTypes EstateType, EstateObjects[] relevant, List<Addresses> addr, List<GeoCities> city, 

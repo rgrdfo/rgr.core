@@ -85,12 +85,12 @@ namespace RGR.Core.Controllers
             Price  = main.Single(x => x.ObjectId == obj.Id).Price;
             Square = main.Single(x => x.ObjectId == obj.Id).TotalArea;
 
-            var parser = new Parser()
-            {
-                Letters = "",
-                Separators = "",
-                Brackets = "()"
-            };
+            //var parser = new Parser()
+            //{
+            //    Letters = "",
+            //    Separators = "",
+            //    Brackets = "()"
+            //};
 
             var agent = usrs.SingleOrDefault(u => u.Id == obj.Id);
             AgentPhone = (agent != null) ? agent.Phone:NA;
