@@ -2,10 +2,12 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using RGR.Core.Models;
 using System.Threading.Tasks;
 
 namespace RGR.Core
 {
+    //Удобно.
     static class Extenders
     {
         /// <summary>
@@ -41,6 +43,21 @@ namespace RGR.Core
             }
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Возвращает список значений, разделённых запятой
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="Ids">Строка, содержащая индексы значений словаря</param>
+        /// <returns></returns>
+        public static string GetFromIds(this List<DictionaryValues> source, string Ids)
+        {
+            if (!source.Any()) return null;
+
+            return Ids.Split(',')
+                        .Select(i => source.First(d => d.Id == long.Parse(i)).Value)
+                        .Aggregate((result, current) => (string.IsNullOrEmpty(result) ? current : result += $", {current}"));
         }
     }
 }

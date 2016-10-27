@@ -374,8 +374,6 @@ namespace RGR.Core.Controllers
                 var curAddt = (addt.FirstOrDefault(m => m.ObjectId == estate.Id));
                 var curAddr = (addr.FirstOrDefault(m => m.ObjectId == estate.Id));
 
-
-
                 #region Фильтрация некорректных записей
                 if (curMain.Price == null ||
                 string.IsNullOrEmpty(curAddr.Flat) ||
@@ -851,159 +849,25 @@ namespace RGR.Core.Controllers
             if (EstateType == EstateTypes.Unset)
                 EstateType = (EstateTypes)relevant.First().ObjectType;
 
-            string json;
-            switch (EstateType)
+            //Инициализация и генерирование последовательности паспортов
+            var result = new SuitableEstate()
             {
-                case EstateTypes.Flat:
-                    var flat_result = new List<FlatPassport>();
+                EstateType = EstateType,
+                Addresses = addr,
+                MainProps = main,
+                AddtProps = addt,
+                Cities = city,
+                Streets = strt,
+                DictValues = vals,
+                Companies = cmps,
+                Users = usrs,
+                Medias = mdia,
+                Ratings = rtng,
+                Communications = comm
+            };
+            result.AddRange(relevant);
 
-                    foreach (var flat in relevant)
-                    {
-                        var flpassport = new FlatPassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, rtng);
-                        flpassport.Set(flat);
-                        flat_result.Add(flpassport);
-                    }
-                    json = JsonConvert.SerializeObject(flat_result);
-                    break;
-
-                case EstateTypes.Room:
-                    var room_result = new List<RoomPassport>();
-                    foreach (var room in relevant)
-                    {
-                        var passport = new RoomPassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia);
-                        passport.Set(room);
-                        room_result.Add(passport);
-                    }
-                    json = JsonConvert.SerializeObject(room_result);
-                    break;
-
-                case EstateTypes.House:
-                    var house_result = new List<HousePassport>();
-                    foreach (var house in relevant)
-                    {
-                        var passport = new HousePassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, rtng, comm);
-                        passport.Set(house);
-                        house_result.Add(passport);
-                    }
-                    json = JsonConvert.SerializeObject(house_result);
-                    break;
-
-                case EstateTypes.Land:
-                    var land_result = new List<LandPassport>();
-                    foreach (var house in relevant)
-                    {
-                        var passport = new LandPassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, comm);
-                        passport.Set(house);
-                        land_result.Add(passport);
-                    }
-                    json = JsonConvert.SerializeObject(land_result);
-                    break;
-
-                case EstateTypes.Office:
-                    var office_result = new List<OfficePassport>();
-                    foreach (var house in relevant)
-                    {
-                        var passport = new OfficePassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, comm);
-                        passport.Set(house);
-                        office_result.Add(passport);
-                    }
-                    json = JsonConvert.SerializeObject(office_result);
-                    break;
-
-                case EstateTypes.Garage:
-                    var garage_result = new List<GaragePassport>();
-                    foreach (var garage in relevant)
-                    {
-                        var passport = new GaragePassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia);
-                        passport.Set(garage);
-                        garage_result.Add(passport);
-                    }
-                    json = JsonConvert.SerializeObject(garage_result);
-                    break;
-
-                default:
-                    throw new ArgumentException("Указан некорректный тип недвижимости");
-            }
-            
-            return json;
+            return JsonConvert.SerializeObject(result);
         }
-
-        ////Построение списка результатов
-        //private string ConvertToPassports(EstateTypes EstateType, EstateObjects[] relevant, List<Addresses> addr, List<GeoCities> city, 
-        //    List<GeoStreets> strt, List<ObjectMainProperties> main, List<ObjectAdditionalProperties> addt, List<DictionaryValues> vals,
-        //    List<Companies> cmps, List<Users> usrs, List<ObjectMedias> mdia, List<ObjectCommunications> comm, List<ObjectRatingProperties> rtng)
-        //{
-        //    if (EstateType == EstateTypes.Unset)
-        //        EstateType = (EstateTypes)relevant.First().ObjectType;
-
-        //    switch (EstateType)
-        //    {
-        //        case EstateTypes.Flat:
-        //            var flat_result = new List<FlatPassport>();
-                    
-        //            foreach (var flat in relevant)
-        //            {
-        //                var flpassport = new FlatPassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, rtng);
-        //                flpassport.Set(flat);
-        //                flat_result.Add(flpassport);
-        //            }
-        //            return JsonConvert.SerializeObject(flat_result); 
-
-        //        case EstateTypes.Room:
-        //            var room_result = new List<RoomPassport>();
-        //            foreach (var room in relevant)
-        //            {
-        //                var passport = new RoomPassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia);
-        //                passport.Set(room);
-        //                room_result.Add(passport);
-        //            }
-        //            return JsonConvert.SerializeObject(room_result);
-
-        //        case EstateTypes.House:
-        //            var house_result = new List<HousePassport>();
-        //            foreach (var house in relevant)
-        //            {
-        //                var passport = new HousePassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, rtng, comm);
-        //                passport.Set(house);
-        //                house_result.Add(passport);
-        //            }
-        //            return JsonConvert.SerializeObject(house_result);
-
-        //        case EstateTypes.Land:
-        //            var land_result = new List<LandPassport>();
-        //            foreach (var house in relevant)
-        //            {
-        //                var passport = new LandPassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, comm);
-        //                passport.Set(house);
-        //                land_result.Add(passport);
-        //            }
-        //            return JsonConvert.SerializeObject(land_result);
-
-        //        case EstateTypes.Office:
-        //            var office_result = new List<OfficePassport>();
-        //            foreach (var house in relevant)
-        //            {
-        //                var passport = new OfficePassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia, comm);
-        //                passport.Set(house);
-        //                office_result.Add(passport);
-        //            }
-        //            return JsonConvert.SerializeObject(office_result);
-
-        //        case EstateTypes.Garage:
-        //            var garage_result = new List<GaragePassport>();
-        //            foreach (var garage in relevant)
-        //            {
-        //                var passport = new GaragePassport(addr, city, strt, main, addt, vals, cmps, usrs, mdia);
-        //                passport.Set(garage);
-        //                garage_result.Add(passport);
-        //            }
-        //            return JsonConvert.SerializeObject(garage_result);
-
-        //        default:
-        //            throw new ArgumentException("Указан некорректный тип недвижимости");
-        //    }
-        //}
-
-
     }
 }

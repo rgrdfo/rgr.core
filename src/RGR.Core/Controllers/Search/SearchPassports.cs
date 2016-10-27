@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,385 +7,242 @@ using RGR.Core.Models;
 using RGR.Core.Controllers.Enums;
 using Microsoft.EntityFrameworkCore;
 using Eastwing.Parser;
+using Newtonsoft.Json;
 
 namespace RGR.Core.Controllers
 {
+    
+    //public class ShortPassport : Dictionary<string, string>, IComparable<ShortPassport>
+    //{
+    //    public EstateTypes EstateType { get; private set; }
+    //    public long Id { get; internal set; }
+
+    //    public int CompareTo(ShortPassport other)
+    //    {
+    //        if (Id > other.Id) return 1;
+    //        else if (Id < other.Id) return -1;
+    //        else return 0;
+    //    }
+    //}
+
     /// <summary>
-    /// Карточка объекта недвижимости. Включает общие для всех типов объектов поля
+    /// Предоставляет последовательность паспортов (словарей, содержащих данные для вывода результатов поиска)
     /// </summary>
-    public abstract class ObjectPassport
+    public class SuitableEstate : IEnumerable<SuitableEstate.ShortPassport>
     {
-        //private EstateObjects obj;
-        //private rgrContext db;
-
-        protected const string NA = "--";
-
-        protected List<Addresses> addr;
-        protected List<ObjectMainProperties> main;
-        protected List<ObjectAdditionalProperties> addt;
-        protected List<GeoCities> city;
-        protected List<GeoStreets> strt;
-        protected List<DictionaryValues> vals;
-        protected List<Companies> cmps;
-        protected List<Users> usrs;
-        protected List<ObjectMedias> mdia;
-
-        protected ObjectMainProperties mainProp;
-
-        public long Id;
-        public string Address;
-        public string City;
-        public double? Price;
-        public double? Square;
-        public List<string> Photos;
-        public string Agency;
-        public string AgencyLogo;
-        public string AgentPhone;
-        public DateTime? Date;
-
-        public double? PricePerSquareMetter => Price / Square;
-
-        protected ObjectPassport(List<Addresses> Addresses, List<GeoCities> Cities, List<GeoStreets> Streets, List<ObjectMainProperties> MainProp, List<ObjectAdditionalProperties> AdditionalProp, List<Companies> Companies, List<Users> Users, List<ObjectMedias> Media)
-        {
-            addr = Addresses;
-            main = MainProp;
-            addt = AdditionalProp;
-            city = Cities;
-            strt = Streets;
-            cmps = Companies;
-            usrs = Users;
-            mdia = Media;
-        }
-    
-        protected void Set(EstateObjects obj)
-        {
-            Id = obj.Id;
-
-            Date = (obj.DateModified == null) ? obj.DateCreated : obj.DateModified; //Присвоить дату создания, если нет даты изменения
-
-            Addresses dbAddress = addr.Single(x => x.ObjectId == obj.Id);
-            mainProp = main.Single(x => x.ObjectId == obj.Id);
-
-            if (dbAddress.StreetId > 0) //Если это условие не выполняется - запись некорректна
-            {
-                //string StreetName = "";
-                var street = strt.SingleOrDefault(x => x.Id == dbAddress.StreetId);
-                var StreetName = (street != null)? street.Name : null;
-                Address = (StreetName != null) ? $"{StreetName}, {dbAddress.House}, кв. {dbAddress.Flat}" : NA;
-            }
-            else
-                Address = "";
-    
-            if (dbAddress.CityId > 0)
-            {
-                City = city.Single(x => x.Id == dbAddress.CityId).Name;
-            }
-            else
-                City = "";
-    
-            Price  = main.Single(x => x.ObjectId == obj.Id).Price;
-            Square = main.Single(x => x.ObjectId == obj.Id).TotalArea;
-
-            //var parser = new Parser()
-            //{
-            //    Letters = "",
-            //    Separators = "",
-            //    Brackets = "()"
-            //};
-
-            var agent = usrs.SingleOrDefault(u => u.Id == obj.Id);
-            AgentPhone = (agent != null) ? agent.Phone:NA;
-
-            //if (agent == null)
-            //    AgentPhone = NA;
-            //else
-            //{
-            //    var rawPhone = parser.Parse(agent.Phone)
-            //        .Where(t => t.Category == Category.Integer)
-            //        .Select(t => t.Lexeme)
-            //        .Flatten();
-            //    AgentPhone = rawPhone;
-            //}
-
-            var company = cmps.SingleOrDefault(c => c.Id == obj.Id);
-            Agency = (company != null) ? company.Name:NA;
-
-
-        }
-    }
-    /// <summary>
-    /// Карточка комнаты для удобного оперирования при выводе результатов поиска
-    /// </summary>
-    public class RoomPassport : ObjectPassport
-    {
-        //private List<DictionaryValues> vals;
-
-        public string HouseMaterial;
-        public string HouseType;
-        public string State;
-        public double? KitchenSquare;
-        public int? FloorCount;
-        public int? Floor;
-        public string Balcony;
-        public bool? BalconyIsPresent;
-        public string Description;
-
+        [JsonIgnore]
+        public List<Addresses> Addresses { get; set; }
+        [JsonIgnore]
+        public List<ObjectMainProperties> MainProps { get; set; }
+        [JsonIgnore]
+        public List<ObjectAdditionalProperties> AddtProps { get; set; }
+        [JsonIgnore]
+        public List<GeoCities> Cities { get; set; }
+        [JsonIgnore]
+        public List<GeoStreets> Streets { get; set; }
+        [JsonIgnore]
+        public List<DictionaryValues> DictValues { get; set; }
+        [JsonIgnore]
+        public List<Companies> Companies { get; set; }
+        [JsonIgnore]
+        public List<Users> Users { get; set; }
+        [JsonIgnore]
+        public List<ObjectMedias> Medias { get; set; }
+        [JsonIgnore]
+        public List<ObjectRatingProperties> Ratings { get; set; }
+        [JsonIgnore]
+        public List<ObjectCommunications> Communications { get; set; }
         
+        public EstateTypes EstateType { get; set; }
 
-        public RoomPassport(List<Addresses> Addresses, List<GeoCities> Cities, List<GeoStreets> Streets, List<ObjectMainProperties> MainProp,
-            List<ObjectAdditionalProperties> AdditionalProp, List<DictionaryValues> DictValues, List<Companies> Companies, List<Users> Users, List<ObjectMedias> Media)
-            : base(Addresses, Cities, Streets, MainProp, AdditionalProp, Companies, Users, Media)
+        //Словарь для передачи результатов поиска в предстваление
+        public class ShortPassport : Dictionary<string, object>, IComparable<ShortPassport>
         {
-            vals = DictValues;
-        }
+            public long Id { get; internal set; }
 
-        protected ObjectAdditionalProperties addtProp;
-        new public void Set(EstateObjects Room)
-        {
-            base.Set(Room);
-
-            addtProp = addt.Single(x => x.ObjectId == Room.Id);
-
-            HouseMaterial = mainProp.BuildingMaterial ?? NA;
-
-            if (mainProp.BuildingType != null)
-                HouseType = vals.Single(x => x.Id == mainProp.BuildingType).Value;
-
-            KitchenSquare = mainProp.KitchenFloorArea;
-
-            FloorCount = mainProp.TotalFloors;
-            Floor = mainProp.FloorNumber;
-
-            if (addtProp.BalconiesCount != null)
+            public int CompareTo(ShortPassport other)
             {
-                BalconyIsPresent = addtProp.BalconiesCount > 0;
-            }
-            else
-                BalconyIsPresent = null;
-
-            Description = mainProp.ShortDescription;
-        }
-    }
-    /// <summary>
-    /// Карточка квартиры для удобного оперирования при выводе результатов поиска
-    /// </summary>
-    public class FlatPassport : RoomPassport
-    {
-        protected List<ObjectRatingProperties> rtng;
-    
-        public int? Rooms;
-        public double? LivingSquare;
-        public string WC;
-    
-        public FlatPassport(List<Addresses> Addresses, List<GeoCities> Cities, List<GeoStreets> Streets, List<ObjectMainProperties> MainProp,
-            List<ObjectAdditionalProperties> AdditionalProp, List<DictionaryValues> DictValues, List<Companies> Companies, List<Users> Users, 
-            List<ObjectMedias> Media, List<ObjectRatingProperties> Rating)
-            : base(Addresses, Cities, Streets, MainProp, AdditionalProp, DictValues, Companies, Users, Media)
-        {
-            vals = DictValues;
-            rtng = Rating;
-        }
-        
-        new public void Set (EstateObjects Flat)
-        {
-            base.Set(Flat);
-        
-            Rooms = addtProp.RoomsCount;
-            LivingSquare = mainProp.ActualUsableFloorArea;
-
-            var rating = rtng.SingleOrDefault(r => r.Id == Flat.Id);
-            WC = (rating != null)?(rating.Wc ?? NA) : NA;
-        }
-
-
-        public FlatPassport Reinit(EstateObjects obj)
-        {
-            Id = obj.Id;
-
-            Date = (obj.DateModified == null) ? obj.DateCreated : obj.DateModified; //Присвоить дату создания, если нет даты изменения
-
-            Addresses dbAddress = addr.Single(x => x.ObjectId == obj.Id);
-            mainProp = main.Single(x => x.ObjectId == obj.Id);
-
-            if (dbAddress.StreetId > 0) //Если это условие не выполняется - запись некорректна
-            {
-                //string StreetName = "";
-                var street = strt.SingleOrDefault(x => x.Id == dbAddress.StreetId);
-                var StreetName = (street != null) ? street.Name : null;
-                Address = (StreetName != null) ? $"{StreetName}, {dbAddress.House}, кв. {dbAddress.Flat}" : NA;
-            }
-            else
-                Address = "";
-
-            if (dbAddress.CityId > 0)
-            {
-                City = city.Single(x => x.Id == dbAddress.CityId).Name;
-            }
-            else
-                City = "";
-
-            Price = main.Single(x => x.ObjectId == obj.Id).Price;
-            Square = main.Single(x => x.ObjectId == obj.Id).TotalArea;
-
-            var agent = usrs.SingleOrDefault(u => u.Id == obj.Id);
-            AgentPhone = (agent != null) ? agent.Phone : NA;
-
-            var company = cmps.SingleOrDefault(c => c.Id == obj.Id);
-            Agency = (company != null) ? company.Name : NA;
-
-            Rooms = addtProp.RoomsCount;
-            LivingSquare = mainProp.ActualUsableFloorArea;
-
-            var rating = rtng.SingleOrDefault(r => r.Id == obj.Id);
-            WC = (rating != null) ? (rating.Wc ?? NA) : NA;
-
-            return this;
-        }
-
-
-    }
-    /// <summary>
-    /// Карточка земельного участка для удобного оперирования при выводе результатов поиска
-    /// </summary>
-    public class LandPassport : ObjectPassport
-    {
-        private List<ObjectCommunications> comm;
-
-        public string Purpose;
-        public bool? Heating = null;
-        public bool? Water = null;
-        public bool? Electricy = null;
-        public bool? Sewer = null;
-        public string Category = NA; //TODO
-        public string Specifics = NA;//TODO
-
-        //public double? PricePerSquareMetter => Price / Square;
-
-        public LandPassport(List<Addresses> Addresses, List<GeoCities> Cities, List<GeoStreets> Streets, List<ObjectMainProperties> MainProp,
-            List<ObjectAdditionalProperties> AdditionalProp, List<DictionaryValues> DictValues, List<Companies> Companies, List<Users> Users, 
-            List<ObjectMedias> Media, List<ObjectCommunications> Communications)
-            : base(Addresses, Cities, Streets, MainProp, AdditionalProp, Companies, Users, Media)
-        {
-            vals = DictValues;
-            comm = Communications;
-        }
-
-        new public void Set(EstateObjects Land)
-        {
-            base.Set(Land);
-
-            Purpose = mainProp.LandAssignment ?? NA;
-
-            var landComm = comm.SingleOrDefault(c => c.Id == Land.Id);
-            if (landComm != null)
-            {
-                Heating = landComm.Heating != "305";
-                Water = landComm.Water != "205";
-                Electricy = landComm.Electricy != "167";
-                Sewer = landComm.Sewer != 312;
+                if (Id > other.Id) return 1;
+                else if (Id < other.Id) return -1;
+                else return 0;
             }
         }
-    }
-    /// <summary>
-    /// Карточка деловой недвижимости для удобного оперирования при выводе результатов поиска
-    /// </summary>
-    public class OfficePassport : RoomPassport
-    {
-        private List<ObjectCommunications> comm;
 
-        public string Purpose;
-        public bool? Heating = null;
-        public bool? Water = null;
-        public bool? Electricy = null;
-        public bool? Sewer = null;
-        public string Category = NA; //TODO
-        public string Specifics = NA;//TODO
+        private List<ShortPassport> passports;
+        private const string NA = "";
 
+        [JsonIgnore]
+        private ObjectMainProperties mainProp;
+        [JsonIgnore]
+        private ObjectAdditionalProperties addtProp;
+        [JsonIgnore]
+        private Addresses dbAddress;
+        [JsonIgnore]
+        private GeoStreets street;
+        [JsonIgnore]
+        private string streetName;
+        [JsonIgnore]
+        private string city;
+        [JsonIgnore]
+        private double? price;
+        [JsonIgnore]
+        private double? area;
+        [JsonIgnore]
+        private Users agent;
+        [JsonIgnore]
+        private Companies company;
+        [JsonIgnore]
+        private ObjectRatingProperties rating;
+        [JsonIgnore]
+        private ObjectCommunications landComm;
 
-        //public double? PricePerSquareMetter => Price / Square;
-
-        public OfficePassport(List<Addresses> Addresses, List<GeoCities> Cities, List<GeoStreets> Streets, List<ObjectMainProperties> MainProp,
-            List<ObjectAdditionalProperties> AdditionalProp, List<DictionaryValues> DictValues, List<Companies> Companies, List<Users> Users,
-            List<ObjectMedias> Media, List<ObjectCommunications> Communications)
-            : base(Addresses, Cities, Streets, MainProp, AdditionalProp, DictValues, Companies, Users, Media)
+        /// <summary>
+        /// Добавляет в список результатов паспорт, заполненный на основании объекта недвижимости
+        /// </summary>
+        /// <param name="Object">Объект недвижимости, на основании которого строится паспорт</param>
+        public void Add(EstateObjects Estate)
         {
-            vals = DictValues;
-            comm = Communications;
+            if ((short)EstateType != Estate.ObjectType)
+                throw new ArgumentException($"Попытка добавить в последовательность объект недвижимости несоответствующего типа ({(EstateTypes)Estate.ObjectType})! Данный экземпляр принимает \"{EstateType}\".");
+
+            var passport  = new ShortPassport();
+
+            mainProp = MainProps.FirstOrDefault(m => m.ObjectId == Estate.Id);
+            addtProp = AddtProps.FirstOrDefault(a => a.ObjectId == Estate.Id);
+            dbAddress = Addresses.FirstOrDefault(a => a.ObjectId == Estate.Id);  
+            street = Streets.FirstOrDefault(s => s.Id == dbAddress.StreetId);
+            streetName = (street != null) ? street.Name : null;
+            city = Cities.FirstOrDefault(c => c.Id == dbAddress.CityId).Name;
+            price = mainProp.Price;
+            area = mainProp.TotalArea;
+            agent = Users.FirstOrDefault(u => u.Id == Estate.Id);
+            company = Companies.SingleOrDefault(c => c.Id == Estate.Id);
+
+            passport.Id = Estate.Id;
+
+            //Присвоить дату создания, если нет даты изменения
+            passport.Add("Date",  (Estate.DateModified == null) ? Estate.DateCreated : Estate.DateModified);
+            //Демонстрируемый адрес
+            passport.Add("Address", (streetName != null) ? $"{streetName}, {dbAddress.House}" : NA);
+            //Город
+            passport.Add("City", city);
+            //Цена
+            passport.Add("Price", price);
+            //Общая площадь
+            passport.Add("Area", area);
+            //Цена за квадрат
+            passport.Add("PricePerSquare", (price != null && area != null) ? (price / area).ToString() : NA);
+            //Телефон агента
+            passport.Add("AgentPhone", (agent != null) ? agent.Phone : NA);
+            //Агенство
+            passport.Add("Agency", (company != null) ? company.Name : NA);
+
+            if (EstateType == EstateTypes.Room || EstateType == EstateTypes.Flat || EstateType == EstateTypes.Office || EstateType == EstateTypes.House)
+            {
+                #region Общие поля для офиса, комнаты, дома и квартиры
+                rating = Ratings.FirstOrDefault(r => r.Id == Estate.Id);
+
+                //Материал постройки
+                passport.Add("HouseMaterial", ((mainProp.BuildingMaterial != null) ? DictValues.GetFromIds(mainProp.BuildingMaterial) : NA));
+                //Тип дома
+                passport.Add("HouseType", (mainProp.BuildingType != null) ? DictValues.First(d => d.Id == mainProp.BuildingType).Value : NA);
+                //Площадь кухни
+                passport.Add("KitchenSquare", mainProp.KitchenFloorArea);
+                //Этажей в здании
+                passport.Add("FloorCount", mainProp.TotalFloors);
+                //Текущий этаж
+                passport.Add("Floor", mainProp.FloorNumber);
+                //Санузел
+                passport.Add("WC", (rating.Wc != null) ? DictValues.GetFromIds(rating.Wc) : NA);
+
+                //Краткое описание
+                passport.Add("Description", ((mainProp.ShortDescription.Length <= 55) ? mainProp.ShortDescription :
+                    mainProp.ShortDescription.Remove(52) + "...") ?? NA);
+                #endregion
+            }
+                
+            if (EstateType == EstateTypes.Land || EstateType == EstateTypes.Office || EstateType == EstateTypes.House )
+            {
+                #region Общие для участка, дома и офиса поля
+                landComm = Communications.FirstOrDefault(c => c.Id == Estate.Id);
+
+                //отопление
+                passport.Add("Heating", (landComm != null) ? ((landComm.Heating != "305") ? "есть" : "нет") : NA);
+                passport.Add("Water", (landComm != null) ? ((landComm.Water != "205") ? "есть" : "нет") : NA);
+                passport.Add("Electricy", (landComm != null) ? ((landComm.Electricy != "167") ? "есть" : "нет") : NA);
+                passport.Add("Sewer", (landComm != null) ? ((landComm.Sewer != 312) ? "есть" : "нет") : NA);
+                #endregion
+            }
+            
+            if (EstateType == EstateTypes.Land)
+            {
+                //Назначение участка
+                passport.Add("Purpose", mainProp.LandAssignment ?? NA);
+            }
+
+            if (EstateType == EstateTypes.Office)
+            {
+                #region Специфичные для офиса поля
+                passport.Add("Purpose", DictValues.GetFromIds(mainProp.ObjectAssignment) ?? NA);
+                passport.Add("Category", NA); //TODO
+                passport.Add("Specifics", NA);//TODO
+                #endregion
+            }
+
+            if (EstateType == EstateTypes.Flat || EstateType == EstateTypes.House)
+            {
+                #region Общие для квартиры и дома поля
+                //Число комнат
+                passport.Add("Rooms", addtProp.RoomsCount);
+                //Жилая площадь
+                passport.Add("LivingSquare", mainProp.ActualUsableFloorArea);
+                #endregion
+            }
+
+            if (EstateType == EstateTypes.Garage)
+            {
+                passport.Add("HouseMaterial", DictValues.GetFromIds(mainProp.BuildingMaterial) ?? NA);
+            }
+
+            if (EstateType == EstateTypes.Unset)
+                throw new ArgumentException("Как ты этого добился, демон?!");
+
+            passports.Add(passport);
         }
 
-        new public void Set(EstateObjects Land)
+        /// <summary>
+        /// Генерирует набор паспортов на основе набора объектов недвижимости
+        /// </summary>
+        /// <param name="Range"></param>
+        public void AddRange(IEnumerable<EstateObjects> Range)
         {
-            base.Set(Land);
-
-            Purpose = mainProp.ObjectAssignment ?? NA;
-
-            var landComm = comm.SingleOrDefault(c => c.Id == Land.Id);
-            if (landComm != null)
+            foreach (var item in Range)
             {
-                Heating = landComm.Heating != "305";
-                Water = landComm.Water != "205";
-                Electricy = landComm.Electricy != "167";
-                Sewer = landComm.Sewer != 312;
+                Add(item);
             }
         }
-    }
-    /// <summary>
-    /// Карточка гаража для удобного оперирования при выводе результатов поиска
-    /// </summary>
-    public class GaragePassport : ObjectPassport
-    {
-        public string HouseMaterial;
 
-        public GaragePassport(List<Addresses> Addresses, List<GeoCities> Cities, List<GeoStreets> Streets, List<ObjectMainProperties> MainProp,
-            List<ObjectAdditionalProperties> AdditionalProp, List<DictionaryValues> DictValues, List<Companies> Companies, List<Users> Users, List<ObjectMedias> Media)
-            : base(Addresses, Cities, Streets, MainProp, AdditionalProp, Companies, Users, Media)
+        public void Clear()
         {
-            vals = DictValues;
+            passports.Clear();
         }
 
-        new public void Set(EstateObjects Garage)
+        public IEnumerator<ShortPassport> GetEnumerator()
         {
-            base.Set(Garage);
-
-            HouseMaterial = mainProp.BuildingMaterial ?? NA;
-        }
-    }
-    /// <summary>
-    /// Карточка дома для удобного оперирования при выводе результатов поиска
-    /// </summary>
-    public class HousePassport : FlatPassport
-    {
-        private List<ObjectCommunications> comm;
-
-        public bool? Heating = null;
-        public bool? Water = null;
-        public bool? Electricy = null;
-        public bool? Sewer = null;
-
-        public HousePassport(List<Addresses> Addresses, List<GeoCities> Cities, List<GeoStreets> Streets, List<ObjectMainProperties> MainProp,
-            List<ObjectAdditionalProperties> AdditionalProp, List<DictionaryValues> DictValues, List<Companies> Companies, List<Users> Users, 
-            List<ObjectMedias> Media, List<ObjectRatingProperties> Rating, List<ObjectCommunications> Communications)
-            : base(Addresses, Cities, Streets, MainProp, AdditionalProp, DictValues, Companies, Users, Media, Rating)
-        {
-            vals = DictValues;
-            comm = Communications;
-        }
-
-        new public void Set(EstateObjects House)
-        {
-            base.Set(House);
-
-            var landComm = comm.SingleOrDefault(c => c.Id == House.Id);
-            if (landComm != null)
+            foreach (var passport in passports)
             {
-                Heating = landComm.Heating != "305";
-                Water = landComm.Water != "205";
-                Electricy = landComm.Electricy != "167";
-                Sewer = landComm.Sewer != 312;
+                yield return passport;
             }
         }
+        private IEnumerator GetEnumerator1()
+        {
+            return this.GetEnumerator();
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator1();
+        }
     }
-
 
     /// <summary>
     /// Полная карточка объекта, содержащая всю информацию, необходимую для демонстрации подробных сведений
@@ -618,10 +476,10 @@ namespace RGR.Core.Controllers
             passport.FlatType = (main.FlatType != null) ? vals.Single(v => v.Id == main.FlatType).Value : NA;
             passport.BuildingYear = addt.BuildingYear.ToString() ?? NA;
             passport.BuildingPeriod = (main.BuildingPeriod != null) ? vals.Single(v => v.Id == main.BuildingPeriod).Value : NA;
-            passport.CellingMaterial = (main.FloorMaterial != null) ? GetDictionaryValues(main.FloorMaterial, vals) : NA;
-            passport.Heating = (comm != null) ? ((comm.Heating != null) ? GetDictionaryValues(comm.Heating, vals) : NA) : NA;
-            passport.Water = (comm != null) ? ((comm.Water != null) ? GetDictionaryValues(comm.Water, vals) : NA) : NA;
-            passport.Electricy = (comm != null) ? ((comm.Electricy != null) ? GetDictionaryValues(comm.Electricy, vals) : NA) : NA;
+            passport.CellingMaterial = (main.FloorMaterial != null) ? vals.GetFromIds(main.FloorMaterial) : NA;
+            passport.Heating = (comm != null) ? ((comm.Heating != null) ? vals.GetFromIds(comm.Heating) : NA) : NA;
+            passport.Water = (comm != null) ? ((comm.Water != null) ? vals.GetFromIds(comm.Water) : NA) : NA;
+            passport.Electricy = (comm != null) ? ((comm.Electricy != null) ? vals.GetFromIds(comm.Electricy) : NA) : NA;
             passport.Sewer = (comm != null) ? ((comm.Sewer != null) ? vals.Single(s => s.Id == comm.Sewer).Value : NA) : NA;
             passport.Replanning = BoolToYesNo(addt.Redesign);
             passport.ReplanningLegality = BoolToYesNo(addt.RedesignLegality);
@@ -635,14 +493,14 @@ namespace RGR.Core.Controllers
             passport.State = (rating.CommonState != null) ? vals.Single(v => v.Id == rating.CommonState).Value : NA;
             passport.FullDescription = main.FullDescription ?? NA;
             passport.BuildingPeriod = (main.BuildingPeriod != null) ? vals.Single(v => v.Id == main.BuildingPeriod).Value : NA;
-            passport.BuildingMaterial = (main.BuildingMaterial != null) ? GetDictionaryValues(main.BuildingMaterial, vals) : NA;
+            passport.BuildingMaterial = (main.BuildingMaterial != null) ? vals.GetFromIds(main.BuildingMaterial) : NA;
             passport.BuildingType = (main.HouseType != null) ? vals.Single(v => v.Id == main.HouseType).Value : NA;
             passport.BuildingCompany = (addt.Builder != null) ? vals.Single(v => v.Id == addt.Builder).Value : NA;
             passport.BuildingReady = main.BuildingReadyPercent.ToString() ?? NA;
             passport.IsNewBuilding = BoolToYesNo(main.NewBuilding);
             passport.Roof = (addt.Roof != null) ? vals.Single(v => v.Id == addt.Roof).Value : NA;
-            passport.Basement = (addt.Basement != null) ? GetDictionaryValues(addt.Basement, vals) : NA;
-            passport.Security = (main.Security != null) ? GetDictionaryValues(main.Security, vals) : NA;
+            passport.Basement = (addt.Basement != null) ? vals.GetFromIds(addt.Basement) : NA;
+            passport.Security = (main.Security != null) ? vals.GetFromIds(main.Security) : NA;
             passport.UsingAsNonResidental = BoolToYesNo(main.NonResidenceUsage);
             passport.Bedrooms = addt.BedroomsCount.ToString() ?? NA;
             passport.Balconies = addt.BalconiesCount.ToString() ?? NA;
@@ -650,7 +508,7 @@ namespace RGR.Core.Controllers
             passport.BayWindows = addt.ErkersCount.ToString() ?? NA;
             passport.Windows = main.WindowsCount.ToString() ?? NA;
             passport.WindowsFacade = main.FacadeWindowsCount.ToString() ?? NA;
-            passport.BalconyLogia = (rating.Balcony != null) ? GetDictionaryValues(rating.Balcony, vals) : NA;
+            passport.BalconyLogia = (rating.Balcony != null) ? vals.GetFromIds(rating.Balcony) : NA;
             passport.KitchenSquare = main.KitchenFloorArea.ToString() ?? NA;
             passport.LivingRoomSquare = main.BigRoomFloorArea.ToString() ?? NA;
             passport.MeterageExplanation = main.FootageExplanation ?? NA;
@@ -659,23 +517,23 @@ namespace RGR.Core.Controllers
             passport.Replanning = BoolToYesNo(addt.Redesign);
             passport.ObjectStateAssessment = NA; //TODO
             passport.UtilityRooms = rating.UtilityRooms ?? NA;
-            passport.WindowLocation = (addt.WindowsLocation != null) ? GetDictionaryValues(addt.WindowsLocation, vals) : NA;
-            passport.WindowView = (addt.ViewFromWindows != null) ? GetDictionaryValues(addt.ViewFromWindows, vals) : NA;
+            passport.WindowLocation = (addt.WindowsLocation != null) ? vals.GetFromIds(addt.WindowsLocation) : NA;
+            passport.WindowView = (addt.ViewFromWindows != null) ? vals.GetFromIds(addt.ViewFromWindows) : NA;
             passport.WindowQuality = rating.WindowsDescription ?? NA; //TODO!
             passport.WindowState = NA; //TODO
-            passport.EntranceDoorMaterial = (rating.EntranceDoor != null) ? GetDictionaryValues(rating.EntranceDoor, vals) : NA;
-            passport.Carpentry = (rating.Carpentry != null) ? GetDictionaryValues(rating.Carpentry, vals) : NA;
-            passport.Floor = (rating.Floor != null) ? GetDictionaryValues(rating.Floor, vals) : NA;
-            passport.Celling = (rating.Ceiling != null) ? GetDictionaryValues(rating.Ceiling, vals) : NA;
-            passport.Walls = (rating.Walls != null) ? GetDictionaryValues(rating.Walls, vals) : NA;
-            passport.Kitchen = (rating.Kitchen != null) ? GetDictionaryValues(rating.Kitchen, vals) : NA;
+            passport.EntranceDoorMaterial = (rating.EntranceDoor != null) ? vals.GetFromIds(rating.EntranceDoor) : NA;
+            passport.Carpentry = (rating.Carpentry != null) ? vals.GetFromIds(rating.Carpentry) : NA;
+            passport.Floor = (rating.Floor != null) ? vals.GetFromIds(rating.Floor) : NA;
+            passport.Celling = (rating.Ceiling != null) ? vals.GetFromIds(rating.Ceiling) : NA;
+            passport.Walls = (rating.Walls != null) ? vals.GetFromIds(rating.Walls) : NA;
+            passport.Kitchen = (rating.Kitchen != null) ? vals.GetFromIds(rating.Kitchen) : NA;
             passport.KitchenDescription = rating.KitchenDescription ?? NA;
-            passport.WC = (rating.Wc != null) ? GetDictionaryValues(rating.Wc, vals) : NA;
+            passport.WC = (rating.Wc != null) ? vals.GetFromIds(rating.Wc) : NA;
             passport.WCDescription = rating.Wcdescription ?? NA;
-            passport.Sanitary = (comm != null) ? ((comm.SanFurniture != null) ? GetDictionaryValues(comm.SanFurniture, vals) : NA) : NA;
-            passport.Tubes = (comm != null) ? ((comm.Tubes != null) ? GetDictionaryValues(comm.Tubes, vals) : NA) : NA;
-            passport.Phone = (comm != null) ? ((comm.Phone != null) ? GetDictionaryValues(comm.Phone, vals) : NA) : NA;
-            passport.Vestibule = (rating.Vestibule != null) ? GetDictionaryValues(rating.Vestibule, vals) : NA;
+            passport.Sanitary = (comm != null) ? ((comm.SanFurniture != null) ? vals.GetFromIds(comm.SanFurniture) : NA) : NA;
+            passport.Tubes = (comm != null) ? ((comm.Tubes != null) ? vals.GetFromIds(comm.Tubes) : NA) : NA;
+            passport.Phone = (comm != null) ? ((comm.Phone != null) ? vals.GetFromIds(comm.Phone) : NA) : NA;
+            passport.Vestibule = (rating.Vestibule != null) ? vals.GetFromIds(rating.Vestibule) : NA;
             passport.LocationInObject = (addt.Placement != null) ? vals.Single(v => v.Id == addt.Placement).Value : NA;
             passport.Owners = main.OwnersCount.ToString() ?? NA;
             passport.OwningType = (main.PropertyType != null) ? vals.Single(v => v.Id == main.PropertyType).Value : NA;
@@ -713,20 +571,20 @@ namespace RGR.Core.Controllers
         /// <param name="ids"></param>
         /// <param name="vals"></param>
         /// <returns></returns>
-        private static string GetDictionaryValues(string ids, List<DictionaryValues> vals)
-        {
-            var arr = ids.Split(',');
-            string result = "";
-            for (int i = 0; i < arr.Length; i++)
-            {
-                if (i > 0 && arr.Length > 1)
-                    result += ", ";
-
-                result += vals.Single(v => v.Id == int.Parse(arr[i])).Value;
-            }
-            return result;
-        }
     }
+
+    //internal static class Translator
+    //{
+    //    public static string GetDictionaryValues(string ids, List<DictionaryValues> vals)
+    //    {
+    //        return ids.Split(',')
+    //                    .Select(i => vals.First(d => d.Id == long.Parse(i)).Value)
+    //                    .Aggregate((result, current) => (string.IsNullOrEmpty(result) ? current : result += $", {current}"));
+    //    }
+
+        
+
+    //}
 
 
     //Карточка города для удобного оперирования при работе с поиском. Заполняется автоматически из таблиц БД
