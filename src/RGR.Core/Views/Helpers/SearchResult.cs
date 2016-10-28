@@ -13,139 +13,138 @@ namespace RGR.Core.Views.Helpers
 {
     public class SearchResult
     {
-        public static HtmlString SortResult(string Source, EstateTypes EstateType)
+        //public static HtmlString SortResult(string Source, EstateTypes EstateType)
+        //{
+        //    var sb = new StringBuilder("<div id=\"bodyResult\">");
+        //    //List<String> adresses = new List<string>();            
+        //    switch (EstateType)
+        //    {
+        //        case EstateTypes.Flat:
+        //            var flats = JsonConvert.DeserializeObject<IEnumerable<FlatPassport>>(Source);
+        //            //foreach (var flat in flats)
+        //            //{
+        //            //    adresses.Add(flat.Address);
+        //            //}
+        //            //adresses.Sort();
+        //            flats = flats.OrderBy(f => f.Address);
+        //            foreach (var flat in flats)
+        //            {
+        //                sb.Append(CommonStart(flat));
+        //                sb.Append($"<div class=\"col-lg-2\"><h1>{flat.Rooms}-комнатная</h1><br/>{flat.HouseMaterial}<br/>{flat.HouseType}</div>");
+        //                sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Square} м²</h1><br />кухня {flat.KitchenSquare}<br />жилая {flat.LivingSquare}</div>");
+        //                sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Floor} этаж из {flat.FloorCount}</h1><br />{flat.Balcony}<br />{flat.Description}</div>");
+        //                sb.Append(CommonEnd(flat));
+        //                sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={flat["Id"]}\">Подробнее</a></div>");
+
+        //                //aF = adresses.ElementAt(adresses.BinarySearch(adressFlat));
+        //                //foreach (var flat in flats)
+        //                //{
+        //                //    if(aF==flat.Address)
+        //                //    {
+        //                //        sb.Append(CommonStart(flat));
+        //                //        sb.Append($"<div class=\"col-lg-2\"><h1>{flat.Rooms}-комнатная</h1><br/>{flat.HouseMaterial}<br/>{flat.HouseType}</div>");
+        //                //        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Square} м²</h1><br />кухня {flat.KitchenSquare}<br />жилая {flat.LivingSquare}</div>");
+        //                //        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Floor} этаж из {flat.FloorCount}</h1><br />{flat.Balcony}<br />{flat.Description}</div>");
+        //                //        sb.Append(CommonEnd(flat));
+        //                //    }
+        //                //}
+        //            }
+        //            break;
+        //            //case EstateTypes.Room:
+        //            //    var rooms = JsonConvert.DeserializeObject<IEnumerable<FlatPassport>>(Source);
+        //            //    rooms = rooms.OrderBy(f => f.Address);
+        //            //    foreach (var room in rooms)
+        //            //    {
+        //            //        sb.Append(CommonStart(room));
+        //            //        sb.Append($"<div class=\"col-lg-2\">{room.HouseMaterial}<br/>{room.HouseType}</div>");
+        //            //        sb.Append($"<div class=\"col-lg-1\">{room.Square} м²<br />кухня {room.KitchenSquare}<br /></div>");
+        //            //        sb.Append($"<div class=\"col-lg-1\">{room.Floor} этаж из {room.FloorCount}<br />{room.Description}</div>");
+        //            //        sb.Append(CommonEnd(room));
+        //            //        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={room["Id"]}\">Подробнее</a></div>");
+        //            //    }
+        //            //    break;
+
+        //    }
+        //    return new HtmlString((sb.ToString()));
+        //}
+
+
+        public static HtmlString Render(string Source, EstateTypes Type)
         {
             var sb = new StringBuilder("<div id=\"bodyResult\">");
-            //List<String> adresses = new List<string>();            
-            switch (EstateType)
+            //var DTO = JsonConvert.DeserializeObject<List<ShortPassport>>(Source);
+            var objects = JsonConvert.DeserializeObject<SuitableEstate>(Source);//new SuitableEstate(DTO)
+            
+
+            switch (objects.EstateType)
             {
                 case EstateTypes.Flat:
-                    var flats = JsonConvert.DeserializeObject<IEnumerable<FlatPassport>>(Source);
-                    //foreach (var flat in flats)
-                    //{
-                    //    adresses.Add(flat.Address);
-                    //}
-                    //adresses.Sort();
-                    flats = flats.OrderBy(f => f.Address);
-                    foreach (var flat in flats)
-                    {
-                        sb.Append(CommonStart(flat));
-                        sb.Append($"<div class=\"col-lg-2\"><h1>{flat.Rooms}-комнатная</h1><br/>{flat.HouseMaterial}<br/>{flat.HouseType}</div>");
-                        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Square} кв.м.</h1><br />кухня {flat.KitchenSquare}<br />жилая {flat.LivingSquare}</div>");
-                        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Floor} этаж из {flat.FloorCount}</h1><br />{flat.Balcony}<br />{flat.Description}</div>");
-                        sb.Append(CommonEnd(flat));
-                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={flat.Id}\">Подробнее</a></div>");
-
-                        //aF = adresses.ElementAt(adresses.BinarySearch(adressFlat));
-                        //foreach (var flat in flats)
-                        //{
-                        //    if(aF==flat.Address)
-                        //    {
-                        //        sb.Append(CommonStart(flat));
-                        //        sb.Append($"<div class=\"col-lg-2\"><h1>{flat.Rooms}-комнатная</h1><br/>{flat.HouseMaterial}<br/>{flat.HouseType}</div>");
-                        //        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Square} кв.м.</h1><br />кухня {flat.KitchenSquare}<br />жилая {flat.LivingSquare}</div>");
-                        //        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Floor} этаж из {flat.FloorCount}</h1><br />{flat.Balcony}<br />{flat.Description}</div>");
-                        //        sb.Append(CommonEnd(flat));
-                        //    }
-                        //}
-                    }
-                    break;
-                    //case EstateTypes.Room:
-                    //    var rooms = JsonConvert.DeserializeObject<IEnumerable<FlatPassport>>(Source);
-                    //    rooms = rooms.OrderBy(f => f.Address);
-                    //    foreach (var room in rooms)
-                    //    {
-                    //        sb.Append(CommonStart(room));
-                    //        sb.Append($"<div class=\"col-lg-2\">{room.HouseMaterial}<br/>{room.HouseType}</div>");
-                    //        sb.Append($"<div class=\"col-lg-1\">{room.Square} кв.м.<br />кухня {room.KitchenSquare}<br /></div>");
-                    //        sb.Append($"<div class=\"col-lg-1\">{room.Floor} этаж из {room.FloorCount}<br />{room.Description}</div>");
-                    //        sb.Append(CommonEnd(room));
-                    //        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={room.Id}\">Подробнее</a></div>");
-                    //    }
-                    //    break;
-
-            }
-            return new HtmlString((sb.ToString()));
-        }
-
-
-        public static HtmlString Render(string Source, EstateTypes EstateType)
-        {
-            var sb = new StringBuilder("<div id=\"bodyResult\">");
-            switch (EstateType)
-            {
-                case EstateTypes.Flat:
-                    var flats = JsonConvert.DeserializeObject<List<FlatPassport>>(Source);                 
-                    foreach (var flat in flats)
+                    foreach (var floor in objects)
                     {                        
-                        sb.Append(CommonStart(flat));
-                        sb.Append($"<div class=\"col-lg-2\"><h1>{flat.Rooms}-комнатная</h1><br/>{flat.HouseMaterial}<br/>{flat.HouseType}</div>");
-                        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Square} кв.м.</h1><br />кухня {flat.KitchenSquare}<br />жилая {flat.LivingSquare}</div>");
-                        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Floor} этаж из {flat.FloorCount}</h1><br />{flat.Description}</div>");       
-                        sb.Append(CommonEnd(flat));
-                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={flat.Id}\">Подробнее</a></div>");
+                        sb.Append(CommonStart(floor));
+                        sb.Append($"<div class=\"col-lg-2\"><h1>{floor["Rooms"]}-комнатная</h1><br/>{floor["HouseMaterial"]}<br/>{floor["HouseType"]}</div>");
+                        sb.Append($"<div class=\"col-lg-1\"><h1>{floor["Area"]} м²</h1><br />кухня {floor["KitchenArea"]}<br />жилая {floor["LivingArea"]}</div>");
+                        sb.Append($"<div class=\"col-lg-1\"><h1>{floor["Floor"]} этаж из {floor["FloorCount"]}</h1><br />{floor["Description"]}</div>");       
+                        sb.Append(CommonEnd(floor));
+                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={floor["Id"]}\">Подробнее</a></div>");
                     }
                     break;
 
                 case EstateTypes.Room:
-                    var rooms = JsonConvert.DeserializeObject<List<RoomPassport>>(Source);
-                    foreach (var room in rooms)
+                    foreach (var room in objects)
                     {
                         sb.Append(CommonStart(room));
-                        sb.Append($"<div class=\"col-lg-2\">{room.HouseMaterial}<br/>{room.HouseType}</div>");
-                        sb.Append($"<div class=\"col-lg-1\">{room.Square} кв.м.<br />кухня {room.KitchenSquare}<br /></div>");
-                        sb.Append($"<div class=\"col-lg-1\">{room.Floor} этаж из {room.FloorCount}<br />{room.Description}</div>");
+                        sb.Append($"<div class=\"col-lg-2\">{room["HouseMaterial"]}<br/>{room["HouseType"]}</div>");
+                        sb.Append($"<div class=\"col-lg-1\">{room["Area"]} м²<br />кухня {room["KitchenArea"]}<br /></div>");
+                        sb.Append($"<div class=\"col-lg-1\">{room["Floor"]} этаж из {room["FloorCount"]}<br />{room["Description"]}</div>");
                         sb.Append(CommonEnd(room));
-                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={room.Id}\">Подробнее</a></div>");
+                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={room["Id"]}\">Подробнее</a></div>");
                     }
                     break;
 
                 case EstateTypes.Garage:
-                    var garages = JsonConvert.DeserializeObject<List<GaragePassport>>(Source);
-                    foreach (var garage in garages)
+                    foreach (var garage in objects)
                     {                    
                         sb.Append(CommonStart(garage));
-                        sb.Append($"<div class=\"col-lg-3\">Гараж<br />материал: {garage.HouseMaterial}</div>");
-                        sb.Append($"<div class=\"col-lg-3\">{garage.Square:###.##} кв. м</div>");
+                        sb.Append($"<div class=\"col-lg-3\">Гараж<br />материал: {garage["HouseMaterial"]}</div>");
+                        sb.Append($"<div class=\"col-lg-3\">{garage["Area"]:###.##} м²</div>");
                         sb.Append(CommonEnd(garage));
-                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={garage.Id}\">Подробнее</a></div>");
+                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={garage["Id"]}\">Подробнее</a></div>");
                     }
                     break;
 
                 case EstateTypes.House:
-                    var houses = JsonConvert.DeserializeObject<List<HousePassport>>(Source);
-                    foreach (var house in houses)
+                    foreach (var house in objects)
                     {
                         sb.Append(CommonStart(house));
-                        sb.Append($"<div class=\"col-lg-2\">{house.Rooms}-комн.<br />материал: {house.HouseMaterial}<br/>состояние: {house.State}<br/>отопление: {house.Heating}<br/>вода: {house.Water}<br/>электричество: {house.Electricy}<br/>канализация: {house.Sewer}</div>");
-                        sb.Append($"<div class=\"col-lg-1\">{house.Square:###.##} кв. м<br />кухня: {house.KitchenSquare} кв. м<br/>жилая: {house.LivingSquare} кв. м</div>");
-                        sb.Append($"<div class=\"col-lg-1\">{house.FloorCount}<br />балкон: {house.BalconyIsPresent}<br/>санузел: {house.WC}</div>");
+                        sb.Append($"<div class=\"col-lg-2\">{house["Rooms"]}-комн.<br />материал: {house["HouseMaterial"]}<br/>состояние: {house["State"]}<br/>отопление: {house["Heating"]}<br/>вода: {house["Water"]}<br/>электричество: {house["Electricy"]}<br/>канализация: {house["Sewer"]}</div>");
+                        sb.Append($"<div class=\"col-lg-1\">{house["Area"]:###.##} м²<br />кухня: {house["KitchenArea"]} м²<br/>жилая: {house["LivingArea"]} м²</div>");
+                        sb.Append($"<div class=\"col-lg-1\">{house["FloorCount"]}<br />балкон: {house["BalconyIsPresent"]}<br/>санузел: {house["WC"]}</div>");
                         sb.Append(CommonEnd(house));
-                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={house.Id}\">Подробнее</a></div>");
+                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={house["Id"]}\">Подробнее</a></div>");
                     }
                     break;
 
                 case EstateTypes.Land:
-                    var lands = JsonConvert.DeserializeObject<List<LandPassport>>(Source);
+                    var lands = JsonConvert.DeserializeObject<SuitableEstate>(Source);
                     foreach (var land in lands)
                     {                    
                         sb.Append(CommonStart(land));
-                        sb.Append($"<div class=\"col-lg-3\">{land.Square:###.##} кв. м<br /><br/>отопление: {land.Heating}<br/>вода: {land.Water}<br/>электричество: {land.Electricy}<br/>канализация: {land.Sewer}</div>");
-                        sb.Append($"<div class=\"col-lg-3\">{land.Purpose}<br />{land.Category}<br />{land.Specifics}</div>");
+                        sb.Append($"<div class=\"col-lg-3\">{land["Area"]:###.##} м²<br /><br/>отопление: {land["Heating"]}<br/>вода: {land["Water"]}<br/>электричество: {land["Electricy"]}<br/>канализация: {land["Sewer"]}</div>");
+                        sb.Append($"<div class=\"col-lg-3\">{land["Purpose"]}<br />{land["Category"]}<br />{land["Specifics"]}</div>");
                         sb.Append(CommonEnd(land));
-                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={land.Id}\">Подробнее</a></div>");
+                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={land["Id"]}\">Подробнее</a></div>");
                     }
                     break;
 
                 case EstateTypes.Office:
-                    var offices = JsonConvert.DeserializeObject<List<OfficePassport>>(Source);
-                    foreach (var office in offices)
+                    foreach (var office in objects)
                     {                        
                         sb.Append(CommonStart(office));
-                        sb.Append($"<div class=\"col-lg-3\">{office.Square:###.##} кв. м<br />материал: {office.HouseMaterial}<br />состояние: {office.State}</div>");
-                        sb.Append($"<div class=\"col-lg-3\">{office.FloorCount}<br /><br/>отопление: {office.Heating}<br/>вода: {office.Water}<br/>электричество: {office.Electricy}<br/>канализация: {office.Sewer}</div>");
+                        sb.Append($"<div class=\"col-lg-3\">{office["Area"]:###.##} м²<br />материал: {office["HouseMaterial"]}<br />состояние: {office["State"]}</div>");
+                        sb.Append($"<div class=\"col-lg-3\">{office["FloorCount"]}<br /><br/>отопление: {office["Heating"]}<br/>вода: {office["Water"]}<br/>электричество: {office["Electricy"]}<br/>канализация: {office["Sewer"]}</div>");
                         sb.Append(CommonEnd(office));
-                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={office.Id}\">Подробнее</a></div>");
+                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={office["Id"]}\">Подробнее</a></div>");
                     }
                     break;
 
@@ -156,22 +155,22 @@ namespace RGR.Core.Views.Helpers
             return new HtmlString(sb.ToString());
         }
 
-        public static string CommonStart(ObjectPassport Obj)
+        public static string CommonStart(ShortPassport Obj)
         {
             //TODO: Список фотографий объекта!!!11
 
-            DateTime date = Obj.Date ?? DateTime.MinValue;
+            DateTime date = (DateTime?)Obj["Date"] ?? DateTime.MinValue;
             string DateToShow = (date != DateTime.MinValue) ? date.ToString("d MMM yy") : "н/д";
 
-            return $"<div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{Obj.Address}<br/>{Obj.City}</span></h1></div>" +
-                   $"<div class=\"col-lg-1\"><h1>{DateToShow}</h1><br />ID: {Obj.Id:0000000}</div>" +
-                   $"<div class=\"col-lg-1\"><h1>{Obj.Price: ### ### ###}</h1><br />{Obj.PricePerSquareMetter:### ###.##} руб. / кв. м</div>";
+            return $"<div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{Obj["Address"]}<br/>{Obj["City"]}</span></h1></div>" +
+                   $"<div class=\"col-lg-1\"><h1>{DateToShow}</h1><br />ID: {Obj["Id"]:0000000}</div>" +
+                   $"<div class=\"col-lg-1\"><h1>{Obj["Price"]: ### ### ###}</h1><br />{Obj["PricePerSquare"]:### ###.##} ₽ / м²</div>";
         }
 
-        public static string CommonEnd(ObjectPassport Obj)
+        public static string CommonEnd(ShortPassport Obj)
         {
             //TODO: Логотип агентства!!11
-            return  $"<div class=\"col-lg-2\">{Obj.Agency}<br/>{Obj.AgentPhone}</div>" +
+            return  $"<div class=\"col-lg-2\">{Obj["Agency"]}<br/>{Obj["AgentPhone"]}</div>" +
                    "</div>";
 
         }
@@ -322,10 +321,10 @@ namespace RGR.Core.Views.Helpers
             sb.Append($"<div class=\"col-lg-9\"><p>{passport.BalconyLogia}</p></div>");
             //Площадь кухни
             sb.Append($"<div class=\"col-lg-4\"><p>Площадь кухни</p></div>");
-            sb.Append($"<div class=\"col-lg-9\"><p>{passport.KitchenSquare}</p></div>");
+            sb.Append($"<div class=\"col-lg-9\"><p>{passport.KitchenArea}</p></div>");
             //Площадь зала 
             sb.Append($"<div class=\"col-lg-4\"><p>Площадь зала</p></div>");
-            sb.Append($"<div class=\"col-lg-9\"><p>{passport.LivingRoomSquare}</p></div>");
+            sb.Append($"<div class=\"col-lg-9\"><p>{passport.LivingRoomArea}</p></div>");
             //Расшифровка метража
             sb.Append($"<div class=\"col-lg-4\"><p>Расшифровка метража</p></div>");
             sb.Append($"<div class=\"col-lg-9\"><p>{passport.MeterageExplanation}</p></div>");

@@ -10,7 +10,7 @@ namespace RGR.Core.ViewComponents
 {
     public class SearchResultSorter : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync(IEnumerable<ObjectPassport> Result, Func<ObjectPassport, string> SortingOrder)
+        public async Task<IViewComponentResult> InvokeAsync(SuitableEstate Result, Func<ShortPassport, object> SortingOrder)
         {
             return await Task.Run(() => View(Result.OrderBy(SortingOrder)));
         }

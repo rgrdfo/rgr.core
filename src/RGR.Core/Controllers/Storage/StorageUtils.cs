@@ -23,11 +23,11 @@ namespace RGR.Core.Controllers.Storage
         /// Получение строки, содержащей путь до файла для использования в представлениях
         /// </summary>
         /// <param name="Id">Индекс файла в БД</param>
-        /// <param name="db">Указание на БД</param>
+        /// <param name="Files">Таблица файлов</param>
         /// <returns></returns>
-        public static string GetFileViewPath(long Id, rgrContext db)
+        public static string GetFileViewPath(long Id, List<StoredFiles> Files)
         {
-            var file = db.StoredFiles.SingleOrDefault(s => s.Id == Id);
+            var file = Files.FirstOrDefault(s => s.Id == Id);
             if (file == null)
                 return null;
 
@@ -57,7 +57,7 @@ namespace RGR.Core.Controllers.Storage
                 return null;
 
             Id = long.Parse(strId);
-            return GetFileViewPath(Id, db);
+            return GetFileViewPath(Id, db.StoredFiles.ToList());
         }
 
         /// <summary>

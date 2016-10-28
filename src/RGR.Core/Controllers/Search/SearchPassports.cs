@@ -8,27 +8,32 @@ using RGR.Core.Controllers.Enums;
 using Microsoft.EntityFrameworkCore;
 using Eastwing.Parser;
 using Newtonsoft.Json;
+using RGR.Core.Controllers.Storage;
 
 namespace RGR.Core.Controllers
 {
-    
-    //public class ShortPassport : Dictionary<string, string>, IComparable<ShortPassport>
-    //{
-    //    public EstateTypes EstateType { get; private set; }
-    //    public long Id { get; internal set; }
 
-    //    public int CompareTo(ShortPassport other)
-    //    {
-    //        if (Id > other.Id) return 1;
-    //        else if (Id < other.Id) return -1;
-    //        else return 0;
-    //    }
-    //}
+    //Словарь для передачи результатов поиска в предстваление
+    public class ShortPassport : Dictionary<string, object>, IComparable<ShortPassport>
+    {
+        //public long Id { get; internal set; }
+
+        public int CompareTo(ShortPassport other)
+        {
+            if (!ContainsKey("Id"))
+                return 0;
+
+            if ((long)this["Id"] > (long)other["Id"]) return 1;
+            else if ((long)this["Id"] < (long)other["Id"]) return -1;
+            else return 0;
+        }
+    }
 
     /// <summary>
     /// Предоставляет последовательность паспортов (словарей, содержащих данные для вывода результатов поиска)
     /// </summary>
-    public class SuitableEstate : IEnumerable<SuitableEstate.ShortPassport>
+    [JsonObject]
+    public class SuitableEstate : IEnumerable<ShortPassport>
     {
         [JsonIgnore]
         public List<Addresses> Addresses { get; set; }
@@ -52,23 +57,13 @@ namespace RGR.Core.Controllers
         public List<ObjectRatingProperties> Ratings { get; set; }
         [JsonIgnore]
         public List<ObjectCommunications> Communications { get; set; }
-        
-        public EstateTypes EstateType { get; set; }
+        [JsonIgnore]
+        public List<StoredFiles> Files { get; set; }
 
-        //Словарь для передачи результатов поиска в предстваление
-        public class ShortPassport : Dictionary<string, object>, IComparable<ShortPassport>
-        {
-            public long Id { get; internal set; }
+        public EstateTypes EstateType;
 
-            public int CompareTo(ShortPassport other)
-            {
-                if (Id > other.Id) return 1;
-                else if (Id < other.Id) return -1;
-                else return 0;
-            }
-        }
-
-        private List<ShortPassport> passports;
+        [JsonRequired]
+        private List<ShortPassport> passports = new List<ShortPassport>();
         private const string NA = "";
 
         [JsonIgnore]
@@ -95,6 +90,10 @@ namespace RGR.Core.Controllers
         private ObjectRatingProperties rating;
         [JsonIgnore]
         private ObjectCommunications landComm;
+        [JsonIgnore]
+        private IEnumerable<string> photos;
+        [JsonIgnore]
+        private string logo;
 
         /// <summary>
         /// Добавляет в список результатов паспорт, заполненный на основании объекта недвижимости
@@ -111,15 +110,21 @@ namespace RGR.Core.Controllers
             addtProp = AddtProps.FirstOrDefault(a => a.ObjectId == Estate.Id);
             dbAddress = Addresses.FirstOrDefault(a => a.ObjectId == Estate.Id);  
             street = Streets.FirstOrDefault(s => s.Id == dbAddress.StreetId);
-            streetName = (street != null) ? street.Name : null;
+            streetName = (street != null) ? street.Name : NA;
             city = Cities.FirstOrDefault(c => c.Id == dbAddress.CityId).Name;
             price = mainProp.Price;
             area = mainProp.TotalArea;
             agent = Users.FirstOrDefault(u => u.Id == Estate.Id);
-            company = Companies.SingleOrDefault(c => c.Id == Estate.Id);
+            company = Companies.FirstOrDefault(c => c.Id == Estate.Id);
+            photos = Medias.Where(m => m.ObjectId == Estate.Id).Select(p => 
+            {
+                var id = long.Parse(p.MediaUrl.Split('/').Last());
+                return StorageUtils.GetFileViewPath(id, Files);
+            });
+            logo = (company != null) ? StorageUtils.GetFileViewPath(long.Parse(company.LogoImageUrl.Split('/').Last()), Files) : NA;
 
-            passport.Id = Estate.Id;
-
+            //Индекс БД
+            passport.Add("Id", Estate.Id);
             //Присвоить дату создания, если нет даты изменения
             passport.Add("Date",  (Estate.DateModified == null) ? Estate.DateCreated : Estate.DateModified);
             //Демонстрируемый адрес
@@ -131,11 +136,18 @@ namespace RGR.Core.Controllers
             //Общая площадь
             passport.Add("Area", area);
             //Цена за квадрат
-            passport.Add("PricePerSquare", (price != null && area != null) ? (price / area).ToString() : NA);
+            passport.Add("PricePerSquare", (price != null && area != null) ? $"{price / area : ### 000.00}" : NA);
             //Телефон агента
             passport.Add("AgentPhone", (agent != null) ? agent.Phone : NA);
             //Агенство
             passport.Add("Agency", (company != null) ? company.Name : NA);
+            //Список фотографий объекта
+            passport.Add("Photos", (photos.Any()) ? photos : default(string[]));
+            //Логотип агенства
+            passport.Add("Logo", logo);
+            //Координаты
+            passport.Add("Latitude", dbAddress.Latitude);
+            passport.Add("Logitude", dbAddress.Logitude);
 
             if (EstateType == EstateTypes.Room || EstateType == EstateTypes.Flat || EstateType == EstateTypes.Office || EstateType == EstateTypes.House)
             {
@@ -147,17 +159,17 @@ namespace RGR.Core.Controllers
                 //Тип дома
                 passport.Add("HouseType", (mainProp.BuildingType != null) ? DictValues.First(d => d.Id == mainProp.BuildingType).Value : NA);
                 //Площадь кухни
-                passport.Add("KitchenSquare", mainProp.KitchenFloorArea);
+                passport.Add("KitchenArea", mainProp.KitchenFloorArea);
                 //Этажей в здании
                 passport.Add("FloorCount", mainProp.TotalFloors);
                 //Текущий этаж
                 passport.Add("Floor", mainProp.FloorNumber);
                 //Санузел
-                passport.Add("WC", (rating.Wc != null) ? DictValues.GetFromIds(rating.Wc) : NA);
+                passport.Add("WC", (rating == null) ? NA : ((rating.Wc != null) ? DictValues.GetFromIds(rating.Wc) : NA));
 
                 //Краткое описание
-                passport.Add("Description", ((mainProp.ShortDescription.Length <= 55) ? mainProp.ShortDescription :
-                    mainProp.ShortDescription.Remove(52) + "...") ?? NA);
+                passport.Add("Description", (mainProp.ShortDescription == null) ? NA : (mainProp.ShortDescription.Length <= 55) ? mainProp.ShortDescription :
+                    mainProp.ShortDescription.Remove(49) + " (...)");
                 #endregion
             }
                 
@@ -195,7 +207,7 @@ namespace RGR.Core.Controllers
                 //Число комнат
                 passport.Add("Rooms", addtProp.RoomsCount);
                 //Жилая площадь
-                passport.Add("LivingSquare", mainProp.ActualUsableFloorArea);
+                passport.Add("LivingArea", mainProp.ActualUsableFloorArea);
                 #endregion
             }
 
@@ -222,9 +234,35 @@ namespace RGR.Core.Controllers
             }
         }
 
+        public SuitableEstate()
+        {
+            passports = new List<ShortPassport>();
+        }
+
+        ///// <summary>
+        ///// Инициализирует новый экземпляр последовательности на основе списка паспортов
+        ///// </summary>
+        ///// <param name="list"></param>
+        //public SuitableEstate (List<ShortPassport> list)
+        //{
+        //    passports = list;
+        //}
+
         public void Clear()
         {
             passports.Clear();
+        }
+
+        /// <summary>
+        /// Сортирует представленные последовательностью паспорта по заданному ключу и возвращает отсортированную последовательность
+        /// </summary>
+        /// <typeparam name="T">Тип ключа сортировки</typeparam>
+        /// <param name="keySelector">Метод, предоставляющий ключ</param>
+        /// <returns></returns>
+        public SuitableEstate OrderBy<T>(Func<ShortPassport, T> keySelector)
+        {
+            passports = passports.OrderBy(keySelector).ToList();
+            return this;
         }
 
         public IEnumerator<ShortPassport> GetEnumerator()
@@ -325,8 +363,8 @@ namespace RGR.Core.Controllers
         /// </summary>
         public string WindowsFacade;
         public string BalconyLogia;
-        public string KitchenSquare;
-        public string LivingRoomSquare;
+        public string KitchenArea;
+        public string LivingRoomArea;
         /// <summary>
         /// Расшифровка метража
         /// </summary>
@@ -509,8 +547,8 @@ namespace RGR.Core.Controllers
             passport.Windows = main.WindowsCount.ToString() ?? NA;
             passport.WindowsFacade = main.FacadeWindowsCount.ToString() ?? NA;
             passport.BalconyLogia = (rating.Balcony != null) ? vals.GetFromIds(rating.Balcony) : NA;
-            passport.KitchenSquare = main.KitchenFloorArea.ToString() ?? NA;
-            passport.LivingRoomSquare = main.BigRoomFloorArea.ToString() ?? NA;
+            passport.KitchenArea = main.KitchenFloorArea.ToString() ?? NA;
+            passport.LivingRoomArea = main.BigRoomFloorArea.ToString() ?? NA;
             passport.MeterageExplanation = main.FootageExplanation ?? NA;
             passport.CellingHeight = main.CelingHeight.ToString() ?? NA;
             passport.FlatLocation = (addt.FlatLocation != null) ? vals.Single(v => v.Id == addt.FlatLocation).Value : NA;
