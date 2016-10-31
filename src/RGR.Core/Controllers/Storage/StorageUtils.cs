@@ -27,7 +27,7 @@ namespace RGR.Core.Controllers.Storage
         /// <returns></returns>
         public static string GetFileViewPath(long Id, List<StoredFiles> Files)
         {
-            var file = Files.FirstOrDefault(s => s.Id == Id);
+            var file = Files.FirstOrDefault(f => f.Id == Id);
             if (file == null)
                 return null;
 

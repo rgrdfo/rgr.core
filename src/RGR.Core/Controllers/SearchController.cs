@@ -37,38 +37,12 @@ namespace RGR.Core.Controllers
             //HtmlString s;
 
             EstateTypes EstateType;
-            switch (Request.Query["objType"])
-            {
-                #region Установка типа недвижимости
-                case "0":
-                    EstateType = EstateTypes.Flat;
-                    break;
+            byte estateType;
+            if (!byte.TryParse(Request.Query["objType"], out estateType) && estateType < 6)
+                throw new ArgumentException("Некорректный тип недвижимости!");
 
-                case "1":
-                    EstateType = EstateTypes.Room;
-                    break;
+            EstateType = (EstateTypes)estateType;
 
-                case "2":
-                    EstateType = EstateTypes.House;
-                    break;
-
-                case "3":
-                    EstateType = EstateTypes.Land;
-                    break;
-
-                case "4":
-                    EstateType = EstateTypes.Garage;
-                    break;
-
-                case "5":
-                    EstateType = EstateTypes.Office;
-                    break;
-
-                default:
-                    EstateType = EstateTypes.Unset;
-                    break;
-                    #endregion
-            }
             ViewData["Type"] = EstateType;
             ViewData["Result"] = await GetObjects(EstateType);
             //ViewData["Context"] = db;
@@ -166,6 +140,7 @@ namespace RGR.Core.Controllers
             var cmps = await db.Companies.ToListAsync();
             var comm = await db.ObjectCommunications.ToListAsync();
             var mdia = await db.ObjectMedias.ToListAsync();
+            var fils = await db.StoredFiles.ToListAsync();
 
             bool isCottage = false;      //Переключатель "коттедж/таунхаус" (для дома)
             bool pricePerMetter = false; //Переключатель "искать по цене за квадратный метр" (по умолчанию - по цене за объект)
@@ -376,12 +351,21 @@ namespace RGR.Core.Controllers
 
                 #region Фильтрация некорректных записей
                 if (curMain.Price == null ||
-                string.IsNullOrEmpty(curAddr.Flat) ||
-                string.IsNullOrEmpty(curAddr.House) ||
-                curAddr.Flat == "0"||
-                curAddr.House == "0"||
-                curAddt.RoomsCount == null) 
-                    return false;
+                    curAddr == null) return false;
+
+                switch (estate.ObjectType)
+                {
+                    case (short)EstateTypes.Flat:
+                    case (short)EstateTypes.Room:
+                        if (string.IsNullOrEmpty(curAddr.Flat) ||
+                        string.IsNullOrEmpty(curAddr.House) ||
+                        curAddr.Flat == "0" ||
+                        curAddr.House == "0" ||
+                        curAddt.RoomsCount == null)
+                            return false;
+                        break;
+                }
+                
                 #endregion
 
                 #region Обычный поиск (общее)
@@ -863,7 +847,8 @@ namespace RGR.Core.Controllers
                 Users = usrs,
                 Medias = mdia,
                 Ratings = rtng,
-                Communications = comm
+                Communications = comm,
+                Files = fils
             };
             result.AddRange(relevant);
 

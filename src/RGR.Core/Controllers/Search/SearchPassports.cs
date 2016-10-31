@@ -121,7 +121,11 @@ namespace RGR.Core.Controllers
                 var id = long.Parse(p.MediaUrl.Split('/').Last());
                 return StorageUtils.GetFileViewPath(id, Files);
             });
-            logo = (company != null) ? StorageUtils.GetFileViewPath(long.Parse(company.LogoImageUrl.Split('/').Last()), Files) : NA;
+            logo = (company != null) ? 
+                ((!string.IsNullOrEmpty(company.LogoImageUrl)) ? 
+                    StorageUtils.GetFileViewPath(long.Parse(company.LogoImageUrl.Split('/').Last()), Files) :
+                    NA) :
+                NA;
 
             //Индекс БД
             passport.Add("Id", Estate.Id);
@@ -144,7 +148,7 @@ namespace RGR.Core.Controllers
             //Список фотографий объекта
             passport.Add("Photos", (photos.Any()) ? photos : default(string[]));
             //Логотип агенства
-            passport.Add("Logo", logo);
+            if (logo != NA) passport.Add("Logo", logo);
             //Координаты
             passport.Add("Latitude", dbAddress.Latitude);
             passport.Add("Logitude", dbAddress.Logitude);

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Html;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Html;
 using RGR.Core.Controllers;
 using RGR.Core.Controllers.Enums;
-using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Text;
 
 namespace RGR.Core.Views.Helpers
 {
@@ -169,8 +165,10 @@ namespace RGR.Core.Views.Helpers
 
         public static string CommonEnd(ShortPassport Obj)
         {
-            //TODO: Логотип агентства!!11
-            return  $"<div class=\"col-lg-2\">{Obj["Agency"]}<br/>{Obj["AgentPhone"]}</div>" +
+            string s = (Obj.ContainsKey("Logo")) ?
+                $"<img src =\"{Obj["Logo"]}\"><br/>" :
+                "";
+            return  $"{s}<div class=\"col-lg-2\">{Obj["Agency"]}<br/>{Obj["AgentPhone"]}</div>" +
                    "</div>";
 
         }

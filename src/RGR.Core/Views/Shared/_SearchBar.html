@@ -12,11 +12,11 @@
         <!--Квартира-->
         <div class="tab-content">
             <div id="panel1" action="search_box" class="tab-pane in active search-box-inner">
-                <form action="search">  <!--asp-action="search" asp-controller="search"-->                   
+                <form action="search">  <!--asp-action="search" asp-controller="search"-->            
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="search-box-inner-radio">
-                                <input name="objType" id="sh1" type="radio" value="0" checked /><label for="sh1">Квартира</label><input name="objType" id="sh2" type="radio" value="1" /><label for="sh2">Комната</label>
+                                <input name="objType" id="sh1" type="radio" value="2" checked /><label for="sh1">Квартира</label><input name="objType" id="sh2" type="radio" value="1" /><label for="sh2">Комната</label>
                             </div>
                             <div>
                                 <ul class="search-box-inner-select">
@@ -66,11 +66,11 @@
             <!--Дом-->
             <div id="panel2" action="search_box" class="tab-pane search-box-inner">
                 <form action="search">
-                    <input type="hidden" name="objType" value="2">
+                    <input type="hidden" name="objType" value="3">
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="search-box-inner-radio">
-                                <input name="objType" id="sh3" type="radio" value="2" checked /><label for="sh3">Дом, коттедж</label><input name="objType" id="sh4" type="radio" value="2"/><label for="sh4">Таунхаус</label>
+                                <input name="isCottage" id="sh3" type="radio" value="on" checked /><label for="sh3">Дом, коттедж</label><input name="isCottage" id="sh4" type="radio" value="off"/><label for="sh4">Таунхаус</label>
                             </div>
                             <div class="search-box-inner-radio">
                                 <div class="search-box-inner-radio-numb">
@@ -163,14 +163,14 @@
                             </div>
                             <div class="col-lg-6" style="padding-left:0;">
                                 <div class="search-box-inner-text">
-                                    <span style="padding-left: 0;">Площадь от</span><input name="commonSquareFrom" id="pl1_p3" type="text"><span>до</span><input name="commonSquareTo" id="pl2_p3" type="text"><span>м2</span>
+                                    <span style="padding-left: 0;">Площадь от</span><input name="commonSquareFrom" id="pl1_p3" type="text"><span>до</span><input name="commonSquareTo" id="pl2_p3" type="text"><span>м²</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="search-box-footer">
                         <div class="search-box-footer-inner">
-                            <input type="hidden" name="objType" value="3">
+                            <input type="hidden" name="objType" value="4">
                             <input type="submit" value="Показать" />
                             <label><span class="search-box-footer-inner-label">23</span></label>
                             <img src="images/search/glass.png" />
@@ -188,7 +188,7 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="search-box-inner-radio">
-                                    <input name="objType" id="sh5" type="checkbox" value="4" checked /><label for="sh5">Гараж</label><input name="objType" id="sh6" type="checkbox" value="5" /><label for="sh6">Машиноместо</label>
+                                    <input name="isCarPlace" id="sh5" type="radio" value="off" checked /><label for="sh5">Гараж</label><input name="isCarPlace" id="sh6" type="radio" value="on" /><label for="sh6">Машиноместо</label>
                                 </div>
                             </div>
                             <div class="col-lg-8">
@@ -203,14 +203,14 @@
                             </div>
                             <div class="col-lg-6" style="padding-left:0;">
                                 <div class="search-box-inner-text">
-                                    <span style="padding-left: 0;">Площадь от</span><input name="commonSquareFrom" id="pl1_p4" type="text"><span>до</span><input name="commonSquareTo" id="pl2_p4" type="text"><span>м2</span>
+                                    <span style="padding-left: 0;">Площадь от</span><input name="commonSquareFrom" id="pl1_p4" type="text"><span>до</span><input name="commonSquareTo" id="pl2_p4" type="text"><span>м²</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="search-box-footer">
                         <div class="search-box-footer-inner">
-                            <input type="hidden" name="objType" value="4">
+                            <input type="hidden" name="objType" value="6">
                             <input type="submit" value="Показать" />
                             <label><span class="search-box-footer-inner-label">23</span></label>
                             <img src="images/search/glass.png" />
@@ -227,7 +227,7 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="search-box-inner-radio">
-                                    <input name="objType" id="sh7" type="radio" value="6" checked /><label for="sh7">Помещение</label><input name="objType" id="sh8" type="radio"  value="7"/><label for="sh8">Здание</label>
+                                    <input name="isBuilding" id="sh7" type="radio" value="off" checked /><label for="sh7">Помещение</label><input name="isBuilding" id="sh8" type="radio"  value="on"/><label for="sh8">Здание</label>
                                 </div>
                             </div>
                             <div class="col-lg-4">
@@ -253,12 +253,12 @@
                             </div>
                             <div class="col-lg-2">
                                 <div class="search-box-inner-radio">
-                                    <input name="pricePerSqM" id="pl1" type="radio" value="on" checked /><label for="pl1">Все</label><input name="pricePerSqM" id="pl2" type="radio"value="off" /><label for="pl2">м2</label>
+                                    <input name="pricePerSqM" id="pl1" type="radio" value="on" checked /><label for="pl1">Все</label><input name="pricePerSqM" id="pl2" type="radio"value="off" /><label for="pl2">м²</label>
                                 </div>
                             </div>
                             <div class="col-lg-5" style="width:50%;">
                                 <div class="search-box-inner-text">
-                                    <span style="padding-left: 0;">Площадь от</span><input name="commonSquareFrom" id="pl1_p5" type="text"><span>до</span><input name="commonSquareTo" id="pl2_p5" type="text"><span>м2</span>
+                                    <span style="padding-left: 0;">Площадь от</span><input name="commonSquareFrom" id="pl1_p5" type="text"><span>до</span><input name="commonSquareTo" id="pl2_p5" type="text"><span>м²</span>
                                 </div>
                             </div>
                         </div>
