@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Newtonsoft.Json;
-using RGR.Core.Controllers;
+using RGR.Core.Common;
 using RGR.Core.Controllers.Enums;
 using System;
 using System.Text;
@@ -64,12 +64,16 @@ namespace RGR.Core.Views.Helpers
         //    return new HtmlString((sb.ToString()));
         //}
 
+        public static SuitableEstate Deserialize(string Source)
+        {
+            return JsonConvert.DeserializeObject<SuitableEstate>(Source);
+        }
 
-        public static HtmlString Render(string Source, EstateTypes Type)
+        public static HtmlString Render(SuitableEstate objects, EstateTypes Type)
         {
             var sb = new StringBuilder("<div id=\"bodyResult\">");
             //var DTO = JsonConvert.DeserializeObject<List<ShortPassport>>(Source);
-            var objects = JsonConvert.DeserializeObject<SuitableEstate>(Source);//new SuitableEstate(DTO)
+            //var objects = JsonConvert.DeserializeObject<SuitableEstate>(Source);//new SuitableEstate(DTO)
             
 
             switch (objects.EstateType)
@@ -122,8 +126,8 @@ namespace RGR.Core.Views.Helpers
                     break;
 
                 case EstateTypes.Land:
-                    var lands = JsonConvert.DeserializeObject<SuitableEstate>(Source);
-                    foreach (var land in lands)
+                    //var lands = JsonConvert.DeserializeObject<SuitableEstate>(Source);
+                    foreach (var land in objects)
                     {                    
                         sb.Append(CommonStart(land));
                         sb.Append($"<div class=\"col-lg-3\">{land["Area"]:###.##} м²<br /><br/>отопление: {land["Heating"]}<br/>вода: {land["Water"]}<br/>электричество: {land["Electricy"]}<br/>канализация: {land["Sewer"]}</div>");

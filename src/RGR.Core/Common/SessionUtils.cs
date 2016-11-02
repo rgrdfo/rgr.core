@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using RGR.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace RGR.Core.Controllers.Account
+namespace RGR.Core.Common
 {
     public static class SessionUtils
     {

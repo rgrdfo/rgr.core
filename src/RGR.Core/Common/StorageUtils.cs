@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RGR.Core.Controllers.Storage
+namespace RGR.Core.Common
 {
     /// <summary>
     /// Назначение файла. Используется при помещении файла в хранилище
@@ -33,7 +33,7 @@ namespace RGR.Core.Controllers.Storage
 
             //Замена слэшей для записей, оставшихся от старого сайта
             var path = file.ServerFilename.Replace('\\','/');
-            return $"~/images/{path}";
+            return $"/images/{path}";
         }
         /// <summary>
         /// Получение строки, содержащей путь до файла для использования в представлениях

@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace RGR.Core.Controllers.Account
+namespace RGR.Core.Common
 {
     /// <summary>
     /// Утилиты для обработки и генерации паролей

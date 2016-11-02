@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-
-using RGR.Core.Controllers.Account;
+using Microsoft.EntityFrameworkCore;
+using RGR.Core.Common;
 using RGR.Core.Models;
 using RGR.Core.ViewModels;
-using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace RGR.Core.Controllers
 {

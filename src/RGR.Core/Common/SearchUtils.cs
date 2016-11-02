@@ -13,7 +13,7 @@ using System.Text;
 
 using static System.Net.WebUtility;
 
-namespace RGR.Core.Controllers.Search
+namespace RGR.Core.Common
 {
     public struct ExplainedRequest
     {

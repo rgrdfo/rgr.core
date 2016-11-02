@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using RGR.Core.Controllers.Storage;
+using RGR.Core.Common;
 
 namespace RGR.Core.Controllers
 {

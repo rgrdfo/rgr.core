@@ -1,21 +1,18 @@
-﻿//using Danko.TextJobs;
-using Eastwing.Parser;
+﻿using Eastwing.Parser;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using RGR.Core.Common;
 using RGR.Core.Controllers.Enums;
 using RGR.Core.Models;
+using RGR.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-
-using RGR.Core.ViewModels;
-using RGR.Core.Controllers.Account;
-using RGR.Core.Controllers.Search;
 
 namespace RGR.Core.Controllers
 {
@@ -351,7 +348,7 @@ namespace RGR.Core.Controllers
 
                 #region Фильтрация некорректных записей
                 if (curMain.Price == null ||
-                    curAddr == null) return false;
+                    curAddr == null ) return false;
 
                 switch (estate.ObjectType)
                 {

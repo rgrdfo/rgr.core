@@ -8,9 +8,8 @@ using RGR.Core.Controllers.Enums;
 using Microsoft.EntityFrameworkCore;
 using Eastwing.Parser;
 using Newtonsoft.Json;
-using RGR.Core.Controllers.Storage;
 
-namespace RGR.Core.Controllers
+namespace RGR.Core.Common
 {
 
     //Словарь для передачи результатов поиска в предстваление
