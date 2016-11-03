@@ -16,6 +16,7 @@ namespace RGR.Core.Common
     public class ShortPassport : Dictionary<string, object>, IComparable<ShortPassport>
     {
         //public long Id { get; internal set; }
+        public EstateTypes EstateType;
 
         public int CompareTo(ShortPassport other)
         {

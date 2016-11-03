@@ -51,7 +51,7 @@ namespace RGR.Core
         /// <param name="source"></param>
         /// <param name="Ids">Строка, содержащая индексы значений словаря</param>
         /// <returns></returns>
-        public static string GetFromIds(this List<DictionaryValues> source, string Ids)
+        public static string GetFromIds(this IEnumerable<DictionaryValues> source, string Ids)
         {
             if (!source.Any()) return null;
 

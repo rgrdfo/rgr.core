@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RGR.Core.Models;
+using RGR.Core.Controllers.Enums;
 using Microsoft.AspNetCore.Http;
-//using Danko.TextJobs;
 using Eastwing.Parser;
 using Newtonsoft.Json;
 using RGR.Core.Controllers.Account;
@@ -134,7 +134,7 @@ namespace RGR.Core.Common
             {
                 bool maxSetted = dict.ContainsKey("MAXFLOOR");
 
-                string prefix  = maxSetted ? "на" : "не ниже";
+                string prefix = maxSetted ? "на" : "не ниже";
                 string postfix = maxSetted ? "-" : " этажа";
 
                 sb.Append($", {prefix} {dict["MINFLOOR"]}{postfix}");
@@ -144,7 +144,7 @@ namespace RGR.Core.Common
             {
                 bool minSetted = dict.ContainsKey("MINFLOOR");
 
-                string prefix  = minSetted ? "" : ", не выше ";
+                string prefix = minSetted ? "" : ", не выше ";
                 string postfix = minSetted ? "этажах" : "этажа";
 
                 sb.Append($"{prefix}{dict["MAXFLOOR"]} {postfix} ");
@@ -172,6 +172,140 @@ namespace RGR.Core.Common
             #endregion
 
             return sb.ToString();
+        }
+
+        public static List<ShortPassport> GetShortPassports(rgrContext db, IEnumerable<EstateObjects> EstateObjects)
+        {
+            const string NA = "";
+            var result = new List<ShortPassport>();
+            foreach (var Estate in EstateObjects)
+            {
+                var passport = new ShortPassport();
+                var mainProp = db.ObjectMainProperties.FirstOrDefault(m => m.ObjectId == Estate.Id);
+                var addtProp = db.ObjectAdditionalProperties.FirstOrDefault(a => a.ObjectId == Estate.Id);
+                var dbAddress = db.Addresses.FirstOrDefault(a => a.ObjectId == Estate.Id);
+                var street = db.GeoStreets.FirstOrDefault(s => s.Id == dbAddress.StreetId);
+                var streetName = (street != null) ? street.Name : NA;
+                if (streetName == NA)
+                    continue;
+                var city = db.GeoCities.FirstOrDefault(c => c.Id == dbAddress.CityId).Name;
+                var price = mainProp.Price;
+                var area = mainProp.TotalArea;
+                var agent = db.Users.FirstOrDefault(u => u.Id == Estate.Id);
+                var company = db.Companies.FirstOrDefault(c => c.Id == Estate.Id);
+                var photos = db.ObjectMedias.Where(m => m.ObjectId == Estate.Id).Select(p => StorageUtils.GetFileViewPath(long.Parse(p.MediaUrl.Split('/').Last()), db.StoredFiles));
+                var logo = (company != null) ?
+                    ((!string.IsNullOrEmpty(company.LogoImageUrl)) ?
+                        StorageUtils.GetFileViewPath(long.Parse(company.LogoImageUrl.Split('/').Last()), db.StoredFiles) :
+                        NA) :
+                    NA;
+
+                //Индекс БД
+                passport.Add("Id", Estate.Id);
+                //Присвоить дату создания, если нет даты изменения
+                passport.Add("Date", (Estate.DateModified == null) ? Estate.DateCreated : Estate.DateModified);
+                //Демонстрируемый адрес
+                passport.Add("Address", (streetName != null) ? $"{streetName}, {dbAddress.House}" : NA);
+                //Город
+                passport.Add("City", city);
+                //Цена
+                passport.Add("Price", price);
+                //Общая площадь
+                passport.Add("Area", area);
+                //Цена за квадрат
+                passport.Add("PricePerSquare", (price != null && area != null) ? $"{price / area: ### 000.00}" : NA);
+                //Телефон агента
+                passport.Add("AgentPhone", (agent != null) ? agent.Phone : NA);
+                //Агенство
+                passport.Add("Agency", (company != null) ? company.Name : NA);
+                //Список фотографий объекта
+                passport.Add("Photos", (photos.Any()) ? photos : null);
+                //Логотип агенства
+                if (logo != NA) passport.Add("Logo", logo);
+                //Координаты
+                passport.Add("Latitude", dbAddress.Latitude);
+                passport.Add("Logitude", dbAddress.Logitude);
+
+                if (Estate.ObjectType == (short)EstateTypes.Room || 
+                    Estate.ObjectType == (short)EstateTypes.Flat || 
+                    Estate.ObjectType == (short)EstateTypes.Office || 
+                    Estate.ObjectType == (short)EstateTypes.House)
+                {
+                    #region Общие поля для офиса, комнаты, дома и квартиры
+                    var rating = db.ObjectRatingProperties.FirstOrDefault(r => r.Id == Estate.Id);
+
+                    //Материал постройки
+                    passport.Add("HouseMaterial", ((mainProp.BuildingMaterial != null) ? db.DictionaryValues.GetFromIds(mainProp.BuildingMaterial) : NA));
+                    //Тип дома
+                    passport.Add("HouseType", (mainProp.BuildingType != null) ? db.DictionaryValues.First(d => d.Id == mainProp.BuildingType).Value : NA);
+                    //Площадь кухни
+                    passport.Add("KitchenArea", mainProp.KitchenFloorArea);
+                    //Этажей в здании
+                    passport.Add("FloorCount", mainProp.TotalFloors);
+                    //Текущий этаж
+                    passport.Add("Floor", mainProp.FloorNumber);
+                    //Санузел
+                    passport.Add("WC", (rating == null) ? NA : ((rating.Wc != null) ? db.DictionaryValues.GetFromIds(rating.Wc) : NA));
+
+                    //Краткое описание
+                    passport.Add("Description", (mainProp.ShortDescription == null) ? NA : (mainProp.ShortDescription.Length <= 55) ? mainProp.ShortDescription :
+                        mainProp.ShortDescription.Remove(49) + " (...)");
+                    #endregion
+                }
+
+                if (Estate.ObjectType == (short)EstateTypes.Land ||
+                    Estate.ObjectType == (short)EstateTypes.Office ||
+                    Estate.ObjectType == (short)EstateTypes.House)
+                {
+                    #region Общие для участка, дома и офиса поля
+                    var landComm = db.ObjectCommunications.FirstOrDefault(c => c.Id == Estate.Id);
+
+                    //отопление
+                    passport.Add("Heating", (landComm != null) ? ((landComm.Heating != "305") ? "есть" : "нет") : NA);
+                    passport.Add("Water", (landComm != null) ? ((landComm.Water != "205") ? "есть" : "нет") : NA);
+                    passport.Add("Electricy", (landComm != null) ? ((landComm.Electricy != "167") ? "есть" : "нет") : NA);
+                    passport.Add("Sewer", (landComm != null) ? ((landComm.Sewer != 312) ? "есть" : "нет") : NA);
+                    #endregion
+                }
+
+                if (Estate.ObjectType == (short)EstateTypes.Land)
+                {
+                    //Назначение участка
+                    passport.Add("Purpose", mainProp.LandAssignment ?? NA);
+                }
+
+                if (Estate.ObjectType == (short)EstateTypes.Office)
+                {
+                    #region Специфичные для офиса поля
+                    passport.Add("Purpose", db.DictionaryValues.GetFromIds(mainProp.ObjectAssignment) ?? NA);
+                    passport.Add("Category", NA); //TODO
+                    passport.Add("Specifics", NA);//TODO
+                    #endregion
+                }
+
+                if (Estate.ObjectType == (short)EstateTypes.Flat ||
+                    Estate.ObjectType == (short)EstateTypes.House)
+                {
+                    #region Общие для квартиры и дома поля
+                    //Число комнат
+                    passport.Add("Rooms", addtProp.RoomsCount);
+                    //Жилая площадь
+                    passport.Add("LivingArea", mainProp.ActualUsableFloorArea);
+                    #endregion
+                }
+
+                if (Estate.ObjectType == (short)EstateTypes.Garage)
+                {
+                    passport.Add("HouseMaterial", db.DictionaryValues.GetFromIds(mainProp.BuildingMaterial) ?? NA);
+                }
+
+                if (Estate.ObjectType == (short)EstateTypes.Unset)
+                    throw new ArgumentException("Как ты этого добился, демон?!");
+
+                result.Add(passport);
+            }
+
+            return result;
         }
     }
 }

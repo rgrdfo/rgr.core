@@ -164,7 +164,7 @@ namespace RGR.Core.Views.Helpers
 
             return $"<div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{Obj["Address"]}<br/>{Obj["City"]}</span></h1></div>" +
                    $"<div class=\"col-lg-1\"><h1>{DateToShow}</h1><br />ID: {Obj["Id"]:0000000}</div>" +
-                   $"<div class=\"col-lg-1\"><h1>{Obj["Price"]: ### ### ###}</h1><br />{Obj["PricePerSquare"]:### ###.##} ₽ / м²</div>";
+                   $"<div class=\"col-lg-1\"><h1>{Obj["Price"]: ### ### ###} ₽</h1><br />{Obj["PricePerSquare"]:### ###.##} ₽ / м²</div>";
         }
 
         public static string CommonEnd(ShortPassport Obj)

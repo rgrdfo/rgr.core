@@ -25,7 +25,7 @@ namespace RGR.Core.Common
         /// <param name="Id">Индекс файла в БД</param>
         /// <param name="Files">Таблица файлов</param>
         /// <returns></returns>
-        public static string GetFileViewPath(long Id, List<StoredFiles> Files)
+        public static string GetFileViewPath(long Id, IEnumerable<StoredFiles> Files)
         {
             var file = Files.FirstOrDefault(f => f.Id == Id);
             if (file == null)
