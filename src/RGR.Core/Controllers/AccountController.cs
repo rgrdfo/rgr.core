@@ -122,6 +122,12 @@ namespace RGR.Core.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Login", "Account");
         }
+
+        //Личный кабинет
+        public IActionResult Account()
+        {
+            return View();
+        }
     }
 }
 

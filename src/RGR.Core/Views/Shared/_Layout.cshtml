@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="~/css/search-bar.css" />
     <link rel="stylesheet" href="~/css/search-result.css" />       
     <link rel="stylesheet" href="~/css/master.css" />
+    <link rel="stylesheet" href="~/css/account.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>    
 
@@ -42,7 +43,8 @@
 @*>>>>>>> refs/heads/frontend*@
                     <li>
                         <div class="img-button">
-                            <img src="~/images/btn_login_up.png" />
+                            @*<img src="~/images/btn_login_up.png" />*@
+                            <a asp-controller="Account" asp-action="Account"><img src="~/images/btn_login_up.png" /></a>
                         </div>
                         
                     </li>
@@ -58,18 +60,11 @@
                     </li>
                 </ul>                
             </nav>
-        </div>
-
-        <br />
-        
+        </div>       
         <div class="search-bar">
-            <div class="search-bar-inner">
-                @SearchBar.Render()
-            </div>
+            @SearchBar.Render()            
         </div>
-        
-
-        <div class="content"> <!--container-->
+        <div> <!--container-->
             @RenderBody()
         </div>            
         <div class="footer">
