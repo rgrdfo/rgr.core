@@ -1,5 +1,6 @@
 ﻿@using RGR.Core.Common
+@using RGR.Core.Controllers.Enums
 @using RGR.Core.Views.Helpers
-@model SuitableEstate
+@model IEnumerable<ShortPassport>
 
-@SearchResult.Render(Model, Model.EstateType)
+@SearchResult.Render(Model, (EstateTypes)ViewData["Type"])

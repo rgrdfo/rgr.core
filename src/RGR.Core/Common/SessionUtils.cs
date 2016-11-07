@@ -17,7 +17,7 @@ namespace RGR.Core.Common
         /// </summary>
         /// <param name="Context"></param>
         /// <param name="User"></param>
-        public static void SetUser(ISession Session, Users User)
+        public static void SetUser(this ISession Session, Users User)
         {
             Session.SetString("UserId", User.Id.ToString());
             Session.SetString("FirstName", User.FirstName);
@@ -28,7 +28,7 @@ namespace RGR.Core.Common
         /// <summary>
         /// Получить текущего пользователя из сессии. Если пользователь не задан, возвращается null
         /// </summary>
-        private static Users GetUser(ISession Session, rgrContext db)
+        internal static Users GetUser(this ISession Session, rgrContext db)
         {
             if (Session.Keys.Contains("UserId"))
             {
@@ -48,7 +48,7 @@ namespace RGR.Core.Common
         /// </summary>
         /// <param name="Session"></param>
         /// <returns></returns>
-        public static string GetFirstName (ISession Session)
+        public static string GetFirstName (this ISession Session)
         {
             if (Session.Keys.Contains("FirstName"))
                 return Session.GetString("FirstName");
@@ -62,7 +62,7 @@ namespace RGR.Core.Common
         /// <param name="Session">Ссылка на текущую сессию</param>
         /// <param name="LastNameFirst">Выводить имя в формате "Фамилия Имя Отчество" (по умолчанию) или "Имя Отчество Фамилия"</param>
         /// <returns></returns>
-        public static string GetFullName(ISession Session, bool LastNameFirst = true)
+        public static string GetFullName(this ISession Session, bool LastNameFirst = true)
         {
             string firstName, surName, lastName;
 
@@ -81,7 +81,7 @@ namespace RGR.Core.Common
         /// </summary>
         /// <param name="Session"></param>
         /// <returns></returns>
-        public static long GetUserId(ISession Session)
+        public static long GetUserId(this ISession Session)
         {
             if (Session.Keys.Contains("UserId"))
             {

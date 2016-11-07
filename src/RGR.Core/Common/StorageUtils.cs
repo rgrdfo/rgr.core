@@ -41,23 +41,10 @@ namespace RGR.Core.Common
         /// <param name="URI">Ссылка на файл</param>
         /// <param name="db">Указание на БД</param>
         /// <returns></returns>
-        public static string GetFileViewPath(string URI, rgrContext db)
+        public static string GetFileViewPath(string URI, IEnumerable<StoredFiles> Files)
         {
-            var parser = new Parser()
-            {
-                Letters = "",
-                Separators = "",
-                Brackets = ""
-            };
-            long Id;
-            //Разбор URI и попытка вычленить Id файла
-            var lexemes = parser.Parse(URI);
-            var strId = lexemes.FirstOrDefault(l => l.Category == Category.Integer).Lexeme;
-            if (strId == null)
-                return null;
-
-            Id = long.Parse(strId);
-            return GetFileViewPath(Id, db.StoredFiles.ToList());
+            long Id = long.Parse(URI.Split('/').Last());
+            return GetFileViewPath(Id, Files);
         }
 
         /// <summary>
