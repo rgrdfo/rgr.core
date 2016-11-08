@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using RGR.Core.Common;
+using RGR.Core.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using RGR.Core.Common;
-using RGR.Core.Models;
-using Microsoft.AspNetCore.Http;
 using static RGR.Core.Common.SearchUtils;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace RGR.Core.Controllers.Account
 {

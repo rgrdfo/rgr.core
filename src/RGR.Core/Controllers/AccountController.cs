@@ -117,8 +117,8 @@ namespace RGR.Core.Controllers
                 throw new NullReferenceException("Ошибка аутентификации! Вероятно, пользователь был удалён или пара логин/пароль была изменена администратором");
             //SessionUtils.SetUser(HttpContext.Session, user);
             HttpContext.Session.SetUser(user);
-            var page = await PersonalPage.GenerateAsync(db, HttpContext.Session);
-            HttpContext.Session.SetString("MyObjectsCache", JsonConvert.SerializeObject(page.MyObjects));
+            //var page = await PersonalPage.GenerateAsync(db, HttpContext.Session);
+            //HttpContext.Session.SetString("MyObjectsCache", JsonConvert.SerializeObject(page.MyObjects));
         }
 
         public async Task<IActionResult> Logout()
@@ -126,6 +126,14 @@ namespace RGR.Core.Controllers
             await HttpContext.Authentication.SignOutAsync("Cookies");
             HttpContext.Session.Clear();
             return RedirectToAction("Login", "Account");
+        }
+
+        public async Task<IActionResult> Personal()
+        {
+            var page = await PersonalPage.GenerateAsync(db, HttpContext.Session);
+            ViewData["MyObjects"] = JsonConvert.SerializeObject(page.MyObjects);
+            ViewData["CompanyObjects"] = (page.CompanyObjects == null) ? "" : JsonConvert.SerializeObject(page.CompanyObjects);
+            return View();
         }
     }
 }

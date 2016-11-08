@@ -23,7 +23,7 @@ namespace RGR.Core.Common
 
     public class SearchUtils
     {
-        public static string GetSavedRequests(DbSet<SearchRequests> Requests)
+        public static string GetSavedRequests(IEnumerable<SearchRequests> Requests)
         {
             var uriParser = new Parser()
             {
@@ -44,14 +44,14 @@ namespace RGR.Core.Common
                 new ExplainedRequest
                 {
                     Title = r.Title,
-                    Explanation = Explain(r.SearchUrl, uriParser, valParser)
+                    Explanation = Explain(r.SearchUrl, ref uriParser, ref valParser)
                 });
 
             return JsonConvert.SerializeObject(ExplainedRequests);
         }
 
         //генерация описания запроса на основе строки запроса
-        private static string Explain(string query, Parser uriParser, Parser valParser)
+        private static string Explain(string query, ref Parser uriParser, ref Parser valParser)
         {
             var sb = new StringBuilder();
             var dict = new Dictionary<string, string>();
@@ -212,12 +212,12 @@ namespace RGR.Core.Common
                     var company = Companies.FirstOrDefault(c => c.Id == Estate.Id);
 
 
-                    var photos = Medias.Where(m => m.ObjectId == Estate.Id).Select(p => StorageUtils.GetFileViewPath(p.MediaUrl, Files));
+                    var photos = Medias.Where(m => m.ObjectId == Estate.Id).Select(p => Files.GetFilePath(p.MediaUrl));
 
 
                     var logo = (company != null) ?
                         ((!string.IsNullOrEmpty(company.LogoImageUrl)) ?
-                            StorageUtils.GetFileViewPath(company.LogoImageUrl, Files) :
+                            Files.GetFilePath(company.LogoImageUrl) :
                             NA) :
                         NA;
 

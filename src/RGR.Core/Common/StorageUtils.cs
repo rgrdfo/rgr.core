@@ -25,7 +25,7 @@ namespace RGR.Core.Common
         /// <param name="Id">Индекс файла в БД</param>
         /// <param name="Files">Таблица файлов</param>
         /// <returns></returns>
-        public static string GetFileViewPath(long Id, IEnumerable<StoredFiles> Files)
+        public static string GetFilePath(this IEnumerable<StoredFiles> Files, long Id)
         {
             var file = Files.FirstOrDefault(f => f.Id == Id);
             if (file == null)
@@ -41,10 +41,10 @@ namespace RGR.Core.Common
         /// <param name="URI">Ссылка на файл</param>
         /// <param name="db">Указание на БД</param>
         /// <returns></returns>
-        public static string GetFileViewPath(string URI, IEnumerable<StoredFiles> Files)
+        public static string GetFilePath(this IEnumerable<StoredFiles> Files, string URI)
         {
             long Id = long.Parse(URI.Split('/').Last());
-            return GetFileViewPath(Id, Files);
+            return GetFilePath(Files, Id);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace RGR.Core.Common
         /// <param name="CreatorId">Индекс БД пользователя, добавляющего файл</param>
         /// <param name="wwwroot">Путь до папки wwwroot</param>
         /// <param name="db">Контекст БД</param>
-        internal static void Store(byte[] Content, string FileName, FilePurpose Purpose, long CreatorId, string wwwroot, rgrContext db)
+        internal static void Store(this byte[] Content, string FileName, FilePurpose Purpose, long CreatorId, string wwwroot, rgrContext db)
         {
             //Извлечение короткого имени и расширения файла
             var parts = FileName.Split('.');
@@ -84,7 +84,7 @@ namespace RGR.Core.Common
         /// <param name="wwwroot">Путь до папки wwwroot</param>
         /// <param name="db">Контекст БД</param>
         /// <returns></returns>
-        internal static async Task StoreAsync(byte[] Content, string FileName, FilePurpose Purpose, long CreatorId, string wwwroot, rgrContext db)
+        internal static async Task StoreAsync(this byte[] Content, string FileName, FilePurpose Purpose, long CreatorId, string wwwroot, rgrContext db)
         {
             //Извлечение короткого имени и расширения файла
             var parts = FileName.Split('.');
@@ -112,7 +112,12 @@ namespace RGR.Core.Common
                 });
         }
 
-        private static string GetMIME(string ext)
+        /// <summary>
+        /// Заменяет строку, содержащую расширение, строкой, содержащей MIME
+        /// </summary>
+        /// <param name="ext"></param>
+        /// <returns></returns>
+        private static string GetMIME(this string ext)
         {
             switch (ext.ToUpper())
             {
@@ -128,6 +133,15 @@ namespace RGR.Core.Common
             }
         }
 
+        /// <summary>
+        /// Создаёт объект, готовый к сохранению в БД
+        /// </summary>
+        /// <param name="ext"></param>
+        /// <param name="FileSize"></param>
+        /// <param name="OldName"></param>
+        /// <param name="NewName"></param>
+        /// <param name="CreatorId"></param>
+        /// <returns></returns>
         private static StoredFiles MakeEntry(string ext, int FileSize, string OldName, string NewName, long CreatorId)
         {
             return new StoredFiles()
