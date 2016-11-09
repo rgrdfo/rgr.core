@@ -1,6 +1,11 @@
 ﻿
 @using RGR.Core.Controllers.Enums;
+@using RGR.Core.Controllers;
 @using RGR.Core.Views.Helpers;
+
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Html;
+@using System.Text;
 
 @{
     ViewData["Title"] = "Результаты поиска";
@@ -49,21 +54,19 @@
     </script>
 </head>
 
-<div class="content">
-    <div class="search-result">
-        <!--Отладочная информация, убрать к релизу-->
-        <font size="1">@ViewData["Timer"] </font> <br /> <br />
+<div class="search-result">
+    <!--Отладочная информация, убрать к релизу-->
+    <font size="1">@ViewData["Timer"] </font> <br /> <br />
 
-        @*<a href='@url.action("saverequest", "search")'> сохранить запрос </a>*@
-        <form action="saveRequest">
-            <input name="query" value="@Context.Request.QueryString.ToString()" hidden="hidden" />
-            <input type="submit" value="Сохранить запрос" />
-        </form>
-        <div class="search-result-box">
-            @SearchResult.HeadResult((EstateTypes)ViewData["Type"])
-            @await Component.InvokeAsync("SearchResultRenderer", new { Result = objects, OrderingField = "Price" })
-            <!--<div id="map" style="width: 400px; height: 400px; border:1px solid black; position: absolute; top:0; left:560px"></div>-->
-        </div>
+    @*<a href='@url.action("saverequest", "search")'> сохранить запрос </a>*@
+    <form action="saveRequest">
+        <input name="query" value="@Context.Request.QueryString.ToString()" hidden="hidden" />
+        <input type="submit" value="Сохранить запрос" />
+    </form>    
+    <div class="search-result-box">
+        @SearchResult.HeadResult((EstateTypes)ViewData["Type"])
+        @await Component.InvokeAsync("SearchResultRenderer", new { Result = objects, Type = ViewData["Type"], OrderingField = "Price" })
+        <!--<div id="map" style="width: 400px; height: 400px; border:1px solid black; position: absolute; top:0; left:560px"></div>-->
     </div>
 </div>
     

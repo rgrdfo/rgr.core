@@ -5,13 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 using RGR.Core.Common;
+using RGR.Core.Controllers.Enums;
 
 namespace RGR.Core.ViewComponents
 {
     public class SearchResultRenderer : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync(SuitableEstate Result, string OrderingField)
+        public async Task<IViewComponentResult> InvokeAsync(List<ShortPassport> Result, EstateTypes Type, string OrderingField)
         {
+            ViewData["Type"] = Type;
             return await Task.Run(() => View(Result.OrderBy(estate => estate[OrderingField])));
         }
     }

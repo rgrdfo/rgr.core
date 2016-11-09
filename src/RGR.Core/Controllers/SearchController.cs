@@ -831,9 +831,9 @@ namespace RGR.Core.Controllers
                 EstateType = (EstateTypes)relevant.First().ObjectType;
 
             //Инициализация и генерирование последовательности паспортов
-            var result = new SuitableEstate()
+            var result = new SearchUtils.PassportConverter()
             {
-                EstateType = EstateType,
+                //EstateType = EstateType,
                 Addresses = addr,
                 MainProps = main,
                 AddtProps = addt,
@@ -846,8 +846,7 @@ namespace RGR.Core.Controllers
                 Ratings = rtng,
                 Communications = comm,
                 Files = fils
-            };
-            result.AddRange(relevant);
+            }.GetShortPassports(relevant);
 
             return JsonConvert.SerializeObject(result);
         }

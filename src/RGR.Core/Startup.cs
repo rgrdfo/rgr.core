@@ -86,6 +86,7 @@ namespace RGR.Core
                 routes.MapRoute("search", "search", new { controller = "Search", action = "Search" });
                 routes.MapRoute("info", "info" , new { controller = "Search", action = "Info" });
                 routes.MapRoute("saveRequest", "saveRequest", new { controller = "Search", action = "SaveRequest" });
+                routes.MapRoute("personal", "personal", new { controller = "Account", action = "Personal" });
 
                 routes.MapRoute(
                     name: "default",

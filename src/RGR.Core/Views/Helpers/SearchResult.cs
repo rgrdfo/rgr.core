@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using RGR.Core.Common;
 using RGR.Core.Controllers.Enums;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace RGR.Core.Views.Helpers
@@ -64,19 +65,19 @@ namespace RGR.Core.Views.Helpers
         //    return new HtmlString((sb.ToString()));
         //}
 
-        public static SuitableEstate Deserialize(string Source)
+        public static IEnumerable<ShortPassport> Deserialize(string Source)
         {
-            return JsonConvert.DeserializeObject<SuitableEstate>(Source);
+            return JsonConvert.DeserializeObject<IEnumerable<ShortPassport>>(Source);
         }
 
-        public static HtmlString Render(SuitableEstate objects, EstateTypes Type)
+        public static HtmlString Render(IEnumerable<ShortPassport> objects, EstateTypes Type)
         {
             var sb = new StringBuilder("<div id=\"bodyResult\">");
             //var DTO = JsonConvert.DeserializeObject<List<ShortPassport>>(Source);
             //var objects = JsonConvert.DeserializeObject<SuitableEstate>(Source);//new SuitableEstate(DTO)
             
 
-            switch (objects.EstateType)
+            switch (Type)
             {
                 case EstateTypes.Flat:
                     foreach (var floor in objects)

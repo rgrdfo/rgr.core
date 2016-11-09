@@ -13,22 +13,21 @@ namespace RGR.Core.Common
     public static class SessionUtils
     {
         /// <summary>
-        /// Записать в сессию индекс БД пользователя, а так же некоторые часто употребимые данные (например, имя)
+        /// Записать в сессию часто употребимые данные пользователя
         /// </summary>
-        /// <param name="Context"></param>
-        /// <param name="User"></param>
-        public static void SetUser(ISession Session, Users User)
+        public static void SetUser(this ISession Session, Users User)
         {
             Session.SetString("UserId", User.Id.ToString());
+            Session.SetString("RoleId", User.RoleId.ToString());
             Session.SetString("FirstName", User.FirstName);
             Session.SetString("SurName", User.SurName);
             Session.SetString("LastName", User.LastName);
         }
 
         /// <summary>
-        /// Получить текущего пользователя из сессии. Если пользователь не задан, возвращается null
+        /// Получить текущего пользователя по индексу, записанному в сессии. Если пользователь не задан, возвращается null. Метод доступен только в серверной части приложения
         /// </summary>
-        private static Users GetUser(ISession Session, rgrContext db)
+        internal static Users GetUser(this ISession Session, rgrContext db)
         {
             if (Session.Keys.Contains("UserId"))
             {
@@ -44,25 +43,35 @@ namespace RGR.Core.Common
         }
 
         /// <summary>
+        /// Получение идентификатора роли пользователя. Если запись отсутствует или некорректна, возвращает -1
+        /// </summary>
+        public static long GetRoleId(this ISession Session)
+        {
+            if (Session.Keys.Contains("RoleId"))
+            {
+                long result;
+                if (long.TryParse(Session.GetString("RoleId"), out result))
+                    return result;
+            }
+
+            return -1;
+        }
+
+        /// <summary>
         /// Получение имени пользователя из сессии. Если записи нет, сесия неактивна или запись некорректна, возвращается пустая строка
         /// </summary>
-        /// <param name="Session"></param>
-        /// <returns></returns>
-        public static string GetFirstName (ISession Session)
+        public static string GetFirstName (this ISession Session)
         {
             if (Session.Keys.Contains("FirstName"))
                 return Session.GetString("FirstName");
-            else
-                return "";
+
+            return "";
         }
 
         /// <summary>
         /// Получить ФИО пользователя из сессии
         /// </summary>
-        /// <param name="Session">Ссылка на текущую сессию</param>
-        /// <param name="LastNameFirst">Выводить имя в формате "Фамилия Имя Отчество" (по умолчанию) или "Имя Отчество Фамилия"</param>
-        /// <returns></returns>
-        public static string GetFullName(ISession Session, bool LastNameFirst = true)
+        public static string GetFullName(this ISession Session, bool LastNameFirst = true)
         {
             string firstName, surName, lastName;
 
@@ -79,9 +88,7 @@ namespace RGR.Core.Common
         /// <summary>
         /// Получение индекса БД пользователя из сессии. Если записи нет, сесия неактивна или запись некорректна, возвращается -1
         /// </summary>
-        /// <param name="Session"></param>
-        /// <returns></returns>
-        public static long GetUserId(ISession Session)
+        public static long GetUserId(this ISession Session)
         {
             if (Session.Keys.Contains("UserId"))
             {

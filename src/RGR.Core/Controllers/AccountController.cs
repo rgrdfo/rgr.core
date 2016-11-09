@@ -4,11 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using RGR.Core.Common;
 using RGR.Core.Models;
 using RGR.Core.ViewModels;
+using RGR.Core.Controllers.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace RGR.Core.Controllers
 {
@@ -113,7 +115,10 @@ namespace RGR.Core.Controllers
             //ну, знаете, мало ли.
             if (user == null)
                 throw new NullReferenceException("Ошибка аутентификации! Вероятно, пользователь был удалён или пара логин/пароль была изменена администратором");
-            SessionUtils.SetUser(HttpContext.Session, user);
+            //SessionUtils.SetUser(HttpContext.Session, user);
+            HttpContext.Session.SetUser(user);
+            //var page = await PersonalPage.GenerateAsync(db, HttpContext.Session);
+            //HttpContext.Session.SetString("MyObjectsCache", JsonConvert.SerializeObject(page.MyObjects));
         }
 
         public async Task<IActionResult> Logout()
@@ -123,9 +128,11 @@ namespace RGR.Core.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        //Личный кабинет
-        public IActionResult Account()
+        public async Task<IActionResult> Personal()
         {
+            var page = await PersonalPage.GenerateAsync(db, HttpContext.Session);
+            ViewData["MyObjects"] = JsonConvert.SerializeObject(page.MyObjects);
+            ViewData["CompanyObjects"] = (page.CompanyObjects == null) ? "" : JsonConvert.SerializeObject(page.CompanyObjects);
             return View();
         }
     }

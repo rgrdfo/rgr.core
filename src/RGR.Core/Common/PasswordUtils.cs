@@ -39,7 +39,7 @@ namespace RGR.Core.Common
         /// </summary>
         /// <param name="inputString">Входная строка</param>
         /// <returns>Пароль</returns>
-        public static string GenerateMD5PasswordHash(string inputString)
+        public static string GenerateMD5PasswordHash(this string inputString)
         {
             var byteArray = Encoding.Unicode.GetBytes(inputString);
             var md5 = MD5.Create();
@@ -56,7 +56,7 @@ namespace RGR.Core.Common
         /// <param name="input">Оригинальная строка</param>
         /// <param name="times">Сколько раз генерировать</param>
         /// <returns></returns>
-        public static string Hashify(string input, int times)
+        public static string Hashify(this string input, int times)
         {
             for (var i = 0; i < times; i++)
             {
@@ -70,7 +70,7 @@ namespace RGR.Core.Common
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string QuickMD5(string str)
+        public static string QuickMD5(this string str)
         {
             //MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
             var md5 = MD5.Create();
