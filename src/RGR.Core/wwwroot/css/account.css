@@ -1,7 +1,6 @@
 ﻿
 .account-block {
-    position:relative;
-    background: #21496c;    
+    position:relative;        
     margin: 0;
     font-family: HelveticaNeueCyr_Roman;
     font-weight: 300;    
@@ -20,13 +19,13 @@
         padding: 10px 0;
         margin: 0;
         height: auto;
-}       
+}
 
 .account-block .nav-tabs
 { 
     padding: 0 16%;
     padding-top: 15px;
-    background-color:transparent;
+    background-color: #21496c;
     text-align: center;
     font-weight: 300;
     float:none;       

@@ -131,23 +131,17 @@ li a:hover:after{
 }
 .content {
     flex: 1 0 auto;
-    width: 100%;
-    padding: 0 13%;    
-    margin-top:10px;
-    /*max-width: 1170px;*/
+    width: 100%;    
     min-width: 960px;
-    position: relative;
-    font-family: HelveticaNeueCyr_Roman;
+    position: relative;    
     background: #f6f6f6;
+    margin-top: -2px;
+}
+.content-inner {
+    padding: 20px 16%;
+    font-family: HelveticaNeueCyr_Roman;
+}
 
-}
-.content-inner {    
-    padding: 20px 16%;   
-}
-
-.content-inner-login {
-    padding: 20px 3%;
-}
 
 .footer{
     background-color:#204262;
