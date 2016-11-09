@@ -6,43 +6,45 @@
 }
 
 <body>
-    <div class="body-content">
-        <h2>Вход на сайт</h2>
-        <br />
-        
-        @{
-            var s = "";
-            foreach(var mState in ViewData.ModelState.Values)
-            {
-                foreach (var error in mState.Errors)
+    <div class="content">
+        <div class="content-inner-login">
+            <h3>Вход на сайт</h3>
+
+            @{
+                var s = "";
+                foreach (var mState in ViewData.ModelState.Values)
                 {
-                    s += ($"{error.ErrorMessage}<br/>");
+                    foreach (var error in mState.Errors)
+                    {
+                        s += ($"{error.ErrorMessage}<br/>");
+                    }
+
                 }
-
+                var err = new HtmlString(s + "<br/>");
             }
-            var err = new HtmlString(s+"<br/>");
-        }
-        @err
+            @err
 
-        <a asp-action="Register" asp-controller="Account">Регистрация</a>
 
-        <form asp-action="Login" asp-controller="Account" asp-anti-forgery="true">
-            <div class="validation" asp-validation-summary="ModelOnly" />
-            <div>
-                <div class="form-group">
-                    <label asp-for="Login">Введите Email</label>
-                    <input type="text" asp-for="Login" />
-                    <span asp-validation-for="Login" />
+
+            <form asp-action="Login" asp-controller="Account" asp-anti-forgery="true">
+                <div class="validation" asp-validation-summary="ModelOnly" />
+                <div>
+                    <div class="form-group">
+                        <label asp-for="Login">Введите Email</label>
+                        <input type="text" asp-for="Login" />
+                        <span asp-validation-for="Login" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password">Введите пароль</label>
+                        <input asp-for="Password" />
+                        <span asp-validation-for="Password" />
+                    </div>
+                    <div class="form-group">
+                        <div style="float: left;"><input type="submit" value="Войти" class="but" /></div>
+                        <div><a asp-action="Register" asp-controller="Account" style="margin: 10px 15px;">Регистрация</a></div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Password">Введите пароль</label>
-                    <input asp-for="Password" />
-                    <span asp-validation-for="Password" />
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Войти" class="btn" />
-                </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
+    </div>   
 </body>

@@ -18,6 +18,18 @@ time, mark, audio, video {
   font: inherit;
   vertical-align: baseline;
 }
+a, input[type="submit"] {
+    outline: none;
+}
+
+@font-face {
+    font-family: HelveticaNeueCyr_Medium;
+    src: url(../fonts/HelveticaNeueCyr-Medium.otf);
+   }
+@font-face {
+    font-family: HelveticaNeueCyr_Roman;
+    src: url(../fonts/HelveticaNeueCyr-Roman.otf);
+   }
 
 * {
   margin: 0;
@@ -125,7 +137,16 @@ li a:hover:after{
     /*max-width: 1170px;*/
     min-width: 960px;
     position: relative;
+    font-family: HelveticaNeueCyr_Roman;
+    background: #f6f6f6;
 
+}
+.content-inner {    
+    padding: 20px 16%;   
+}
+
+.content-inner-login {
+    padding: 20px 3%;
 }
 
 .footer{
@@ -192,18 +213,21 @@ li a:hover:after{
 }
  /*////////////////////Кнопка в шапке/////////////////////*/
 .but {
-    width: 60px;
+    width: auto;
     height: 40px;
-    border-radius: 5px;
-    border-color: #dddcdc;       
+    border-radius: 5px;    
+    background-color: #22496d;
+    border: none;
+    color: #fff; 
+    padding: 10px ;    
 }
-.but a {
+/*.but a {
     height: 40px;
     text-align: center;
     text-decoration: none;
     color: #516f8c;
     
-}
+}*/
  /*////////////////////////*/
 
  
@@ -455,7 +479,7 @@ li a:hover:after{
   line-height: 0.3;
 }
 .carousel-caption .btn {
-  text-shadow: none;
+  text-shadow: none;  
 }
 @media screen and (min-width: 768px) {
   .carousel-control .glyphicon-chevron-left,
@@ -502,3 +526,14 @@ li a:hover:after{
     bottom: 20px;
   }
 }
+
+.form-group, .form-group label {
+    margin-right: 15px;
+}
+.validation input:not([type="submit"]) {    
+    border-radius: 5px;
+    border: 1px solid #c1c1c1;
+    color: #c1c1c1;
+    padding: 0 5px;
+}
+

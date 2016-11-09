@@ -1,0 +1,122 @@
+﻿
+.account-block {
+    position:relative;
+    background: #21496c;    
+    margin: 0;
+    font-family: HelveticaNeueCyr_Roman;
+    font-weight: 300;    
+    width: 100%;    
+}
+.account-block .content {
+        margin: 0;
+        padding:0;
+    }
+.account-block input[type="checkbox"] {
+    display: none;
+}
+.account-block .col-lg-7,
+.account-block .col-lg-12,
+.account-block .col-lg-5 {
+        padding: 10px 0;
+        margin: 0;
+        height: auto;
+}       
+
+.account-block .nav-tabs
+{ 
+    padding: 0 16%;
+    padding-top: 15px;
+    background-color:transparent;
+    text-align: center;
+    font-weight: 300;
+    float:none;       
+    font-size: 11pt;
+    height: auto;
+}
+.account-block .nav-tabs li{
+    background-color: transparent;
+    color: transparent;
+    border: none;     
+    margin: 0;    
+}
+.account-block .nav-tabs li a{
+    outline: none;
+    border-radius: 5px 18px 0px 0;    
+    text-decoration:none !important;
+    padding: 10px 25px 10px 10px;
+    color: #fff;  
+}
+.account-block .nav-tabs > li.active > a  {     
+    background-color: #f7f7f7;  
+    color: #477ab8;  
+}
+
+.account-block .search-box-inner-radio {
+    padding-bottom: 0;
+}
+.account-block .search-box-inner-radio label{
+    padding: 10px;
+    width: auto;
+    border: 1px solid #c1c1c1;
+    color: #c1c1c1;
+    height: 40px;
+}
+.account-block .search-box-inner-radio input:checked + label {
+    background-color: #21496c;
+    border: 1px solid #21496c;
+    color: #fff;
+}
+
+.account-block input[type="button"] {
+    color: #000;
+    font-family: HelveticaNeueCyr_Medium;
+    background-color: #f4c00a;
+    box-shadow: rgba(0,0,0,0.5) 0px 2px 1.5px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #f4c00a;
+    padding: 10px;
+}
+
+
+#account_p2 #account_r1 .search-box-inner-radio label:nth-of-type(1) {border-radius: 5px 0 0 5px;}
+#account_p2 #account_r1 .search-box-inner-radio label:nth-of-type(2) {border-radius: 0; border-left:none;}
+#account_p2 #account_r1 .search-box-inner-radio label:nth-of-type(3) {border-radius: 0 5px 5px 0; border-left:none;}
+
+#account_p2 #account_r2 .search-box-inner-radio label:nth-of-type(1) {border-radius: 5px 0 0 5px;}
+#account_p2 #account_r2 .search-box-inner-radio label:nth-of-type(2), 
+#account_p2 #account_r2 .search-box-inner-radio label:nth-of-type(3), 
+#account_p2 #account_r2 .search-box-inner-radio label:nth-of-type(4),
+#account_p2 #account_r2 .search-box-inner-radio label:nth-of-type(5) {border-radius: 0; border-left:none;}
+#account_p2 #account_r2 .search-box-inner-radio label:nth-of-type(6) {border-radius: 0 5px 5px 0; border-left:none;}
+
+#account_p2 #account_r3 .search-box-inner-radio label:nth-of-type(1) {border-radius: 5px 0 0 5px;}
+#account_p2 #account_r3 .search-box-inner-radio label:nth-of-type(2), 
+#account_p2 #account_r3 .search-box-inner-radio label:nth-of-type(3), 
+#account_p2 #account_r3 .search-box-inner-radio label:nth-of-type(4) {border-radius: 0; border-left:none;}
+#account_p2 #account_r3 .search-box-inner-radio label:nth-of-type(5) {border-radius: 0 5px 5px 0; border-left:none;}
+
+.account-office-table {
+    background: #fff;
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+}
+.account-office-table tr {
+    border-bottom: 1px solid #c1c1c1;
+    }
+.account-office-table th {
+    text-transform: uppercase;
+    color: #c1c1c1;   
+    padding: 10px 20px; 
+    }
+.account-office-table td {
+    padding: 10px 20px;
+}
+.account-office-table td span {
+    color: #477ab8;
+    border-bottom: 1px solid #c1c1c1;
+    }
+
+#account_p1 .col-lg-6 {padding: 10px 0;}
+#account_p1 h4 { color: #c1c1c1;}

@@ -10,23 +10,25 @@
     ViewData["Title"] = "Карточка объекта";
 }
 
-<div class="search-result">
-    <div class="search-result-row-sm">
-        <div class="search-result-box">
-            <div class="row">
-                <img src="~/images/img_house.jpg" />
-            </div>
-        </div>
-    </div>
-    <div class="search-result-row-lg">
-        <div class="search-result-box">
-            <div class="search-box-head">
+<div class="content">
+    <div class="search-result">
+        <div class="search-result-row-sm">
+            <div class="search-result-box">
                 <div class="row">
-                    <div class="col-lg-4"><h1>Свойства</h1></div>
-                    <div class="col-lg-9"><h1>Значение</h1></div>
+                    <img src="~/images/img_house.jpg" />
                 </div>
             </div>
-            @SearchResult.FullResult((string)ViewData["Data"])
+        </div>
+        <div class="search-result-row-lg">
+            <div class="search-result-box">
+                <div class="search-box-head">
+                    <div class="row">
+                        <div class="col-lg-4"><h1>Свойства</h1></div>
+                        <div class="col-lg-9"><h1>Значение</h1></div>
+                    </div>
+                </div>
+                @SearchResult.FullResult((string)ViewData["Data"])
+            </div>
         </div>
     </div>
 </div>
