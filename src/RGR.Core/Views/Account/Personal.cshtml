@@ -73,7 +73,12 @@
                         </div>
                     </div>
                     <h5><b>Новых совпадений по объектам: 43</b></h5>
+                    @{ 
+                        var myObjects = SearchResult.Deserialize((string)ViewData["MyObjects"]);
+                    }
                     @MyObjects.HeadMyObject()
+                    @await Component.InvokeAsync("SearchResultRenderer", new { Result = myObjects, Type = ViewData["Type"], OrderingField = "Price" }) :
+                            
                 </form>
             </div>
 
