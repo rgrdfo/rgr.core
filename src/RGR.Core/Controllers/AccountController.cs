@@ -41,7 +41,7 @@ namespace RGR.Core.Controllers
                         await Authenticate(model.Login, model.Password); // аутентификация
                         user.LastLogin = DateTime.UtcNow; //обновление информации о входе
                         await db.SaveChangesAsync();
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Personal", "Account");
                     }
                     else
                         ModelState.AddModelError(string.Empty, $"К сожалению, пользователь {user.Login} заблокирован");

@@ -53,7 +53,7 @@ namespace RGR.Core.Controllers.Account
             };
 
             var myEstate = estate.Where(e => e.UserId == user.Id);
-            var company = db.Companies.FirstOrDefault(c => c.DirectorId == user.Id);
+            var company = db.Companies.FirstOrDefault(c => c.DirectorId == user.Id) ?? null;
 
             List<EstateObjects> companyEstate = null;
             if (company != null)
