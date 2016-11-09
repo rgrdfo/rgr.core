@@ -13,7 +13,7 @@ label
 
 .search-bar{
     color: #fff;
-    position: absolute;
+    position: relative;
     width:100% !important;
     height:392px;
     background-color:#666d71;

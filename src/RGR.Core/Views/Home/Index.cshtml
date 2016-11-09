@@ -26,11 +26,6 @@
         }
     }
 
-    HtmlString sample()
-    {
-        string s = "<a href=\"/\">Тыц!<><br />";
-        return new HtmlString(s);
-    }
 }
 
 @{
@@ -40,7 +35,7 @@
     var today   = DateTime.Now.Date.ToString().Remove(10);
 }
 
-<div class="content">
+@*<div class="content">*@
     <div class="carousel-box">
         <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
             <ol class="carousel-indicators">
@@ -104,4 +99,4 @@
     <img height="399" src="~/images/sample-banner.gif" /><br /><br /><br />
     <img src="~/images/news.png" />
     <img src="~/images/video.png" />
-</div>
+@*</div>*@

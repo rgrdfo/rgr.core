@@ -20,27 +20,14 @@
 <body>
     <div class="wrapper">
         <div class="header">
-@*<<<<<<< HEAD
-            <nav>
-                <div class="logo-box">
-                    <h1 class="logo">
-                            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><img height="100" src="~/images/logo_rgrdfo_text.png" /></a>
-                    </h1>
-                    
-                </div>
+
+            <nav>     
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="About"  ><font size="2">О нас</font></a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Members"><font size="2">Члены НП</font></a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Educ"><font size="2">Учебный центр</font></a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact"><font size="2">Контакты</font></a></li>
-=======*@
-            <nav>     <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><img height="75" src="~/images/logo_rgrdfo_text.png" /></a>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">О нас</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Members">Члены НП</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Educ">Учебный центр</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Контакты</a></li>
-@*>>>>>>> refs/heads/frontend*@
                     <li>
                         <div class="img-button">
                             @*<img src="~/images/btn_login_up.png" />*@
@@ -64,7 +51,7 @@
         <div class="search-bar">
             @SearchBar.Render()            
         </div>
-        <div> <!--container-->
+        <div class="content"> <!--container-->
             @RenderBody()
         </div>            
         <div class="footer">
@@ -89,3 +76,4 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+- Доктор,я не ставлю пробелы после запятых,вы мне поможете?\n- Нет! Только эвтаназия!
