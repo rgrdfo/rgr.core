@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
 using RGR.Core.Common;
 using RGR.Core.Controllers.Enums;
 
@@ -15,6 +14,14 @@ namespace RGR.Core.ViewComponents
         {
             ViewData["Type"] = Type;
             return await Task.Run(() => View(Result.OrderBy(estate => estate[OrderingField])));
+        }
+    }
+
+    public class PersonalObjects : ViewComponent
+    {
+        public async Task<IViewComponentResult> ListObjects()
+        {
+            return View();
         }
     }
 }

@@ -17,7 +17,7 @@
     <div class="content-inner">
         <div class="tab-content">
             <div id="account_p1" class="tab-pane in active  ">
-                <form action="personalPage">
+                <form asp-action="AddObject" asp-controller="Account">
                     <h3>Мой офис</h3>
                     <div class="row">
                         <div class="col-lg-6"> <h4>Мои объекты</h4></div>
@@ -44,7 +44,7 @@
             </div>
 
             <div id="account_p2" class="tab-pane  ">
-                <form action="personalPage">
+                <form>
                     <h3>Мои объекты</h3>
                     <div class="row" id="account_r1">
                         <div class="col-lg-7">
@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <div class="col-lg-5">
-                            <input type="button" value="+ Добавить объект" />
+                            <a class="but-personal" asp-action="AddObject" asp-controller="Account">+ Добавить</a>
                         </div>
                     </div>
                     <h5>Статус объектов:</h5>
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <h5><b>Новых совпадений по объектам: 43</b></h5>
-                    @MyObjects.HeadMyObject()
+                    @await Component.ListObjects("PersonalObjects")
                 </form>
             </div>
 

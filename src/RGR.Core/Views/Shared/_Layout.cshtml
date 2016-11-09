@@ -28,13 +28,8 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Members">Члены НП</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Educ">Учебный центр</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Контакты</a></li>
-                    <li>
-                        <div class="img-button">
-                            @*<img src="~/images/btn_login_up.png" />*@
-                            <a asp-controller="Account" asp-action="Login"><img src="~/images/btn_login_up.png" /></a>
-                        </div>
-                        
-                    </li>
+                    <li><a class="login-button" asp-controller="Account" asp-action="Login"><img src="~/images/ico-door.png" /><span>Войти</span></a>                       
+                    @*<img src="~/images/btn_login_up.png" />*@</li>
                     <li>
                         <font face="Segoe UI" size="4">(4212) 244-264</font>
                     </li>

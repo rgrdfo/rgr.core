@@ -77,9 +77,12 @@ nav ul li:nth-of-type(2),
 nav ul li:nth-of-type(3),
 nav ul li:nth-of-type(4),
 nav ul li:nth-of-type(5)
- {
-    padding-top: 30px;
-    
+ {    padding-top: 30px;    }
+
+nav ul li:nth-of-type(6) {padding-top: 35px;}
+
+nav ul li:nth-of-type(7) {
+    padding-top: 15px;
 }
 nav li a,
 nav li a:active,
@@ -186,12 +189,27 @@ li a:hover:after{
     min-height:399px;
 }
 
-.img-button{
-    display:block;
-    position:relative;
-    top:17px;
-    margin: auto auto;
+.login-button{
+    display:block;        
     vertical-align:middle;
+    height: auto;
+    width: auto;    
+    background-color: transparent;
+    border: 1px solid #c1c1c1;
+    border-radius: 5px;   
+    color: #477ab8;
+    padding: 10px !important;
+}
+.login-button span {
+    padding-left:5px;    
+}
+
+.login-button:active, .login-button:hover, .login-button:focus, 
+.login-button a:active, .login-button a:hover, .login-button a:focus {
+    background-color: #22496d ;
+    border-color: #22496d;
+    color: #fff;
+
 }
 .img-block{
     display:block;

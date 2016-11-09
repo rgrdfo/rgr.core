@@ -135,6 +135,11 @@ namespace RGR.Core.Controllers
             ViewData["CompanyObjects"] = (page.CompanyObjects == null) ? "" : JsonConvert.SerializeObject(page.CompanyObjects);
             return View();
         }
+
+        public async Task<IActionResult> AddObject()
+        {            
+            return View();
+        }
     }
 }
 

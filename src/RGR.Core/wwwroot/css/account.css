@@ -66,16 +66,19 @@
     color: #fff;
 }
 
-.account-block input[type="button"] {
+.account-block .but-personal, .but-personal:active, .but-personal:hover, .but-personal:focus {
     color: #000;
     font-family: HelveticaNeueCyr_Medium;
     background-color: #f4c00a;
     box-shadow: rgba(0,0,0,0.5) 0px 2px 1.5px;
     height: 40px;
+    width: auto;
     border-radius: 5px;
     border: 1px solid #f4c00a;
-    padding: 10px;
+    padding: 10px 15px;
+    text-decoration: none;
 }
+
 
 
 #account_p2 #account_r1 .search-box-inner-radio label:nth-of-type(1) {border-radius: 5px 0 0 5px;}
@@ -119,3 +122,22 @@
 
 #account_p1 .col-lg-6 {padding: 10px 0;}
 #account_p1 h4 { color: #c1c1c1;}
+
+ /*---------Добавление---------*/
+ 
+ .head-separator {
+     position: relative;
+ }
+ .head-separator h4  {
+     color: #c1c1c1;
+     display: block;
+     position: relative;         
+ }
+ .separator {
+     width: 80%;
+     border-bottom: 2px solid;
+     position: absolute;
+     left: 12%;
+     top: 10px;
+
+ }
