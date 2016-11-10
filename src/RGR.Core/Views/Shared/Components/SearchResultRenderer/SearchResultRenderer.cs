@@ -16,12 +16,4 @@ namespace RGR.Core.ViewComponents
             return await Task.Run(() => View(Result.OrderBy(estate => estate[OrderingField])));
         }
     }
-
-    public class PersonalObjects : ViewComponent
-    {
-        public async Task<IViewComponentResult> ListObjects()
-        {
-            return View();
-        }
-    }
 }
