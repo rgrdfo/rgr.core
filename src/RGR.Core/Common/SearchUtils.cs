@@ -221,6 +221,8 @@ namespace RGR.Core.Common
                             NA) :
                         NA;
 
+                    //Тип недвижимости
+                    passport.Add("Type", Estate.ObjectType);
                     //Индекс БД
                     passport.Add("Id", Estate.Id);
                     //Присвоить дату создания, если нет даты изменения
@@ -237,11 +239,11 @@ namespace RGR.Core.Common
                     passport.Add("PricePerSquare", (price != null && area != null) ? $"{price / area: ### 000.00}" : NA);
                     //Телефон агента
                     passport.Add("AgentPhone", (agent != null) ? agent.Phone : NA);
-                    //Агенство
+                    //Агентство
                     passport.Add("Agency", (company != null) ? company.Name : NA);
                     //Список фотографий объекта
                     passport.Add("Photos", (photos != null && photos.Any()) ? photos : null);
-                    //Логотип агенства
+                    //Логотип агентства
                     if (logo != NA) passport.Add("Logo", logo);
                     //Координаты
                     passport.Add("Latitude", dbAddress.Latitude);
