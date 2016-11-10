@@ -10,7 +10,7 @@ namespace RGR.Core.ViewComponents
 {
     public class SearchResultRenderer : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync(List<ShortPassport> Result, EstateTypes Type, string OrderingField)
+        public async Task<IViewComponentResult> InvokeAsync(IEnumerable<ShortPassport> Result, EstateTypes Type, string OrderingField)
         {
             ViewData["Type"] = Type;
             return await Task.Run(() => View(Result.OrderBy(estate => estate[OrderingField])));

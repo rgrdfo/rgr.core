@@ -131,6 +131,7 @@ namespace RGR.Core.Controllers
         public async Task<IActionResult> Personal()
         {
             var page = await PersonalPage.GenerateAsync(db, HttpContext.Session);
+            ViewData["RoleID"] = HttpContext.Session.GetRoleId();
             ViewData["MyObjects"] = JsonConvert.SerializeObject(page.MyObjects);
             ViewData["CompanyObjects"] = (page.CompanyObjects == null) ? "" : JsonConvert.SerializeObject(page.CompanyObjects);
             return View();
