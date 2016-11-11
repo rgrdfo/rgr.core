@@ -1,87 +1,98 @@
 ﻿
-@using RGR.Core.Views.Helpers;
 @using RGR.Core.Common;
-@using RGR.Core.Controllers.Enums;
-
+@using RGR.Core.Views.Shared.Components
+@using RGR.Core.Views.Helpers
+    
 @{
     ViewData["Title"] = "Личный кабинет";
 }
-@{}
-<div class="account-block">
-    <ul class="account-tabs nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#account_p1">Мой офис</a></li>
-        <li><a data-toggle="tab" href="#account_p2">Мои объекты</a></li>
-        <li><a data-toggle="tab" href="#account_p3">Мои запросы</a></li>
-        <li><a data-toggle="tab" href="#account_p4">Моя компания</a></li>
-    </ul>
-    <div class="content-inner">
-        <div class="tab-content">
-            <div id="account_p1" class="tab-pane in active  ">
-                <form asp-action="AddObject" asp-controller="Account">
-                    <h3>Мой офис</h3>
-                    <div class="row">
-                        <div class="col-lg-6"> <h4>Мои объекты</h4></div>
-                        <div class="col-lg-6"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <table class="account-office-table">
-                                <tr>
-                                    <th>Тип</th>
-                                    <th>Количество</th>
-                                    <th>Совпадения</th>
-                                </tr>
-                                <tr><td>Квартиры, комнаты</td><td></td><td></td></tr>
-                                <tr><td>Дома, коттеджи</td><td></td><td></td></tr>
-                                <tr><td>Участки</td><td></td><td></td></tr>
-                                <tr><td>Гаражи</td><td></td><td></td></tr>
-                                <tr style="border: none;"><td>Для бизнеса</td><td></td><td></td></tr>
-                            </table>
+@{
+    var objects = SearchResult.Deserialize((string)ViewData["MyObjects"]);
+}
+    
+    <div class="account-block">
+        <ul class="account-tabs nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#account_p1">Мой офис</a></li>
+            <li><a data-toggle="tab" href="#account_p2">Мои объекты</a></li>
+            <li><a data-toggle="tab" href="#account_p3">Мои запросы</a></li>
+            <li><a data-toggle="tab" href="#account_p4">Моя компания</a></li>
+        </ul>
+        <div class="content-inner">
+            <div class="tab-content">
+                <div id="account_p1" class="tab-pane in active  ">
+                    <form action="search">
+                        <h3>Мой офис</h3>
+                        <div class="row">
+                            <div class="col-lg-6"> <h4>Мои объекты</h4></div>
+                            <div class="col-lg-6"></div>
                         </div>
-                        <div class="col-lg-6"></div>
-                    </div>
-                </form>
-            </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <table class="account-office-table">
+                                    <tr>
+                                        <th>Тип</th>
+                                        <th>Количество</th>
+                                        <th>Совпадения</th>
+                                    </tr>
+                                    <tr><td>Квартиры, комнаты</td><td></td><td></td></tr>
+                                    <tr><td>Дома, коттеджи</td><td></td><td></td></tr>
+                                    <tr><td>Участки</td><td></td><td></td></tr>
+                                    <tr><td>Гаражи</td><td></td><td></td></tr>
+                                    <tr style="border: none;"><td>Для бизнеса</td><td></td><td></td></tr>
+                                </table>
+                            </div>
+                            <div class="col-lg-6"></div>
+                        </div>
+                    </form>
+                </div>
 
-            <div id="account_p2" class="tab-pane  ">
-                <form>
-                    <h3>Мои объекты</h3>
-                    <div class="row" id="account_r1">
-                        <div class="col-lg-7">
-                            <div class="search-box-inner-radio">
-                                <input name="myObj" id="mOb1" type="checkbox" value="0" checked /><label for="mOb1">Мои объекты</label><input name="myObj" id="mOb2" type="checkbox" value="1" /><label for="mOb2">Объекты компании</label><input name="myObj" id="mOb3" type="checkbox" value="2" /><label for="mOb3">Все объекты</label>
+                <div id="account_p2" class="tab-pane  ">
+                    <form>
+                        <h3>Мои объекты</h3>
+                        <div class="row" id="account_r1">
+                            <div class="col-lg-7">
+                                <div class="search-box-inner-radio">
+                                    <input name="myObj" id="mOb1" type="checkbox" value="0" checked /><label for="mOb1">Мои объекты</label><input name="myObj" id="mOb2" type="checkbox" value="1" /><label for="mOb2">Объекты компании</label><input name="myObj" id="mOb3" type="checkbox" value="2" /><label for="mOb3">Все объекты</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <a class="but-personal" asp-action="AddObject" asp-controller="Account">+ Добавить</a>
                             </div>
                         </div>
-                        <div class="col-lg-5">
-                            <a class="but-personal" asp-action="AddObject" asp-controller="Account">+ Добавить</a>
-                        </div>
-                    </div>
-                    <h5>Статус объектов:</h5>
-                    <div class="row" id="account_r2">
-                        <div class="col-lg-12">
-                            <div class="search-box-inner-radio">
-                                <input name="stat" id="st1" type="checkbox" value="0" checked /><label for="st1">Черновики</label><input name="stat" id="st2" type="checkbox" value="1" /><label for="st2">Актуальные</label><input name="stat" id="st3" type="checkbox" value="2" /><label for="st3">Внесён аванс</label><input name="stat" id="st4" type="checkbox" value="3" /><label for="st4">Сделка</label><input name="stat" id="st5" type="checkbox" value="4" /><label for="st5">Снято с продажи</label><input name="stat" id="st6" type="checkbox" value="5" /><label for="st6">Снято временно</label>
+                        <h5>Статус объектов:</h5>
+                        <div class="row" id="account_r2">
+                            <div class="col-lg-12">
+                                <div class="search-box-inner-radio">
+                                    <input name="stat" id="st1" type="checkbox" value="0" checked /><label for="st1">Черновики</label><input name="stat" id="st2" type="checkbox" value="1" /><label for="st2">Актуальные</label><input name="stat" id="st3" type="checkbox" value="2" /><label for="st3">Внесён аванс</label><input name="stat" id="st4" type="checkbox" value="3" /><label for="st4">Сделка</label><input name="stat" id="st5" type="checkbox" value="4" /><label for="st5">Снято с продажи</label><input name="stat" id="st6" type="checkbox" value="5" /><label for="st6">Снято временно</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <h5>Тип объектов:</h5>
-                    <div class="row" id="account_r3">
-                        <div class="col-lg-12">
-                            <div class="search-box-inner-radio">
-                                <input name="objType" id="oT1" type="checkbox" value="0" checked /><label for="oT1">Дом</label><input name="objType" id="oT2" type="checkbox" value="1" /><label for="oT2">Участок</label><input name="objType" id="oT3" type="checkbox" value="2" /><label for="oT3">Гараж</label><input name="objType" id="oT4" type="checkbox" value="3" /><label for="oT4">Квартира</label><input name="objType" id="oT5" type="checkbox" value="4" /><label for="oT5">Для бизнеса</label>
-                            </div>
-                        </div>
-                    </div>
-                    <h5><b>Новых совпадений по объектам: 43</b></h5>
-                    @await Component.ListObjects("PersonalObjects")
-                </form>
-            </div>
+                        <h5>Тип объектов:</h5>
+                        @*<div class="row" id="account_r3">
+                                <div class="col-lg-12">
+                                    <div class="search-box-inner-radio">
+                                        <input name="objType" id="oT1" type="checkbox" value="3" checked /><label for="oT1">Дом</label><input name="objType" id="oT2" type="checkbox" value="4" /><label for="oT2">Участок</label><input name="objType" id="oT3" type="checkbox" value="6" /><label for="oT3">Гараж</label><input name="objType" id="oT4" type="checkbox" value="2" /><label for="oT4">Квартира</label><input name="objType" id="oT5" type="checkbox" value="5" /><label for="oT5">Для бизнеса</label>
+                                    </div>
+                                </div>
+                            </div>*@
+                        <ul class="account-tabs nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#typeObj1">Дом</a></li>
+                            <li><a data-toggle="tab" href="#typeObj2">Участок</a></li>
+                            <li><a data-toggle="tab" href="#typeObj3">Гараж</a></li>
+                            <li><a data-toggle="tab" href="#typeObj4">Квартира</a></li>
+                            <li><a data-toggle="tab" href="#typeObj4">Для бизнеса</a></li>
+                        </ul>                        
+                        @await Component.InvokeAsync("PersonalObjects", new { Source = objects })
+                                            
+                    
+                    </form>
+                </div>
 
-            <div id="account_p3" class="tab-pane  ">
-            </div>
-            <div id="account_p4" class="tab-pane  ">
+                <div id="account_p3" class="tab-pane  ">
+                </div>
+                <div id="account_p4" class="tab-pane  ">
+                </div>
             </div>
         </div>
     </div>
-</div>
 

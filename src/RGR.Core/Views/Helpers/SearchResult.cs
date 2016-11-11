@@ -213,8 +213,7 @@ namespace RGR.Core.Views.Helpers
                     sb.Append($"<div class=\"col-lg-3\"><label>Этажей</label></div>");
                     break;
             }            
-            sb.Append($"<div class=\"col-lg-2\"><label></br></label></div></div>");
-            sb.Append($"</div>");
+            
             return new HtmlString((sb.ToString()));
         }
 
