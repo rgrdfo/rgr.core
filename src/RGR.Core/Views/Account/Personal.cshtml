@@ -11,7 +11,7 @@
 }
     
     <div class="account-block">
-        <ul class="account-tabs nav nav-tabs">
+        <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#account_p1">Мой офис</a></li>
             <li><a data-toggle="tab" href="#account_p2">Мои объекты</a></li>
             <li><a data-toggle="tab" href="#account_p3">Мои запросы</a></li>
@@ -74,17 +74,17 @@
                                         <input name="objType" id="oT1" type="checkbox" value="3" checked /><label for="oT1">Дом</label><input name="objType" id="oT2" type="checkbox" value="4" /><label for="oT2">Участок</label><input name="objType" id="oT3" type="checkbox" value="6" /><label for="oT3">Гараж</label><input name="objType" id="oT4" type="checkbox" value="2" /><label for="oT4">Квартира</label><input name="objType" id="oT5" type="checkbox" value="5" /><label for="oT5">Для бизнеса</label>
                                     </div>
                                 </div>
-                            </div>*@
-                        <ul class="account-tabs nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#typeObj1">Дом</a></li>
-                            <li><a data-toggle="tab" href="#typeObj2">Участок</a></li>
-                            <li><a data-toggle="tab" href="#typeObj3">Гараж</a></li>
-                            <li><a data-toggle="tab" href="#typeObj4">Квартира</a></li>
-                            <li><a data-toggle="tab" href="#typeObj4">Для бизнеса</a></li>
-                        </ul>                        
-                        @await Component.InvokeAsync("PersonalObjects", new { Source = objects })
-                                            
-                    
+                            </div>*@  
+                        <div class="objects-inner">
+                            <ul id="objects-tabs" class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#typeObj1" style="border-radius: 5px 0 0 5px;">Дом</a></li>
+                                <li><a data-toggle="tab" href="#typeObj2" style="border-radius: 0;">Участок</a></li>
+                                <li><a data-toggle="tab" href="#typeObj3" style="border-radius: 0;">Гараж</a></li>
+                                <li><a data-toggle="tab" href="#typeObj4" style="border-radius: 0;">Квартира</a></li>
+                                <li><a data-toggle="tab" href="#typeObj5" style="border-radius: 0 5px 5px 0;">Для бизнеса</a></li>
+                            </ul>
+                            @await Component.InvokeAsync("PersonalObjects", new { Source = objects })
+                        </div>             
                     </form>
                 </div>
 
