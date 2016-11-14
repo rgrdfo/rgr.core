@@ -25,10 +25,47 @@ namespace RGR.Core.Views.Shared.Components
         }
 
 
+        // Вкладка Комната
+        public static string StringBuilderRoom(List<ShortPassport> rooms)
+        {
+            var sb = new StringBuilder("<div id = \"typeObj1\" class=\"tab-pane in active \">");
+            if (rooms != null)
+            {
+                sb.Append($"<h5><b> Новых совпадений по объектам:{(rooms != null ? rooms.Count() : 0)} </b ></h5>");
+                foreach (var room in rooms)
+                {
+                    sb.Append($"<div class=\"object-conteiner\"><div class=\"account-box-head\">");
+                    sb.Append($"<div class=\"row\"><div class=\"col-lg-3\">Адрес</div>");
+                    sb.Append($"<div class=\"col-lg-1\"><label>Дата</label></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><label>Цена</label></div>");
+                    sb.Append($"<div class=\"col-lg-2\"><label>Комнаты</label></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><label>Площадь</label></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><label>Этажность</label></div>");
+                    sb.Append($"<div class=\"col-lg-2\"><label></br></label></div></div></div>");
+
+                    sb.Append($"<div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1>{room["Address"]}<br/>{room["City"]}</h1></div>");
+                    //sb.Append($"< img src =\"{room["Logo"]}\"></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{room["Date"]}</h1><br />ID: {room["Id"]:0000000}</div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{room["Price"]: ### ### ###} ₽</h1><br />{room["PricePerSquare"]:### ###.##} ₽ / м²</div>");
+                    sb.Append($"<div class=\"col-lg-2\">{room["HouseMaterial"]}<br/>{room["HouseType"]}</div>");
+                    sb.Append($"<div class=\"col-lg-1\">{room["Area"]} м²<br />кухня: {room["KitchenArea"]} м²<br /></div>");
+                    sb.Append($"<div class=\"col-lg-1\">{room["Floor"]} этаж из {room["FloorCount"]}<br />{room["Description"]}</div>");
+                    sb.Append($"<div class=\"col-lg-2\">{room["Agency"]}<br/>{room["AgentPhone"]}</div></div>");
+                    sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={room["Id"]}\">Подробнее</a></div></div>");
+                }
+                sb.Append($"</div>");
+                return sb.ToString();
+            }
+            else
+            {
+                sb.Append($"<h4>У вас пока нет не одного объекта!</h4></div>");
+                return sb.ToString();
+            }
+        }
         // Вкладка Квартира (id=4)
         public static string StringBuilderFlat(List<ShortPassport> flats)
         {
-            var sb = new StringBuilder("<div id = \"typeObj4\" class=\"tab-pane \">");
+            var sb = new StringBuilder("<div id = \"typeObj2\" class=\"tab-pane \">");
             if (flats != null)
             {
                 sb.Append($"<h5><b> Новых совпадений по объектам:{(flats != null ? flats.Count() : 0)} </b ></h5>");
@@ -41,7 +78,7 @@ namespace RGR.Core.Views.Shared.Components
                     sb.Append($"<div class=\"col-lg-2\"><label>Комнаты</label></div>");
                     sb.Append($"<div class=\"col-lg-1\"><label>Площадь</label></div>");
                     sb.Append($"<div class=\"col-lg-1\"><label>Этажность</label></div>");
-                    sb.Append($"<div class=\"col-lg-2\"><label></br></label></div></div></div>");                    
+                    sb.Append($"<div class=\"col-lg-2\"><label></br></label></div></div></div>");
 
                     sb.Append($"<div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1>{flat["Address"]}<br/>{flat["City"]}</h1></div>");
                     //sb.Append($"< img src =\"{flat["Logo"]}\"></div>");
@@ -66,7 +103,7 @@ namespace RGR.Core.Views.Shared.Components
         // Вкладка Дом (id=1)
         public static string StringBuilderHouse(List<ShortPassport> houses)
         {
-            var sb = new StringBuilder("<div id = \"typeObj1\" class=\"tab-pane in active\">");
+            var sb = new StringBuilder("<div id = \"typeObj3\" class=\"tab-pane\">");
             if (houses != null)
             {
                 sb.Append($"< h5 >< b > Новых совпадений по объектам:{(houses != null ? houses.Count() : 0)} </ b ></ h5 >");
@@ -79,7 +116,7 @@ namespace RGR.Core.Views.Shared.Components
                     sb.Append($"<div class=\"col-lg-2\"><label>Комнаты</label></div>");
                     sb.Append($"<div class=\"col-lg-1\"><label>Площадь</label></div>");
                     sb.Append($"<div class=\"col-lg-1\"><label>Этажность</label></div>");
-                    sb.Append($"<div class=\"col-lg-2\"><label></br></label></div></div></div>");                    
+                    sb.Append($"<div class=\"col-lg-2\"><label></br></label></div></div></div>");
 
                     sb.Append($"< div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{house["Address"]}<br/>{house["City"]}</span></h1></div>");
                     //sb.Append($"< img src =\"{house["Logo"]}\"></div>");
@@ -100,14 +137,14 @@ namespace RGR.Core.Views.Shared.Components
                 sb.Append($"<h4>У вас пока нет не одного объекта!</h4></div>");
                 return sb.ToString();
             }
-            
+
 
         }
 
         // Вкладка Гараж (id=3)
         public static string StringBuilderGarage(List<ShortPassport> garages)
         {
-            var sb = new StringBuilder("<div id = \"typeObj3\" class=\"tab-pane\">");
+            var sb = new StringBuilder("<div id = \"typeObj4\" class=\"tab-pane\">");
             if (garages != null)
             {
                 sb.Append($"< h5 >< b > Новых совпадений по объектам:{(garages != null ? garages.Count() : 0)} </ b ></ h5 >");
@@ -120,7 +157,7 @@ namespace RGR.Core.Views.Shared.Components
                     sb.Append($"<div class=\"col-lg-3\"><label>Тип</label></div>");
                     sb.Append($"<div class=\"col-lg-3\"><label>Площадь</label></div>");
                     sb.Append($"<div class=\"col-lg-2\"><label></br></label></div></div></div>");
-                    
+
                     sb.Append($"< div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{garage["Address"]}<br/>{garage["City"]}</span></h1>");
                     sb.Append($"< img src =\"{garage["Logo"]}\"></div>");
                     sb.Append($"<div class=\"col-lg-1\"><h1>{garage["DateToShow"]}</h1><br />ID: {garage["Id"]:0000000}</div>");
@@ -144,7 +181,7 @@ namespace RGR.Core.Views.Shared.Components
         // Вкладка Участок (id=2)
         public static string StringBuilderLand(List<ShortPassport> lands)
         {
-            var sb = new StringBuilder("<div id = \"typeObj2\" class=\"tab-pane\">");
+            var sb = new StringBuilder("<div id = \"typeObj5\" class=\"tab-pane\">");
             if (lands != null)
             {
                 sb.Append($"< h5 >< b > Новых совпадений по объектам:{(lands != null ? lands.Count() : 0)} </ b ></ h5 >");
@@ -180,7 +217,7 @@ namespace RGR.Core.Views.Shared.Components
         // Вкладка Для бизнеса (id=5)
         public static string StringBuilderOffice(List<ShortPassport> offices)
         {
-            var sb = new StringBuilder("<div id = \"typeObj5\" class=\"tab-pane\">");
+            var sb = new StringBuilder("<div id = \"typeObj6\" class=\"tab-pane\">");
             if (offices != null)
             {
                 sb.Append($"< h5 >< b > Новых совпадений по объектам:{(offices != null ? offices.Count() : 0)} </ b ></ h5 >");
@@ -213,35 +250,77 @@ namespace RGR.Core.Views.Shared.Components
             }
         }
 
-        
+
         public static HtmlString Render(IEnumerable<List<ShortPassport>> grouped)
         {
-            
+
             if (grouped == null)
             {
-                StringBuilder sb = new StringBuilder("<h4>У вас пока нет не одного объекта!</h4>");                
+                StringBuilder sb = new StringBuilder("<h4>У вас пока нет не одного объекта!</h4>");
                 return new HtmlString(sb.ToString());
             }
             else
             {
                 var sb = new StringBuilder("<div id=\"bodyResult\"><div class=\"tab-content\">");
-                var flats = grouped.FirstOrDefault(g => g.Any(f =>   (long)f["Type"] == (long)EstateTypes.Flat));
-                var houses = grouped.FirstOrDefault(g => g.Any(f =>  (long)f["Type"] == (long)EstateTypes.House));
-                var lands = grouped.FirstOrDefault(g => g.Any(f =>   (long)f["Type"] == (long)EstateTypes.Land));
+                var rooms = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Room));
+                var flats = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Flat));
+                var houses = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.House));
+                var lands = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Land));
                 var garages = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Garage));
                 var offices = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Office));
+                sb.Append(StringBuilderRoom(rooms));
                 sb.Append(StringBuilderHouse(houses));
                 sb.Append(StringBuilderLand(lands));
                 sb.Append(StringBuilderGarage(garages));
                 sb.Append(StringBuilderFlat(flats));
                 sb.Append(StringBuilderOffice(offices));
-                sb.Append($"</div></div>");               
+                sb.Append($"</div></div>");
                 return new HtmlString(sb.ToString());
             }
-            
+
         }
+
+        //public static int StatisticsObject(IEnumerable<ShortPassport> Source, int flag)
+        //{
+        //    int count;
+        //    var grouped1 = Source.GroupBy(l => l["Type"]);
+        //    var grouped = grouped1.Select(l => l.ToList());
+        //    if (grouped == null)
+        //    {
+        //        return count = 0;                
+        //    }
+        //    else
+        //    {
+        //        var rooms = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Room));
+        //        var flats = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Flat));
+        //        var houses = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.House));
+        //        var lands = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Land));
+        //        var garages = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Garage));
+        //        var offices = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Office));
+        //        switch (flag)
+        //        {
+        //            case 1:
+        //                count = rooms.Count() + flats.Count();
+        //                return count;
+        //            case 2:
+        //                count = houses.Count();
+        //                return count;
+        //            case 3:
+        //                count = garages.Count();
+        //                return count;
+        //            case 4:
+        //                count = lands.Count();
+        //                return count;
+        //            case 5:
+        //                count = offices.Count();
+        //                return count;
+        //        }
+        //    }
+                
+        //}
     }
 }
+
 
         
     

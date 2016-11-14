@@ -224,6 +224,7 @@ C:\Users\User\git\rgr.core\src\RGR.Core\Controllers\Account\PersonalPage.cs
 C:\Users\User\git\rgr.core\src\RGR.Core\Controllers\Account\Register.cs
 C:\Users\User\git\rgr.core\src\RGR.Core\Controllers\Affairs\Generators.cs
 C:\Users\User\git\rgr.core\src\RGR.Core\Controllers\Affairs\Parser.cs
+C:\Users\User\git\rgr.core\src\RGR.Core\Controllers\DAL\EstateWriter.cs
 C:\Users\User\git\rgr.core\src\RGR.Core\Controllers\Enums\EnumDescriptionAttribute.cs
 C:\Users\User\git\rgr.core\src\RGR.Core\Controllers\Enums\EstateTypes.cs
 C:\Users\User\git\rgr.core\src\RGR.Core\Migrations\20160909010616_Initial.cs

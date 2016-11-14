@@ -163,13 +163,14 @@
   .objects-inner .nav-tabs li a:active {
       color: #c1c1c1;
       padding: 10px;
-      height: 40px;      
-      border-radius: 5px;
+      height: 40px;  
+      min-width: 50px;    
       background-color: transparent;      
-      border: 1px solid #c1c1c1;
+      border: 1px solid #c1c1c1;      
       margin: 0;
   }
 
+  .objects-inner .nav-tabs li a:not([href="#typeObj1"]) {border-left: none;}
   .objects-inner .nav-tabs > li.active > a {
       color: #fff;
       background-color: #21496c;     
@@ -177,11 +178,12 @@
 
   .objects-inner .search-result-footer {border-bottom: none;}
 
-  /*.objects-inner ul li a[href="#typeObj1"] {border-radius: 5px 0 0 5px;}
-  .objects-inner ul li a[href="#typeObj2"]{border-radius: 0;}
-  .objects-inner ul li a[href="#typeObj3"] {border-radius: 0;}
-  .objects-inner ul li a[href="#typeObj4"] {border-radius: 0;}
-  .objects-inner ul li a[href="#typeObj5"] {border-radius: 0 5px 5px 0;}*/
+  .objects-inner ul li a[href="#typeObj1"] {border-radius: 5px 0 0 5px;}
+  .objects-inner ul li a[href="#typeObj2"]{border-radius: 0; }
+  .objects-inner ul li a[href="#typeObj3"] {border-radius: 0; }
+  .objects-inner ul li a[href="#typeObj4"] {border-radius: 0; }
+  .objects-inner ul li a[href="#typeObj5"] {border-radius: 0; }
+  .objects-inner ul li a[href="#typeObj6"] {border-radius: 0 5px 5px 0;}
 
 
  /*---------Добавление---------*/
@@ -196,9 +198,48 @@
  }
  .separator {
      width: 80%;
-     border-bottom: 2px solid;
+     border-bottom: 3px solid #eff0f0;
      position: absolute;
      left: 12%;
-     top: 10px;
-
+     top: 11px;
  }
+ .add-objects-content h3 {
+     padding-bottom: 30px;
+ }
+ .add-objects-content .nav-tabs 
+  {
+      float: left !important;      
+      width: 100%;
+      padding: 10px 0 !important;
+      background-color: #f7f7f7 !important;
+  }
+  .add-objects-content .nav-tabs li {margin:0;}
+
+  .add-objects-content .nav-tabs li a,
+  .add-objects-content .nav-tabs li a:hover,
+  .add-objects-content .nav-tabs li a:active,
+  .add-objects-content .nav-tabs li a:focus
+  {
+    outline: none;     
+    color: #c1c1c1;
+    padding: 10px;
+    height: 40px;  
+    min-width: 50px;    
+    background-color: transparent;      
+    border: 1px solid #c1c1c1;
+    margin: 0;   
+  }
+
+  .add-objects-content .nav-tabs > li.active > a 
+  {
+      color: #fff;
+      background-color: #21496c; 
+  }
+
+  .add-objects-content ul li a[href="#typeObj1"] {border-radius: 5px 0 0 5px;}
+  .add-objects-content ul li a[href="#typeObj2"]{border-radius: 0; }
+  .add-objects-content ul li a[href="#typeObj3"] {border-radius: 0; }
+  .add-objects-content ul li a[href="#typeObj4"] {border-radius: 0; }
+  .add-objects-content ul li a[href="#typeObj5"] {border-radius: 0; }
+  .add-objects-content ul li a[href="#typeObj6"] {border-radius: 0 5px 5px 0;}
+
