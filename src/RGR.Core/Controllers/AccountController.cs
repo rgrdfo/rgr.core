@@ -11,6 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RGR.Core.Controllers
 {
@@ -128,6 +129,7 @@ namespace RGR.Core.Controllers
             return RedirectToAction("Login", "Account");
         }
 
+        [Authorize]
         public async Task<IActionResult> Personal()
         {
             var page = await PersonalPage.GenerateAsync(db, HttpContext.Session);
@@ -137,6 +139,7 @@ namespace RGR.Core.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> AddObject()
         {            
             return View();
