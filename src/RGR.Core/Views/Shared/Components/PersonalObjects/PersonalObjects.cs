@@ -280,44 +280,46 @@ namespace RGR.Core.Views.Shared.Components
 
         }
 
-        //public static int StatisticsObject(IEnumerable<ShortPassport> Source, int flag)
-        //{
-        //    int count;
-        //    var grouped1 = Source.GroupBy(l => l["Type"]);
-        //    var grouped = grouped1.Select(l => l.ToList());
-        //    if (grouped == null)
-        //    {
-        //        return count = 0;                
-        //    }
-        //    else
-        //    {
-        //        var rooms = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Room));
-        //        var flats = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Flat));
-        //        var houses = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.House));
-        //        var lands = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Land));
-        //        var garages = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Garage));
-        //        var offices = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Office));
-        //        switch (flag)
-        //        {
-        //            case 1:
-        //                count = rooms.Count() + flats.Count();
-        //                return count;
-        //            case 2:
-        //                count = houses.Count();
-        //                return count;
-        //            case 3:
-        //                count = garages.Count();
-        //                return count;
-        //            case 4:
-        //                count = lands.Count();
-        //                return count;
-        //            case 5:
-        //                count = offices.Count();
-        //                return count;
-        //        }
-        //    }
-                
-        //}
+        public static int StatisticsObject(IEnumerable<ShortPassport> Source, int flag)
+        {
+            int count;
+            var grouped1 = Source.GroupBy(l => l["Type"]);
+            var grouped = grouped1.Select(l => l.ToList());
+            if (grouped == null)
+            {
+                return 0;
+            }
+            else
+            {
+                var rooms = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Room));
+                var flats = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Flat));
+                var houses = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.House));
+                var lands = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Land));
+                var garages = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Garage));
+                var offices = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Office));
+                switch (flag)
+                {
+                    case 1:
+                        count = rooms.Count() + flats.Count();
+                        return count;
+                    case 2:
+                        count = houses.Count();
+                        return count;
+                    case 3:
+                        count = garages.Count();
+                        return count;
+                    case 4:
+                        count = lands.Count();
+                        return count;
+                    case 5:
+                        count = offices.Count();
+                        return count;
+                    default:
+                        throw new ArgumentException("Указан некорректный тип недвижимости");
+                }
+            }
+
+        }
     }
 }
 

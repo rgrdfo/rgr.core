@@ -9,13 +9,13 @@
 @{
     var objects = SearchResult.Deserialize((string)ViewData["MyObjects"]);
 }
-@{ 
-//int statRoomsFlats = PersonalObjects.StatisticsObject(objects, 1);    
-//int statHouses = PersonalObjects.StatisticsObject(objects, 2);
-//int statGarages = PersonalObjects.StatisticsObject(objects, 3);
-//int statLands = PersonalObjects.StatisticsObject(objects, 4);
-//int statOffices = PersonalObjects.StatisticsObject(objects, 5);
-}
+@*@{ 
+    int statRoomsFlats = PersonalObjects.StatisticsObject(objects, 1);
+    int statHouses = PersonalObjects.StatisticsObject(objects, 2);
+    int statGarages = PersonalObjects.StatisticsObject(objects, 3);
+    int statLands = PersonalObjects.StatisticsObject(objects, 4);
+    int statOffices = PersonalObjects.StatisticsObject(objects, 5);
+}*@
     
     <div class="account-block">
         <ul class="nav nav-tabs">
@@ -41,11 +41,11 @@
                                         <th>Количество</th>
                                         <th>Совпадения</th>
                                     </tr>
-                                    <tr><td>Квартиры, комнаты</td><td></td><td>  @*Совпадения*@</td></tr>
-                                    <tr><td>Дома, коттеджи</td><td></td><td>@*Совпадения*@</td></tr>
-                                    <tr><td>Участки</td><td></td><td>@*Совпадения*@</td></tr>
-                                    <tr><td>Гаражи</td><td></td><td>@*Совпадения*@</td></tr>
-                                    <tr style="border: none;"><td>Для бизнеса</td><td></td><td>@*Совпадения*@</td></tr>
+                                    <tr><td>Квартиры, комнаты</td><td>{statRoomsFlats}</td><td>  @*Совпадения*@</td></tr>
+                                    <tr><td>Дома, коттеджи</td><td>{statHouses}</td><td>@*Совпадения*@</td></tr>
+                                    <tr><td>Участки</td><td>{statGarages}</td><td>@*Совпадения*@</td></tr>
+                                    <tr><td>Гаражи</td><td>{statLands}</td><td>@*Совпадения*@</td></tr>
+                                    <tr style="border: none;"><td>Для бизнеса</td><td>{statOffices}</td><td>@*Совпадения*@</td></tr>
                                 </table>
                             </div>
                             <div class="col-lg-6"></div>
