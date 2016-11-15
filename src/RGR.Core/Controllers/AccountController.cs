@@ -67,7 +67,7 @@ namespace RGR.Core.Controllers
                 Users user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Login);
                 if (user == null)
                 {
-                    // добавление пользователя в бд
+                    // добавление пользователя в БД
                     db.Users.Add(new Users
                     {
                         Login = model.Login,
@@ -141,7 +141,8 @@ namespace RGR.Core.Controllers
 
         [Authorize]
         public async Task<IActionResult> AddObject()
-        {            
+        {   
+            //Request.Qu         
             return View();
         }
     }

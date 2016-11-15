@@ -13,7 +13,7 @@ namespace RGR.Core.Common
     public static class SessionUtils
     {
         /// <summary>
-        /// Записать в сессию часто употребимые данные пользователя
+        /// Записать в сессию часто употребляемые данные пользователя
         /// </summary>
         public static void SetUser(this ISession Session, Users User)
         {
@@ -40,6 +40,15 @@ namespace RGR.Core.Common
             }
                 
             return null;        
+        }
+
+        /// <summary>
+        /// Получить компанию пользователя по его индексу, записанному в сессии. Если пользователь не задан, возвращается null. Метод доступен только в серверной части приложения
+        /// </summary>
+        internal static Companies GetCompany(this ISession Session, rgrContext db)
+        {
+            var user = Session.GetUser(db);
+            return (user != null) ? db.Companies.FirstOrDefault(c => c.Id == user.CompanyId) : null;
         }
 
         /// <summary>
@@ -86,7 +95,7 @@ namespace RGR.Core.Common
         }
 
         /// <summary>
-        /// Получение индекса БД пользователя из сессии. Если записи нет, сесия неактивна или запись некорректна, возвращается -1
+        /// Получение индекса БД пользователя из сессии. Если записи нет, сессия неактивна или запись некорректна, возвращается -1
         /// </summary>
         public static long GetUserId(this ISession Session)
         {
@@ -97,6 +106,15 @@ namespace RGR.Core.Common
                     return id;
             }
                 return -1;
+        }
+
+        /// <summary>
+        /// Получение индекса БД компании пользователя из сессии. Если записи нет, сессия неактивна или запись некорректна, возвращается -1
+        /// </summary>
+        internal static long GetCompanyId(this ISession Session, rgrContext db)
+        {
+            var user = GetUser(Session, db);
+            return (user != null) ? user.CompanyId : -1;
         }
     }
 }

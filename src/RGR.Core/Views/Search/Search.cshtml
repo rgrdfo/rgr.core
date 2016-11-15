@@ -67,7 +67,7 @@
         <div class="search-result-box">
             @SearchResult.HeadResult((EstateTypes)ViewData["Type"])
             @await Component.InvokeAsync("SearchResultRenderer", new { Result = objects, Type = ViewData["Type"], OrderingField = "Price" })
-            <!--<div id="map" style="width: 400px; height: 400px; border:1px solid black; position: absolute; top:0; left:560px"></div>-->
+            @*<div id="map" style="width: 400px; height: 400px; border:1px solid black; position: absolute; top:0; left:560px"></div>*@
         </div>
     </div>
 </div>
