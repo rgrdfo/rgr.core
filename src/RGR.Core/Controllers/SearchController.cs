@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RGR.Core.Common;
-using RGR.Core.Controllers.Enums;
+using RGR.Core.Common.Enums;
 using RGR.Core.Models;
 using RGR.Core.ViewModels;
 using System;
@@ -341,7 +341,7 @@ namespace RGR.Core.Controllers
             #endregion
 
             //Фильтрация
-            var relevant = db.EstateObjects.Where(estate => estate.ObjectType == (short)EstateType && estate.Status == 0).AsEnumerable();
+            var relevant = db.EstateObjects.Where(estate => estate.ObjectType == (short)EstateType && estate.Status == (short)EstateStatuses.Active).AsEnumerable();
             relevant = relevant.Where(estate =>
             {
                 var curMain = (main.FirstOrDefault(m => m.ObjectId == estate.Id));

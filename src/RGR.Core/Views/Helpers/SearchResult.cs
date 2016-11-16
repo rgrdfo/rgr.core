@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Newtonsoft.Json;
 using RGR.Core.Common;
-using RGR.Core.Controllers.Enums;
+using RGR.Core.Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,61 +10,6 @@ namespace RGR.Core.Views.Helpers
 {
     public class SearchResult
     {
-        //public static HtmlString SortResult(string Source, EstateTypes EstateType)
-        //{
-        //    var sb = new StringBuilder("<div id=\"bodyResult\">");
-        //    //List<String> adresses = new List<string>();            
-        //    switch (EstateType)
-        //    {
-        //        case EstateTypes.Flat:
-        //            var flats = JsonConvert.DeserializeObject<IEnumerable<FlatPassport>>(Source);
-        //            //foreach (var flat in flats)
-        //            //{
-        //            //    adresses.Add(flat.Address);
-        //            //}
-        //            //adresses.Sort();
-        //            flats = flats.OrderBy(f => f.Address);
-        //            foreach (var flat in flats)
-        //            {
-        //                sb.Append(CommonStart(flat));
-        //                sb.Append($"<div class=\"col-lg-2\"><h1>{flat.Rooms}-комнатная</h1><br/>{flat.HouseMaterial}<br/>{flat.HouseType}</div>");
-        //                sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Square} м²</h1><br />кухня {flat.KitchenSquare}<br />жилая {flat.LivingSquare}</div>");
-        //                sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Floor} этаж из {flat.FloorCount}</h1><br />{flat.Balcony}<br />{flat.Description}</div>");
-        //                sb.Append(CommonEnd(flat));
-        //                sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={flat["Id"]}\">Подробнее</a></div>");
-
-        //                //aF = adresses.ElementAt(adresses.BinarySearch(adressFlat));
-        //                //foreach (var flat in flats)
-        //                //{
-        //                //    if(aF==flat.Address)
-        //                //    {
-        //                //        sb.Append(CommonStart(flat));
-        //                //        sb.Append($"<div class=\"col-lg-2\"><h1>{flat.Rooms}-комнатная</h1><br/>{flat.HouseMaterial}<br/>{flat.HouseType}</div>");
-        //                //        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Square} м²</h1><br />кухня {flat.KitchenSquare}<br />жилая {flat.LivingSquare}</div>");
-        //                //        sb.Append($"<div class=\"col-lg-1\"><h1>{flat.Floor} этаж из {flat.FloorCount}</h1><br />{flat.Balcony}<br />{flat.Description}</div>");
-        //                //        sb.Append(CommonEnd(flat));
-        //                //    }
-        //                //}
-        //            }
-        //            break;
-        //            //case EstateTypes.Room:
-        //            //    var rooms = JsonConvert.DeserializeObject<IEnumerable<FlatPassport>>(Source);
-        //            //    rooms = rooms.OrderBy(f => f.Address);
-        //            //    foreach (var room in rooms)
-        //            //    {
-        //            //        sb.Append(CommonStart(room));
-        //            //        sb.Append($"<div class=\"col-lg-2\">{room.HouseMaterial}<br/>{room.HouseType}</div>");
-        //            //        sb.Append($"<div class=\"col-lg-1\">{room.Square} м²<br />кухня {room.KitchenSquare}<br /></div>");
-        //            //        sb.Append($"<div class=\"col-lg-1\">{room.Floor} этаж из {room.FloorCount}<br />{room.Description}</div>");
-        //            //        sb.Append(CommonEnd(room));
-        //            //        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={room["Id"]}\">Подробнее</a></div>");
-        //            //    }
-        //            //    break;
-
-        //    }
-        //    return new HtmlString((sb.ToString()));
-        //}
-
         public static IEnumerable<ShortPassport> Deserialize(string Source)
         {
             return JsonConvert.DeserializeObject<IEnumerable<ShortPassport>>(Source);

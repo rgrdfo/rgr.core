@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using RGR.Core.Models;
 using RGR.Core.Common;
 using Microsoft.AspNetCore.Http;
+using RGR.Core.Common.Enums;
 
 namespace RGR.Core.Controllers.DAL
 {
@@ -21,18 +22,13 @@ namespace RGR.Core.Controllers.DAL
         }
 
         /// <summary>
-        /// Пытается разместить объект в БД, основываясь на данных запроса. Возвращает код ошибки ("0" - успех)
+        /// Пытается разместить объект в БД, основываясь на данных запроса. Объект размещается со статусом "Черновик"
         /// </summary>
         /// <param name="Request">Запрос (Request.Query)</param>
         /// <returns></returns>
-        public async Task<int> Write(IQueryCollection Request)
+        public async Task CreateDraft(IQueryCollection Request)
         {
             var estate = new EstateObjects();
-            var main = new ObjectMainProperties();
-            var addt = new ObjectAdditionalProperties();
-            var address = new Addresses();
-            var ratings = new ObjectRatingProperties();
-            var media = new ObjectMedias();
             var user = Session.GetUser(db);
 
             estate.DateCreated = DateTime.UtcNow;
@@ -43,15 +39,32 @@ namespace RGR.Core.Controllers.DAL
             estate.User = user;
             estate.ObjectType = short.Parse(Request["EstateType"]);
             estate.Operation = 0;
-            estate.Status = 0;
+            estate.Status = (short)EstateStatuses.Draft;
             estate.Filled = false;
 
             //Новый объект записывается в БД для гарантированного получения уникального индекса (и во избежание конфликтов)
             db.EstateObjects.Add(estate);
             await db.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Заполнение объекта, перевод его в статус "Активный"
+        /// </summary>
+        /// <param name="Request"></param>
+        /// <returns></returns>
+        public async Task Fill(IQueryCollection Request)
+        {
+            if (!Request.ContainsKey("Id"))
+                throw new ArgumentException("В запросе отсутствует индекс объекта!");
+            var estate = db.EstateObjects.First(e => e.Id == long.Parse(Request["Id"]));
+
+            var main = new ObjectMainProperties();
+            var addt = new ObjectAdditionalProperties();
+            var address = new Addresses();
+            var ratings = new ObjectRatingProperties();
 
             #region Заполнение основных свойств объекта
-            main.Object = estate;
+            //main.Object = estate;
             main.ObjectId = estate.Id;
             main.RentPerDay = (Request.ContainsKey("RentPerDay")) ? double.Parse(Request["RentPerDay"]) : default(double?);
             main.RentPerMonth = (Request.ContainsKey("RentPerMonth")) ? double.Parse(Request["RentPerMonth"]) : default(double?);
@@ -150,12 +163,12 @@ namespace RGR.Core.Controllers.DAL
             main.MultilistingBonusType = (Request.ContainsKey("MultilistingBonusType")) ? long.Parse(Request["MultilistingBonusType"]) : default(long?);
             main.ContactPersonId = (Request.ContainsKey("ContactPersonId")) ? long.Parse(Request["ContactPersonId"]) : Session.GetUserId();
             main.ContactCompanyId = (Request.ContainsKey("ContactCompanyId")) ? long.Parse(Request["ContactPersonId"]) : Session.GetCompanyId(db);
-            main.ContactCompany = (Request.ContainsKey("ContactCompanyId")) ? db.Companies.FirstOrDefault(c => c.Id == main.ContactCompanyId) : Session.GetCompany(db);
-            main.ContactPerson = (Request.ContainsKey("ContactPersonId")) ? db.Users.FirstOrDefault(u => u.Id == main.ContactPersonId) : Session.GetUser(db);
+            //main.ContactCompany = (Request.ContainsKey("ContactCompanyId")) ? db.Companies.FirstOrDefault(c => c.Id == main.ContactCompanyId) : Session.GetCompany(db);
+            //main.ContactPerson = (Request.ContainsKey("ContactPersonId")) ? db.Users.FirstOrDefault(u => u.Id == main.ContactPersonId) : Session.GetUser(db);
             #endregion
 
             #region заполнение дополнительных свойств объекта
-            addt.Object = estate;
+            //addt.Object = estate;
             addt.ObjectId = estate.Id;
             addt.ViewFromWindows = (Request.ContainsKey("ViewFromWindows")) ? Request["ViewFromWindows"].ToString() : null;
             addt.BuildingYear = (Request.ContainsKey("BuildingYear")) ? int.Parse(Request["BuildingYear"]) : default(int?);
@@ -202,21 +215,65 @@ namespace RGR.Core.Controllers.DAL
             #endregion
 
             #region Заполнение адресной записи
-            address.Object = estate;
+            //address.Object = estate;
             address.ObjectId = estate.Id;
             address.CityId = long.Parse(Request["CityId"]);
-            address.City = db.GeoCities.First(g => g.Id == address.CityId);
+            //address.City = db.GeoCities.First(g => g.Id == address.CityId);
             address.RegionDistrictId = address.City.RegionDistrictId;
-            address.RegionDistrict = db.GeoRegionDistricts.First(g => g.Id == address.RegionDistrictId);
+            //address.RegionDistrict = db.GeoRegionDistricts.First(g => g.Id == address.RegionDistrictId);
             address.RegionId = address.RegionDistrict.RegionId;
-            address.Region = db.GeoRegions.First(g => g.Id == address.RegionId);
+            //address.Region = db.GeoRegions.First(g => g.Id == address.RegionId);
             address.CountryId = address.Region.CountryId;
-            address.Country = db.GeoCountries.First(g => g.Id == address.CountryId);
+            //address.Country = db.GeoCountries.First(g => g.Id == address.CountryId);
             address.CityDistrictId = (Request.ContainsKey("CityDistrictId")) ? long.Parse(Request["CityDistrictId"]) : default(long?);
-            //address.CityDistrict = (Request.ContainsKey("CityDistrictId")) ? db.Cityd
+            //address.CityDistrict = (Request.ContainsKey("CityDistrictId")) ? db.GeoDistricts.First(g => g.Id == address.CityDistrictId) : null;
+            address.DistrictResidentialAreaId = (Request.ContainsKey("DistrictResidentialAreaId")) ? long.Parse(Request["DistrictResidentialAreaId"]) : default(long?);
+            address.StreetId = (Request.ContainsKey("DistrictResidentialAreaId") && Request.ContainsKey("Street")) ?
+                db.GeoStreets.TryGetId(Request["Street"], address.DistrictResidentialAreaId) :
+                default(long?);
+            address.House = (Request.ContainsKey("House")) ? Request["House"].ToString() : null;
+            address.Block = (Request.ContainsKey("Block")) ? Request["Block"].ToString() : null;
+            address.Flat = (Request.ContainsKey("Flat")) ? Request["Flat"].ToString() : null;
+            address.Land = (Request.ContainsKey("Land")) ? Request["Land"].ToString() : null;
+            address.Latitude = (Request.ContainsKey("Latitude")) ? double.Parse(Request["Latitude"]) : default(double?);
+            address.Logitude = (Request.ContainsKey("Logitude")) ? double.Parse(Request["Logitude"]) : default(double?);
             #endregion
 
-            return 0;
+            #region Заполнение рейтинговых свойств
+            ratings.ObjectId = estate.Id;
+            ratings.Balcony = (Request.ContainsKey("Balcony")) ? Request["Balcony"].ToString() : null;
+            ratings.EntranceDoor = (Request.ContainsKey("EntranceDoor")) ? Request["EntranceDoor"].ToString() : null;
+            ratings.Kitchen = (Request.ContainsKey("Kitchen")) ? Request["Kitchen"].ToString() : null;
+            ratings.KitchenDescription = (Request.ContainsKey("KitchenDescription")) ? Request["KitchenDescription"].ToString() : null;
+            ratings.Ladder = (Request.ContainsKey("Ladder")) ? Request["Ladder"].ToString() : null;
+            ratings.Loggia = (Request.ContainsKey("Loggia")) ? Request["Loggia"].ToString() : null;
+            ratings.CommonState = (Request.ContainsKey("CommonState")) ? long.Parse(Request["CommonState"]) : default(long?);
+            ratings.WindowsDescription = (Request.ContainsKey("WindowsDescription")) ? Request["WindowsDescription"].ToString() : null;
+            ratings.UtilityRooms = (Request.ContainsKey("UtilityRooms")) ? Request["UtilityRooms"].ToString() : null;
+            ratings.Floor = (Request.ContainsKey("Floor")) ? Request["Floor"].ToString() : null;
+            ratings.Ceiling = (Request.ContainsKey("Ceiling")) ? Request["Ceiling"].ToString() : null;
+            ratings.Furniture = (Request.ContainsKey("Furniture")) ? Request["Furniture"].ToString() : null;
+            ratings.Wc = (Request.ContainsKey("WC")) ? Request["WC"].ToString() : null;
+            ratings.Wcdescription = (Request.ContainsKey("WCDescription")) ? Request["WCDescription"].ToString() : null;
+            ratings.Rating = (Request.ContainsKey("Rating")) ? int.Parse(Request["Rating"]) : default(int?);
+            ratings.Walls = (Request.ContainsKey("Walls")) ? Request["Walls"].ToString() : null;
+            ratings.Carpentry = (Request.ContainsKey("Carpentry")) ? Request["Carpentry"].ToString() : null;
+            ratings.Vestibule = (Request.ContainsKey("Vestibule")) ? Request["Vestibule"].ToString() : null;
+            ratings.Multilisting = (Request.ContainsKey("Multilisting")) ? bool.Parse(Request["Multilisting"]) : default(bool?);
+            ratings.BuildingClass = (Request.ContainsKey("BuildingClass")) ? long.Parse(Request["BuildingClass"]) : default(long?);
+            #endregion
+
+            db.ObjectMainProperties.Add(main);
+            db.ObjectAdditionalProperties.Add(addt);
+            db.Addresses.Add(address);
+            db.ObjectRatingProperties.Add(ratings);
+
+            estate.DateModified = DateTime.UtcNow;
+            estate.ModifiedBy = Session.GetUserId();
+            estate.Filled = true;
+            estate.Status = (short)EstateStatuses.Active;
+
+            await db.SaveChangesAsync();
         }
     }
 }

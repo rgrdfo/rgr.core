@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace RGR.Core.Controllers.Enums
+namespace RGR.Core.Common.Enums
 {
     /// <summary>
-    /// Аттрибут помечающий элемент перечисления с помощью строк
+    /// Атрибут помечающий элемент перечисления с помощью строк
     /// </summary>
     public class EnumDescriptionAttribute : Attribute
     {

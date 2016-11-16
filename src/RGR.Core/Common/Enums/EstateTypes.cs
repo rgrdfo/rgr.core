@@ -1,4 +1,4 @@
-﻿namespace RGR.Core.Controllers.Enums
+﻿namespace RGR.Core.Common.Enums
 {
     public enum EstateTypes : short
     {

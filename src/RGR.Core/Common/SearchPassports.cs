@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RGR.Core.Models;
-using RGR.Core.Controllers.Enums;
+using RGR.Core.Common.Enums;
 using Microsoft.EntityFrameworkCore;
 using Eastwing.Parser;
 using Newtonsoft.Json;
@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 namespace RGR.Core.Common
 {
 
-    //Словарь для передачи результатов поиска в предстваление
+    //Словарь для передачи результатов поиска в представление
     public class ShortPassport : Dictionary<string, object>, IComparable<ShortPassport>
     {
         //public long Id { get; internal set; }

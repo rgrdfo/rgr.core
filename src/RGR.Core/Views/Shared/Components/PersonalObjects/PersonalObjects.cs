@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NUglify.Html;
 using RGR.Core.Common;
-using RGR.Core.Controllers.Enums;
+using RGR.Core.Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

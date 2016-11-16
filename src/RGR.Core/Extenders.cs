@@ -64,11 +64,10 @@ namespace RGR.Core
         /// <summary>
         /// Пытается найти индекс БД улицы по её названию и индексу жилмассива. Если улица не найдена - возвращает null
         /// </summary>
-        /// <param name="Source"></param>
-        /// <param name="CityId"></param>
-        /// <returns></returns>
-        public static long? TryGetId(this IEnumerable<GeoStreets> Source, string Name, long AreaId)
+        public static long? TryGetId(this IEnumerable<GeoStreets> Source, string Name, long? AreaId)
         {
+            if (AreaId == null) return null;
+
             var result = Source.FirstOrDefault(s => s.AreaId == AreaId && s.Name.Contains(Name));
             return (result != null) ? result.Id : default(long?);
         }

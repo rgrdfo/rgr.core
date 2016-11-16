@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RGR.Core.Common;
-using RGR.Core.Controllers.Enums;
+using RGR.Core.Common.Enums;
 
 namespace RGR.Core.ViewComponents
 {

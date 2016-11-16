@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RGR.Core.Models;
-using RGR.Core.Controllers.Enums;
+using RGR.Core.Common.Enums;
 using Microsoft.AspNetCore.Http;
 using Eastwing.Parser;
 using Newtonsoft.Json;
