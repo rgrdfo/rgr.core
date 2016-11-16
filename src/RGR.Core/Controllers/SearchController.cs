@@ -125,19 +125,21 @@ namespace RGR.Core.Controllers
         //Поиск недвижимости и возвращение результата
         private async Task<string> GetObjects(EstateTypes EstateType)
         {
+
             //Получение основных таблиц
-            var main = await db.ObjectMainProperties.ToListAsync();
-            var addt = await db.ObjectAdditionalProperties.ToListAsync();
-            var rtng = await db.ObjectRatingProperties.ToListAsync();
-            var addr = await db.Addresses.ToListAsync();
+            var main = await db.ObjectMainProperties.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
+            var addt = await db.ObjectAdditionalProperties.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
+            var rtng = await db.ObjectRatingProperties.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
+            var addr = await db.Addresses.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
             var strt = await db.GeoStreets.ToListAsync();
             var city = await db.GeoCities.ToListAsync();
             var vals = await db.DictionaryValues.ToListAsync();
             var usrs = await db.Users.ToListAsync();
             var cmps = await db.Companies.ToListAsync();
-            var comm = await db.ObjectCommunications.ToListAsync();
-            var mdia = await db.ObjectMedias.ToListAsync();
+            var comm = await db.ObjectCommunications.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
+            var mdia = await db.ObjectMedias.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
             var fils = await db.StoredFiles.ToListAsync();
+
 
             bool isCottage = false;      //Переключатель "коттедж/таунхаус" (для дома)
             bool pricePerMetter = false; //Переключатель "искать по цене за квадратный метр" (по умолчанию - по цене за объект)
@@ -339,7 +341,7 @@ namespace RGR.Core.Controllers
             #endregion
 
             //Фильтрация
-            var relevant = await db.EstateObjects.Where(estate => estate.ObjectType == (short)EstateType && estate.Status == 0).ToArrayAsync();
+            var relevant = db.EstateObjects.Where(estate => estate.ObjectType == (short)EstateType && estate.Status == 0).AsEnumerable();
             relevant = relevant.Where(estate =>
             {
                 var curMain = (main.FirstOrDefault(m => m.ObjectId == estate.Id));
@@ -824,7 +826,7 @@ namespace RGR.Core.Controllers
                 #endregion
 
                 return true;
-            }).ToArray();
+            });
 
             //return ConvertToPassports(EstateType, relevant, addr, city, strt, main, addt, vals, cmps, usrs, mdia, comm, rtng);
             if (EstateType == EstateTypes.Unset)

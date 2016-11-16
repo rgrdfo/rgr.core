@@ -176,19 +176,19 @@ namespace RGR.Core.Common
 
         public class PassportConverter
         {
-            public List<Addresses> Addresses { get; set; }
-            public List<ObjectMainProperties> MainProps { get; set; }
-            public List<ObjectAdditionalProperties> AddtProps { get; set; }
-            public List<GeoCities> Cities { get; set; }
-            public List<GeoStreets> Streets { get; set; }
-            public List<DictionaryValues> DictValues { get; set; }
-            public List<Companies> Companies { get; set; }
-            public List<Users> Users { get; set; }
-            public List<ObjectMedias> Medias { get; set; }
-            public List<ObjectRatingProperties> Ratings { get; set; }
-            public List<ObjectCommunications> Communications { get; set; }
-            public List<StoredFiles> Files { get; set; }
-            public List<ShortPassport> GetShortPassports(IEnumerable<EstateObjects> EstateObjects)
+            public IEnumerable<Addresses> Addresses { get; set; }
+            public IEnumerable<ObjectMainProperties> MainProps { get; set; }
+            public IEnumerable<ObjectAdditionalProperties> AddtProps { get; set; }
+            public IEnumerable<GeoCities> Cities { get; set; }
+            public IEnumerable<GeoStreets> Streets { get; set; }
+            public IEnumerable<DictionaryValues> DictValues { get; set; }
+            public IEnumerable<Companies> Companies { get; set; }
+            public IEnumerable<Users> Users { get; set; }
+            public IEnumerable<ObjectMedias> Medias { get; set; }
+            public IEnumerable<ObjectRatingProperties> Ratings { get; set; }
+            public IEnumerable<ObjectCommunications> Communications { get; set; }
+            public IEnumerable<StoredFiles> Files { get; set; }
+            public IEnumerable<ShortPassport> GetShortPassports(IEnumerable<EstateObjects> EstateObjects)
             {
                 const string NA = "";
                 var result = new List<ShortPassport>();
