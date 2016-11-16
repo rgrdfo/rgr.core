@@ -9,6 +9,13 @@
 @{
     var objects = SearchResult.Deserialize((string)ViewData["MyObjects"]);
 }
+@*@{ 
+    int statRoomsFlats = PersonalObjects.StatisticsObject(objects, 1);
+    int statHouses = PersonalObjects.StatisticsObject(objects, 2);
+    int statGarages = PersonalObjects.StatisticsObject(objects, 3);
+    int statLands = PersonalObjects.StatisticsObject(objects, 4);
+    int statOffices = PersonalObjects.StatisticsObject(objects, 5);
+}*@
     
     <div class="account-block">
         <ul class="nav nav-tabs">
@@ -34,11 +41,11 @@
                                         <th>Количество</th>
                                         <th>Совпадения</th>
                                     </tr>
-                                    <tr><td>Квартиры, комнаты</td><td></td><td></td></tr>
-                                    <tr><td>Дома, коттеджи</td><td></td><td></td></tr>
-                                    <tr><td>Участки</td><td></td><td></td></tr>
-                                    <tr><td>Гаражи</td><td></td><td></td></tr>
-                                    <tr style="border: none;"><td>Для бизнеса</td><td></td><td></td></tr>
+                                    <tr><td>Квартиры, комнаты</td><td>{statRoomsFlats}</td><td>  @*Совпадения*@</td></tr>
+                                    <tr><td>Дома, коттеджи</td><td>{statHouses}</td><td>@*Совпадения*@</td></tr>
+                                    <tr><td>Участки</td><td>{statGarages}</td><td>@*Совпадения*@</td></tr>
+                                    <tr><td>Гаражи</td><td>{statLands}</td><td>@*Совпадения*@</td></tr>
+                                    <tr style="border: none;"><td>Для бизнеса</td><td>{statOffices}</td><td>@*Совпадения*@</td></tr>
                                 </table>
                             </div>
                             <div class="col-lg-6"></div>
@@ -67,21 +74,15 @@
                                 </div>
                             </div>
                         </div>
-                        <h5>Тип объектов:</h5>
-                        @*<div class="row" id="account_r3">
-                                <div class="col-lg-12">
-                                    <div class="search-box-inner-radio">
-                                        <input name="objType" id="oT1" type="checkbox" value="3" checked /><label for="oT1">Дом</label><input name="objType" id="oT2" type="checkbox" value="4" /><label for="oT2">Участок</label><input name="objType" id="oT3" type="checkbox" value="6" /><label for="oT3">Гараж</label><input name="objType" id="oT4" type="checkbox" value="2" /><label for="oT4">Квартира</label><input name="objType" id="oT5" type="checkbox" value="5" /><label for="oT5">Для бизнеса</label>
-                                    </div>
-                                </div>
-                            </div>*@  
+                        <h5>Тип объектов:</h5>                        
                         <div class="objects-inner">
                             <ul id="objects-tabs" class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#typeObj1" style="border-radius: 5px 0 0 5px;">Дом</a></li>
-                                <li><a data-toggle="tab" href="#typeObj2" style="border-radius: 0;">Участок</a></li>
-                                <li><a data-toggle="tab" href="#typeObj3" style="border-radius: 0;">Гараж</a></li>
-                                <li><a data-toggle="tab" href="#typeObj4" style="border-radius: 0;">Квартира</a></li>
-                                <li><a data-toggle="tab" href="#typeObj5" style="border-radius: 0 5px 5px 0;">Для бизнеса</a></li>
+                                <li class="active"><a data-toggle="tab" href="#typeObj1">Комната</a></li>
+                                <li><a data-toggle="tab" href="#typeObj2">Квартира</a></li>
+                                <li><a data-toggle="tab" href="#typeObj3">Дом</a></li>
+                                <li><a data-toggle="tab" href="#typeObj4">Гараж</a></li>
+                                <li><a data-toggle="tab" href="#typeObj5">Участок</a></li>
+                                <li><a data-toggle="tab" href="#typeObj6">Для бизнеса</a></li>
                             </ul>
                             @await Component.InvokeAsync("PersonalObjects", new { Source = objects })
                         </div>             

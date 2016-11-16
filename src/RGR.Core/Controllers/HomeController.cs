@@ -54,8 +54,13 @@ namespace RGR.Core.Controllers
             return View();
         }
 
+        public IActionResult TestView()
+        {
+            return View();
+        }
 
 
-        
+
+
     }
 }

@@ -1,0 +1,22 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    <script src="https://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=tr-TR" type="text/javascript"></script>}
+@{
+    <script type='text/javascript'>
+    ymaps.ready(init);
+    function init(){
+        var map = new ymaps.Map('map-block', {
+            center: [55.76, 37.64],
+            zoom: 10
+        },
+        {
+            searchControlProvider: 'yandex#search'
+        });
+    }
+    </script>
+}
+
+<div id="map-block"></div>

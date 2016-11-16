@@ -5,10 +5,285 @@
 @{
     ViewData["Title"] = "Добавление объекта";
 }
+@{<script src="https://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=tr-TR" type="text/javascript"></script>}
+@{
+   <script type='text/javascript'>
+    ymaps.ready(init);
+    function init(){                          
+        var map = new ymaps.Map('map-block', {
+            center: [48.48272, 135.08379],
+            zoom: 10
+        });
+
+        myPlacemark = new ymaps.Placemark([48.48888324, 135.08322577], {
+            hintContent: 'РГР ДФО',
+            balloonContent: 'ул. Карла Маркса, 65-102А'
+        });
+
+        myMap.geoObjects.add(myPlacemark);   
+    }
+    </script>
+}
 
 <div class="content-inner">
-    <h3>Добавить объект</h3>
-    <div class="head-separator">
-        <h4>Тип объекта</h4><div class="separator"></div>
+    <div class="add-objects-content">
+        <h3>Добавить объект</h3>
+        <div class="head-separator">
+            <h4>Тип объекта</h4><div id="separ1" class="separator"></div>
+        </div>
+        <div class="add-object-inner">
+            @*Основные вкладки*@
+            <ul id="add-objects-tabs" class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#addTypeObj1">Квартира</a></li>
+                <li><a data-toggle="tab" href="#addTypeObj2">Дом</a></li>
+                <li><a data-toggle="tab" href="#addTypeObj3">Гараж</a></li>
+                <li><a data-toggle="tab" href="#addTypeObj4">Участок</a></li>
+                <li><a data-toggle="tab" href="#addTypeObj5">Для бизнеса</a></li>
+            </ul>
+
+            <div class="tab-content">
+                @*////Вкладка Квартира////*@
+                <div id="addTypeObj1" class="tab-pane in active">
+                    <ul id="add-flat-tabs" class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#addTypeFlat1">Комната</a></li>
+                        <li><a data-toggle="tab" href="#addTypeFlat2">Квартира</a></li>                        
+                    </ul>
+                    <div class="inner-content">
+                        <div class="tab-content">
+                            @*////Подвкладка Комната////*@
+                            <div id="addTypeFlat1" class="tab-pane in active">
+                                <form action="*">
+                                    <input type="hidden" name="objType" value="1">
+                                    <h4>Адрес</h4>
+                                    <input type="text" name="input-add-middle" placeholder="Введите адрес"/>
+                                    <div id="map-block"></div>
+                                    <h4>Информация по дому</h4>
+                                    <div class="row">
+                                        <div class="col-lg-3"><h5>Тип дома</h5>
+                                        <select>
+                                            <option>Хрющевка</option>
+                                            <option>Сталинка</option>                                            
+                                        </select>                                            
+                                        </div>
+                                        <div class="col-lg-3"><h5>Материал постройки</h5>
+                                            <select>
+                                                <option>Хрющевка</option>
+                                                <option>Сталинка</option>
+                                            </select></div>
+                                        <div class="col-lg-3"><h5>Материал перекрытий</h5>
+                                            <select>
+                                                <option>Хрющевка</option>
+                                                <option>Сталинка</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <h5>Год постройки</h5>
+                                            <input type="text" name="input-add-small" />                                                
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-3"><h5>Этажность дома</h5>
+                                            <input type="text" name="input-add-small"/></div>
+                                        <div class="col-lg-3"><h5>Парковка</h5>
+                                            <select>
+                                                <option>Хрющека</option>
+                                                <option>Сталинка</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3"><h5>Безопасность</h5>
+                                        <div class="add-object-checkbox">
+                                            <input name="security" type="checkbox" id="ad-o-sec1"/><label for="ad-o-sec1">Охрана</label>
+                                            <input name="security" type="checkbox" id="ad-o-sec2"/><label for="ad-o-sec2">Консьерж</label>
+                                            <input name="security" type="checkbox" id="ad-o-sec3"/><label for="ad-o-sec3">Закрытая территория</label>
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-3"><h5>Лифт</h5>
+                                            <div class="add-object-checkbox">
+                                                <input name="lift" type="checkbox" id="ad-o-lift1" /><label for="ad-o-lift1">Пассажирский</label>
+                                                <input name="lift" type="checkbox" id="ad-o-lift2" /><label for="ad-o-lift2">Грузовой</label>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h4>Информация по дому</h4>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h5>Этаж</h5>
+                                            <input type="text" name="input-add-small" />
+                                        </div>
+
+                                        <div class="col-lg-3">
+                                            <h5>Количество комнат</h5>
+                                            <select>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4 и более</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <h5>Количество комнат на продажу</h5>
+                                            <select>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4 и более</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <h5 id="ico-quest"><label>Тип комнат</label></h5>
+                                            <select>
+                                                <option>Раздельные</option>
+                                                <option>Смежные</option>
+                                                <option>Смежно-раздельные</option>
+                                                <option>"Икарус"</option>
+                                                <option>Свободная планировка</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-3"><h5>Общая площадь(м²)</h5>
+                                            <input type="text" name="input-add-small" />
+                                        </div>
+                                        <div class="col-lg-3"><h5>Площадь комнат(м²)</h5>
+                                            <input type="text" name="input-add-small" /></div>
+                                        <div class="col-lg-3"><h5>Кухня</h5>
+                                            <select>
+                                                <option>Раздельные</option>
+                                                <option>Смежные</option>
+                                                <option>Смежно-раздельные</option>
+                                                <option>"Икарус"</option>
+                                                <option>Свободная планировка</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3"><h5>Площадь кухни(м²)</h5>
+                                            <input type="text" name="input-add-small" /></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-3"><h5>Состояние</h5>
+                                            <select>
+                                                <option>Раздельные</option>
+                                                <option>Смежные</option>
+                                                <option>Смежно-раздельные</option>
+                                                <option>"Икарус"</option>
+                                                <option>Свободная планировка</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3"><h5>Санузел</h5>
+                                            <select>
+                                                <option>Раздельные</option>
+                                                <option>Смежные</option>
+                                                <option>Смежно-раздельные</option>
+                                                <option>"Икарус"</option>
+                                                <option>Свободная планировка</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3"><h5>Количество</h5>                                           
+                                        </div>
+                                        <div class="col-lg-3"><h5>Окна выходят</h5>
+                                            <select>
+                                                <option>Раздельные</option>
+                                                <option>Смежные</option>
+                                                <option>Смежно-раздельные</option>
+                                                <option>"Икарус"</option>
+                                                <option>Свободная планировка</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </form>                            
+                            </div>
+                            @*////Подвкладка Квартира////*@
+                            <div id="addTypeFlat2" class="tab-pane">
+                                <form action="*">
+                                    <input type="hidden" name="objType" value="2">
+                                </form> 
+                            </div>
+                        </div>                            
+                    </div>                        
+                </div>
+
+                @*////Вкладка Дом////*@
+                <div id="addTypeObj2" class="tab-pane">
+                    <ul id="add-house-tabs" class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#addTypeHouse1">Дом, коттедж</a></li>
+                        <li><a data-toggle="tab" href="#addTypeHouse2">Таунхаус</a></li>
+                    </ul>
+                    <div class="inner-content">
+                        <div class="tab-content">
+                            @*////Подвкладка Дом, коттедж////*@
+                            <div id="addTypeHouse1" class="tab-pane in active">
+                                <form action="*">
+                                    <input type="hidden" name="objType" value="3">
+                                </form>
+                            </div>
+                            @*////Подвкладка Таунхаус////*@
+                            <div id="addTypeHouse2" class="tab-pane">
+                                <form action="*">
+                                    <input type="hidden" name="objType" value="3">
+                                </form>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+
+                @*////Вкладка Гараж////*@
+                <div id="addTypeObj3" class="tab-pane">
+                    <ul id="add-garage-tabs" class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#addTypeGarage1">Гараж</a></li>
+                        <li><a data-toggle="tab" href="#addTypeGarage2">Парковочное место</a></li>
+                    </ul>
+                    <div class="inner-content">
+                        <div class="tab-content">
+                            @*////Подвкладка Гараж////*@
+                            <div id="addTypeGarage1" class="tab-pane in active">
+                                <form action="*">
+                                    <input type="hidden" name="objType" value="6">
+                                </form>
+                            </div>
+                            @*////Подвкладка Парковочное место////*@
+                            <div id="addTypeGarage2" class="tab-pane">
+                                <form action="*">
+                                    <input type="hidden" name="objType" value="6">
+                                </form>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+
+                @*////Вкладка Участок////*@
+                <div id="addTypeObj4" class="tab-pane">
+                    <div class="inner-content">
+                        <form action="*">
+                            <input type="hidden" name="objType" value="4">
+                        </form>
+                    </div>
+                </div>
+
+                @*////Вкладка Для бизнеса////*@
+                <div id="addTypeObj5" class="tab-pane">
+                    <ul id="add-office-tabs" class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#addTypeOffice1">Помещение</a></li>
+                        <li><a data-toggle="tab" href="#addTypeOffice2">Здание</a></li>
+                    </ul>
+                    <div class="inner-content">
+                        <div class="tab-content">
+                            @*////Подвкладка Помещение////*@
+                            <div id="addTypeOffice1" class="tab-pane in active">
+                                <form action="*">
+                                    <input type="hidden" name="objType" value="5">
+                                </form>
+                            </div>
+                            @*////Подвкладка Здание////*@
+                            <div id="addTypeOffice2" class="tab-pane">
+                                <form action="*">
+                                    <input type="hidden" name="objType" value="5">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

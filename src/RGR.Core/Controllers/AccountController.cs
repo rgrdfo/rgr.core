@@ -145,6 +145,8 @@ namespace RGR.Core.Controllers
             //Request.Qu         
             return View();
         }
+
+
     }
 }
 
