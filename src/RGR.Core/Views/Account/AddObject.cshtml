@@ -5,7 +5,9 @@
 @{
     ViewData["Title"] = "Добавление объекта";
 }
-@{<script src="https://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=tr-TR" type="text/javascript"></script>}
+@{
+    <script src="https://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=tr-TR" type="text/javascript"></script>
+    }
 @{
    <script type='text/javascript'>
     ymaps.ready(init);
@@ -22,6 +24,14 @@
 
         myMap.geoObjects.add(myPlacemark);   
     }
+    </script>
+}
+@{
+    <script>    
+    // обработчик изменения текста
+        function change() {
+            document.getElementById("add-adress").style.color = "#559abd";
+        }
     </script>
 }
 
@@ -55,25 +65,34 @@
                                 <form action="*">
                                     <input type="hidden" name="objType" value="1">
                                     <h4>Адрес</h4>
-                                    <input type="text" name="input-add-middle" placeholder="Введите адрес"/>
+                                    <input type="text" id="add-adress" name="input-add-middle" placeholder="Введите адрес" onchange="onchange()" required/>
                                     <div id="map-block"></div>
                                     <h4>Информация по дому</h4>
                                     <div class="row">
                                         <div class="col-lg-3"><h5>Тип дома</h5>
                                         <select>
-                                            <option>Хрющевка</option>
-                                            <option>Сталинка</option>                                            
+                                            <option>ж.н.к.</option>
+                                            <option>м/с (общежитие)</option>
+                                            <option>"Сталинка"</option>
+                                            <option>"Хрущевка"</option>
+                                            <option>"Улучшенка"</option>
+                                            <option>"Новой планировки"</option>
+                                            <option>Индивидуальная планировка</option>                                                      
                                         </select>                                            
                                         </div>
                                         <div class="col-lg-3"><h5>Материал постройки</h5>
                                             <select>
-                                                <option>Хрющевка</option>
-                                                <option>Сталинка</option>
+                                                <option>Дерево</option>
+                                                <option>Кирпич</option>
+                                                <option>Панель</option>
+                                                <option>Монолит</option>
+                                                <option>Другой</option>                                                
                                             </select></div>
                                         <div class="col-lg-3"><h5>Материал перекрытий</h5>
                                             <select>
-                                                <option>Хрющевка</option>
-                                                <option>Сталинка</option>
+                                                <option>Железобетон</option>
+                                                <option>Металл</option>
+                                                <option>Дерево</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-3">
@@ -87,8 +106,11 @@
                                             <input type="text" name="input-add-small"/></div>
                                         <div class="col-lg-3"><h5>Парковка</h5>
                                             <select>
-                                                <option>Хрющека</option>
-                                                <option>Сталинка</option>
+                                                <option>Нет</option>
+                                                <option>Рядом</option>
+                                                <option>Отдельная</option>
+                                                <option>Охраняемая</option>
+                                                <option>Подземная</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-3"><h5>Безопасность</h5>
@@ -149,11 +171,9 @@
                                             <input type="text" name="input-add-small" /></div>
                                         <div class="col-lg-3"><h5>Кухня</h5>
                                             <select>
-                                                <option>Раздельные</option>
-                                                <option>Смежные</option>
-                                                <option>Смежно-раздельные</option>
-                                                <option>"Икарус"</option>
-                                                <option>Свободная планировка</option>
+                                                <option>Отдельная</option>
+                                                <option>Проходная</option>
+                                                <option>Нет</option>                                                
                                             </select>
                                         </div>
                                         <div class="col-lg-3"><h5>Площадь кухни(м²)</h5>
@@ -162,34 +182,52 @@
                                     <div class="row">
                                         <div class="col-lg-3"><h5>Состояние</h5>
                                             <select>
-                                                <option>Раздельные</option>
-                                                <option>Смежные</option>
-                                                <option>Смежно-раздельные</option>
-                                                <option>"Икарус"</option>
-                                                <option>Свободная планировка</option>
+                                                <option>После строителей</option>
+                                                <option>Требуется кап.ремонт</option>
+                                                <option>Требуется космет.ремонт</option>
+                                                <option>Удовлетворительное</option>
+                                                <option>Хорошее</option>
+                                                <option>Отличное</option>
+                                                <option>"Евроремонт"</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-3"><h5>Санузел</h5>
                                             <select>
-                                                <option>Раздельные</option>
-                                                <option>Смежные</option>
-                                                <option>Смежно-раздельные</option>
-                                                <option>"Икарус"</option>
-                                                <option>Свободная планировка</option>
+                                                <option>Раздельный</option>
+                                                <option>Совмещенный</option>                                                
                                             </select>
                                         </div>
-                                        <div class="col-lg-3"><h5>Количество</h5>                                           
+                                        <div class="col-lg-3"><h5>Количество</h5>
+                                            <input type="text" id="add-double1" name="input-add-double" placeholder="Балконов"/><input type="text" id="add-double2" name="input-add-double" placeholder="Лоджий" />                                            
                                         </div>
                                         <div class="col-lg-3"><h5>Окна выходят</h5>
                                             <select>
-                                                <option>Раздельные</option>
-                                                <option>Смежные</option>
-                                                <option>Смежно-раздельные</option>
-                                                <option>"Икарус"</option>
-                                                <option>Свободная планировка</option>
+                                                <option>Во двор</option>
+                                                <option>На улицу</option>
+                                                <option>Во двор и на улицу</option>                                                
                                             </select>
                                         </div>
                                     </div>
+                                    <h4>Описание</h4>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h5>Подробное описание объекта</h5>
+                                            <textarea type="text" maxlength="100000"></textarea>
+                                        </div>
+                                    </div>
+                                    <h4>Фотографии</h4>
+                                    <div class="add-photo">
+                                        <p>Перетащите сюда файлы или <input type="file" name="add-photo"/><label for="add-photo"><span>выберите на компьютере</span></label></p>
+                                        <h6>Максимальное количество фотографий — 20. Максимальный размер фотографии — 5 МБ.</h6>
+                                    </div>
+                                    <h4>Видео</h4>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h5>Ссылка на видео на YouTube</h5>
+                                            <input type="text" name="input-add-middle" />
+                                        </div>
+                                    </div>
+                                                                        
 
                                 </form>                            
                             </div>
