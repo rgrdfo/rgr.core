@@ -1,5 +1,6 @@
 /.project
 /src/RGR.Core/bin/*
+/src/RGR.Core/obj/*
 *.tmp
 *.suo
 /.vs/
