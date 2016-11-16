@@ -141,7 +141,10 @@ li a:hover:after{
     margin-top: -2px;
 }
 .content-inner {
-    padding: 20px 16%;
+
+    margin: 20px 16%;
+    width: 68%;    
+    /*padding: 20px 16%;*/
     font-family: HelveticaNeueCyr_Roman;
 }
 
@@ -183,15 +186,25 @@ li a:hover:after{
 
 .carousel-box{
     float: left;
-    position: relative;
-    padding-right:50px;
-    min-width:860px;
-    min-height:399px;
+    position: relative;    
+    width: 75%;
+    min-width:700px; 
+    margin-right: 50px;    
+}
+.carousel-box .item img {
+    max-height: 370px;
+    min-height:236px;
+}
+
+.banner-inner img {
+    width: 20%;
+    height: 370px;
+    min-height: 236px;
+    min-width: 200px;    
 }
 
 .login-button{
-    display:block;        
-    vertical-align:middle;
+    display:block;    
     height: auto;
     width: auto;    
     background-color: transparent;
@@ -548,4 +561,14 @@ li a:hover:after{
     color: #c1c1c1;
     padding: 0 5px;
 }
+
+/*-----Обработка focus и active-----*/ 
+input:active, input:focus,
+a:active, a:focus,
+textarea:active, textarea:focus,
+button:active, button:focus,
+select:active, select:focus {
+    
+}
+
 

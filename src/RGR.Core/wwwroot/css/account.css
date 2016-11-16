@@ -198,10 +198,21 @@
    .add-objects-content h4  {
      color: #c1c1c1;
      display: block; 
-     font-size: 15pt;            
+     font-size: 15pt; 
+     margin: 15px 0;                
  }
    .add-objects-content h5{
        font-size: 12pt;
+   }
+
+   .add-objects-content h6 {
+       font-size: inherit;
+       color: #c1c1c1;
+   }
+   .add-objects-content p {
+       color: #252e34;
+       font-size: inherit;
+       padding: 7px 0;
    }
  
  /*---Разделитель---*/
@@ -285,7 +296,8 @@
     /*---Формы---*/
 
     .add-object-inner input[type="text"],
-    .add-objects-content select
+    .add-objects-content select,
+    .add-object-inner textarea
      {
         height: 40px;
         border-radius: 5px;
@@ -294,26 +306,43 @@
         padding: 10px;
         color: #c1c1c1;
     }
+      
     .add-object-inner input[type="text"]:focus,
-    .add-object-inner input[type="text"]:active  
+    .add-object-inner input[type="text"]:active,
+    .add-object-inner textarea:focus,
+    .add-object-inner textarea:active  
     {
-        background-color: #21496c;
-        color: #fff;        
-        border-color: #21496c;        
+        background-color: #fff;
+        color: #559abd;        
+        border-color: #559abd;
+        box-shadow: 0 0 12px rgba(85,154,189, 0.5);
     }   
     
     /*.add-objects-content select:active {
         background: url(../images/ico-arrow-down.png) no-repeat right; 
     }*/ 
     
-    .add-object-inner input[name="input-add-middle"] {
-        width: 50%;
-    }
+    .add-object-inner input[name="input-add-middle"] { width: 50%; }
+
     .add-object-inner input[name="input-add-small"],
-    .add-objects-content select  {
-        /*100% контейнера*/
-        width: 90%;
-    }
+    .add-objects-content select  { width: 90%; }
+
+    .add-object-inner input[name="input-add-double"] { width: 45%; }
+
+    .add-object-inner textarea { 
+        width: 50%;        
+        overflow: hidden;
+        min-height: 170px;
+        min-height: 170px;
+        resize: none;
+        }
+    .add-object-inner input[id="add-double1"] {border-radius: 5px 0 0 5px;}
+    .add-object-inner input[id="add-double2"] {border-radius: 0 5px 5px 0; border-left: none;}
+
+    .add-object-inner input[id="add-double2"]:focus,
+    .add-object-inner input[id="add-double2"]:active
+     {border-left: 1px  solid #559abd;}
+
 
     #map-block {
         width: 100%;
@@ -356,9 +385,29 @@ input[type=checkbox] {
     display: inline-block; 
     left: 0;   
     height:25px;
-    width: 25px;    
-    
+    width: 25px;      
 }
+
+.add-photo {   
+    margin: 20px 0; 
+    border-radius: 8px;
+    border: 3px dashed #c1c1c1;
+    text-align: center;
+    padding: 15px;
+}
+.add-photo input[type="file"] {
+    display: none;
+}
+.add-photo input[type="file"] + label > span {
+    color: #559abd;
+    border-bottom: 1px solid #c1c1c1;
+    cursor: pointer;
+}
+
+
+
+
+/*Обратная иконка для селектов*/
 
 /*.add-object-checkbox h5[id="ico-quest"] > label::before {
     position: relative;
