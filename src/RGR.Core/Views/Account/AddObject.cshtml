@@ -65,65 +65,74 @@
                                 <form action="*">
                                     <input type="hidden" name="objType" value="1">
                                     <h4>Адрес</h4>
-                                    <input type="text" id="add-adress" name="input-add-middle" placeholder="Введите адрес" onchange="onchange()" required/>
+                                    <input type="text" value="&" id="add-adress" name="input-add-middle" placeholder="Введите адрес" onchange="onchange()" required />
                                     <div id="map-block"></div>
                                     <h4>Информация по дому</h4>
                                     <div class="row">
-                                        <div class="col-lg-3"><h5>Тип дома</h5>
-                                        <select>
-                                            <option>ж.н.к.</option>
-                                            <option>м/с (общежитие)</option>
-                                            <option>"Сталинка"</option>
-                                            <option>"Хрущевка"</option>
-                                            <option>"Улучшенка"</option>
-                                            <option>"Новой планировки"</option>
-                                            <option>Индивидуальная планировка</option>                                                      
-                                        </select>                                            
+                                        <div class="col-lg-3">
+                                            <h5>Тип дома</h5>
+                                            <select>
+                                                <option value="&">ж.н.к.</option>
+                                                <option value="&">м/с (общежитие)</option>
+                                                <option value="&">"Сталинка"</option>
+                                                <option value="&">"Хрущевка"</option>
+                                                <option value="&">"Улучшенка"</option>
+                                                <option value="&">"Новой планировки"</option>
+                                                <option value="&">Индивидуальная планировка</option>
+                                            </select>
                                         </div>
-                                        <div class="col-lg-3"><h5>Материал постройки</h5>
+                                        <div class="col-lg-3">
+                                            <h5>Материал постройки</h5>
                                             <select>
-                                                <option>Дерево</option>
-                                                <option>Кирпич</option>
-                                                <option>Панель</option>
-                                                <option>Монолит</option>
-                                                <option>Другой</option>                                                
-                                            </select></div>
-                                        <div class="col-lg-3"><h5>Материал перекрытий</h5>
+                                                <option value="&">Дерево</option>
+                                                <option value="&">Кирпич</option>
+                                                <option value="&">Панель</option>
+                                                <option value="&">Монолит</option>
+                                                <option value="&">Другой</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <h5>Материал перекрытий</h5>
                                             <select>
-                                                <option>Железобетон</option>
-                                                <option>Металл</option>
-                                                <option>Дерево</option>
+                                                <option value="&">Железобетон</option>
+                                                <option value="&">Металл</option>
+                                                <option value="&">Дерево</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Год постройки</h5>
-                                            <input type="text" name="input-add-small" />                                                
+                                            <input type="text" value="&" name="input-add-small" />
                                         </div>
 
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-3"><h5>Этажность дома</h5>
-                                            <input type="text" name="input-add-small"/></div>
-                                        <div class="col-lg-3"><h5>Парковка</h5>
+                                        <div class="col-lg-3">
+                                            <h5>Этажность дома</h5>
+                                            <input type="text" value="&" name="input-add-small" />
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <h5>Парковка</h5>
                                             <select>
-                                                <option>Нет</option>
-                                                <option>Рядом</option>
-                                                <option>Отдельная</option>
-                                                <option>Охраняемая</option>
-                                                <option>Подземная</option>
+                                                <option value="&">Нет</option>
+                                                <option value="&">Рядом</option>
+                                                <option value="&">Отдельная</option>
+                                                <option value="&">Охраняемая</option>
+                                                <option value="&">Подземная</option>
                                             </select>
                                         </div>
-                                        <div class="col-lg-3"><h5>Безопасность</h5>
-                                        <div class="add-object-checkbox">
-                                            <input name="security" type="checkbox" id="ad-o-sec1"/><label for="ad-o-sec1">Охрана</label>
-                                            <input name="security" type="checkbox" id="ad-o-sec2"/><label for="ad-o-sec2">Консьерж</label>
-                                            <input name="security" type="checkbox" id="ad-o-sec3"/><label for="ad-o-sec3">Закрытая территория</label>
-                                        </div>
-                                        </div>
-                                        <div class="col-lg-3"><h5>Лифт</h5>
+                                        <div class="col-lg-3">
+                                            <h5>Безопасность</h5>
                                             <div class="add-object-checkbox">
-                                                <input name="lift" type="checkbox" id="ad-o-lift1" /><label for="ad-o-lift1">Пассажирский</label>
-                                                <input name="lift" type="checkbox" id="ad-o-lift2" /><label for="ad-o-lift2">Грузовой</label>                                                
+                                                <input name="security" type="checkbox" value="&" id="ad-o-sec1" /><label for="ad-o-sec1">Охрана</label>
+                                                <input name="security" type="checkbox" value="&" id="ad-o-sec2" /><label for="ad-o-sec2">Консьерж</label>
+                                                <input name="security" type="checkbox" value="&" id="ad-o-sec3" /><label for="ad-o-sec3">Закрытая территория</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <h5>Лифт</h5>
+                                            <div class="add-object-checkbox">
+                                                <input name="lift" type="checkbox" value="&" id="ad-o-lift1" /><label for="ad-o-lift1">Пассажирский</label>
+                                                <input name="lift" type="checkbox" value="&" id="ad-o-lift2" /><label for="ad-o-lift2">Грузовой</label>
                                             </div>
                                         </div>
                                     </div>
@@ -131,80 +140,90 @@
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <h5>Этаж</h5>
-                                            <input type="text" name="input-add-small" />
+                                            <input type="text" value="&" name="input-add-small" />
                                         </div>
 
                                         <div class="col-lg-3">
                                             <h5>Количество комнат</h5>
                                             <select>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4 и более</option>
+                                                <option value="&">1</option>
+                                                <option value="&">2</option>
+                                                <option value="&">3</option>
+                                                <option value="&">4 и более</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Количество комнат на продажу</h5>
                                             <select>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4 и более</option>
+                                                <option value="&">1</option>
+                                                <option value="&">2</option>
+                                                <option value="&">3</option>
+                                                <option value="&">4 и более</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-3">
                                             <h5 id="ico-quest"><label>Тип комнат</label></h5>
                                             <select>
-                                                <option>Раздельные</option>
-                                                <option>Смежные</option>
-                                                <option>Смежно-раздельные</option>
-                                                <option>"Икарус"</option>
-                                                <option>Свободная планировка</option>
+                                                <option value="&">Раздельные</option>
+                                                <option value="&">Смежные</option>
+                                                <option value="&">Смежно-раздельные</option>
+                                                <option value="&">"Икарус"</option>
+                                                <option value="&">Свободная планировка</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-3"><h5>Общая площадь(м²)</h5>
-                                            <input type="text" name="input-add-small" />
+                                        <div class="col-lg-3">
+                                            <h5>Общая площадь(м²)</h5>
+                                            <input type="text" value="&" name="input-add-small" />
                                         </div>
-                                        <div class="col-lg-3"><h5>Площадь комнат(м²)</h5>
-                                            <input type="text" name="input-add-small" /></div>
-                                        <div class="col-lg-3"><h5>Кухня</h5>
+                                        <div class="col-lg-3">
+                                            <h5>Площадь комнат(м²)</h5>
+                                            <input type="text" value="&" name="input-add-small" />
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <h5>Кухня</h5>
                                             <select>
-                                                <option>Отдельная</option>
-                                                <option>Проходная</option>
-                                                <option>Нет</option>                                                
+                                                <option value="&">Отдельная</option>
+                                                <option value="&">Проходная</option>
+                                                <option value="&">Нет</option>
                                             </select>
                                         </div>
-                                        <div class="col-lg-3"><h5>Площадь кухни(м²)</h5>
-                                            <input type="text" name="input-add-small" /></div>
+                                        <div class="col-lg-3">
+                                            <h5>Площадь кухни(м²)</h5>
+                                            <input type="text" value="&" name="input-add-small" />
+                                        </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-3"><h5>Состояние</h5>
+                                        <div class="col-lg-3">
+                                            <h5>Состояние</h5>
                                             <select>
-                                                <option>После строителей</option>
-                                                <option>Требуется кап.ремонт</option>
-                                                <option>Требуется космет.ремонт</option>
-                                                <option>Удовлетворительное</option>
-                                                <option>Хорошее</option>
-                                                <option>Отличное</option>
-                                                <option>"Евроремонт"</option>
+                                                <option value="&">После строителей</option>
+                                                <option value="&">Требуется кап.ремонт</option>
+                                                <option value="&">Требуется космет.ремонт</option>
+                                                <option value="&">Удовлетворительное</option>
+                                                <option value="&">Хорошее</option>
+                                                <option value="&">Отличное</option>
+                                                <option value="&">"Евроремонт"</option>
                                             </select>
                                         </div>
-                                        <div class="col-lg-3"><h5>Санузел</h5>
+                                        <div class="col-lg-3">
+                                            <h5>Санузел</h5>
                                             <select>
-                                                <option>Раздельный</option>
-                                                <option>Совмещенный</option>                                                
+                                                <option value="&">Раздельный</option>
+                                                <option value="&">Совмещенный</option>
                                             </select>
                                         </div>
-                                        <div class="col-lg-3"><h5>Количество</h5>
-                                            <input type="text" id="add-double1" name="input-add-double" placeholder="Балконов"/><input type="text" id="add-double2" name="input-add-double" placeholder="Лоджий" />                                            
+                                        <div class="col-lg-3">
+                                            <h5>Количество</h5>
+                                            <input type="text" value="&" id="add-double1" name="input-add-double" placeholder="Балконов" /><input type="text" value="&" id="add-double2" name="input-add-double" placeholder="Лоджий" />
                                         </div>
-                                        <div class="col-lg-3"><h5>Окна выходят</h5>
+                                        <div class="col-lg-3">
+                                            <h5>Окна выходят</h5>
                                             <select>
-                                                <option>Во двор</option>
-                                                <option>На улицу</option>
-                                                <option>Во двор и на улицу</option>                                                
+                                                <option value="&">Во двор</option>
+                                                <option value="&">На улицу</option>
+                                                <option value="&">Во двор и на улицу</option>
                                             </select>
                                         </div>
                                     </div>
@@ -217,17 +236,87 @@
                                     </div>
                                     <h4>Фотографии</h4>
                                     <div class="add-photo">
-                                        <p>Перетащите сюда файлы или <input type="file" name="add-photo"/><label for="add-photo"><span>выберите на компьютере</span></label></p>
+                                        <p>Перетащите сюда файлы или <input type="file" name="add-photo" /><label for="add-photo"><span>выберите на компьютере</span></label></p>
                                         <h6>Максимальное количество фотографий — 20. Максимальный размер фотографии — 5 МБ.</h6>
                                     </div>
                                     <h4>Видео</h4>
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <h5>Ссылка на видео на YouTube</h5>
-                                            <input type="text" name="input-add-middle" />
+                                            <input type="text" value="&" name="input-add-middle" />
                                         </div>
                                     </div>
-                                                                        
+                                    <h4>Условия сделки</h4>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h5>Цена</h5>
+                                            <input type="text" value="&" name="input-add-small" />
+                                        </div>
+                                        <div class="col-lg-3" id="add-currency">
+                                            <h5>Валюта</h5>
+                                            <input type="radio" name="input-add-currency" id="ruble" value="&" /><label for="ruble">₽</label><input type="radio" name="input-add-currency" id="dollar" value="&" /><label for="dollar">$</label><input type="radio" name="input-add-currency" id="euro" value="&" /><label for="euro">€</label>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="add-object-checkbox" id="add-sale">
+                                                <div class="row">
+                                                    <div class="col-lg-5"><input name="sale" type="checkbox" id="ad-o-sale1" /><label for="ad-o-sale1">Торг</label></div>
+                                                    <div class="col-lg-5"><input name="sale" type="checkbox" id="ad-o-sale2" /><label for="ad-o-sale2">Ипотека</label></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <h5>Комиссия по покупке</h5>
+                                            <input type="text" value="&" name="input-add-small" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h5>Вид собственности</h5>
+                                            <select>
+                                                <option value="&">Аренда</option>
+                                                <option value="&">Бессрочное пользование</option>
+                                                <option value="&">Долевое участие (право требования)</option>
+                                                <option value="&">Неприватизированная</option>
+                                                <option value="&">Оперативное управление</option>
+                                                <option value="&">Собственность</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <h5>Тип договора</h5>
+                                            <select>
+                                                <option value="&">Без договора</option>
+                                                <option value="&">Договор</option>
+                                                <option value="&">Мультилистинг</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-3"></div>
+                                    </div>
+                                    <h4>Контакты</h4>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h5>Контактное лицо</h5>
+                                            <select></select>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <h5>Объект относиться к клиенту</h5>
+                                            <input type="text" value="&" name="input-add-small" placeholder="Начните вводить имя.." />
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-3"></div>
+                                    </div>
+                                    <div class="row" id="add-button">
+                                        <div class="col-lg-2"></div><div class="col-lg-2"></div>
+                                        <div class="col-lg-4">
+                                            <input type="submit" value="Опубликовать" id="but-sub-image" class="but-personal" />
+                                            <input type="reset" value="Отмена" id="but-res-image" class="but-simple" />
+                                        </div>
+                                        <div class="col-lg-2"></div><div class="col-lg-2"></div>
+                                    </div>
+
+
+
+
 
                                 </form>                            
                             </div>

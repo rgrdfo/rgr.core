@@ -66,15 +66,14 @@
     color: #fff;
 }
 
-.account-block .but-personal, .but-personal:active, .but-personal:hover, .but-personal:focus {
-    color: #000;
+.but-personal, .but-personal:active, .but-personal:hover, .but-personal:focus {
+    color: #0d2f4d;
     font-family: HelveticaNeueCyr_Medium;
-    background-color: #f4c00a;
-    box-shadow: rgba(0,0,0,0.5) 0px 2px 1.5px;
+    background-color: #f4c00a;    
     height: 40px;
     width: auto;
     border-radius: 5px;
-    border: 1px solid #f4c00a;
+    border: 1.5px outset #e0ab0b;
     padding: 10px 15px;
     text-decoration: none;
 }
@@ -190,6 +189,8 @@
 
  .add-objects-content{
      color: #22496d;
+     min-width: 960px;
+    
  }
 
  .add-objects-content div[class^="col-lg"] {
@@ -297,7 +298,8 @@
 
     .add-object-inner input[type="text"],
     .add-objects-content select,
-    .add-object-inner textarea
+    .add-object-inner textarea,
+    #add-currency > input[type="radio"] + label 
      {
         height: 40px;
         border-radius: 5px;
@@ -306,6 +308,20 @@
         padding: 10px;
         color: #c1c1c1;
     }
+    #add-currency > input[type="radio"]:checked + label
+    {
+        background-color: #21496c;
+        border-color: #21496c;        
+        color: #fff;
+    }
+    #add-currency > label {
+        width:30%;
+        text-align: center;
+    }
+    #add-currency > input[id="ruble"]+label {border-radius: 5px 0 0 5px;}
+    #add-currency > input[id="dollar"]+label {border-radius: 0; border-left: none;}
+    #add-currency > input[id="euro"]+label {border-radius: 0 5px 5px 0; border-left: none;}    
+
       
     .add-object-inner input[type="text"]:focus,
     .add-object-inner input[type="text"]:active,
@@ -329,6 +345,8 @@
 
     .add-object-inner input[name="input-add-double"] { width: 45%; }
 
+    .add-object-inner input[type="radio"] { display: none; }
+    
     .add-object-inner textarea { 
         width: 50%;        
         overflow: hidden;
@@ -402,6 +420,54 @@ input[type=checkbox] {
     color: #559abd;
     border-bottom: 1px solid #c1c1c1;
     cursor: pointer;
+}
+#add-sale {padding-top: 30px;}
+
+.add-objects-content input[type="submit"]::content 
+{
+    content: "";    
+	background: url(/images/ico-check-off.png) no-repeat;
+    display: inline-block;     
+}
+.add-objects-content input[type="reset"]::content 
+{
+    content: "";    
+	background: url(/images/ico-check-off.png) no-repeat;
+    display: inline-block;  
+}
+    
+
+#add-button > div {
+    padding: 30px 0;
+    text-align: center;
+    display: inline;
+}
+
+
+#add-button input {
+    width: 45%;
+    padding: 10px 10px 10px 20px;
+}
+#but-sub-image {
+    background: #f4c00a url(/images/add-object/ico-add.png) 3% no-repeat;
+}
+
+#but-res-image {
+    background:  #e8e8e8 url(/images/add-object/ico-add-cancel.png) 20% no-repeat;    
+}
+
+.but-simple {
+    color: #559abd;
+    font-family: HelveticaNeueCyr_Medium;
+    background-color: #e8e8e8;
+    /*box-shadow: rgba(0,0,0,0.5) 0px 2px 1.5px;*/
+    height: 40px;
+    width: auto;
+    border-radius: 5px;
+    border: 1px solid #d2d2d2;
+    padding: 10px 20px;
+    margin: 0 10px;
+    
 }
 
 
