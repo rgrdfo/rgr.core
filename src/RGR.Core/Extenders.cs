@@ -67,7 +67,7 @@ namespace RGR.Core
         public static long? TryGetId(this IEnumerable<GeoStreets> Source, string Name, long? AreaId)
         {
             if (AreaId == null) return null;
-
+            
             var result = Source.FirstOrDefault(s => s.AreaId == AreaId && s.Name.Contains(Name));
             return (result != null) ? result.Id : default(long?);
         }
