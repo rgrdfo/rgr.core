@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
-    var dropZone = $('#add-photo'),
-        maxFileSize = 5000000; // максимальный размер файла - 5 мб.
+    var dropZone = $('#add-photo');
+    var maxFileSize = 5000000; // максимальный размер файла - 5 мб.
     var maxFiles = 20; // максимальное количество - 20 шт.
     var dataArray = [];
 
@@ -75,48 +75,19 @@
         }
         else {
             // Передаем массив с файлами в функцию загрузки на предпросмотр
-            loadInView(files);
+            loadInView(files);            
         }
     });
-    function displayOn (flag) {
-        
-    }
+    
     // Функция загрузки изображений на предпросмотр
-    function loadInView(files) {     
+    function loadInView(files) {
+        if (files.length <= maxFiles) {
+            $('#photo-row').css({ 'display': 'block' });
+        }
+        else { alert('Вы не можете загружать больше ' + maxFiles + ' изображений!'); return; }
+
         // Для каждого файла
-        $.each(files, function(file) {                
-                  
-            // Проверяем количество загружаемых элементов
-            if((dataArray.length+files.length) <= maxFiles) {
-                // показываем область с кнопками
-                if ((dataArray.length + files.length) >= 1 && (dataArray.length + files.length) < 5) {
-                    $('#photo-row1').css({ 'display': 'block' });
-                }
-                else if ((dataArray.length + files.length) >= 5 && (dataArray.length + files.length) < 9) {
-                    $('#photo-row1').css({ 'display': 'block' });
-                    $('#photo-row2').css({ 'display': 'block' });
-                }
-                else if ((dataArray.length + files.length) >= 9 && (dataArray.length + files.length) < 13) {
-                    $('#photo-row1').css({ 'display': 'block' });
-                    $('#photo-row2').css({ 'display': 'block' });
-                    $('#photo-row3').css({ 'display': 'block' });
-                }
-                else if ((dataArray.length + files.length) >= 13 && (dataArray.length + files.length) < 17) {
-                    $('#photo-row1').css({ 'display': 'block' });
-                    $('#photo-row2').css({ 'display': 'block' });
-                    $('#photo-row3').css({ 'display': 'block' });
-                    $('#photo-row4').css({ 'display': 'block' });
-                }
-                else if ((dataArray.length + files.length) >= 17) {
-                    $('#photo-row1').css({ 'display': 'block' });
-                    $('#photo-row2').css({ 'display': 'block' });
-                    $('#photo-row3').css({ 'display': 'block' });
-                    $('#photo-row4').css({ 'display': 'block' });
-                    $('#photo-row5').css({ 'display': 'block' });
-                }              
-            }
-            else { alert('Вы не можете загружать больше '+maxFiles+' изображений!'); return; }
-         
+        $.each(files, function(index,file) { 
             // Создаем новый экземпляра FileReader
             var fileReader = new FileReader();
             // Инициируем функцию FileReader
@@ -124,11 +95,11 @@
                
                 return function(e) {
                     // Помещаем URI изображения в массив
-                    dataArray.push({name : file.name, value : this.result});
+                    dataArray.push({ name: file.name, value: this.result });                    
                     addImage((dataArray.length-1));
                 };
                  
-            })(files[index]);
+            })(files[index]);            
             // Производим чтение картинки по URI
             fileReader.readAsDataURL(file);
         })
@@ -137,19 +108,25 @@
     // Процедура добавления эскизов на страницу
     function addImage(ind) {
         // Если индекс отрицательный значит выводим весь массив изображений
-        if (ind < 0) {
-            start = 0; end = dataArray.length;
-        } else {
-            // иначе только определенное изображение
-            start = ind; end = ind + 1;
-        }        
-        // Цикл для каждого элемента массива
-        for (i = start; i < end; i++) {
-            // размещаем загруженные изображения
-            if ($('#dropped-files > .image').length <= maxFiles) {
-                $('#dropped-files').append('<div id="img-' + i + '" class="image" style="background: url(' + dataArray[i].value + '); background-size: cover;"> <a href="#" id="drop-' + i + '" class="drop-button">Удалить изображение</a></div>');
-            }
-        }
-        return false;
+        //if (ind < 0) {
+        //    start = 0; end = dataArray.length;
+        //} else {
+        //    // иначе только определенное изображение
+        //    start = ind; end = ind + 1;
+        //}
+        ////if (dataArray.leinght <= maxFiles) {
+        //    // Цикл для каждого элемента массива
+        //for (i = start; i < end; ++i) {        
+        //        // размещаем загруженные изображения
+        //        //if ($('#dropped-files > .image').length <= maxFiles) {
+        //        //    $('#dropped-files').append('<div id="img-' + i + '" class="image" style="background: url(' + dataArray[i].value + '); background-size: cover;"> <a href="#" id="drop-' + i + '" class="drop-button">Удалить изображение</a></div>');
+        //        //}                
+        //}
+        //for (i = 1; i < dataArray.lenght; ++i) {
+        $('#photo-row').append('<div id="img-' + ind + '" class="col-lg-3" style="background:url(' + dataArray[ind].value + ') no-repeat; background-size:cover;"></div>');
+
+        //return false;     
+        
+            
     }
 });

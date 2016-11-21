@@ -79,7 +79,8 @@ label
     width:50%;
     min-width: 900px; 
     left:25%;
-    top: 45px;     
+    top: 45px;  
+    z-index: 5;   
 }
 
 .search-box-inner input ~label{
@@ -113,8 +114,7 @@ label
     padding-bottom: 20px;                 
 }
 .row span {    
-    padding: 10px 0px;   
-    float:left;
+    padding: 0px 5px;     
 }
 .search-box-inner-radio-numb .radio_numb_panel1  span{max-width: 12%;}
 .search-box-inner-radio-numb .radio_numb_panel2 span,
@@ -145,6 +145,7 @@ label
      float: left;
      color: #fff;     
  }
+
 #panel1 .search-box-line input,
 #panel2 .search-box-line input {width: 25%;}
 #panel3 .search-box-line input,
@@ -300,22 +301,49 @@ label
     
 }*/
 
+  /*-----Расширенный поиск-----*/
+  #extended {
+      display: none;
+  }
+  #extended .row > div {
+      padding: 10px 0 10px 15px;
+  }
+
+  #extended .input-text-search-empty, .input-text-search-solid {
+      position: relative;
+      height: 40px;      
+      border-radius: 5px;
+      color: #fff;
+      background-color: transparent;
+      border: 1px solid #559abd;
+      padding: 10px;        
+  }
+  .input-text-search-solid {
+      color: #84abbf;
+      background-color: #2f5e82;  
+  }
+  #at1, #at2, #at3, #ak1, #ak2, #ak3 {width: 25%;}
+  #al1, #al2 {width: 50%;}
+  #al3 {width: 55%;}
+  #at1,#ak1,#al1 {border-radius: 5px 0 0 5px; border-right:none;}
+  #at2,#ak2,#al2 {border-radius: 0 5px 5px 0 !important;}
+  
+/*Изменить стили для input. Переделать разметку!!!*/
 
 
 /*Подвал формы*/
 .search-box-footer{
     position: absolute;
     text-align: center;
-    height: 33%;
+    height: 100px;    
     width: 100%!important;
-    left:0;
-    top:67%;
+    left:0;    
     background-color: #1a3956;
     padding: 0px;
     width: 50%;
     bottom:0px;
     border-radius: 0 0 10px 10px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);  
 
 }
 .search-box-footer-inner {    
@@ -382,6 +410,9 @@ label
 }
 .search-box-footer a:hover {color: #559abd; text-decoration: none;}
 
+.search-box-footer label {
+    color: #fff;
+}
 
    
 

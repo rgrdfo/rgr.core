@@ -1,4 +1,23 @@
-﻿<div class="search-bar">
+﻿<head>
+    <script>
+        function openExtand() {
+            var link = document.getElementById('ext1');
+            var bar = document.getElementById('extended');            
+            if ($(bar).css(':display') == true) {
+                bar.style.display = 'none';
+                link.innerText = "Расширенный поиск";
+                document.getElementById('panel1').style.minHeight = '100px';
+            }
+            else {
+                link.innerText = "Свернуть параметры";
+                bar.style.display = 'inherit';
+                document.getElementById('panel1').style.minHeight = '500px';
+            }
+        }
+    </script>
+</head>
+
+<div class="search-bar">
     <div class="search-box">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#panel1">Квартира</a></li>
@@ -12,7 +31,8 @@
         <!--Квартира-->
         <div class="tab-content">
             <div id="panel1" action="search_box" class="tab-pane in active search-box-inner">
-                <form action="search">  <!--asp-action="search" asp-controller="search"-->            
+                <form action="search">
+                    <!--asp-action="search" asp-controller="search"-->
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="search-box-inner-radio">
@@ -38,7 +58,7 @@
                                 <div class="search-box-inner-radio-numb">
                                     <div class="radio_numb_panel1">
                                         <span>Комнат</span>
-                                        <input name="room1" id="n1" type="checkbox"/><label for="n1">1</label><input name="room2" id="n2" type="checkbox"/><label for="n2">2</label><input name="room3" id="n3" type="checkbox"/><label for="n3">3</label><input name="room4" id="n4" type="checkbox"/><label for="n4">4 и более</label>
+                                        <input name="room1" id="n1" type="checkbox" /><label for="n1">1</label><input name="room2" id="n2" type="checkbox" /><label for="n2">2</label><input name="room3" id="n3" type="checkbox" /><label for="n3">3</label><input name="room4" id="n4" type="checkbox" /><label for="n4">4 и более</label>
                                     </div>
                                 </div>
                             </div>
@@ -52,13 +72,44 @@
                             <span style="padding-right: 15px;">Цена от</span><input name="priceFrom" id="pr1_p1" type="text"><span>до</span><input name="priceTo" id="pr2_p1" type="text"><span>₽</span>
                         </div>
                     </div>
+                    <div id="extended">
+                        <div class="row">
+                            <div class="col-lg-1"><span>Площадь</span></div>
+                            <div class="col-lg-5">
+                                <input class="input-text-search-solid" name="areaTotal" id="at1" type="text" disabled  value="Общая"/><input class="input-text-search-empty" name="areaTotal" id="at2" type="text" placeholder="от"/>
+                                <span>до</span><input class="input-text-search-empty" name="areaTotal" id="at3" type="text" /><span>м²</span>
+                            </div>
+                            <div class="col-lg-3"><input class="input-text-search-solid" name="areaLife" id="al1" type="text" disabled value="Жилая" /><input class="input-text-search-empty" name="areaLife" id="al2" type="text" placeholder="от" /></div>
+                            <div class="col-lg-3"><span>до</span><input class="input-text-search-empty" name="areaLife" id="al3" type="text" /><span>м²</span></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-1"></div>
+                            <div class="col-lg-5">
+                                <input class="input-text-search-solid" name="areaKitch" id="ak1" type="text" disabled value="Жилая" /><input class="input-text-search-empty" name="areaKitch" id="ak2" type="text" placeholder="от" />
+                                <span>до</span><input class="input-text-search-empty" name="areaKitch" id="ak3" type="text" /><span>м²</span>
+                            </div>
+                            <div class="col-lg-3"></div>
+                            <div class="col-lg-3"></div>
+                        </div>
+                        
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <span>Этаж с</span><input class="input-text-search-empty" name="floor" id="f1" type="text"/>
+                                <span>по</span><input class="input-text-search-empty" name="floor" id="f2" type="text"/>
+                            </div>
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-5"></div>
+                        </div>
+                    </div>
                     <div class="search-box-footer">
                         <div class="search-box-footer-inner">
                             <input type="submit" value="Показать" />
-                            <label><span class="search-box-footer-inner-label">23</span></label>
+                            <!--<label><span class="search-box-footer-inner-label">23</span></label>-->
                             <img src="images/glass.png" />
                         </div>
-                        <span style="position:absolute; right:5%; bottom:40%;"><a href="#win1">Расширенный поиск</a></span>
+                        <span style="position:absolute; right:5%; bottom:40%;"><label id="ext1" onclick="openExtand()">Расширенный поиск</label></span>
                     </div>
                 </form>
             </div>

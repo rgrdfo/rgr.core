@@ -11,7 +11,7 @@
     
 }
 <head>
-    <script src="~/js/upload.js"></script>
+    <script src="~/js/upload-1.js"></script>
     <script src="~/js/add-object.js"></script>
 </head>
 
@@ -217,19 +217,10 @@
                                     </div>
                                     <h4>Фотографии</h4>
                                     <div id="add-photo">
-                                        <p>Перетащите сюда файлы или <label><input type="file" id="add-but" onclick="defaultUploadBtn()" /><span>выберите на компьютере</span></label></p>
+                                        <p>Перетащите сюда файлы или <label><input type="file" accept="image/jpeg,image/png,image/gif" multiple  id="add-but" onclick="defaultUploadBtn()" /><span>выберите на компьютере</span></label></p>
                                         <h6>Максимальное количество фотографий — 20. Максимальный размер фотографии — 5 МБ.</h6>
                                         <div id="list-block">
-                                            <div id="photo-row1" class="row">                                                
-                                            </div>
-                                            <div id="photo-row2" class="row">                                                
-                                            </div>
-                                            <div id="photo-row3" class="row">                                                
-                                            </div>
-                                            <div id="photo-row4" class="row">                                                
-                                            </div>
-                                            <div id="photo-row5" class="row">                                                
-                                            </div>
+                                            <div id="photo-row" class="row"></div>                                            
                                         </div>
                                     </div>
                                     <h4>Видео</h4>

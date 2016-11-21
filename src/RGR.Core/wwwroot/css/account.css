@@ -444,9 +444,9 @@ input[type=checkbox] {
     cursor: pointer;   
 }
 
-#list-block > div[id^="photo-row"] {
+/*#list-block > div[id^="photo-row"] {
     display: none;
-}
+}*/
 
 /*------------*/
 #add-sale {padding-top: 30px;}
@@ -497,6 +497,11 @@ input[type=checkbox] {
     margin: 0 10px;
     }
 /*------------*/
+#photo-row > .col-lg-3 {
+    min-height: 150px;
+    margin: 10px;
+    width: 23%;
+}
 
 
 
