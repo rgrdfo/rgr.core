@@ -19,10 +19,12 @@ namespace RGR.Core.Controllers
     public class SearchController : Controller
     {
         private rgrContext db;
+        private CityPassport city;
         public SearchController(rgrContext context, IServiceProvider serviceProvider)
         {
             db = context;
             var Utils = serviceProvider.GetService(typeof(SearchUtils));
+            city = new CityPassport(db);
         }
         
         //Поиск
@@ -850,7 +852,14 @@ namespace RGR.Core.Controllers
                 Files = fils
             }.GetShortPassports(relevant);
 
+            db.Dispose();
             return JsonConvert.SerializeObject(result);
+        }
+
+        [HttpPost]
+        public ActionResult GetCityPassport(long CityId)
+        {
+            return Json(city.GetPassport(CityId));
         }
     }
 }

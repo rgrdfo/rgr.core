@@ -69,6 +69,7 @@ namespace RGR.Core.Controllers.Account
                 null :
                 convert.GetShortPassports(companyEstate);
 
+            db.Dispose();
             return page;
         }
 
