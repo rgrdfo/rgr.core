@@ -16,7 +16,7 @@ time, mark, audio, video {
   border: 0 none;
   font-size: 100%;
   font: inherit;
-  vertical-align: baseline;
+  vertical-align: baseline;  
 }
 a, input[type="submit"] {
     outline: none;
@@ -35,9 +35,12 @@ a, input[type="submit"] {
   margin: 0;
   padding: 0;
 }
-html,
-body {   
+
+body {
     
+}
+html,
+body {       
     background-color: #f5f5f5;
     margin: 0;
 }
@@ -142,7 +145,7 @@ li a:hover:after{
 .content-inner {
 
     margin: 20px 16%;
-    width: 68%;    
+    width: 68%;      
     /*padding: 20px 16%;*/
     font-family: HelveticaNeueCyr_Roman;
 }
@@ -158,6 +161,9 @@ li a:hover:after{
     left:0px;
     right:0px;
     position: relative;
+    flex: 0 0 auto;
+    font-family: HelveticaNeueCyr_Roman;
+    font-size: 12pt;
 }
 .footer-nav {
     max-width: 1170px;

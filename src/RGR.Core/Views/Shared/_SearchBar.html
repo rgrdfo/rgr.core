@@ -1,19 +1,26 @@
 ﻿<head>
     <script>
-        function openExtand() {
-            var link = document.getElementById('ext1');
-            var bar = document.getElementById('extended');            
-            if ($(bar).css(':display') == true) {
-                bar.style.display = 'none';
-                link.innerText = "Расширенный поиск";
-                document.getElementById('panel1').style.minHeight = '100px';
-            }
-            else {
-                link.innerText = "Свернуть параметры";
-                bar.style.display = 'inherit';
-                document.getElementById('panel1').style.minHeight = '500px';
-            }
+        function openExtend(id) {
+            var linkOn = document.getElementById('onExt');
+            var linkCl = document.getElementById('clExt');
+            var bar = document.getElementById('extended');
+            var pan = document.getElementById('panel1');
+            linkOn.style.display = "none";
+            bar.style.display = 'inherit';
+            pan.style.minHeight = '900px';
+            linkCL.style.display = "";
         }
+        function closeExtend(){
+            var linkOn = document.getElementById('onExt');
+            var linkCl = document.getElementById('clExt');
+            var bar = document.getElementById('extended');
+            var pan = document.getElementById('panel1');
+            bar.style.display = 'none';
+            linkOn.style.display = "";            
+            pan.style.minHeight = '100px';
+            linkCL.style.display = "none";
+        }
+        
     </script>
 </head>
 
@@ -76,7 +83,7 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Площадь</span></div>
                             <div class="col-lg-5">
-                                <input class="input-text-search-solid" name="areaTotal" id="at1" type="text" disabled  value="Общая"/><input class="input-text-search-empty" name="areaTotal" id="at2" type="text" placeholder="от"/>
+                                <input class="input-text-search-solid" name="areaTotal" id="at1" type="text" disabled value="Общая" /><input class="input-text-search-empty" name="areaTotal" id="at2" type="text" placeholder="от" />
                                 <span>до</span><input class="input-text-search-empty" name="areaTotal" id="at3" type="text" /><span>м²</span>
                             </div>
                             <div class="col-lg-3"><input class="input-text-search-solid" name="areaLife" id="al1" type="text" disabled value="Жилая" /><input class="input-text-search-empty" name="areaLife" id="al2" type="text" placeholder="от" /></div>
@@ -86,20 +93,153 @@
                         <div class="row">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-5">
-                                <input class="input-text-search-solid" name="areaKitch" id="ak1" type="text" disabled value="Жилая" /><input class="input-text-search-empty" name="areaKitch" id="ak2" type="text" placeholder="от" />
+                                <input class="input-text-search-solid" name="areaKitch" id="ak1" type="text" disabled value="Кухня" /><input class="input-text-search-empty" name="areaKitch" id="ak2" type="text" placeholder="от" />
                                 <span>до</span><input class="input-text-search-empty" name="areaKitch" id="ak3" type="text" /><span>м²</span>
                             </div>
                             <div class="col-lg-3"></div>
                             <div class="col-lg-3"></div>
                         </div>
-                        
+
 
                         <div class="row">
-                            <div class="col-lg-3">
-                                <span>Этаж с</span><input class="input-text-search-empty" name="floor" id="f1" type="text"/>
-                                <span>по</span><input class="input-text-search-empty" name="floor" id="f2" type="text"/>
+                            <div class="col-lg-1"><span>Этаж с</span></div>
+                            <div class="col-lg-2">
+                                <input class="input-text-search-empty" name="floor" id="f1" type="text" />
+                                <span>по</span><input class="input-text-search-empty" name="floor" id="f2" type="text" />
                             </div>
-                            <div class="col-lg-4"></div>
+                            <div class="col-lg-2" id="col-check">
+                                <div class="add-object-checkbox">
+                                    <input name="nfloor" type="checkbox" value="&" id="fnf" /><label for="fnf">Не первый</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-2" id="col-check">
+                                <div class="add-object-checkbox">
+                                    <input name="nfloor" type="checkbox" value="&" id="fnl" /><label for="fnl">Не последний</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-5" style="padding-left: 0;">
+                                <input class="input-text-search-solid" name="houseFllor" id="hf1" type="text" disabled value="В доме" /><input class="input-text-search-empty" name="houseFllor" id="hf2" type="text" placeholder="от" />
+                                <span>до</span><input class="input-text-search-empty" name="houseFllor" id="hf3" type="text" /><span>этажей</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-1"><span>Удобства</span></div>
+                            <div class="col-lg-3">
+                                <select class="search-select-small">
+                                    <option value="&">Любой санузел</option>
+                                    <option value="&">Совмещенный санузел</option>
+                                    <option value="&">Раздельный санузел</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-8" id="col-check">
+                                <div class="add-object-checkbox">
+                                    <input name="balcon" type="checkbox" value="&" id="blc" /><label for="blc">Балкон / Лоджия</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-1"></div>
+                            <div class="col-lg-3">
+                                <select class="search-select-small">
+                                    <option value="" disabled selected style='display:none;'>Тип дома</option>
+                                    <option value="&">ж.н.к.</option>
+                                    <option value="&">м/с (общежитие)</option>
+                                    <option value="&">"Сталинка"</option>
+                                    <option value="&">"Хрущевка"</option>
+                                    <option value="&">"Улучшенка"</option>
+                                    <option value="&">"Новой планировки"</option>
+                                    <option value="&">Индивидуальная планировка</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <select class="search-select-small" p>
+                                    <option value="" disabled selected style='display:none;'>Материал постройки</option>
+                                    <option value="&">Дерево</option>
+                                    <option value="&">Кирпич</option>
+                                    <option value="&">Панель</option>
+                                    <option value="&">Монолит</option>
+                                    <option value="&">Другой</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <select class="search-select-small">
+                                    <option value="" disabled selected style='display:none;'>Состояние</option>
+                                    <option value="&">После строителей</option>
+                                    <option value="&">Требуется кап.ремонт</option>
+                                    <option value="&">Требуется космет.ремонт</option>
+                                    <option value="&">Удовлетворительное</option>
+                                    <option value="&">Хорошее</option>
+                                    <option value="&">Отличное</option>
+                                    <option value="&">"Евроремонт"</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-1"><span>Адрес</span></div>
+                            <div class="col-lg-3">
+                                <select class="search-select-small">
+                                    <option value="" disabled selected style='display:none;'>Город</option>
+                                    <option value="&">-</option>
+                                    <option value="&">-</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-1"><span>Район</span></div>
+                            <div class="col-lg-5">
+                                <select class="search-select-large">
+                                    <option value="" disabled selected style='display:none;'>Выберите район</option>
+                                    <option value="&">-</option>
+                                    <option value="&">-</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-1"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Массив</span></div>
+                            <div class="col-lg-5">
+                                <select class="search-select-large">
+                                    <option value="" disabled selected style='display:none;'>Выберите массив</option>
+                                    <option value="&">-</option>
+                                    <option value="&">-</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-1"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Улица</span></div>
+                            <div class="col-lg-5">
+                                <input class="input-text-search-empty" name="street" id="st1" type="text" placeholder="Введите улицу" />
+                            </div>
+                            <div class="col-lg-1"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-1"><span>Риелтор</span></div>
+                            <div class="col-lg-3">
+                                <input class="input-text-search-solid" name="rielt" id="rl1" type="text" placeholder="Компания" />
+                            </div>
+                            <div class="col-lg-3">
+                                <input class="input-text-search-solid" name="rielt" id="rl1" type="text" placeholder="Агент" />
+                            </div>
+                            <div class="col-lg-5"></div>                                                 
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-1"><span>Риелтор</span></div>
+                            <div class="col-lg-3">
+                                <select class="search-select-small">
+                                    <option value="&">За все время</option>
+                                    <option value="&">За сегодня</option>
+                                    <option value="&">За неделю</option>
+                                    <option value="&">За месяц</option>
+                                    <option value="&">За 3 месяца</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3" id="col-check">
+                                
+                                    <div id="photo-check" class="add-object-checkbox">
+                                        <input name="photo" type="checkbox" value="&" id="pht" /><label class="indent-check" for="pht">Только с фото</label>
+                                    </div>
+                                
+                            </div>
                             <div class="col-lg-5"></div>
                         </div>
                     </div>
@@ -109,8 +249,10 @@
                             <!--<label><span class="search-box-footer-inner-label">23</span></label>-->
                             <img src="images/glass.png" />
                         </div>
-                        <span style="position:absolute; right:5%; bottom:40%;"><label id="ext1" onclick="openExtand()">Расширенный поиск</label></span>
+                        <span style="position:absolute; right:5%; bottom:40%;"><label id="onExt" onclick="openExtend()">Расширенный поиск</label></span>
+                        <span style="position:absolute; right:5%; bottom:40%;"><label id="clExt" onclick="closeExtend()" style="display:none;">Свернуть параметры</label></span>
                     </div>
+                    
                 </form>
             </div>
 

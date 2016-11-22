@@ -80,7 +80,7 @@ label
     min-width: 900px; 
     left:25%;
     top: 45px;  
-    z-index: 5;   
+    z-index: 100;   
 }
 
 .search-box-inner input ~label{
@@ -88,6 +88,11 @@ label
     padding: 10px;
     border: 1px solid #559abd;
     border-radius: 8px;     
+}
+.search-box-inner #extended input ~label {
+    padding: 0;
+    border: none;
+    height: auto;
 }
 
 .search-box-inner-radio label:nth-of-type(1){border-radius: 8px 0 0 8px;}
@@ -306,7 +311,8 @@ label
       display: none;
   }
   #extended .row > div {
-      padding: 10px 0 10px 15px;
+      padding: 10px 0 15px 15px;
+      text-align: left;
   }
 
   #extended .input-text-search-empty, .input-text-search-solid {
@@ -322,12 +328,39 @@ label
       color: #84abbf;
       background-color: #2f5e82;  
   }
-  #at1, #at2, #at3, #ak1, #ak2, #ak3 {width: 25%;}
-  #al1, #al2 {width: 50%;}
-  #al3 {width: 55%;}
-  #at1,#ak1,#al1 {border-radius: 5px 0 0 5px; border-right:none;}
-  #at2,#ak2,#al2 {border-radius: 0 5px 5px 0 !important;}
-  
+#extended  div[class="col-lg-1"] {
+    padding: 20px 0 10px 15px;
+}
+#extended  div[id="col-check"] {
+    padding: 17px 0 10px 15px;
+
+}
+  #extended  #at1, #at2, #at3, #ak1, #ak2, #ak3, #hf1, #hf2, #hf3 {width: 25%;}
+  #extended  #al1, #al2 {width: 50%;}
+  #extended  #al3 {width: 55%;}
+  #extended #at1,#ak1,#al1, #hf1 {border-radius: 5px 0 0 5px; border-right:none;}
+  #extended #at2,#ak2,#al2, #hf2 {border-radius: 0 5px 5px 0 !important;}
+  #extended input[name="floor"] {width: 35%;}   
+
+#extended > label[for="hf1"] {
+    text-align: right;
+}
+#extended .add-object-checkbox label:not([class="indent-check"]) {
+    margin-left: 15px;
+    padding: 5px 0;  
+}
+
+#extended select {
+    border: 1px  solid #559abd !important;
+    color: #fff !important;
+}
+.indent-check {
+    margin-left: 35px;
+}
+#extended > label[class="indent-check"]::before {left: 25px !important;}
+.search-select-small,  #extended input[name="rielt"] {width:95%;}
+.search-select-large, #extended input[name="street"] {width:97.5%;}
+
 /*Изменить стили для input. Переделать разметку!!!*/
 
 

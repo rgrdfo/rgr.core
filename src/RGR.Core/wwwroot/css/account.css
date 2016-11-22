@@ -1,4 +1,6 @@
-﻿
+﻿.login {
+    height: 100%;
+}
 .account-block {
     position:relative;        
     margin: 0;
@@ -291,6 +293,7 @@
 
     .add-object-inner input[type="text"],
     .add-objects-content select,
+     #extended select,
     .add-object-inner textarea,
     #add-currency > input[type="radio"] + label 
      {
@@ -364,31 +367,35 @@
         padding: 20px 0;
     }
 
-.add-objects-content select{
+.add-objects-content select,
+ #extended select{
     color: #559abd;
     -webkit-appearance: none;
     -moz-appearance: none;
     background: url(../images/ico-arrow-up.png) no-repeat right;     
 }
-.add-objects-content select option {
+.add-objects-content select option,
+ #extended select option {
     height: 40px;
     padding: 10px;
 }
 
-.add-objects-content select:active {
+.add-objects-content select:active,
+ #extended select:active{
     border-radius: 5px 5px 0 0;
 }
 
 input[type=checkbox] {
     display: none;
 }
-.add-object-checkbox label {
+.add-objects-content .add-object-checkbox label {
     padding: 5px 0;
     margin-left: 30px;
     display: block;
 }
 
-.add-object-checkbox input[type=checkbox]:checked + label::before {           
+.add-object-checkbox input[type=checkbox]:checked + label::before,
+.add-object-checkbox input[type=checkbox]:checked + label[class="indent-check"]::before {           
     content: "";
     background: url(/images/ico-check-on.png) no-repeat;
 }
@@ -400,6 +407,15 @@ input[type=checkbox] {
     left: 0;   
     height:25px;
     width: 25px;      
+}
+.add-object-checkbox input[type=checkbox] + label[class="indent-check"]::before 
+{
+    position: absolute;        
+    content: "";    
+	background: url(/images/ico-check-off.png) no-repeat;    
+    left: 20px;   
+    height:25px;
+    width: 25px;
 }
  /*-----Drag and drop-----*/
 #add-photo {   
