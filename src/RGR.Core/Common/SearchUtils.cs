@@ -176,32 +176,43 @@ namespace RGR.Core.Common
 
         public class PassportConverter
         {
-            public List<Addresses> Addresses { get; set; }
-            public List<ObjectMainProperties> MainProps { get; set; }
-            public List<ObjectAdditionalProperties> AddtProps { get; set; }
-            public List<GeoCities> Cities { get; set; }
-            public List<GeoStreets> Streets { get; set; }
-            public List<DictionaryValues> DictValues { get; set; }
-            public List<Companies> Companies { get; set; }
-            public List<Users> Users { get; set; }
-            public List<ObjectMedias> Medias { get; set; }
-            public List<ObjectRatingProperties> Ratings { get; set; }
-            public List<ObjectCommunications> Communications { get; set; }
-            public List<StoredFiles> Files { get; set; }
+            //public List<Addresses> Addresses { get; set; }
+            //public List<ObjectMainProperties> MainProps { get; set; }
+            //public List<ObjectAdditionalProperties> AddtProps { get; set; }
+            //public List<GeoCities> Cities { get; set; }
+            //public List<GeoStreets> Streets { get; set; }
+            //public List<DictionaryValues> DictValues { get; set; }
+            //public List<Companies> Companies { get; set; }
+            //public List<Users> Users { get; set; }
+            //public List<ObjectMedias> Medias { get; set; }
+            //public List<ObjectRatingProperties> Ratings { get; set; }
+            //public List<ObjectCommunications> Communications { get; set; }
+            //public List<StoredFiles> Files { get; set; }
+            public rgrContext db { get; private set; }
+
+            public PassportConverter(rgrContext db)
+            {
+                this.db = db;
+            }
 
             public IEnumerable<ShortPassport> GetShortPassports(IEnumerable<EstateObjects> EstateObjects)
             {
                 const string NA = "";
                 var result = new List<ShortPassport>();
 
-
+                var Streets = db.GeoStreets.ToList();
+                var Cities = db.GeoCities.ToList();
+                var Companies = db.Companies.ToList();
+                var Medias = db.ObjectMedias.ToList();
+                var Files = db.StoredFiles.ToList();
+                var DictValues = db.DictionaryValues.ToList();
 
                 foreach (var Estate in EstateObjects)
                 {
                     var passport = new ShortPassport();
-                    var mainProp = MainProps.FirstOrDefault(m => m.ObjectId == Estate.Id);
-                    var addtProp = AddtProps.FirstOrDefault(a => a.ObjectId == Estate.Id);
-                    var dbAddress = Addresses.FirstOrDefault(a => a.ObjectId == Estate.Id);
+                    var mainProp = Estate.ObjectMainProperties.First();
+                    var addtProp = Estate.ObjectAdditionalProperties.First();
+                    var dbAddress = Estate.Addresses.First();
                     var street = Streets.FirstOrDefault(s => s.Id == dbAddress.StreetId);
                     var streetName = (street != null) ? street.Name : NA;
                     if (streetName == NA)
@@ -209,7 +220,7 @@ namespace RGR.Core.Common
                     var city = Cities.FirstOrDefault(c => c.Id == dbAddress.CityId).Name;
                     var price = mainProp.Price;
                     var area = mainProp.TotalArea;
-                    var agent = Users.FirstOrDefault(u => u.Id == Estate.Id);
+                    var agent = Estate.User;
                     var company = Companies.FirstOrDefault(c => c.Id == Estate.Id);
 
 
@@ -256,7 +267,7 @@ namespace RGR.Core.Common
                         Estate.ObjectType == (short)EstateTypes.House)
                     {
                         #region Общие поля для офиса, комнаты, дома и квартиры
-                        var rating = Ratings.FirstOrDefault(r => r.Id == Estate.Id);
+                        var rating = Estate.ObjectRatingProperties.First();
 
                         //Материал постройки
                         passport.Add("HouseMaterial", ((mainProp.BuildingMaterial != null) ? DictValues.GetFromIds(mainProp.BuildingMaterial) : NA));
@@ -282,7 +293,7 @@ namespace RGR.Core.Common
                         Estate.ObjectType == (short)EstateTypes.House)
                     {
                         #region Общие для участка, дома и офиса поля
-                        var landComm = Communications.FirstOrDefault(c => c.Id == Estate.Id);
+                        var landComm = Estate.ObjectCommunications.First();
 
                         //отопление
                         passport.Add("Heating", (landComm != null) ? ((landComm.Heating != "305") ? "есть" : "нет") : NA);

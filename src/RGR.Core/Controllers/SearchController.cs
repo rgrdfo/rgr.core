@@ -129,24 +129,24 @@ namespace RGR.Core.Controllers
         {
 
             //Получение основных таблиц
-            var main = await db.ObjectMainProperties.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
-            var addt = await db.ObjectAdditionalProperties.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
-            var rtng = await db.ObjectRatingProperties.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
-            var addr = await db.Addresses.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
+            //var main = await db.ObjectMainProperties.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
+            //var addt = await db.ObjectAdditionalProperties.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
+            //var rtng = await db.ObjectRatingProperties.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
+            //var addr = await db.Addresses.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
             var strt = await db.GeoStreets.ToListAsync();
-            var city = await db.GeoCities.ToListAsync();
-            var vals = await db.DictionaryValues.ToListAsync();
-            var usrs = await db.Users.ToListAsync();
+            //var city = await db.GeoCities.ToListAsync();
+            //var vals = await db.DictionaryValues.ToListAsync();
+            //var usrs = await db.Users.ToListAsync();
             var cmps = await db.Companies.ToListAsync();
-            var comm = await db.ObjectCommunications.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
+            //var comm = await db.ObjectCommunications.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
             var mdia = await db.ObjectMedias.Where(m => db.EstateObjects.First(r => r.Id == m.ObjectId).ObjectType == (short)EstateType).ToListAsync();
-            var fils = await db.StoredFiles.ToListAsync();
+            //var fils = await db.StoredFiles.ToListAsync();
 
 
             bool isCottage = false;      //Переключатель "коттедж/таунхаус" (для дома)
             bool pricePerMetter = false; //Переключатель "искать по цене за квадратный метр" (по умолчанию - по цене за объект)
 
-            //Парсер для разбора составных параметров запроса на отедльные элементы
+            //Парсер для разбора составных параметров запроса на отдельные элементы
             var searchParser = new Parser()
             {
                 Letters = "",
@@ -343,12 +343,23 @@ namespace RGR.Core.Controllers
             #endregion
 
             //Фильтрация
-            var relevant = db.EstateObjects.Where(estate => estate.ObjectType == (short)EstateType && estate.Status == (short)EstateStatuses.Active).AsEnumerable();
-            relevant = relevant.Where(estate =>
+            var relevant = db.EstateObjects
+                .Where(estate => estate.ObjectType == (short)EstateType && estate.Status == (short)EstateStatuses.Active)
+                .Include(e => e.ObjectMainProperties)
+                .Include(e => e.ObjectAdditionalProperties)
+                .Include(e => e.Addresses)
+                .Include(e => e.ObjectCommunications)
+                .Include(e => e.ObjectRatingProperties)
+                .ToList();
+            relevant = await Task.Run (() => relevant.Where(estate =>
             {
-                var curMain = (main.FirstOrDefault(m => m.ObjectId == estate.Id));
-                var curAddt = (addt.FirstOrDefault(m => m.ObjectId == estate.Id));
-                var curAddr = (addr.FirstOrDefault(m => m.ObjectId == estate.Id));
+                var curMain = estate.ObjectMainProperties.FirstOrDefault();//(curMain);
+                var curAddt = estate.ObjectAdditionalProperties.FirstOrDefault();//(addt.FirstOrDefault(m => m.ObjectId == estate.Id));
+                var curAddr = estate.Addresses.FirstOrDefault();//(addr.FirstOrDefault(m => m.ObjectId == estate.Id));
+                var curComm = estate.ObjectCommunications.FirstOrDefault();
+                var curRtng = estate.ObjectRatingProperties.FirstOrDefault();
+
+                if (curMain == null) return false;
 
                 #region Фильтрация некорректных записей
                 if (curMain.Price == null ||
@@ -376,13 +387,13 @@ namespace RGR.Core.Controllers
                 {
                     if (!pricePerMetter)
                     {
-                        if (main.FirstOrDefault(m => m.ObjectId == estate.Id).Price < (double)SearchOptions["priceFrom"])
+                        if (curMain.Price < (double)SearchOptions["priceFrom"])
                             return false;
                     }
                     else
                     {
-                        var price = main.FirstOrDefault(x => x.ObjectId == estate.Id).Price;
-                        var square = main.FirstOrDefault(x => x.ObjectId == estate.Id).TotalArea;
+                        var price = curMain.Price;
+                        var square = curMain.TotalArea;
                         if (price / square < (double)SearchOptions["priceFrom"])
                             return false;
                     }
@@ -393,13 +404,13 @@ namespace RGR.Core.Controllers
                 {
                     if (!pricePerMetter)
                     {
-                        if (main.FirstOrDefault(m => m.ObjectId == estate.Id).Price > (double)SearchOptions["priceTo"])
+                        if (curMain.Price > (double)SearchOptions["priceTo"])
                             return false;
                     }
                     else
                     {
-                        var price = main.FirstOrDefault(x => x.ObjectId == estate.Id).Price;
-                        var square = main.FirstOrDefault(x => x.ObjectId == estate.Id).TotalArea;
+                        var price = curMain.Price;
+                        var square = curMain.TotalArea;
                         if (price / square > (double)SearchOptions["priceTo"])
                             return false;
                     }
@@ -411,13 +422,13 @@ namespace RGR.Core.Controllers
                     Request.Query.ContainsKey("room5") || Request.Query.ContainsKey("room6"))
                 { 
                     if (!(
-                    (Request.Query["room1"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomsCount == 1) ||
-                    (Request.Query["room2"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomsCount == 2) ||
-                    (Request.Query["room3"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomsCount == 3) ||
-                    (Request.Query["room4"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomsCount >= 4 && !isCottage) ||
-                    (Request.Query["room4"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomsCount == 4 && isCottage) ||
-                    (Request.Query["room5"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomsCount == 5) ||
-                    (Request.Query["room6"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomsCount >= 6)
+                    (Request.Query["room1"] == "on" && curAddt.RoomsCount == 1) ||
+                    (Request.Query["room2"] == "on" && curAddt.RoomsCount == 2) ||
+                    (Request.Query["room3"] == "on" && curAddt.RoomsCount == 3) ||
+                    (Request.Query["room4"] == "on" && curAddt.RoomsCount >= 4 && !isCottage) ||
+                    (Request.Query["room4"] == "on" && curAddt.RoomsCount == 4 && isCottage) ||
+                    (Request.Query["room5"] == "on" && curAddt.RoomsCount == 5) ||
+                    (Request.Query["room6"] == "on" && curAddt.RoomsCount >= 6)
                     )) return false;
                 }
 
@@ -429,11 +440,11 @@ namespace RGR.Core.Controllers
                     Request.Query.ContainsKey("roomFree"))  //Свободная планировка
                 {
                     if (!(
-                    (Request.Query["roomSep"] == "on"  && addt.First(a => a.ObjectId == estate.Id).RoomPlanning == 12) ||
-                    (Request.Query["roomAdj"] == "on"  && addt.First(a => a.ObjectId == estate.Id).RoomPlanning == 13) ||
-                    (Request.Query["roomBoth"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomPlanning == 14) ||
-                    (Request.Query["roomIkar"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomPlanning == 15) ||
-                    (Request.Query["roomFree"] == "on" && addt.First(a => a.ObjectId == estate.Id).RoomPlanning == 16)
+                    (Request.Query["roomSep"] == "on"  && curAddt.RoomPlanning == 12) ||
+                    (Request.Query["roomAdj"] == "on"  && curAddt.RoomPlanning == 13) ||
+                    (Request.Query["roomBoth"] == "on" && curAddt.RoomPlanning == 14) ||
+                    (Request.Query["roomIkar"] == "on" && curAddt.RoomPlanning == 15) ||
+                    (Request.Query["roomFree"] == "on" && curAddt.RoomPlanning == 16)
                     )) return false;
                 }
                 #endregion
@@ -447,9 +458,9 @@ namespace RGR.Core.Controllers
                     Request.Query.ContainsKey("lndAppLPH"))  //ЛПХ
                 {
                     if (!(
-                    (Request.Query["lndAppPers"] == "on" && main.First(m => m.ObjectId == estate.Id).LandAssignment.Contains("307")) ||
-                    (Request.Query["lndAppDach"] == "on" && main.First(m => m.ObjectId == estate.Id).LandAssignment.Contains("309")) ||
-                    (Request.Query["lndAppLPH" ] == "on" && main.First(m => m.ObjectId == estate.Id).LandAssignment.Contains("247"))
+                    (Request.Query["lndAppPers"] == "on" && curMain.LandAssignment.Contains("307")) ||
+                    (Request.Query["lndAppDach"] == "on" && curMain.LandAssignment.Contains("309")) ||
+                    (Request.Query["lndAppLPH" ] == "on" && curMain.LandAssignment.Contains("247"))
                     )) return false;
                 }
 
@@ -473,15 +484,15 @@ namespace RGR.Core.Controllers
                     Request.Query.ContainsKey("bldAppFree")) //Свободное
                 {
                     if (!(
-                    (Request.Query["bldAppShop"] == "on" && main.FirstOrDefault(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("75")) ||
-                    (Request.Query["bldAppOffice"] == "on" && main.FirstOrDefault(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("76")) ||
-                    (Request.Query["bldAppProduct"] == "on" && main.FirstOrDefault(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("77")) ||
-                    (Request.Query["bldAppStorage"] == "on" && main.FirstOrDefault(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("78")) ||
-                    (Request.Query["bldAppSalePt"] == "on" && main.FirstOrDefault(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("79")) ||
-                    (Request.Query["bldAppCafe"] == "on" && main.FirstOrDefault(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("377")) ||
-                    (Request.Query["bldAppService"] == "on" && main.FirstOrDefault(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("378")) ||
-                    (Request.Query["bldAppHotel"] == "on" && main.FirstOrDefault(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("379")) ||
-                    (Request.Query["bldAppFree"] == "on" && main.FirstOrDefault(m => m.ObjectId == estate.Id).ObjectAssignment.Contains("385"))
+                    (Request.Query["bldAppShop"] == "on" && curMain.ObjectAssignment.Contains("75")) ||
+                    (Request.Query["bldAppOffice"] == "on" && curMain.ObjectAssignment.Contains("76")) ||
+                    (Request.Query["bldAppProduct"] == "on" && curMain.ObjectAssignment.Contains("77")) ||
+                    (Request.Query["bldAppStorage"] == "on" && curMain.ObjectAssignment.Contains("78")) ||
+                    (Request.Query["bldAppSalePt"] == "on" && curMain.ObjectAssignment.Contains("79")) ||
+                    (Request.Query["bldAppCafe"] == "on" && curMain.ObjectAssignment.Contains("377")) ||
+                    (Request.Query["bldAppService"] == "on" && curMain.ObjectAssignment.Contains("378")) ||
+                    (Request.Query["bldAppHotel"] == "on" && curMain.ObjectAssignment.Contains("379")) ||
+                    (Request.Query["bldAppFree"] == "on" && curMain.ObjectAssignment.Contains("385"))
                     )) return false;
                 }
                 #endregion
@@ -496,12 +507,12 @@ namespace RGR.Core.Controllers
                     Request.Query.ContainsKey("wtrNone")) //Нету
                 {
                     if (!(
-                    (Request.Query["wtrHotCenter"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Water.Contains("315")) ||
-                    (Request.Query["wtrHotAuton"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Water.Contains("206")) ||
-                    (Request.Query["wtrColdCenter"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Water.Contains("318")) ||
-                    (Request.Query["wtrColdWell"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Water.Contains("316")) ||
-                    (Request.Query["wtrSummer"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Water.Contains("372")) ||
-                    (Request.Query["wtrNone"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Water.Contains("205"))
+                    (Request.Query["wtrHotCenter"] == "on" && curComm.Water.Contains("315")) ||
+                    (Request.Query["wtrHotAuton"] == "on" && curComm.Water.Contains("206")) ||
+                    (Request.Query["wtrColdCenter"] == "on" && curComm.Water.Contains("318")) ||
+                    (Request.Query["wtrColdWell"] == "on" && curComm.Water.Contains("316")) ||
+                    (Request.Query["wtrSummer"] == "on" && curComm.Water.Contains("372")) ||
+                    (Request.Query["wtrNone"] == "on" && curComm.Water.Contains("205"))
                     )) return false;
                 }
 
@@ -511,9 +522,9 @@ namespace RGR.Core.Controllers
                     Request.Query.ContainsKey("elPossible")) //Возможно подведение
                 {
                     if(!( 
-                    (Request.Query["elSupplied"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Electricy.Contains("167")) ||
-                    (Request.Query["elConnected"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Electricy.Contains("168")) ||
-                    (Request.Query["elPossible"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Electricy.Contains("169"))
+                    (Request.Query["elSupplied"] == "on" && curComm.Electricy.Contains("167")) ||
+                    (Request.Query["elConnected"] == "on" && curComm.Electricy.Contains("168")) ||
+                    (Request.Query["elPossible"] == "on" && curComm.Electricy.Contains("169"))
                     )) return false;
                 }
 
@@ -525,11 +536,11 @@ namespace RGR.Core.Controllers
                     Request.Query.ContainsKey("heatNone")) //Нетъ
                 {
                     if (!(
-                    (Request.Query["heatCentral"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Heating.Contains("306")) ||
-                    (Request.Query["heatFuel"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Heating.Contains("209")) ||
-                    (Request.Query["heatGas"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Heating.Contains("208")) ||
-                    (Request.Query["heatElectr"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Heating.Contains("304")) ||
-                    (Request.Query["heatNone"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Heating.Contains("305"))
+                    (Request.Query["heatCentral"] == "on" && curComm.Heating.Contains("306")) ||
+                    (Request.Query["heatFuel"] == "on" && curComm.Heating.Contains("209")) ||
+                    (Request.Query["heatGas"] == "on" && curComm.Heating.Contains("208")) ||
+                    (Request.Query["heatElectr"] == "on" && curComm.Heating.Contains("304")) ||
+                    (Request.Query["heatNone"] == "on" && curComm.Heating.Contains("305"))
                     )) return false;
                 }
 
@@ -540,10 +551,10 @@ namespace RGR.Core.Controllers
                     Request.Query.ContainsKey("sewNone")) //Нетъ
                 {
                     if (!(
-                    (Request.Query["sewAuto"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Sewer == 207) ||
-                    (Request.Query["sewCent"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Sewer == 313) ||
-                    (Request.Query["sewSham"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Sewer == 314) ||
-                    (Request.Query["sewNone"] == "on" && comm.FirstOrDefault(c => c.ObjectId == estate.Id).Sewer == 312)
+                    (Request.Query["sewAuto"] == "on" && curComm.Sewer == 207) ||
+                    (Request.Query["sewCent"] == "on" && curComm.Sewer == 313) ||
+                    (Request.Query["sewSham"] == "on" && curComm.Sewer == 314) ||
+                    (Request.Query["sewNone"] == "on" && curComm.Sewer == 312)
                     )) return false;
                 }
                 #endregion
@@ -552,42 +563,42 @@ namespace RGR.Core.Controllers
                 //Фильтр по общей площади: минимальная
                 if (SearchOptions.ContainsKey("sqFrom"))
                 {
-                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).TotalArea < (double)SearchOptions["sqFrom"])
+                    if (curMain.TotalArea < (double)SearchOptions["sqFrom"])
                         return false;
                 }
 
                 //Фильтр по общей площади: максимальная
                 if (SearchOptions.ContainsKey("sqTo"))
                 {
-                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).TotalArea > (double)SearchOptions["sqTo"])
+                    if (curMain.TotalArea > (double)SearchOptions["sqTo"])
                         return false;
                 }
 
                 //Фильтр по жилой площади: минимальная
                 if (SearchOptions.ContainsKey("sqLivFrom"))
                 {
-                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).ActualUsableFloorArea < (double)SearchOptions["sqLivFrom"])
+                    if (curMain.ActualUsableFloorArea < (double)SearchOptions["sqLivFrom"])
                         return false;
                 }
 
                 //Фильтр по жилой площади: максимальная
                 if (SearchOptions.ContainsKey("sqLivTo"))
                 {
-                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).ActualUsableFloorArea > (double)SearchOptions["sqLivTo"])
+                    if (curMain.ActualUsableFloorArea > (double)SearchOptions["sqLivTo"])
                         return false;
                 }
 
                 //Фильтр площади кухни: минимальная
                 if (SearchOptions.ContainsKey("sqKitchenFrom"))
                 {
-                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).KitchenFloorArea < (double)SearchOptions["sqKitchenFrom"])
+                    if (curMain.KitchenFloorArea < (double)SearchOptions["sqKitchenFrom"])
                         return false;
                 }
 
                 //Фильтр по площади кухни: максимальная
                 if (SearchOptions.ContainsKey("sqKitchenTo"))
                 {
-                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).KitchenFloorArea > (double)SearchOptions["sqKitchenTo"])
+                    if (curMain.KitchenFloorArea > (double)SearchOptions["sqKitchenTo"])
                         return false;
                 }
                 #endregion
@@ -596,14 +607,14 @@ namespace RGR.Core.Controllers
                 //Фильтр по минимальному желаемому этажу
                 if (SearchOptions.ContainsKey("minFloor"))
                 {
-                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).FloorNumber < (byte)SearchOptions["minFloor"])
+                    if (curMain.FloorNumber < (byte)SearchOptions["minFloor"])
                         return false;
                 }
 
                 //Фильтр по максимальному желаемому этажу
                 if (SearchOptions.ContainsKey("maxFloor"))
                 {
-                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).FloorNumber > (byte)SearchOptions["maxFloor"])
+                    if (curMain.FloorNumber > (byte)SearchOptions["maxFloor"])
                         return false;
                 }
 
@@ -611,23 +622,23 @@ namespace RGR.Core.Controllers
                 if (Request.Query.ContainsKey("noFirstFloor") || Request.Query.ContainsKey("noLastFloor"))
                 {
                     if (!(
-                    (Request.Query.ContainsKey("noFirstFloor") && main.Single(x => x.ObjectId == estate.Id).FloorNumber > 1) ||
-                    (Request.Query.ContainsKey("noLastFloor") && main.Single(x => x.ObjectId == estate.Id).FloorNumber < //Этаж текущей квартиры меньше максимального числа этажей в здании
-                        main.FirstOrDefault(x => x.ObjectId == estate.Id).TotalFloors) 
+                    (Request.Query.ContainsKey("noFirstFloor") && curMain.FloorNumber > 1) ||
+                    (Request.Query.ContainsKey("noLastFloor") && curMain.FloorNumber < //Этаж текущей квартиры меньше максимального числа этажей в здании
+                        curMain.TotalFloors) 
                     )) return false;
                 }
 
                 //Этажей в доме: минимум
                 if (SearchOptions.ContainsKey("minHouseFloors"))
                 {
-                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).TotalFloors < (byte)SearchOptions["minHouseFloors"])
+                    if (curMain.TotalFloors < (byte)SearchOptions["minHouseFloors"])
                         return false;
                 }
 
                 //Этажей в доме: максимум
                 if (SearchOptions.ContainsKey("maxHouseFloors"))
                 {
-                    if (main.FirstOrDefault(x => x.ObjectId == estate.Id).TotalFloors > (byte)SearchOptions["maxHouseFloors"])
+                    if (curMain.TotalFloors > (byte)SearchOptions["maxHouseFloors"])
                         return false;
                 }
                 #endregion
@@ -639,7 +650,7 @@ namespace RGR.Core.Controllers
                     switch (Request.Query["wc"])
                     {
                         case "sep": //раздельный
-                            string sep = rtng.FirstOrDefault(r => r.ObjectId == estate.Id).Wc;
+                            string sep = curRtng.Wc;
                             if (sep == null)
                                 return false;
 
@@ -648,7 +659,7 @@ namespace RGR.Core.Controllers
                             break;
 
                         case "adj": //смежный
-                            string adj = rtng.FirstOrDefault(r => r.ObjectId == estate.Id).Wc;
+                            string adj = curRtng.Wc;
                             if (adj == null)
                                 return false;
 
@@ -661,8 +672,8 @@ namespace RGR.Core.Controllers
                 //Балкон/лоджия
                 if (Request.Query.ContainsKey("blPresent"))
                 {
-                    if (!(addt.Single(a => a.ObjectId == estate.Id).BalconiesCount > 0 ||
-                    addt.Single(a => a.ObjectId == estate.Id).LoggiasCount > 0))
+                    if (!(curAddt.BalconiesCount > 0 ||
+                    curAddt.LoggiasCount > 0))
                         return false;
                     
                                 
@@ -678,14 +689,14 @@ namespace RGR.Core.Controllers
                     Request.Query.ContainsKey("bldFree")) //Индивидуальная планировка
                 {
                     if (!(
-                        (Request.Query.ContainsKey("bldBarak") && main.Single(m => m.ObjectId == estate.Id).HouseType == 138) ||
-                        (Request.Query.ContainsKey("bldDorm") && main.Single(m => m.ObjectId == estate.Id).HouseType == 143) ||
-                        (Request.Query.ContainsKey("bldStal") && main.Single(m => m.ObjectId == estate.Id).HouseType == 144) ||
-                        (Request.Query.ContainsKey("bldHrush") && main.Single(m => m.ObjectId == estate.Id).HouseType == 146) ||
-                        (Request.Query.ContainsKey("bldBrovi") && main.Single(m => m.ObjectId == estate.Id).HouseType == 145) || // Будем считать, что улучшенки
-                        (Request.Query.ContainsKey("bldBrovi") && main.Single(m => m.ObjectId == estate.Id).HouseType == 137) || // и брежневки - одно и то же
-                        (Request.Query.ContainsKey("bldNew") && main.Single(m => m.ObjectId == estate.Id).HouseType == 142) ||
-                        (Request.Query.ContainsKey("bldFree") && main.Single(m => m.ObjectId == estate.Id).HouseType == 139)
+                        (Request.Query.ContainsKey("bldBarak") && curMain.HouseType == 138) ||
+                        (Request.Query.ContainsKey("bldDorm") && curMain.HouseType == 143) ||
+                        (Request.Query.ContainsKey("bldStal") && curMain.HouseType == 144) ||
+                        (Request.Query.ContainsKey("bldHrush") && curMain.HouseType == 146) ||
+                        (Request.Query.ContainsKey("bldBrovi") && curMain.HouseType == 145) || // Будем считать, что улучшенки
+                        (Request.Query.ContainsKey("bldBrovi") && curMain.HouseType == 137) || // и брежневки - одно и то же
+                        (Request.Query.ContainsKey("bldNew") && curMain.HouseType == 142) ||
+                        (Request.Query.ContainsKey("bldFree") && curMain.HouseType == 139)
                      )) return false;
                 }
 
@@ -697,17 +708,17 @@ namespace RGR.Core.Controllers
                     Request.Query.ContainsKey("matOther"))  //Другой
                 {
                     if (!(
-                    (Request.Query.ContainsKey("matWood") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("61")) ||
-                        (Request.Query.ContainsKey("matBrick") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("62")) ||
-                        (Request.Query.ContainsKey("matBrick") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("66")) || //Монолитно-кирпичный
-                        (Request.Query.ContainsKey("matPanel") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("68")) ||
-                        (Request.Query.ContainsKey("matMono") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("65")) ||
-                        (Request.Query.ContainsKey("matMono") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("67")) || //В базе два значения соответствуют монолиту. Все вопросы туда.
-                        (Request.Query.ContainsKey("matMono") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("66")) || //Монолитно-кирпичный
-                        (Request.Query.ContainsKey("matOther") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("63")) || //МЕТАЛЛ
-                        (Request.Query.ContainsKey("matOther") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("64")) || //Бетонные блоки
-                        (Request.Query.ContainsKey("matOther") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("69")) || //Пенобетон
-                        (Request.Query.ContainsKey("matOther") && main.Single(m => m.ObjectId == estate.Id).BuildingMaterial.Contains("70"))    //Туфоблок
+                    (Request.Query.ContainsKey("matWood") && curMain.BuildingMaterial.Contains("61")) ||
+                        (Request.Query.ContainsKey("matBrick") && curMain.BuildingMaterial.Contains("62")) ||
+                        (Request.Query.ContainsKey("matBrick") && curMain.BuildingMaterial.Contains("66")) || //Монолитно-кирпичный
+                        (Request.Query.ContainsKey("matPanel") && curMain.BuildingMaterial.Contains("68")) ||
+                        (Request.Query.ContainsKey("matMono") && curMain.BuildingMaterial.Contains("65")) ||
+                        (Request.Query.ContainsKey("matMono") && curMain.BuildingMaterial.Contains("67")) || //В базе два значения соответствуют монолиту. Все вопросы туда.
+                        (Request.Query.ContainsKey("matMono") && curMain.BuildingMaterial.Contains("66")) || //Монолитно-кирпичный
+                        (Request.Query.ContainsKey("matOther") && curMain.BuildingMaterial.Contains("63")) || //МЕТАЛЛ
+                        (Request.Query.ContainsKey("matOther") && curMain.BuildingMaterial.Contains("64")) || //Бетонные блоки
+                        (Request.Query.ContainsKey("matOther") && curMain.BuildingMaterial.Contains("69")) || //Пенобетон
+                        (Request.Query.ContainsKey("matOther") && curMain.BuildingMaterial.Contains("70"))    //Туфоблок
                     )) return false;
                 }
 
@@ -720,15 +731,15 @@ namespace RGR.Core.Controllers
                     Request.Query.ContainsKey("stEuro")) //"Евроремонт"
                 {
                     if (!(
-                        (Request.Query["stAfterBuilders"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 85) ||
-                        (Request.Query["stCapRepair"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 86) ||
-                        (Request.Query["stCapRepair"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 87) || //Частичный ремонт
-                        (Request.Query["stCosRepair"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 88) ||
-                        (Request.Query["stPassably"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 89) ||
-                        (Request.Query["stPassably"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 90) || //Нормальное
-                        (Request.Query["stGood"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 91) ||
-                        (Request.Query["stGreat"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 92) ||
-                        (Request.Query["stEuro"] == "on" && rtng.Single(r => r.ObjectId == estate.Id).CommonState == 93)
+                        (Request.Query["stAfterBuilders"] == "on" && curRtng.CommonState == 85) ||
+                        (Request.Query["stCapRepair"]     == "on" && curRtng.CommonState == 86) ||
+                        (Request.Query["stCapRepair"]     == "on" && curRtng.CommonState == 87) || //Частичный ремонт
+                        (Request.Query["stCosRepair"]     == "on" && curRtng.CommonState == 88) ||
+                        (Request.Query["stPassably"]      == "on" && curRtng.CommonState == 89) ||
+                        (Request.Query["stPassably"]      == "on" && curRtng.CommonState == 90) || //Нормальное
+                        (Request.Query["stGood"]          == "on" && curRtng.CommonState == 91) ||
+                        (Request.Query["stGreat"]         == "on" && curRtng.CommonState == 92) ||
+                        (Request.Query["stEuro"]          == "on" && curRtng.CommonState == 93)
                     )) return false;
                 }
                 #endregion
@@ -737,14 +748,14 @@ namespace RGR.Core.Controllers
                 //Населённый пункт (сити, ну)
                 if (SearchOptions.ContainsKey("CityId"))
                 {
-                    if (addr.FirstOrDefault(a => a.ObjectId == estate.Id).CityId != (long)SearchOptions["CityId"])
+                    if (curAddr.CityId != (long)SearchOptions["CityId"])
                         return false; 
                 }
 
                 //Район
                 if (SearchOptions.ContainsKey("DistrictId"))
                 {
-                    if (addr.FirstOrDefault(a => a.ObjectId == estate.Id).CityDistrictId != (long)SearchOptions["DistrictId"])
+                    if (curAddr.CityDistrictId != (long)SearchOptions["DistrictId"])
                         return false;
                 }
 
@@ -752,14 +763,14 @@ namespace RGR.Core.Controllers
                 //Жилмассив
                 if (SearchOptions.ContainsKey("AreaId"))
                 {
-                    if (addr.FirstOrDefault(a => a.ObjectId == estate.Id).DistrictResidentialAreaId != (long)SearchOptions["AreaId"])
+                    if (curAddr.DistrictResidentialAreaId != (long)SearchOptions["AreaId"])
                         return false;
                 }
 
                 //Улица
                 if (SearchOptions.ContainsKey("Streets"))
                 {
-                    long? streetId = addr.FirstOrDefault(a => a.ObjectId == estate.Id).StreetId;
+                    long? streetId = curAddr.StreetId;
                     var geoStreet = strt.FirstOrDefault(s => s.Id == streetId);
                     if (geoStreet == null)
                         return false;
@@ -775,7 +786,7 @@ namespace RGR.Core.Controllers
                 //Компания
                 if (SearchOptions.ContainsKey("Agencies"))
                 {
-                    var user = usrs.FirstOrDefault(u => u.Id == estate.UserId);
+                    var user = estate.User;//usrs.FirstOrDefault(u => u.Id == estate.UserId);
                     if (user == null)
                         return false;
 
@@ -792,7 +803,7 @@ namespace RGR.Core.Controllers
                 //Агент
                 if (SearchOptions.ContainsKey("Agents"))
                 {
-                    var user = usrs.FirstOrDefault(u => u.Id == estate.UserId);
+                    var user = estate.User;//usrs.FirstOrDefault(u => u.Id == estate.UserId);
                     if (user == null)
                         return false;
 
@@ -821,36 +832,20 @@ namespace RGR.Core.Controllers
                     if (Request.Query["withPhotoOnly"] == "on")
                     {
                         //Наличие хотя бы одного медиа (которые все фото)
-                        if (mdia.FirstOrDefault(m => m.ObjectId == estate.Id) == null)
+                        if (!mdia.Any(m => m.ObjectId == estate.Id))
                             return false;
                     }
                 }
                 #endregion
 
                 return true;
-            });
+            }).ToList());
 
-            //return ConvertToPassports(EstateType, relevant, addr, city, strt, main, addt, vals, cmps, usrs, mdia, comm, rtng);
             if (EstateType == EstateTypes.Unset)
                 EstateType = (EstateTypes)relevant.First().ObjectType;
 
             //Инициализация и генерирование последовательности паспортов
-            var result = new SearchUtils.PassportConverter()
-            {
-                //EstateType = EstateType,
-                Addresses = addr,
-                MainProps = main,
-                AddtProps = addt,
-                Cities = city,
-                Streets = strt,
-                DictValues = vals,
-                Companies = cmps,
-                Users = usrs,
-                Medias = mdia,
-                Ratings = rtng,
-                Communications = comm,
-                Files = fils
-            }.GetShortPassports(relevant);
+            var result = new SearchUtils.PassportConverter(db).GetShortPassports(relevant);
 
             db.Dispose();
             return JsonConvert.SerializeObject(result);
