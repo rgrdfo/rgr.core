@@ -293,7 +293,7 @@
 
     .add-object-inner input[type="text"],
     .add-objects-content select,
-     #extended select,
+     .extended select,
     .add-object-inner textarea,
     #add-currency > input[type="radio"] + label 
      {
@@ -368,20 +368,20 @@
     }
 
 .add-objects-content select,
- #extended select{
+ .extended select{
     color: #559abd;
     -webkit-appearance: none;
     -moz-appearance: none;
     background: url(../images/ico-arrow-up.png) no-repeat right;     
 }
 .add-objects-content select option,
- #extended select option {
+ .extended select option {
     height: 40px;
     padding: 10px;
 }
 
 .add-objects-content select:active,
- #extended select:active{
+ .extended select:active{
     border-radius: 5px 5px 0 0;
 }
 
