@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace RGR.Core.Models
 {
-    public partial class rgrContext : DbContext
+    public partial class rgrContext : DbContext, IDisposable
     {
         /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -34,41 +34,41 @@ namespace RGR.Core.Controllers.Account
             var page = new PersonalPage(db, Session);
             var user = page.session.GetUser(db);
 
-            var estate = await db.EstateObjects.ToListAsync();
-            
-            var convert = new PassportConverter()
-            {
-                Addresses      = await db.Addresses.ToListAsync(),
-                MainProps      = await db.ObjectMainProperties.ToListAsync(),
-                AddtProps      = await db.ObjectAdditionalProperties.ToListAsync(),
-                Cities         = await db.GeoCities.ToListAsync(),
-                Streets        = await db.GeoStreets.ToListAsync(),
-                DictValues     = await db.DictionaryValues.ToListAsync(),
-                Companies      = await db.Companies.ToListAsync(),
-                Users          = await db.Users.ToListAsync(),
-                Medias         = await db.ObjectMedias.ToListAsync(),
-                Ratings        = await db.ObjectRatingProperties.ToListAsync(),
-                Communications = await db.ObjectCommunications.ToListAsync(),
-                Files          = await db.StoredFiles.ToListAsync()
-            };
+            var convert = new PassportConverter(db);
 
-            var myEstate = estate.Where(e => e.UserId == user.Id);
-            var company = db.Companies.FirstOrDefault(c => c.DirectorId == user.Id) ?? null;
+            var myEstate = await db.EstateObjects
+                .Where(e => e.UserId == user.Id)
+                .Include(e => e.ObjectMainProperties)
+                .Include(e => e.ObjectAdditionalProperties)
+                .Include(e => e.Addresses)
+                .Include(e => e.ObjectCommunications)
+                .Include(e => e.ObjectRatingProperties)
+                .ToListAsync();
+
+            var company = db.Companies.FirstOrDefault(c => c.DirectorId == user.Id) ?? null; 
 
             List<EstateObjects> companyEstate = null;
             if (company != null)
             {
-                companyEstate = new List<EstateObjects>();
-                var companyUsers = db.Users.Where(u => u.CompanyId == company.Id);
-                foreach (var cUser in companyUsers)
-                    companyEstate.AddRange(estate.Where(e => e.UserId == cUser.Id));
+                //companyEstate = new List<EstateObjects>();
+                var companyUsers = db.Users.Where(u => u.CompanyId == company.Id).Select(u => u.Id);
+                companyEstate = await db.EstateObjects
+                    .Include(e => e.User)
+                    .Where(e => companyUsers.Contains(e.UserId))
+                    .Include(e => e.ObjectMainProperties)
+                    .Include(e => e.ObjectAdditionalProperties)
+                    .Include(e => e.Addresses)
+                    .Include(e => e.ObjectCommunications)
+                    .Include(e => e.ObjectRatingProperties)
+                    .ToListAsync();
             }
 
             page.MyObjects = convert.GetShortPassports(myEstate);
-            page.CompanyObjects = (companyEstate == null) ?
+            page.CompanyObjects = (companyEstate == null) ? //В подавляющем большинстве случаев будет null
                 null :
                 convert.GetShortPassports(companyEstate);
 
+            db.Dispose();
             return page;
         }
 

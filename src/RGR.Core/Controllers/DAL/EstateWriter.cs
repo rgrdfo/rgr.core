@@ -26,7 +26,7 @@ namespace RGR.Core.Controllers.DAL
         /// </summary>
         /// <param name="Request">Запрос (Request.Query)</param>
         /// <returns></returns>
-        public async Task CreateDraft(IQueryCollection Request)
+        public async Task CreateDraft(EstateTypes EstateType)
         {
             var estate = new EstateObjects();
             var user = Session.GetUser(db);
@@ -37,13 +37,28 @@ namespace RGR.Core.Controllers.DAL
             estate.ModifiedBy = Session.GetUserId();
             estate.UserId = Session.GetUserId();
             estate.User = user;
-            estate.ObjectType = short.Parse(Request["EstateType"]);
+            estate.ObjectType = (short)EstateType;
             estate.Operation = 0;
             estate.Status = (short)EstateStatuses.Draft;
             estate.Filled = false;
 
-            //Новый объект записывается в БД для гарантированного получения уникального индекса (и во избежание конфликтов)
             db.EstateObjects.Add(estate);
+
+            var main = new ObjectMainProperties();
+            var addt = new ObjectAdditionalProperties();
+            var address = new Addresses();
+            var ratings = new ObjectRatingProperties();
+
+            main.ObjectId = estate.Id;
+            addt.ObjectId = estate.Id;
+            address.ObjectId = estate.Id;
+            ratings.ObjectId = estate.Id;
+
+            db.ObjectMainProperties.Add(main);
+            db.ObjectAdditionalProperties.Add(addt);
+            db.Addresses.Add(address);
+            db.ObjectRatingProperties.Add(ratings);
+
             await db.SaveChangesAsync();
         }
 
@@ -65,7 +80,7 @@ namespace RGR.Core.Controllers.DAL
 
             #region Заполнение основных свойств объекта
             //main.Object = estate;
-            main.ObjectId = estate.Id;
+            //main.ObjectId = estate.Id;
             main.RentPerDay = (Request.ContainsKey("RentPerDay")) ? double.Parse(Request["RentPerDay"]) : default(double?);
             main.RentPerMonth = (Request.ContainsKey("RentPerMonth")) ? double.Parse(Request["RentPerMonth"]) : default(double?);
             main.Security = (Request.ContainsKey("Security")) ? Request["Security"].ToString() : null;
@@ -169,7 +184,7 @@ namespace RGR.Core.Controllers.DAL
 
             #region заполнение дополнительных свойств объекта
             //addt.Object = estate;
-            addt.ObjectId = estate.Id;
+            //addt.ObjectId = estate.Id;
             addt.ViewFromWindows = (Request.ContainsKey("ViewFromWindows")) ? Request["ViewFromWindows"].ToString() : null;
             addt.BuildingYear = (Request.ContainsKey("BuildingYear")) ? int.Parse(Request["BuildingYear"]) : default(int?);
             addt.AdditionalBuildings = (Request.ContainsKey("AdditionalBuildings")) ? Request["AdditionalBuildings"].ToString() : null;
@@ -216,7 +231,7 @@ namespace RGR.Core.Controllers.DAL
 
             #region Заполнение адресной записи
             //address.Object = estate;
-            address.ObjectId = estate.Id;
+            //address.ObjectId = estate.Id;
             address.CityId = long.Parse(Request["CityId"]);
             //address.City = db.GeoCities.First(g => g.Id == address.CityId);
             address.RegionDistrictId = address.City.RegionDistrictId;
@@ -240,7 +255,7 @@ namespace RGR.Core.Controllers.DAL
             #endregion
 
             #region Заполнение рейтинговых свойств
-            ratings.ObjectId = estate.Id;
+            //ratings.ObjectId = estate.Id;
             ratings.Balcony = (Request.ContainsKey("Balcony")) ? Request["Balcony"].ToString() : null;
             ratings.EntranceDoor = (Request.ContainsKey("EntranceDoor")) ? Request["EntranceDoor"].ToString() : null;
             ratings.Kitchen = (Request.ContainsKey("Kitchen")) ? Request["Kitchen"].ToString() : null;
@@ -263,10 +278,6 @@ namespace RGR.Core.Controllers.DAL
             ratings.BuildingClass = (Request.ContainsKey("BuildingClass")) ? long.Parse(Request["BuildingClass"]) : default(long?);
             #endregion
 
-            db.ObjectMainProperties.Add(main);
-            db.ObjectAdditionalProperties.Add(addt);
-            db.Addresses.Add(address);
-            db.ObjectRatingProperties.Add(ratings);
 
             estate.DateModified = DateTime.UtcNow;
             estate.ModifiedBy = Session.GetUserId();

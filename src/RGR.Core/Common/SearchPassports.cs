@@ -603,16 +603,19 @@ namespace RGR.Core.Common
             return (Source != null) ? ((Source == true) ? "да" : "нет") : NA;
         }
 
+    }
+
+
+
+
+    //internal static class Translator
+    //{
         /// <summary>
         /// Разбор строки, содержащей коды словаря. Возвращает строку, содержащую соответствующие значения
         /// </summary>
         /// <param name="ids"></param>
         /// <param name="vals"></param>
         /// <returns></returns>
-    }
-
-    //internal static class Translator
-    //{
     //    public static string GetDictionaryValues(string ids, List<DictionaryValues> vals)
     //    {
     //        return ids.Split(',')
@@ -626,69 +629,69 @@ namespace RGR.Core.Common
 
 
     //Карточка города для удобного оперирования при работе с поиском. Заполняется автоматически из таблиц БД
-    public class CityPassport
-    {
-        protected GeoCities city;
-        protected rgrContext db;
+    //public class CityPassport
+    //{
+    //    protected GeoCities city;
+    //    protected rgrContext db;
     
-        public long Id => city.Id;
-        public string Name => city.Name;
+    //    public long Id => city.Id;
+    //    public string Name => city.Name;
     
-        public long RegionId => city.RegionDistrictId;
-        public string Region => db.GeoRegionDistricts.First(x => x.Id == city.RegionDistrictId).Name;
+    //    public long RegionId => city.RegionDistrictId;
+    //    public string Region => db.GeoRegionDistricts.First(x => x.Id == city.RegionDistrictId).Name;
     
-        protected Dictionary<long, string> districts;
-        public Dictionary<long, string> Districts => districts;
+    //    protected Dictionary<long, string> districts;
+    //    public Dictionary<long, string> Districts => districts;
     
-        public static async Task<CityPassport> Create(rgrContext DataBase, GeoCities city)
-        {
-            var passport = new CityPassport();
-            passport.db = DataBase;
-            passport.city = city;
-            passport.districts = new Dictionary<long, string>();
+    //    public static async Task<CityPassport> Create(rgrContext DataBase, GeoCities city)
+    //    {
+    //        var passport = new CityPassport();
+    //        passport.db = DataBase;
+    //        passport.city = city;
+    //        passport.districts = new Dictionary<long, string>();
     
-            //Список районов города, подрайоннов и улиц
-            await Task.Run(()=>
-            {
-                foreach (var distr in passport.db.GeoDistricts.Where(x => x.CityId == passport.Id))
-                {
-                    passport.districts.Add(distr.Id, distr.Name);
-                }
-            });
+    //        //Список районов города, подрайоннов и улиц
+    //        await Task.Run(()=>
+    //        {
+    //            foreach (var distr in passport.db.GeoDistricts.Where(x => x.CityId == passport.Id))
+    //            {
+    //                passport.districts.Add(distr.Id, distr.Name);
+    //            }
+    //        });
     
-            return passport;
-        }
+    //        return passport;
+    //    }
     
-        public async Task <Dictionary<long, string>> GetAreas(long DistrictId)
-        {
-            Dictionary<long, string> result = new Dictionary<long, string>();
+    //    public async Task <Dictionary<long, string>> GetAreas(long DistrictId)
+    //    {
+    //        Dictionary<long, string> result = new Dictionary<long, string>();
     
-            await Task.Run(() =>
-            {
-                foreach (var area in db.GeoResidentialAreas.Where(x => x.DistrictId == DistrictId))
-                {
-                    result.Add(area.Id, area.Name);
-                }
-            });
+    //        await Task.Run(() =>
+    //        {
+    //            foreach (var area in db.GeoResidentialAreas.Where(x => x.DistrictId == DistrictId))
+    //            {
+    //                result.Add(area.Id, area.Name);
+    //            }
+    //        });
     
-            return result;
-        }
+    //        return result;
+    //    }
     
-        public async Task<Dictionary<long, string>> GetStreets(long AreaId)
-        {
-            Dictionary<long, string> result = new Dictionary<long, string>();
+    //    public async Task<Dictionary<long, string>> GetStreets(long AreaId)
+    //    {
+    //        Dictionary<long, string> result = new Dictionary<long, string>();
     
-            await Task.Run(() => 
-            {
-                foreach (var street in db.GeoStreets.Where(x => x.AreaId == AreaId))
-                {
-                    result.Add(street.Id, street.Name);
-                }
-            });
+    //        await Task.Run(() => 
+    //        {
+    //            foreach (var street in db.GeoStreets.Where(x => x.AreaId == AreaId))
+    //            {
+    //                result.Add(street.Id, street.Name);
+    //            }
+    //        });
     
-            return result;
-        }
-    }
+    //        return result;
+    //    }
+    //}
 
     
 }
