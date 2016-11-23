@@ -97,7 +97,7 @@ namespace RGR.Core.Views.Helpers
                 default:
                     throw new ArgumentException("Указан некорректный тип недвижимости");
             }            
-            sb.Append($"</div>");
+            sb.Append($"</div></div>");
             return new HtmlString(sb.ToString());
         }
 
@@ -133,29 +133,29 @@ namespace RGR.Core.Views.Helpers
                 case EstateTypes.Flat:
                     sb.Append($"<div class=\"col-lg-2\"><label>Комнаты</label></div>");
                     sb.Append($"<div class=\"col-lg-1\"><label>Площадь</label></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><label>Этажность</label></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><label>Этажность</label></div></div></div>");
                     break;
                 case EstateTypes.Room:
                     sb.Append($"<div class=\"col-lg-2\"><label>Тип</label></div>");
                     sb.Append($"<div class=\"col-lg-1\"><label>Площадь</label></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><label>Этажность</label></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><label>Этажность</label></div></div></div>");
                     break;
                 case EstateTypes.House:
                     sb.Append($"<div class=\"col-lg-2\"><label>Комнаты</label></div>");
                     sb.Append($"<div class=\"col-lg-1\"><label>Площадь</label></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><label>Этажность</label></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><label>Этажность</label></div></div></div>");
                     break;
                 case EstateTypes.Garage:
                     sb.Append($"<div class=\"col-lg-3\"><label>Тип</label></div>");
-                    sb.Append($"<div class=\"col-lg-3\"><label>Площадь</label></div>");
+                    sb.Append($"<div class=\"col-lg-3\"><label>Площадь</label></div></div></div>");
                     break;
                 case EstateTypes.Land:
                     sb.Append($"<div class=\"col-lg-3\"><label>Площадь</label></div>");
-                    sb.Append($"<div class=\"col-lg-3\"><label>Этажей</label></div>");
+                    sb.Append($"<div class=\"col-lg-3\"><label>Этажей</label></div></div></div>");
                     break;
                 case EstateTypes.Office:
                     sb.Append($"<div class=\"col-lg-3\"><label>Площадь</label></div>");
-                    sb.Append($"<div class=\"col-lg-3\"><label>Этажей</label></div>");
+                    sb.Append($"<div class=\"col-lg-3\"><label>Этажей</label></div></div></div>");
                     break;
             }            
             
@@ -168,6 +168,13 @@ namespace RGR.Core.Views.Helpers
         {              
            StringBuilder sb = new StringBuilder("<div>");
             var passport = JsonConvert.DeserializeObject<FullPassport>(Source);
+
+            sb.Append($"<div class=\"search-result-row-sm\"><div class=\"row\"><div class=\"col-lg-6\"><h1>{passport.Price} ₽</h1><h5>{passport.PricePerSquare} ₽ / м²</h5></div>");
+            sb.Append($"<div class=\"col-lg-6\"><h5>ID: {passport.Id}:</h5><h5></h5></div></div></div>");
+
+            sb.Append($"<div class=\"search-result-row-lg\"><div class=\"search-result-box\"><div class=\"obj-descript\"></div></div></div>");
+
+
 
             //---------------------//
             sb.Append($"<div class=\"search-result-section\"><p>Технические</p></div>");
