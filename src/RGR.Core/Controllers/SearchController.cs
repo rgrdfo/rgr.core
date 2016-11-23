@@ -848,6 +848,7 @@ namespace RGR.Core.Controllers
             var result = new SearchUtils.PassportConverter(db).GetShortPassports(relevant);
 
             db.Dispose();
+            relevant.Clear();
             return JsonConvert.SerializeObject(result);
         }
 
