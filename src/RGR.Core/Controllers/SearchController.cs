@@ -380,7 +380,7 @@ namespace RGR.Core.Controllers
                 
                 #endregion
 
-                #region Обычный поиск (общее)
+                #region Обычный поиск (общее, квартира, комната)
                 //Инициализация фильтра по цене
                 //Фильтр по нижней цене
                 if (SearchOptions.ContainsKey("priceFrom"))
@@ -680,23 +680,24 @@ namespace RGR.Core.Controllers
                 }
 
                 //Тип дома
-                if (Request.Query.ContainsKey("bldBarak") || //Жильё низкого качества, барак
-                    Request.Query.ContainsKey("bldDorm") || //Малосемейка, общежитие
-                    Request.Query.ContainsKey("bldStal") || //Сталинка
-                    Request.Query.ContainsKey("bldHrush") || //Хрущ
-                    Request.Query.ContainsKey("bldBrovi") || //Брежневки (улучшенной планировки)
-                    Request.Query.ContainsKey("bldNew") || //Новая планировка
-                    Request.Query.ContainsKey("bldFree")) //Индивидуальная планировка
+                if (Request.Query.ContainsKey("houseType") )
+                    //|| //Жильё низкого качества, барак
+                    //Request.Query.ContainsKey("bldDorm") || //Малосемейка, общежитие
+                    //Request.Query.ContainsKey("bldStal") || //Сталинка
+                    //Request.Query.ContainsKey("bldHrush") || //Хрущ
+                    //Request.Query.ContainsKey("bldBrovi") || //Брежневки (улучшенной планировки)
+                    //Request.Query.ContainsKey("bldNew") || //Новая планировка
+                    //Request.Query.ContainsKey("bldFree")) //Индивидуальная планировка
                 {
                     if (!(
-                        (Request.Query.ContainsKey("bldBarak") && curMain.HouseType == 138) ||
-                        (Request.Query.ContainsKey("bldDorm") && curMain.HouseType == 143) ||
-                        (Request.Query.ContainsKey("bldStal") && curMain.HouseType == 144) ||
-                        (Request.Query.ContainsKey("bldHrush") && curMain.HouseType == 146) ||
-                        (Request.Query.ContainsKey("bldBrovi") && curMain.HouseType == 145) || // Будем считать, что улучшенки
-                        (Request.Query.ContainsKey("bldBrovi") && curMain.HouseType == 137) || // и брежневки - одно и то же
-                        (Request.Query.ContainsKey("bldNew") && curMain.HouseType == 142) ||
-                        (Request.Query.ContainsKey("bldFree") && curMain.HouseType == 139)
+                        (Request.Query["houseType"] == "bldBarak" && curMain.HouseType == 138) ||
+                        (Request.Query["houseType"] == "bldDorm" && curMain.HouseType == 143) ||
+                        (Request.Query["houseType"] == "bldStal" && curMain.HouseType == 144) ||
+                        (Request.Query["houseType"] == "bldHrush" && curMain.HouseType == 146) ||
+                        (Request.Query["houseType"] == "bldBrovi" && curMain.HouseType == 145) || // Будем считать, что улучшенки
+                        (Request.Query["houseType"] == "bldBrovi" && curMain.HouseType == 137) || // и брежневки - одно и то же
+                        (Request.Query["houseType"] == "bldNew" && curMain.HouseType == 142) ||
+                        (Request.Query["houseType"] == "bldFree" && curMain.HouseType == 139)
                      )) return false;
                 }
 

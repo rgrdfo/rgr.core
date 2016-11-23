@@ -294,6 +294,7 @@ namespace RGR.Core.Common
 
         public long Id;
         public string Price;
+        public string PricePerSqMetter;
         public string EstateType;
         public string Address;
         public string FlatType;
@@ -484,6 +485,7 @@ namespace RGR.Core.Common
 
             passport.Id = Estate.Id;
             passport.Price = main.Price.ToString() ?? NA;
+            passport.PricePerSqMetter = (main.TotalArea != null) ? (main.Price / main.TotalArea).ToString() : NA;
             switch (EstateType)
             {
                 #region определение типа объекта

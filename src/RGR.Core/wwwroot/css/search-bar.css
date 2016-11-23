@@ -349,7 +349,8 @@ label
   .extended  #al3 {width: 55%;}
   .extended #at1,#ak1,#al1, #hf1 {border-radius: 5px 0 0 5px; border-right:none;}
   .extended #at2,#ak2,#al2, #hf2 {border-radius: 0 5px 5px 0 !important;}
-  .extended input[name="floor"] {width: 35%;}   
+  .extended input[name="minFloor"] {width: 35%;}   
+  .extended input[name="maxFloor"] {width: 35%;}  
 
 .extended > label[for="hf1"] {
     text-align: right;
