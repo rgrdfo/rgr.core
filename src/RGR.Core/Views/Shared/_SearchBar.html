@@ -192,25 +192,25 @@
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="houseMat">
                                     <option value="" disabled selected style='display:none;'>Материал постройки</option>
-                                    <option value="&">Дерево</option>
-                                    <option value="&">Кирпич</option>
-                                    <option value="&">Панель</option>
-                                    <option value="&">Монолит</option>
-                                    <option value="&">Другой</option>
+                                    <option value="matWood">Дерево</option>
+                                    <option value="matBrick">Кирпич</option>
+                                    <option value="matPanel">Панель</option>
+                                    <option value="matMono">Монолит</option>
+                                    <option value="matOther">Другой</option>
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="objState">
                                     <option value="" disabled selected style='display:none;'>Состояние</option>
-                                    <option value="&">После строителей</option>
-                                    <option value="&">Требуется кап.ремонт</option>
-                                    <option value="&">Требуется космет.ремонт</option>
-                                    <option value="&">Удовлетворительное</option>
-                                    <option value="&">Хорошее</option>
-                                    <option value="&">Отличное</option>
-                                    <option value="&">"Евроремонт"</option>
+                                    <option value="stAfterBuilders">После строителей</option>
+                                    <option value="stCapRepair">Требуется кап.ремонт</option>
+                                    <option value="stCosRepair&">Требуется космет.ремонт</option>
+                                    <option value="stPassably">Удовлетворительное</option>
+                                    <option value="stGood">Хорошее</option>
+                                    <option value="stGreat">Отличное</option>
+                                    <option value="stEuro">"Евроремонт"</option>
                                 </select>
                             </div>
                             <div class="col-lg-2"></div>
@@ -218,18 +218,21 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Адрес</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="CityId">
                                     <option value="" disabled selected style='display:none;'>Город</option>
-                                    <option value="&">-</option>
+                                    <option value="4">Хабаровск</option>
                                     <option value="&">-</option>
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
                             <div class="col-lg-5">
-                                <select class="search-select-large">
+                                <select class="search-select-large" name="DistrictId">
                                     <option value="" disabled selected style='display:none;'>Выберите район</option>
-                                    <option value="&">-</option>
-                                    <option value="&">-</option>
+                                    <option value="5">Индустриальный</option>
+                                    <option value="6">Железнодорожный</option>
+                                    <option value="7">Центральный</option>
+                                    <option value="8">Кировский</option>
+                                    <option value="9">Краснофлотский</option>
                                 </select>
                             </div>
                             <div class="col-lg-1"></div>
@@ -248,17 +251,17 @@
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Улица</span></div>
                             <div class="col-lg-5">
-                                <input class="input-text-search-empty" name="street" id="st1" type="text" placeholder="Введите улицу" />
+                                <input class="input-text-search-empty" name="streets" id="st1" type="text" placeholder="Введите улицу" />
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"><span>Риелтор</span></div>
                             <div class="col-lg-3">
-                                <input class="input-text-search-solid" name="rielt" id="rl1" type="text" placeholder="Компания" />
+                                <input class="input-text-search-solid" name="agencies" id="rl1" type="text" placeholder="Компания" />
                             </div>
                             <div class="col-lg-3">
-                                <input class="input-text-search-solid" name="rielt" id="rl1" type="text" placeholder="Агент" />
+                                <input class="input-text-search-solid" name="agents" id="rl1" type="text" placeholder="Агент" />
                             </div>
                             <div class="col-lg-5"></div>
                         </div>
@@ -276,7 +279,7 @@
                             <div class="col-lg-3" id="col-check">
 
                                 <div id="photo-check" class="add-object-checkbox">
-                                    <input name="photo" type="checkbox" value="&" id="pht1" /><label class="indent-check" for="pht1">Только с фото</label>
+                                    <input name="withPhotoOnly" type="checkbox" value="on" id="pht1" /><label class="indent-check" for="pht1">Только с фото</label>
                                 </div>
 
                             </div>
@@ -321,7 +324,7 @@
                                 <div class="search-box-inner-radio-numb">
                                     <div class="radio_numb_panel2">
                                         <span>Комнат</span>
-                                        <input name="room" id="n2_1" type="checkbox" value="1" checked /><label for="n2_1">1</label><input name="room" id="n2_2" type="checkbox" value="1" /><label for="n2_2">2</label><input name="room" id="n2_3" type="checkbox" value="1" /><label for="n2_3">3</label><input name="room" id="n2_4" type="checkbox" value="1" /><label for="n2_4">4</label><input name="room" id="n2_5" type="checkbox" value="1" /><label for="n2_5">5</label><input name="room" id="n2_6" type="checkbox" value="1" /><label for="n2_6">6 и более</label>
+                                        <input name="room1" id="n2_1" type="checkbox" value="1" checked /><label for="n2_1">1</label><input name="room2" id="n2_2" type="checkbox" value="1" /><label for="n2_2">2</label><input name="room3" id="n2_3" type="checkbox" value="1" /><label for="n2_3">3</label><input name="room4" id="n2_4" type="checkbox" value="1" /><label for="n2_4">4</label><input name="room5" id="n2_5" type="checkbox" value="1" /><label for="n2_5">5</label><input name="room6" id="n2_6" type="checkbox" value="1" /><label for="n2_6">6 и более</label>
                                     </div>
                                 </div>
                             </div>
@@ -342,38 +345,38 @@
                                 <input class="input-text-search-solid" name="sqTotal" id="at1" type="text" disabled value="Общая" /><input class="input-text-search-empty" name="sqFrom" id="at2" type="text" placeholder="от" />
                                 <span>до</span><input class="input-text-search-empty" name="sqTo" id="at3" type="text" /><span>м²</span>
                             </div>
-                            <div name="only-for-flat" class="col-lg-3"><input class="input-text-search-solid" name="areaLife" id="al1" type="text" disabled value="Жилая" /><input class="input-text-search-empty" name="areaLife" id="al2" type="text" placeholder="от" /></div>
-                            <div class="col-lg-3"><span>до</span><input class="input-text-search-empty" name="areaLife" id="al3" type="text" /><span>м²</span></div>
+                            <div name="only-for-flat" class="col-lg-3"><input class="input-text-search-solid" name="areaLife" id="al1" type="text" disabled value="Жилая" /><input class="input-text-search-empty" name="sqLivFrom" id="al2" type="text" placeholder="от" /></div>
+                            <div class="col-lg-3"><span>до</span><input class="input-text-search-empty" name="sqLivTo" id="al3" type="text" /><span>м²</span></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"><span>Удобства</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="water">
                                     <option value="" disabled selected style='display:none;'>Вода</option>
-                                    <option value="&">Горячая (центр.)</option>
-                                    <option value="&">Горячая (автоном.)</option>
-                                    <option value="&">Холодная (центр.)</option>
-                                    <option value="&">Холодная (колодец/скважина)</option>
-                                    <option value="&">Летний водопровод</option>
-                                    <option value="&">Воды нет</option>
+                                    <option value="wtrHotCenter">Горячая (центр.)</option>
+                                    <option value="wtrHotAuton">Горячая (автоном.)</option>
+                                    <option value="wtrColdCenter">Холодная (центр.)</option>
+                                    <option value="wtrColdWell">Холодная (колодец/скважина)</option>
+                                    <option value="wtrSummer">Летний водопровод</option>
+                                    <option value="wtrNone">Воды нет</option>
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="electro">
                                     <option value="" disabled selected style='display:none;'>Электричество</option>
-                                    <option value="&">Подключено</option>
-                                    <option value="&">Подведено</option>
-                                    <option value="&">Возможно подведение</option>
+                                    <option value="elSupplied">Подключено</option>
+                                    <option value="elConnected">Подведено</option>
+                                    <option value="elPossible">Возможно подведение</option>
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="heat">
                                     <option value="" disabled selected style='display:none;'>Отопление</option>
-                                    <option value="&">Центральное</option>
-                                    <option value="&">Автономное (газ)</option>
-                                    <option value="&">Автономное (электр.)</option>
-                                    <option value="&">Автономное (дрова/уголь/жид.топливо)</option>
-                                    <option value="&">Нет</option>
+                                    <option value="heatCentral">Центральное</option>
+                                    <option value="heatFuel">Автономное (газ)</option>
+                                    <option value="heatGas">Автономное (электр.)</option>
+                                    <option value="heatElectr">Автономное (дрова/уголь/жид.топливо)</option>
+                                    <option value="heatNone">Нет</option>
                                 </select>
                             </div>
                             <div class="col-lg-2"></div>
@@ -381,34 +384,34 @@
                         <div class="row">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="sewer">
                                     <option value="" disabled selected style='display:none;'>Канализация</option>
-                                    <option value="&">Центральная</option>
-                                    <option value="&">Автономная</option>
-                                    <option value="&">Шамбо</option>
-                                    <option value="&">Нет</option>
+                                    <option value="sewCent">Центральная</option>
+                                    <option value="sewAuto">Автономная</option>
+                                    <option value="sewSham">Шамбо</option>
+                                    <option value="sewNone">Нет</option>
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" p>
+                                <select class="search-select-small" name="houseMat">
                                     <option value="" disabled selected style='display:none;'>Материал постройки</option>
-                                    <option value="&">Дерево</option>
-                                    <option value="&">Кирпич</option>
-                                    <option value="&">Панель</option>
-                                    <option value="&">Монолит</option>
-                                    <option value="&">Другой</option>
+                                    <option value="matWood">Дерево</option>
+                                    <option value="matBrick">Кирпич</option>
+                                    <option value="matPanel">Панель</option>
+                                    <option value="matMono">Монолит</option>
+                                    <option value="matOther">Другой</option>
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="objState">
                                     <option value="" disabled selected style='display:none;'>Состояние</option>
-                                    <option value="&">После строителей</option>
-                                    <option value="&">Требуется кап.ремонт</option>
-                                    <option value="&">Требуется космет.ремонт</option>
-                                    <option value="&">Удовлетворительное</option>
-                                    <option value="&">Хорошее</option>
-                                    <option value="&">Отличное</option>
-                                    <option value="&">"Евроремонт"</option>
+                                    <option value="stAfterBuilders">После строителей</option>
+                                    <option value="stCapRepair">Требуется кап.ремонт</option>
+                                    <option value="stCosRepair&">Требуется космет.ремонт</option>
+                                    <option value="stPassably">Удовлетворительное</option>
+                                    <option value="stGood">Хорошее</option>
+                                    <option value="stGreat">Отличное</option>
+                                    <option value="stEuro">"Евроремонт"</option>
                                 </select>
                             </div>
                             <div class="col-lg-2"></div>
@@ -416,18 +419,21 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Адрес</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="CityId">
                                     <option value="" disabled selected style='display:none;'>Город</option>
-                                    <option value="&">-</option>
+                                    <option value="4">Хабаровск</option>
                                     <option value="&">-</option>
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
                             <div class="col-lg-5">
-                                <select class="search-select-large">
+                                <select class="search-select-large" name="DistrictId">
                                     <option value="" disabled selected style='display:none;'>Выберите район</option>
-                                    <option value="&">-</option>
-                                    <option value="&">-</option>
+                                    <option value="5">Индустриальный</option>
+                                    <option value="6">Железнодорожный</option>
+                                    <option value="7">Центральный</option>
+                                    <option value="8">Кировский</option>
+                                    <option value="9">Краснофлотский</option>
                                 </select>
                             </div>
                             <div class="col-lg-1"></div>
@@ -446,7 +452,7 @@
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Улица</span></div>
                             <div class="col-lg-5">
-                                <input class="input-text-search-empty" name="street" id="st1" type="text" placeholder="Введите улицу" />
+                                <input class="input-text-search-empty" name="streets" id="st1" type="text" placeholder="Введите улицу" />
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
@@ -556,45 +562,46 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Удобства</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="water">
                                     <option value="" disabled selected style='display:none;'>Вода</option>
-                                    <option value="&">Горячая (центр.)</option>
-                                    <option value="&">Горячая (автоном.)</option>
-                                    <option value="&">Холодная (центр.)</option>
-                                    <option value="&">Холодная (колодец/скважина)</option>
-                                    <option value="&">Летний водопровод</option>
-                                    <option value="&">Воды нет</option>
+                                    <option value="wtrHotCenter">Горячая (центр.)</option>
+                                    <option value="wtrHotAuton">Горячая (автоном.)</option>
+                                    <option value="wtrColdCenter">Холодная (центр.)</option>
+                                    <option value="wtrColdWell">Холодная (колодец/скважина)</option>
+                                    <option value="wtrSummer">Летний водопровод</option>
+                                    <option value="wtrNone">Воды нет</option>
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="electro">
                                     <option value="" disabled selected style='display:none;'>Электричество</option>
-                                    <option value="&">Подключено</option>
-                                    <option value="&">Подведено</option>
-                                    <option value="&">Возможно подведение</option>
+                                    <option value="elSupplied">Подключено</option>
+                                    <option value="elConnected">Подведено</option>
+                                    <option value="elPossible">Возможно подведение</option>
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="heat">
                                     <option value="" disabled selected style='display:none;'>Отопление</option>
-                                    <option value="&">Центральное</option>
-                                    <option value="&">Автономное (газ)</option>
-                                    <option value="&">Автономное (электр.)</option>
-                                    <option value="&">Автономное (дрова/уголь/жид.топливо)</option>
-                                    <option value="&">Нет</option>
+                                    <option value="heatCentral">Центральное</option>
+                                    <option value="heatFuel">Автономное (газ)</option>
+                                    <option value="heatGas">Автономное (электр.)</option>
+                                    <option value="heatElectr">Автономное (дрова/уголь/жид.топливо)</option>
+                                    <option value="heatNone">Нет</option>
                                 </select>
                             </div>
+                            <div class="col-lg-2"></div>
                             <div class="col-lg-2"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="sewer">
                                     <option value="" disabled selected style='display:none;'>Канализация</option>
-                                    <option value="&">Центральная</option>
-                                    <option value="&">Автономная</option>
-                                    <option value="&">Шамбо</option>
-                                    <option value="&">Нет</option>
+                                    <option value="sewCent">Центральная</option>
+                                    <option value="sewAuto">Автономная</option>
+                                    <option value="sewSham">Шамбо</option>
+                                    <option value="sewNone">Нет</option>
                                 </select>
                             </div>
                             <div class="col-lg-8"></div>
@@ -602,18 +609,21 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Адрес</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="CityId">
                                     <option value="" disabled selected style='display:none;'>Город</option>
-                                    <option value="&">-</option>
+                                    <option value="4">Хабаровск</option>
                                     <option value="&">-</option>
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
                             <div class="col-lg-5">
-                                <select class="search-select-large">
+                                <select class="search-select-large" name="DistrictId">
                                     <option value="" disabled selected style='display:none;'>Выберите район</option>
-                                    <option value="&">-</option>
-                                    <option value="&">-</option>
+                                    <option value="5">Индустриальный</option>
+                                    <option value="6">Железнодорожный</option>
+                                    <option value="7">Центральный</option>
+                                    <option value="8">Кировский</option>
+                                    <option value="9">Краснофлотский</option>
                                 </select>
                             </div>
                             <div class="col-lg-1"></div>
@@ -632,7 +642,7 @@
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Улица</span></div>
                             <div class="col-lg-5">
-                                <input class="input-text-search-empty" name="street" id="st1" type="text" placeholder="Введите улицу" />
+                                <input class="input-text-search-empty" name="streets" id="st1" type="text" placeholder="Введите улицу" />
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
@@ -711,18 +721,21 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Адрес</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="CityId">
                                     <option value="" disabled selected style='display:none;'>Город</option>
-                                    <option value="&">-</option>
+                                    <option value="4">Хабаровск</option>
                                     <option value="&">-</option>
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
                             <div class="col-lg-5">
-                                <select class="search-select-large">
+                                <select class="search-select-large" name="DistrictId">
                                     <option value="" disabled selected style='display:none;'>Выберите район</option>
-                                    <option value="&">-</option>
-                                    <option value="&">-</option>
+                                    <option value="5">Индустриальный</option>
+                                    <option value="6">Железнодорожный</option>
+                                    <option value="7">Центральный</option>
+                                    <option value="8">Кировский</option>
+                                    <option value="9">Краснофлотский</option>
                                 </select>
                             </div>
                             <div class="col-lg-1"></div>
@@ -741,7 +754,7 @@
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Улица</span></div>
                             <div class="col-lg-5">
-                                <input class="input-text-search-empty" name="street" id="st1" type="text" placeholder="Введите улицу" />
+                                <input class="input-text-search-empty" name="streets" id="st1" type="text" placeholder="Введите улицу" />
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
@@ -846,25 +859,25 @@
                         <div class="row">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="houseMat">
                                     <option value="" disabled selected style='display:none;'>Материал постройки</option>
-                                    <option value="&">Дерево</option>
-                                    <option value="&">Кирпич</option>
-                                    <option value="&">Панель</option>
-                                    <option value="&">Монолит</option>
-                                    <option value="&">Другой</option>
+                                    <option value="matWood">Дерево</option>
+                                    <option value="matBrick">Кирпич</option>
+                                    <option value="matPanel">Панель</option>
+                                    <option value="matMono">Монолит</option>
+                                    <option value="matOther">Другой</option>
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="objState">
                                     <option value="" disabled selected style='display:none;'>Состояние</option>
-                                    <option value="&">После строителей</option>
-                                    <option value="&">Требуется кап.ремонт</option>
-                                    <option value="&">Требуется космет.ремонт</option>
-                                    <option value="&">Удовлетворительное</option>
-                                    <option value="&">Хорошее</option>
-                                    <option value="&">Отличное</option>
-                                    <option value="&">"Евроремонт"</option>
+                                    <option value="stAfterBuilders">После строителей</option>
+                                    <option value="stCapRepair">Требуется кап.ремонт</option>
+                                    <option value="stCosRepair&">Требуется космет.ремонт</option>
+                                    <option value="stPassably">Удовлетворительное</option>
+                                    <option value="stGood">Хорошее</option>
+                                    <option value="stGreat">Отличное</option>
+                                    <option value="stEuro">"Евроремонт"</option>
                                 </select>
                             </div>
                             <div class="col-lg-5"></div>
@@ -872,18 +885,21 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Адрес</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="search-select-small" name="CityId">
                                     <option value="" disabled selected style='display:none;'>Город</option>
-                                    <option value="&">-</option>
+                                    <option value="4">Хабаровск</option>
                                     <option value="&">-</option>
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
                             <div class="col-lg-5">
-                                <select class="search-select-large">
+                                <select class="search-select-large" name="DistrictId">
                                     <option value="" disabled selected style='display:none;'>Выберите район</option>
-                                    <option value="&">-</option>
-                                    <option value="&">-</option>
+                                    <option value="5">Индустриальный</option>
+                                    <option value="6">Железнодорожный</option>
+                                    <option value="7">Центральный</option>
+                                    <option value="8">Кировский</option>
+                                    <option value="9">Краснофлотский</option>
                                 </select>
                             </div>
                             <div class="col-lg-1"></div>
@@ -902,7 +918,7 @@
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Улица</span></div>
                             <div class="col-lg-5">
-                                <input class="input-text-search-empty" name="street" id="st1" type="text" placeholder="Введите улицу" />
+                                <input class="input-text-search-empty" name="streets" id="st1" type="text" placeholder="Введите улицу" />
                             </div>
                             <div class="col-lg-1"></div>
                         </div>

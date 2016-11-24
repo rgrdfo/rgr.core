@@ -499,62 +499,48 @@ namespace RGR.Core.Controllers
 
                 #region Удобства
                 //Водоснабжение
-                if (Request.Query.ContainsKey("wtrHotCenter") || //Горячая централизованно
-                    Request.Query.ContainsKey("wtrHotAuton") || //Горячая автономно
-                    Request.Query.ContainsKey("wtrColdCenter") || //Холодная централизованно
-                    Request.Query.ContainsKey("wtrColdWell") || //Холодная - колодец, скважина
-                    Request.Query.ContainsKey("wtrSummer") || //Летний водопровод
-                    Request.Query.ContainsKey("wtrNone")) //Нету
+                if (Request.Query.ContainsKey("water"))
                 {
                     if (!(
-                    (Request.Query["wtrHotCenter"] == "on" && curComm.Water.Contains("315")) ||
-                    (Request.Query["wtrHotAuton"] == "on" && curComm.Water.Contains("206")) ||
-                    (Request.Query["wtrColdCenter"] == "on" && curComm.Water.Contains("318")) ||
-                    (Request.Query["wtrColdWell"] == "on" && curComm.Water.Contains("316")) ||
-                    (Request.Query["wtrSummer"] == "on" && curComm.Water.Contains("372")) ||
-                    (Request.Query["wtrNone"] == "on" && curComm.Water.Contains("205"))
+                    (Request.Query["water"] == "wtrHotCenter" && curComm.Water.Contains("315")) ||
+                    (Request.Query["water"] == "wtrHotAuton" && curComm.Water.Contains("206")) ||
+                    (Request.Query["water"] == "wtrColdCenter" && curComm.Water.Contains("318")) ||
+                    (Request.Query["water"] == "wtrColdWell" && curComm.Water.Contains("316")) ||
+                    (Request.Query["water"] == "wtrSummer" && curComm.Water.Contains("372")) ||
+                    (Request.Query["water"] == "wtrNone" && curComm.Water.Contains("205"))
                     )) return false;
                 }
 
                 //Электричество
-                if (Request.Query.ContainsKey("elSupplied") || //Подведено
-                    Request.Query.ContainsKey("elConnected") || //Подключение
-                    Request.Query.ContainsKey("elPossible")) //Возможно подведение
+                if (Request.Query.ContainsKey("electro"))
                 {
                     if(!( 
-                    (Request.Query["elSupplied"] == "on" && curComm.Electricy.Contains("167")) ||
-                    (Request.Query["elConnected"] == "on" && curComm.Electricy.Contains("168")) ||
-                    (Request.Query["elPossible"] == "on" && curComm.Electricy.Contains("169"))
+                    (Request.Query["electro"] == "elSupplied" && curComm.Electricy.Contains("167")) ||
+                    (Request.Query["electro"] == "elConnected" && curComm.Electricy.Contains("168")) ||
+                    (Request.Query["electro"] == "elPossible" && curComm.Electricy.Contains("169"))
                     )) return false;
                 }
 
                 //Отопление
-                if (Request.Query.ContainsKey("heatCentral") || //Центральное
-                    Request.Query.ContainsKey("heatFuel") || //Дрова, уголь, жидкое
-                    Request.Query.ContainsKey("heatGas") || //Газ
-                    Request.Query.ContainsKey("heatElectr") || //Электричество
-                    Request.Query.ContainsKey("heatNone")) //Нетъ
+                if (Request.Query.ContainsKey("heat"))
                 {
                     if (!(
-                    (Request.Query["heatCentral"] == "on" && curComm.Heating.Contains("306")) ||
-                    (Request.Query["heatFuel"] == "on" && curComm.Heating.Contains("209")) ||
-                    (Request.Query["heatGas"] == "on" && curComm.Heating.Contains("208")) ||
-                    (Request.Query["heatElectr"] == "on" && curComm.Heating.Contains("304")) ||
-                    (Request.Query["heatNone"] == "on" && curComm.Heating.Contains("305"))
+                    (Request.Query["heat"] == "heatCentral" && curComm.Heating.Contains("306")) ||
+                    (Request.Query["heat"] == "heatFuel" && curComm.Heating.Contains("209")) ||
+                    (Request.Query["heat"] == "heatGas" && curComm.Heating.Contains("208")) ||
+                    (Request.Query["heat"] == "heatElectr" && curComm.Heating.Contains("304")) ||
+                    (Request.Query["heat"] == "heatNone" && curComm.Heating.Contains("305"))
                     )) return false;
                 }
 
                 //Канализация
-                if (Request.Query.ContainsKey("sewAuto") || //Автономная
-                    Request.Query.ContainsKey("sewCent") || //Централизованная
-                    Request.Query.ContainsKey("sewSham") || //Шамбо
-                    Request.Query.ContainsKey("sewNone")) //Нетъ
+                if (Request.Query.ContainsKey("sewer"))
                 {
                     if (!(
-                    (Request.Query["sewAuto"] == "on" && curComm.Sewer == 207) ||
-                    (Request.Query["sewCent"] == "on" && curComm.Sewer == 313) ||
-                    (Request.Query["sewSham"] == "on" && curComm.Sewer == 314) ||
-                    (Request.Query["sewNone"] == "on" && curComm.Sewer == 312)
+                    (Request.Query["sewer"] == "sewAuto" && curComm.Sewer == 207) ||
+                    (Request.Query["sewer"] == "sewCent" && curComm.Sewer == 313) ||
+                    (Request.Query["sewer"] == "sewSham" && curComm.Sewer == 314) ||
+                    (Request.Query["sewer"] == "sewNone" && curComm.Sewer == 312)
                     )) return false;
                 }
                 #endregion
@@ -702,45 +688,42 @@ namespace RGR.Core.Controllers
                 }
 
                 //Материал постройки
-                if (Request.Query.ContainsKey("matWood") || //Дерево
-                    Request.Query.ContainsKey("matBrick") || //Кирпич
-                    Request.Query.ContainsKey("matPanel") || //Панельный
-                    Request.Query.ContainsKey("matMono") || //Монолит
-                    Request.Query.ContainsKey("matOther"))  //Другой
+                if (Request.Query.ContainsKey("houseMat"))
                 {
                     if (!(
-                    (Request.Query.ContainsKey("matWood") && curMain.BuildingMaterial.Contains("61")) ||
-                        (Request.Query.ContainsKey("matBrick") && curMain.BuildingMaterial.Contains("62")) ||
-                        (Request.Query.ContainsKey("matBrick") && curMain.BuildingMaterial.Contains("66")) || //Монолитно-кирпичный
-                        (Request.Query.ContainsKey("matPanel") && curMain.BuildingMaterial.Contains("68")) ||
-                        (Request.Query.ContainsKey("matMono") && curMain.BuildingMaterial.Contains("65")) ||
-                        (Request.Query.ContainsKey("matMono") && curMain.BuildingMaterial.Contains("67")) || //В базе два значения соответствуют монолиту. Все вопросы туда.
-                        (Request.Query.ContainsKey("matMono") && curMain.BuildingMaterial.Contains("66")) || //Монолитно-кирпичный
-                        (Request.Query.ContainsKey("matOther") && curMain.BuildingMaterial.Contains("63")) || //МЕТАЛЛ
-                        (Request.Query.ContainsKey("matOther") && curMain.BuildingMaterial.Contains("64")) || //Бетонные блоки
-                        (Request.Query.ContainsKey("matOther") && curMain.BuildingMaterial.Contains("69")) || //Пенобетон
-                        (Request.Query.ContainsKey("matOther") && curMain.BuildingMaterial.Contains("70"))    //Туфоблок
+                        (Request.Query["houseMat"] == "matWood"  && curMain.BuildingMaterial.Contains("61")) ||
+                        (Request.Query["houseMat"] == "matBrick" && curMain.BuildingMaterial.Contains("62")) ||
+                        (Request.Query["houseMat"] == "matBrick" && curMain.BuildingMaterial.Contains("66")) || //Монолитно-кирпичный
+                        (Request.Query["houseMat"] == "matPanel" && curMain.BuildingMaterial.Contains("68")) ||
+                        (Request.Query["houseMat"] == "matMono"  && curMain.BuildingMaterial.Contains("65")) ||
+                        (Request.Query["houseMat"] == "matMono"  && curMain.BuildingMaterial.Contains("67")) || //В базе два значения соответствуют монолиту. Все вопросы туда.
+                        (Request.Query["houseMat"] == "matMono"  && curMain.BuildingMaterial.Contains("66")) || //Монолитно-кирпичный
+                        (Request.Query["houseMat"] == "matOther" && curMain.BuildingMaterial.Contains("63")) || //МЕТАЛЛ
+                        (Request.Query["houseMat"] == "matOther" && curMain.BuildingMaterial.Contains("64")) || //Бетонные блоки
+                        (Request.Query["houseMat"] == "matOther" && curMain.BuildingMaterial.Contains("69")) || //Пенобетон
+                        (Request.Query["houseMat"] == "matOther" && curMain.BuildingMaterial.Contains("70"))    //Туфоблок
                     )) return false;
                 }
 
-                if (Request.Query.ContainsKey("stAfterBuilders") || //После строителей
-                    Request.Query.ContainsKey("stCapRepair") || //Требуется капитальный ремонт
-                    Request.Query.ContainsKey("stCosRepair") || //Требуется косметический ремонт
-                    Request.Query.ContainsKey("stPassably") || //Удовлетворительное
-                    Request.Query.ContainsKey("stGood") || //Хорошее
-                    Request.Query.ContainsKey("stGreat") || //Отличное
-                    Request.Query.ContainsKey("stEuro")) //"Евроремонт"
+                if (Request.Query.ContainsKey("objState"))
+                //|| //После строителей
+                //    Request.Query.ContainsKey("stCapRepair") || //Требуется капитальный ремонт
+                //    Request.Query.ContainsKey("stCosRepair") || //Требуется косметический ремонт
+                //    Request.Query.ContainsKey("stPassably") || //Удовлетворительное
+                //    Request.Query.ContainsKey("stGood") || //Хорошее
+                //    Request.Query.ContainsKey("stGreat") || //Отличное
+                //    Request.Query.ContainsKey("stEuro")) //"Евроремонт"
                 {
                     if (!(
-                        (Request.Query["stAfterBuilders"] == "on" && curRtng.CommonState == 85) ||
-                        (Request.Query["stCapRepair"]     == "on" && curRtng.CommonState == 86) ||
-                        (Request.Query["stCapRepair"]     == "on" && curRtng.CommonState == 87) || //Частичный ремонт
-                        (Request.Query["stCosRepair"]     == "on" && curRtng.CommonState == 88) ||
-                        (Request.Query["stPassably"]      == "on" && curRtng.CommonState == 89) ||
-                        (Request.Query["stPassably"]      == "on" && curRtng.CommonState == 90) || //Нормальное
-                        (Request.Query["stGood"]          == "on" && curRtng.CommonState == 91) ||
-                        (Request.Query["stGreat"]         == "on" && curRtng.CommonState == 92) ||
-                        (Request.Query["stEuro"]          == "on" && curRtng.CommonState == 93)
+                        (Request.Query["objState"] == "stAfterBuilders" && curRtng.CommonState == 85) ||
+                        (Request.Query["objState"] == "stCapRepair"     && curRtng.CommonState == 86) ||
+                        (Request.Query["objState"] == "stCapRepair"     && curRtng.CommonState == 87) || //Частичный ремонт
+                        (Request.Query["objState"] == "stCosRepair"     && curRtng.CommonState == 88) ||
+                        (Request.Query["objState"] == "stPassably"      && curRtng.CommonState == 89) ||
+                        (Request.Query["objState"] == "stPassably"      && curRtng.CommonState == 90) || //Нормальное
+                        (Request.Query["objState"] == "stGood"          && curRtng.CommonState == 91) ||
+                        (Request.Query["objState"] == "stGreat"         && curRtng.CommonState == 92) ||
+                        (Request.Query["objState"] == "stEuro"          && curRtng.CommonState == 93)
                     )) return false;
                 }
                 #endregion
@@ -769,7 +752,7 @@ namespace RGR.Core.Controllers
                 }
 
                 //Улица
-                if (SearchOptions.ContainsKey("Streets"))
+                if (SearchOptions.ContainsKey("streets"))
                 {
                     long? streetId = curAddr.StreetId;
                     var geoStreet = strt.FirstOrDefault(s => s.Id == streetId);
@@ -785,7 +768,7 @@ namespace RGR.Core.Controllers
 
                 #region Фильтры: Риелтор, период, наличие фото
                 //Компания
-                if (SearchOptions.ContainsKey("Agencies"))
+                if (SearchOptions.ContainsKey("agencies"))
                 {
                     var user = estate.User;//usrs.FirstOrDefault(u => u.Id == estate.UserId);
                     if (user == null)
@@ -802,7 +785,7 @@ namespace RGR.Core.Controllers
                 }
 
                 //Агент
-                if (SearchOptions.ContainsKey("Agents"))
+                if (SearchOptions.ContainsKey("agents"))
                 {
                     var user = estate.User;//usrs.FirstOrDefault(u => u.Id == estate.UserId);
                     if (user == null)
