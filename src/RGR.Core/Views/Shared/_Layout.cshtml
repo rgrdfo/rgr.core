@@ -24,15 +24,17 @@
     <div class="wrapper">
         <div class="header">
 
-            <nav>     
+            <nav>
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><img height="75" src="~/images/logo_rgrdfo_text.png" /></a>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">О нас</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="TestView">Члены НП</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Educ">Учебный центр</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Контакты</a></li>
-                    <li><a class="login-button" asp-controller="Account" asp-action="Login"><img src="~/images/ico-door.png" /><span>Войти</span></a>                       
-                    @*<img src="~/images/btn_login_up.png" />*@</li>
+                    <li>
+                        <a class="login-button" asp-controller="Account" asp-action="Login"><img src="~/images/ico-door.png" /><span>Войти</span></a>
+                        @*<img src="~/images/btn_login_up.png" />*@
+                    </li>
                     <li>
                         <font face="Segoe UI" size="4">(4212) 244-264</font>
                     </li>
@@ -43,29 +45,32 @@
                             </a>
                         </div>
                     </li>
-                </ul>                
-            </nav>
-        </div>    
-        <div class="content"> <!--container-->
-            @RenderBody()
-        </div>            
-        <div class="footer">                
-                <ul class="footer-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="About"><font size="2">О нас</font></a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Members"><font size="2">Члены НП</font></a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Educ"><font size="2">Учебный центр</font></a></li>
                 </ul>
-
-                <div class="footer-nav-box">
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><img height="75" src="~/images/logo_rgrdfo.png" /></a>
-                </div>
-                    <font size="2"><br />&copy; 2016 - Региональная гильдия риэлторов ДФО<br />Юридический адрес: г. Хабаровск, ул. Карла Маркса 56, офис 100</font>
+            </nav>
         </div>
+        <div class="content">
+            <!--container-->
+            @RenderBody()
+        </div>
+
+        <div class="footer">
+            <ul class="footer-nav">
+                <li><a asp-area="" asp-controller="Home" asp-action="About"><font size="2">О нас</font></a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Members"><font size="2">Члены НП</font></a></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Educ"><font size="2">Учебный центр</font></a></li>
+            </ul>
+
+            <div class="footer-nav-box">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><img height="75" src="~/images/logo_rgrdfo.png" /></a>
+            </div>
+            <font size="2"><br />&copy; 2016 - Региональная гильдия риэлторов ДФО<br />Юридический адрес: г. Хабаровск, ул. Карла Маркса 56, офис 100</font>
+        </div>
+
     </div>
 
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("scripts", required: false)
 </body>
