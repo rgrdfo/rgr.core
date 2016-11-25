@@ -35,7 +35,7 @@ label
     font-weight: 300;
     float:none;
     width: 50%;
-    left:25%;
+    left:20%;
     top: 45px;
     font-size: 11pt;    
 }
@@ -76,12 +76,24 @@ label
     border-radius: 0 8px 8px 8px !important;    
     margin-bottom: 10px;
     text-align: center; 
-    width:50%;
-    min-width: 900px; 
-    left:25%;
+    /*width:50%;*/
+    width: 900px;     
     top: 45px;  
     z-index: 100;          
 }
+@media screen and (device-width: 1600px) {
+    .search-box-inner, .search-bar .nav-tabs {left: 20%;}
+}
+@media screen and (device-width: 1280px) {
+    .search-box-inner, .search-bar .nav-tabs {left: 14%;}
+}
+@media screen and (device-width: 1024px) {
+    .search-box-inner, .search-bar .nav-tabs {left: 6%;}
+}
+@media screen and (device-width: 980px) {
+    .search-box-inner, .search-bar .nav-tabs {left: 4%;}
+}
+
 
 .search-box-inner input ~label{
     height: 40px;
@@ -280,7 +292,7 @@ label
     height:auto;  
     position: absolute;    
     left:8%;    
-    width: 100%;    
+    /*width: 100%;*/    
     border: none !important;  
     padding:0; 
     white-space: pre-line;
@@ -481,6 +493,16 @@ label
     outline:none;
 }
 .search-box-footer a:hover, .search-box-footer label:hover {color: #559abd; text-decoration: none;}
+
+.search-box-footer a:after {
+    content:"";
+    position: absolute;
+    left: 130px;
+    top: -9px;
+    height:37px;
+    width: 38px;
+    background:url(/images/ico-extend-on.png) no-repeat;
+}
 
 .search-box-footer label {
     color: #fff;
