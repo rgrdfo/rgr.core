@@ -108,9 +108,12 @@ namespace RGR.Core.Views.Helpers
             DateTime date = (DateTime?)Obj["Date"] ?? DateTime.MinValue;
             string DateToShow = (date != DateTime.MinValue) ? date.ToString("d MMM yy") : "н/д";
 
-            return $"<div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{Obj["Address"]}<br/>{Obj["City"]}</span></h1></div>" +
+            return $"<div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{Obj["Address"]}<br/>{Obj["City"]}</span></h1>"+
+                   $"<div><a class=\"quickbox\" href=\"images/img-exam.jpg\"><img src=\"images/img-exam.jpg\" class=\"img-quickbox\"></a></div></div> " +
                    $"<div class=\"col-lg-1\"><h1>{DateToShow}</h1><br />ID: {Obj["Id"]:0000000}</div>" +
                    $"<div class=\"col-lg-1\"><h1>{Obj["Price"]: ### ### ###} ₽</h1><br />{Obj["PricePerSquare"]:### ###.##} ₽ / м²</div>";
+                   
+
         }
 
         public static string CommonEnd(ShortPassport Obj)
@@ -166,31 +169,29 @@ namespace RGR.Core.Views.Helpers
         //Карточка объекта
         public static HtmlString FullResult(string Source)
         {              
-<<<<<<< HEAD
-           StringBuilder sb = new StringBuilder("<div class=\"search-result\">");
-=======
-           StringBuilder sb = new StringBuilder("<div class=\"search-result-row-lg\">");
->>>>>>> refs/heads/master
+
+           StringBuilder sb = new StringBuilder("<div class=\"search-result\">");         
+
             var passport = JsonConvert.DeserializeObject<FullPassport>(Source);
             
 
-<<<<<<< HEAD
+
             sb.Append($"<div class=\"search-result-row-lg\"><div class=\"obj-descript\">{passport.FullDescription}</div>");
             //----- Заголовки -----//
             sb.Append($"<div class=\"row\"><div class=\"col-lg-6\"><h1>Кварира</h1></div><div class=\"col-lg-6\"><h1>Дом</h1></div>");
-=======
-            sb.Append($"<div class=\"obj-descript\">{passport.FullDescription}</div>");
->>>>>>> refs/heads/master
 
-<<<<<<< HEAD
+            sb.Append($"<div class=\"obj-descript\">{passport.FullDescription}</div>");
+
+
+
             //---- Квартира ----//
             sb.Append($"<div class=\"col-lg-6\"><div class=\"search-result-box\">");
-=======
+
             //----- Заголовки -----//
             sb.Append($"<div class=\"row\"><div class=\"col-lg-6 first-col\"><h1>Кварира</h1></div><div class=\"col-lg-6 first-col\"><h1>Дом</h1></div>");
             //---- Квартира ----//
             sb.Append($"<div class=\"col-lg-6 first-col\"><div class=\"search-result-box\">\n");
->>>>>>> refs/heads/master
+
             sb.Append($"<div class=\"row\">");
             //Количество комнат 
             sb.Append($"<div class=\"col-lg-6\"><p>Количество комнат </p></div>");
@@ -225,7 +226,7 @@ namespace RGR.Core.Views.Helpers
             //Оценка состояния объекта
             sb.Append($"<div class=\"col-lg-6\"><p>Состояние</p></div>");
             sb.Append($"<div class=\"col-lg-6\"><p>{passport.ObjectStateAssessment}</p></div>");
-<<<<<<< HEAD
+
 
             ////!!!---Мебель
             //sb.Append($"<div class=\"col-lg-6\"><p>Мебель</p></div>");
@@ -234,12 +235,11 @@ namespace RGR.Core.Views.Helpers
             //sb.Append($"<div class=\"col-lg-6\"><p>Техниа</p></div>");
             //sb.Append($"<div class=\"col-lg-6\"><p>&&&&</p></div>");
 
-=======
->>>>>>> refs/heads/master
+
             //Проведен Интернет
             sb.Append($"<div class=\"col-lg-6\"><p>Связь</p></div>");
             sb.Append($"<div class=\"col-lg-6\"><p>{passport.Internet}</p></div>");
-<<<<<<< HEAD
+
             sb.Append($"</div></div></div>");
 
 
@@ -469,7 +469,7 @@ namespace RGR.Core.Views.Helpers
             sb.Append($"<div class=\"search-result-row-sm\"><div class=\"row\"><div class=\"col-lg-12\"><h1>{passport.Price} ₽</h1><h5>₽ / м²</h5></div>");
             sb.Append($"<div class=\"col-lg-12\"><h5>ID: {passport.Id}:</h5><h5></h5></div></div></div>");
             sb.Append("</div>");
-=======
+
             sb.Append($"</div></div></div>\n");
 
 
@@ -505,7 +505,7 @@ namespace RGR.Core.Views.Helpers
             sb.Append($"</div>");                       
 
             sb.Append($"</div>");
->>>>>>> refs/heads/master
+
 
             return new HtmlString((sb.ToString()));
         }

@@ -313,8 +313,7 @@ label
 }*/
 
   /*-----Расширенный поиск-----*/
-  .extended {
-      display: none;
+  .extended {      
       position:absolute;
       width:100%;
   }
@@ -372,8 +371,7 @@ label
 .search-select-large, .extended input[name="street"] {width:97.5%;}
 
 .res-save
-{
-    display: none;
+{    
     position:absolute; 
     left:5%; 
     bottom:40%;     
@@ -480,8 +478,9 @@ label
 .search-box-footer a:focus {
     text-decoration: none;
     color: #fff; 
+    outline:none;
 }
-.search-box-footer span >label:hover {color: #559abd; text-decoration: none;}
+.search-box-footer a:hover, .search-box-footer label:hover {color: #559abd; text-decoration: none;}
 
 .search-box-footer label {
     color: #fff;

@@ -119,7 +119,7 @@
                             <span style="padding-right: 15px;">Цена от</span><input name="priceFrom" id="pr1_p1" type="text"><span>до</span><input name="priceTo" id="pr2_p1" type="text"><span>₽</span>
                         </div>
                     </div>
-                    <div id="extBar1" class="extended">
+                    <div id="extBar1" class="extended" style="display: none;">
                         <div class="row">
                             <div class="col-lg-1"><span>Площадь</span></div>
                             <div class="col-lg-5">
@@ -292,12 +292,11 @@
                             <!--<label><span class="search-box-footer-inner-label">23</span></label>-->
                             <img src="images/glass.png" />
                         </div>
-                        <span style="position:absolute; right:5%; bottom:40%;"><label id="Ext1" onclick="openExtend('panel1', 'Ext1', 'rs1', 'extBar1')">Расширенный поиск</label></span>
-                        <div id="rs1" class="res-save">
+                        <span style="position:absolute; right:5%; bottom:40%;"><a href="javascript://" id="Ext1" onclick="openExtend('panel1', 'Ext1', 'rs1', 'extBar1');return false;">Расширенный поиск</a></span>
+                        <div id="rs1" class="res-save" style="display:none;">
                             <label id="save">Сохранить запрос</label><input type="reset" value="Отмена" id="but-res-image" class="but-simple" />
                         </div>
                     </div>
-
                 </form>
             </div>
 
@@ -338,7 +337,7 @@
                             <div class="search-box-inner-text"><input name="id" id="i1" type="text" placeholder="Идентификатор" /></div>
                         </div>
                     </div>
-                    <div id="extBar2" class="extended" style="margin-top:-20px;">
+                    <div id="extBar2" class="extended" style="display:none; margin-top:-20px;">
                         <div class="row">
                             <div class="col-lg-1"><span>Площадь</span></div>
                             <div class="col-lg-5">
@@ -492,8 +491,8 @@
                             <input type="submit" value="Показать" />                            
                             <img src="images/glass.png" />
                         </div>
-                        <span style="position:absolute; right:5%; bottom:40%;"><label id="Ext2" onclick="openExtend('panel2', 'Ext2', 'rs2', 'extBar2')">Расширенный поиск</label></span>
-                        <div id="rs2"class="res-save">
+                        <span style="position:absolute; right:5%; bottom:40%;"><a href="javascript://" id="Ext2" onclick="openExtend('panel2', 'Ext2', 'rs2', 'extBar2')">Расширенный поиск</a></span>
+                        <div id="rs2"class="res-save" style="display:none;">
                             <label id="save">Сохранить запрос</label><input type="reset" value="Отмена" id="but-res-image" class="but-simple" />
                         </div>
                     </div>
@@ -558,7 +557,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="extBar3" class="extended" style="top:140px;">
+                    <div id="extBar3" class="extended" style="display:none; top:140px;">
                         <div class="row">
                             <div class="col-lg-1"><span>Удобства</span></div>
                             <div class="col-lg-3">
@@ -681,8 +680,8 @@
                             <input type="submit" value="Показать" />
                             <img src="images/glass.png" />
                         </div>
-                        <span style="position:absolute; right:5%; bottom:40%;"><label id="Ext3" onclick="openExtend('panel3', 'Ext3', 'rs3', 'extBar3')">Расширенный поиск</label></span>
-                        <div id="rs3" class="res-save">
+                        <span style="position:absolute; right:5%; bottom:40%;"><a href="javascript://" id="Ext3" onclick="openExtend('panel3', 'Ext3', 'rs3', 'extBar3')">Расширенный поиск</a></span>
+                        <div id="rs3" class="res-save" style="display:none;">
                             <label id="save">Сохранить запрос</label><input type="reset" value="Отмена" id="but-res-image" class="but-simple" />
                         </div>
                     </div>
@@ -717,7 +716,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="extBar4" class="extended"  style="top:140px;">
+                    <div id="extBar4" class="extended"  style="display: none; top:140px;">
                         <div class="row">
                             <div class="col-lg-1"><span>Адрес</span></div>
                             <div class="col-lg-3">
@@ -792,8 +791,8 @@
                             <input type="submit" value="Показать" />
                             <img src="images/glass.png" />
                         </div>
-                        <span style="position:absolute; right:5%; bottom:40%;"><label id="Ext4" onclick="openExtend('panel4', 'Ext4', 'rs4', 'extBar4')">Расширенный поиск</label></span>
-                        <div id="rs4" class="res-save">
+                        <span style="position:absolute; right:5%; bottom:40%;"><a href="javascript://" id="Ext4" onclick="openExtend('panel4', 'Ext4', 'rs4', 'extBar4')">Расширенный поиск</a></span>
+                        <div id="rs4" class="res-save" style="display:none;">
                             <label id="save">Сохранить запрос</label><input type="reset" value="Отмена" id="but-res-image" class="but-simple" />
                         </div>
                     </div>
@@ -843,7 +842,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="extBar5" class="extended" style="top:140px;">
+                    <div id="extBar5" class="extended" style="display: none; top:140px;">
                         <div class="row">
                             <div class="col-lg-1"><span>Этаж с</span></div>
                             <div class="col-lg-2">
@@ -956,8 +955,8 @@
                             <input type="submit" value="Показать" />
                             <img src="images/glass.png" />
                         </div>
-                        <span style="position:absolute; right:5%; bottom:40%;"><label id="Ext5" onclick="openExtend('panel5', 'Ext5', 'rs5', 'extBar5')">Расширенный поиск</label></span>
-                        <div id="rs5" class="res-save">
+                        <span style="position:absolute; right:5%; bottom:40%;"><a href="javascript://" id="Ext5" onclick="openExtend('panel5', 'Ext5', 'rs5', 'extBar5')">Расширенный поиск</a></span>
+                        <div id="rs5" class="res-save" style="display:none;">
                             <label id="save">Сохранить запрос</label><input type="reset" value="Отмена" id="but-res-image" class="but-simple" />
                         </div>
                     </div>
