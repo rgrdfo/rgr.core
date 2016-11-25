@@ -172,26 +172,16 @@ namespace RGR.Core.Views.Helpers
 
            StringBuilder sb = new StringBuilder("<div class=\"search-result\">");         
 
-            var passport = JsonConvert.DeserializeObject<FullPassport>(Source);
-            
+            var passport = JsonConvert.DeserializeObject<FullPassport>(Source);         
 
 
             sb.Append($"<div class=\"search-result-row-lg\"><div class=\"obj-descript\">{passport.FullDescription}</div>");
-            //----- Заголовки -----//
-            sb.Append($"<div class=\"row\"><div class=\"col-lg-6\"><h1>Кварира</h1></div><div class=\"col-lg-6\"><h1>Дом</h1></div>");
-
-            sb.Append($"<div class=\"obj-descript\">{passport.FullDescription}</div>");
-
-
-
-            //---- Квартира ----//
-            sb.Append($"<div class=\"col-lg-6\"><div class=\"search-result-box\">");
 
             //----- Заголовки -----//
-            sb.Append($"<div class=\"row\"><div class=\"col-lg-6 first-col\"><h1>Кварира</h1></div><div class=\"col-lg-6 first-col\"><h1>Дом</h1></div>");
-            //---- Квартира ----//
-            sb.Append($"<div class=\"col-lg-6 first-col\"><div class=\"search-result-box\">\n");
+            sb.Append($"<div class=\"row\"><div class=\"col-lg-6 first-col\"><h1>Кварира</h1></div><div class=\"col-lg-6 first-col\"><h1>Дом</h1></div>");           
 
+            //---- Квартира ----//
+            sb.Append($"<div class=\"col-lg-6 first-col\"><div class=\"search-result-box\">");
             sb.Append($"<div class=\"row\">");
             //Количество комнат 
             sb.Append($"<div class=\"col-lg-6\"><p>Количество комнат </p></div>");
@@ -226,25 +216,13 @@ namespace RGR.Core.Views.Helpers
             //Оценка состояния объекта
             sb.Append($"<div class=\"col-lg-6\"><p>Состояние</p></div>");
             sb.Append($"<div class=\"col-lg-6\"><p>{passport.ObjectStateAssessment}</p></div>");
-
-
-            ////!!!---Мебель
-            //sb.Append($"<div class=\"col-lg-6\"><p>Мебель</p></div>");
-            //sb.Append($"<div class=\"col-lg-6\"><p>&&&&</p></div>");
-            ////!!!---Техника
-            //sb.Append($"<div class=\"col-lg-6\"><p>Техниа</p></div>");
-            //sb.Append($"<div class=\"col-lg-6\"><p>&&&&</p></div>");
-
-
             //Проведен Интернет
             sb.Append($"<div class=\"col-lg-6\"><p>Связь</p></div>");
             sb.Append($"<div class=\"col-lg-6\"><p>{passport.Internet}</p></div>");
-
             sb.Append($"</div></div></div>");
 
-
             //---- Дом ----//
-            sb.Append($"<div class=\"col-lg-6\"><div class=\"search-result-box\">");
+            sb.Append($"<div class=\"col-lg-6 first-col\"><div class=\"search-result-box\">");
             sb.Append($"<div class=\"row\">");
             // Тип дома 
             sb.Append($"<div class=\"col-lg-6\"><p> Тип дома </p></div>");
@@ -462,51 +440,8 @@ namespace RGR.Core.Views.Helpers
             ////Проведен Интернет
             //sb.Append($"<div class=\"col-lg-4\"><p>Проведен Интернет</p></div>");
             //sb.Append($"<div class=\"col-lg-9\"><p>{passport.Internet}</p></div></div>");
-
-
-
-            sb.Append($"</div></div>");
-            sb.Append($"<div class=\"search-result-row-sm\"><div class=\"row\"><div class=\"col-lg-12\"><h1>{passport.Price} ₽</h1><h5>₽ / м²</h5></div>");
-            sb.Append($"<div class=\"col-lg-12\"><h5>ID: {passport.Id}:</h5><h5></h5></div></div></div>");
+            sb.Append($"</div></div>");            
             sb.Append("</div>");
-
-            sb.Append($"</div></div></div>\n");
-
-
-            //---- Дом ----//
-            sb.Append($"<div class=\"col-lg-6 first-col\"><div class=\"search-result-box\">\n");
-            sb.Append($"<div class=\"row\">");
-            // Тип дома 
-            sb.Append($"<div class=\"col-lg-6\"><p> Тип дома </p></div>");
-            sb.Append($"<div class=\"col-lg-6\"><p>{passport.BuildingType}</p></div>");
-            //Материал постройки 
-            sb.Append($"<div class=\"col-lg-6\"><p>Материал постройки </p></div>");
-            sb.Append($"<div class=\"col-lg-6\"><p>{passport.BuildingMaterial}</p></div>");
-            // Материал перекрытий
-            sb.Append($"<div class=\"col-lg-6\"><p>Материал перекрытий</p></div>");
-            sb.Append($"<div class=\"col-lg-6\"><p>{passport.CellingMaterial}</p></div>");
-            // Год постройки
-            sb.Append($"<div class=\"col-lg-6\"><p>Год постройки</p></div>");
-            sb.Append($"<div class=\"col-lg-6\"><p>{passport.BuildingYear}</p></div>");
-            //Этажность здания 
-            sb.Append($"<div class=\"col-lg-6\"><p>Этажность</p></div>");
-            sb.Append($"<div class=\"col-lg-6\"><p>{passport.FloorsTotal}</p></div>");
-            //Парковка машин
-            sb.Append($"<div class=\"col-lg-6\"><p>Парковка </p></div>");
-            sb.Append($"<div class=\"col-lg-6\"><p>{passport.Parking}</p></div>");
-            //Безопасность
-            sb.Append($"<div class=\"col-lg-6\"><p>Безопасность</p></div>");
-            sb.Append($"<div class=\"col-lg-6\"><p>{passport.Security}</p></div>");
-            //!!!---Лифт
-            sb.Append($"<div class=\"col-lg-6\"><p>Лифт</p></div>");
-            sb.Append($"<div class=\"col-lg-6\"><p>&&&&</p></div>");
-            sb.Append("</div></div></div>\n");
-
-            sb.Append($"</div>");                       
-
-            sb.Append($"</div>");
-
-
             return new HtmlString((sb.ToString()));
         }
 
