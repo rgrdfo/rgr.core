@@ -161,15 +161,41 @@
 .search-result-row-sm .row {
     border: none;
 }   
-
-
 .img-quickbox 
 {
     width: 100%;
     height: 120px;
 }
 
+#bodyResult .search-result-footer:nth-last-child(1) {
+    border-bottom: 0;
+}
 
+#result-search ul{
+    float:left;
+    padding: 20px;
+}
+#result-search .nav-tabs li{    
+    background-color: transparent;           
+    margin-left: -2px;  
+    float: left;  
+}
+#result-search .nav-tabs li a{
+    outline: none;       
+    text-decoration:none;    
+    color: #c3c3c3; 
+    border-radius: 5px;  
+    border:1px solid #c3c3c3  ; 
+    background-color: #f6f6f6;       
+}
+#result-search .nav-tabs > li.active > a  {     
+    background-color: #22496d;
+    border:1px solid #22496d;    
+    color: #fff;
+}
+#result-search .tab-content {
+    margin-top: 50px;
+}
 
 
 

@@ -8,7 +8,7 @@
 
 @{
     ViewData["Title"] = "Результаты поиска";
-} 
+}
 
 @{
     var objects = SearchResult.Deserialize((string)ViewData["Result"]);
@@ -22,8 +22,7 @@
         var myMap,
             myPlacemark;
 
-        function init()
-        {
+        function init() {
             myMap = new ymaps.Map("map", {
                 center: [48.48888324, 135.08322577],
                 zoom: 12
@@ -37,49 +36,64 @@
             myMap.geoObjects.add(myPlacemark);
         }
 
-        function findLocation(str)
-    {
-        var geocoder = ymaps.geocode(str);
-        geocoder.Then(
-            function (res) {
-            map.geoObjects.add(res.geoObjects)
+        function findLocation(str) {
+            var geocoder = ymaps.geocode(str);
+            geocoder.Then(
+                function (res) {
+                    map.geoObjects.add(res.geoObjects)
                     throw (":)");
-        },
-                function (err) {
-            throw ":(";
+                },
+                    function (err) {
+                        throw ":(";
+                    }
+                    );
         }
-                );
-    }
     </script>
     <script type="text/javascript">
-    var map = new ymaps.Map("map", {
+        var map = new ymaps.Map("map", {
             center: [55.76, 37.64],
             zoom: 10
-    });
-    </script>    
-</head>
+        });
+    </script>
+
+    <link rel="stylesheet" href="~/js/quickbox/qb/qb.css">
+    <script type="text/javascript" src="~/js/quickbox/qb/js/qb.js"></script></head>
 
 <div class="search-bar">
     @SearchBar.Render()
 </div>
 <div class="content-inner">
-    <div class="search-result">
-        <!--Отладочная информация, убрать к релизу-->
-        <font size="1">@ViewData["Timer"] </font> <br /> <br />
+    <div id="result-search">
+        <ul id="search-objects-tabs" class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#searchType1">На карте</a></li><li><a data-toggle="tab" href="#searchType2">Список</a></li>
+        </ul>
 
-        @*<a href='@url.action("saverequest", "search")'> сохранить запрос </a>*@
-        <form action="saveRequest">
-            <input name="query" value="@Context.Request.QueryString.ToString()" hidden="hidden" />
-            <input type="submit" value="Сохранить запрос" />
-        </form>
-        <div class="search-result-box">
-            @SearchResult.HeadResult((EstateTypes)ViewData["Type"])
-            @await Component.InvokeAsync("SearchResultRenderer", new { Result = objects, Type = ViewData["Type"], OrderingField = "Price" })
-            @*<div id="map" style="width: 400px; height: 400px; border:1px solid black; position: absolute; top:0; left:560px"></div>*@
+        <div class="tab-content">
+            <div id="" class="tab-pane in active">
+                <div class="search-result">
+                    @*Отладочная информация, убрать к релизу
+                        <font size="1">@ViewData["Timer"] </font> <br /> <br />
+
+                        <a href='@url.action("saverequest", "search")'> сохранить запрос </a>
+                        <form action="saveRequest">
+                            <input name="query" value="@Context.Request.QueryString.ToString()" hidden="hidden" />
+                            <input type="submit" value="Сохранить запрос" />
+                        </form>*@
+
+                    @*<div class="search-result-box">
+                        @SearchResult.HeadResult((EstateTypes)ViewData["Type"])
+                        @await Component.InvokeAsync("SearchResultRenderer", new { Result = objects, Type = ViewData["Type"], OrderingField = "Price" })
+                        @*<div id="map" style="width: 400px; height: 400px; border:1px solid black; position: absolute; top:0; left:560px"></div>*@
+                    @*</div>*@
+                </div>
+            </div>
+            <div id="" class="tab-pane">
+            </div>
         </div>
     </div>
 </div>
     
+
 
 
 

@@ -519,25 +519,3 @@ input[type=checkbox] {
     width: 23%;
 }
 
-
-
-
-/*Обратная иконка для селектов*/
-
-/*.add-object-checkbox h5[id="ico-quest"] > label::before {
-    position: relative;
-    content: ""; 
-    background: url(/images/ico-quest.png) no-repeat;
-    height: 16px;
-    width: 16px;
-}*/
-
-
-
-    
-
-
-
-    
- 
-

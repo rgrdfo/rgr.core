@@ -44,37 +44,39 @@ body {
     background-color: #f5f5f5;
     margin: 0;
 }
+html,
+body,
 .wrapper {
     display: flex;
     flex-direction: column;
     height: 100%;
-    font-family: HelveticaNeueCyr;
-    
+    font-family: HelveticaNeueCyr_Roman;   
 }
 .header{
-    background-color: #f5f5f5;
-    box-shadow: 0 4px 6px rgba(0,0,0,.2); 
-    height: 105px;
+    background-color: #f5f5f5;    
+    height: 110px;
     margin-top: 0;
     margin-bottom:0;
     position: relative;
     flex: 0 1 auto;
+    font-family: HelveticaNeueCyr_Roman;
 }
+
+/*------Шапка-----*/
+
 nav {
     background-color: #f5f5f5;
     max-width: 1170px;
-    min-width: 960px;
-    margin: 0 15%;
+    min-width: 980px;
+    /*margin: 0 14%;*/
     padding: 0px 0;
     overflow-y: hidden;
     overflow-x: hidden;
     height: 100%;
+    font-weight:200;
+    font-size: 11pt;    
 }
-/*------Шапка-----*/
-nav {
-    font-family: HelveticaNeueCyr_Roman;
-    font-size: 11pt;  
-}
+
 nav ul li:nth-of-type(2),
 nav ul li:nth-of-type(3),
 nav ul li:nth-of-type(4),
@@ -86,13 +88,23 @@ nav ul li:nth-of-type(6) {padding-top: 35px;}
 nav ul li:nth-of-type(7) {
     padding-top: 15px;
 }
-nav li a,
-nav li a:active,
-nav li a:hover,
-nav li a:focus {
+nav li a, nav li a:focus,  nav li a:active 
+ {   
    color: #252e34;
    text-decoration: none;
    outline: none;
+   font-weight:200;
+   font-family: HelveticaNeueCyr_Roman;
+}
+nav li a:hover
+{
+    color: #477ab8;
+}
+nav li span {
+    font-size: 11pt;  
+    color: #477ab8;
+    width: 100%;
+    height: auto;
 }
 
 .logo-box {
@@ -119,16 +131,9 @@ a {
   display: inline-block;
   position: relative;
 }
-li a {
-  color: #252e34;
-}
-li a:hover{
-    color:#477ab8;
-}
 li {
   display: inline-block;
   margin-left: 25px;
-
 }
 
 li a:hover:after{
@@ -140,22 +145,28 @@ li a:hover:after{
     min-width: 980px;
     position: relative;    
     background: #f6f6f6;
-    margin-top: -2px;
+    margin-top:10px;
+    box-sizing:border-box;
+    min-height:85%;
+    padding-bottom: 130px;   
 }
 .content-inner {
 
-    margin: 20px 16%;
-    width: 68%;      
-    /*padding: 20px 16%;*/
+    /*margin: 20px 16%;*/
+    max-width: 1305px;
+    min-width:980px;    
     font-family: HelveticaNeueCyr_Roman;
+    min-height:calc(100vh-120px);
 }
 
 
 .footer{
     background-color:#204262;
     color:#d2e6ff;
-    height:100px;
-    width: 100%;
+    height:120px;
+    margin-top: -120px;
+    max-width: 1920px;
+    min-width: 980px;
     flex: 0 0 auto;
     bottom: 0px;
     left:0px;
@@ -163,15 +174,28 @@ li a:hover:after{
     position: relative;
     flex: 0 0 auto;
     font-family: HelveticaNeueCyr_Roman;
-    font-size: 12pt;
+    font-size: 11pt;
 }
+.footer div[class^="col-lg"] {
+    padding-bottom: 0;
+    text-align: center;
+}
+.footer div[class="col-lg-4"]{
+    padding-top: 40px;
+    text-align:left;
+}
+.footer .navbar-brand {
+    float:none;
+    padding: 0;
+    height: auto;
+}
+
 .footer-nav {
-    max-width: 1170px;
-    min-width: 960px;
+    width: 100%;
     margin: auto;
     overflow-y: hidden;
     overflow-x: hidden;
-    position: relative
+    position: relative;    
 }
 .footer-nav li a{
     color: #d2e6ff;
@@ -181,32 +205,33 @@ li a:hover:after{
     color: #fff;
     text-decoration:underline;
 }
-.footer-nav-box{
-    float: left;
+.footer-nav-box{   
+    float:right; 
     padding-right: 15px;
-    position: relative;
-    margin-left: 3%;
+    position: relative;    
     margin-bottom: 5px;
+}
+
+.inner-index div > img{
+    height: 350px;
 }
 
 .carousel-box{
     float: left;
-    position: relative;    
-    width: 75%;
-    min-width:700px; 
-    margin-right: 50px;    
+    position: relative;
+    height: 350px;       
 }
 .carousel-box .item img {
-    max-height: 370px;
-    min-height:236px;
+    height: 350px !important; 
+    width: inherit;    
 }
 
-.banner-inner img {
-    width: 20%;
-    height: 370px;
+/*.banner-inner img {
+    width: 15%;
+    height: 350px;
     min-height: 236px;
     min-width: 200px;    
-}
+}*/
 
 .login-button{
     display:block;    
@@ -293,10 +318,6 @@ li a:hover:after{
       content: none;
     }
 }
-
-
-
-
 /*Каруселька*/
 .carousel {
   position: relative;
@@ -523,14 +544,14 @@ li a:hover:after{
   }
   .iconbox-left{
       position:absolute;
-      top:50%;
-      bottom:50%;
+      top:45%;
+      bottom:45%;
       left:-25px;
   }
   .iconbox-right{
       position:absolute;
-      top:50%;
-      bottom:50%;
+      top:45%;
+      bottom:45%;
       right:-25px;
   }
   .glyphicon-chevron-left:before {
@@ -573,7 +594,8 @@ a:active, a:focus,
 textarea:active, textarea:focus,
 button:active, button:focus,
 select:active, select:focus {
-    
+    outline: none;
+
 }
 
 
