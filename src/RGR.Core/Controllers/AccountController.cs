@@ -142,6 +142,7 @@ namespace RGR.Core.Controllers
         [Authorize]
         public async Task<IActionResult> AddObject()
         {   
+
             //Request.Qu         
             return View();
         }
