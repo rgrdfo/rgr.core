@@ -44,4 +44,37 @@
         [EnumDescription("Парковочное место/гараж")]
         Garage = 6
     }
+
+    public static class EnumExtender
+    {
+        public static string GetTypeName(this EstateTypes Source)
+        {
+            switch (Source)
+            {
+                case EstateTypes.Unset:
+                    return "Неизвестный тип";
+
+                case EstateTypes.Flat:
+                    return "Квартира";
+
+                case EstateTypes.Room:
+                    return "Комната";
+
+                case EstateTypes.House:
+                    return "Дом";
+
+                case EstateTypes.Land:
+                    return "Участок";
+
+                case EstateTypes.Office:
+                    return "Бизнес-объект";
+
+                case EstateTypes.Garage:
+                    return "Гараж";
+
+                default:
+                    return "Неизвестный тип";
+            }
+        }
+    }
 }

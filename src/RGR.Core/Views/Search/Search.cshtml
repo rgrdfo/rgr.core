@@ -15,6 +15,14 @@
 }
 
 <head>
+
+    <style>
+        .sticky {
+            position: absolute;
+        }
+
+    </style>
+
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
     <!--<script src="~/js/map.js" type="text/javascript"></script>-->
     <script type="text/javascript">
@@ -37,30 +45,46 @@
         }
 
         function drawPlacemark(latitude, longitude, address) {
-            map.removeAllOverlays();
-            myPlacemark = new ymaps.Placemark([latitude, longitude], {                
+            myMap.geoObjects.removeAll();
+            var myPlacemark = new ymaps.Placemark([latitude, longitude], {
                 balloonContent: address,
-                center: [latitude, longitude]
+                hideIconOnBalloonOpen: false,
+                style: "default#bluePoint"
             });
-            myMap.geoObjects.add(myPlacemark);           
-
+            myMap.geoObjects.add(myPlacemark);   
+            myMap.center = [latitude, longitude];
+            myMap.panTo([myMap.center], { fluing: 1 });
         }        
 
-        function findLocation(str) {
-            var geocoder = ymaps.geocode(str);
-            geocoder.Then(
-                function (res) {
-                    map.geoObjects.add(res.geoObjects)
-                    throw (":)");
-                },
-                    function (err) {
-                        throw ":(";
-                    }
-                    );
-        }
+        //function findLocation(str) {
+        //    var geocoder = ymaps.geocode(str);
+        //    geocoder.Then(
+        //        function (res) {
+        //            map.geoObjects.add(res.geoObjects)
+        //            throw (":)");
+        //        },
+        //            function (err) {
+        //                throw ":(";
+        //            }
+        //            );
+        //}
     </script>
-    
-
+   
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var offset = $('#search-result-map').offset();
+            var topPadding = 0;
+            $(window).scroll(function () {
+                if ($(window).scrollTop() > offset.top) {
+                    $('#search-result-map').stop().animate({ marginTop: $(window).scrollTop() - offset.top + topPadding });
+                }
+                else {
+                    $('#search-result-map').stop().animate({ marginTop: 0 });
+                }
+            });
+        });
+    </script>
+   
     <link rel="stylesheet" href="~/js/quickbox/qb/qb.css">
     <script type="text/javascript" src="~/js/quickbox/qb/js/qb.js"></script>
 </head>
@@ -81,18 +105,10 @@
                     @await Component.InvokeAsync("SearchResultMap", new { Result = objects, OrderingField = "Price" })
                 </div>
                 <div class="search-result-row-md">
-                    <div id="search-result-map"></div>
+                    <div class="sticky" id="search-result-map"></div>
                 </div>
             </div>
             <div id="searchType2" class="tab-pane">
-                @*Отладочная информация, убрать к релизу
-                    <font size="1">@ViewData["Timer"] </font> <br /> <br />
-
-                    <a href='@url.action("saverequest", "search")'> сохранить запрос </a>
-                    <form action="saveRequest">
-                        <input name="query" value="@Context.Request.QueryString.ToString()" hidden="hidden" />
-                        <input type="submit" value="Сохранить запрос" />
-                    </form>*@
                 <div class="search-result-box">
                     @SearchResult.HeadResult((EstateTypes)ViewData["Type"])
                     @await Component.InvokeAsync("SearchResultRenderer", new { Result = objects, Type = ViewData["Type"], OrderingField = "Price" })
