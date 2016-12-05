@@ -1,19 +1,19 @@
 ﻿<head>
-    <script>
-        
-        function openExtend(panel,label,div,extend) {
+    <script>        
+        function openExtend(panel,label,div,extend, footer) {
                         
             var lab = document.getElementById(label);
             var bar = document.getElementById(extend);
             var pan = document.getElementById(panel);
-            var box = document.getElementById(div);          
+            var box = document.getElementById(div);
+            var foot = document.getElementById(footer);
             
             if (bar.style.display === 'none') {
                 bar.style.display = 'block';
                 switch (panel)
                 {
                     case 'panel1':
-                        pan.style.minHeight = '900px';
+                        pan.style.minHeight = '900px';                        
                         break;
                     case 'panel2':
                         pan.style.minHeight = '770px';
@@ -28,10 +28,9 @@
                         pan.style.minHeight = '680px';
                         break;
 
-                }
-                
-                lab.innerText = 'Свернуть параметры';
-                lab.inner
+                }                
+                lab.innerText = 'Свернуть параметры';                
+                foot.style.height = '100px';
                 box.style.display = 'block';
             } 
             else {
@@ -39,7 +38,13 @@
                 pan.style.minHeight = 'auto';
                 lab.innerText = "Расширенный поиск";
                 box.style.display = "none";
+                foot.style.height = '80px';
             }
+        }
+
+        //Селекты 
+        function styleSelect() {
+            var wc = document.getElementsByName
         }
         //Управление вкладками
         function checkEstate(id) {
@@ -278,24 +283,22 @@
                                 </select>
                             </div>
                             <div class="col-lg-3" id="col-check">
-
                                 <div id="photo-check" class="add-object-checkbox">
                                     <input name="withPhotoOnly" type="checkbox" value="on" id="pht1" /><label class="indent-check" for="pht1">Только с фото</label>
                                 </div>
-
                             </div>
                             <div class="col-lg-5"></div>
                         </div>
                     </div>
-                    <div class="search-box-footer">
+                    <div id="foot1"class="search-box-footer">
                         <div class="search-box-footer-inner">
                             <input type="submit" value="Показать" />
                             <!--<label><span class="search-box-footer-inner-label">23</span></label>-->
                             <img src="images/glass.png" />
                         </div>
-                        <span style="position:absolute; right:5%; bottom:40%;"><a href="javascript://" id="Ext1" onclick="openExtend('panel1', 'Ext1', 'rs1', 'extBar1');return false;">Расширенный поиск</a></span>
+                        <span style="position:absolute; right:5%; bottom:40%;"><a href="javascript://" id="Ext1" onclick="openExtend('panel1', 'Ext1', 'rs1', 'extBar1', 'foot1'); return false;">Расширенный поиск</a></span>
                         <div id="rs1" class="res-save" style="display:none;">
-                            <label id="save">Сохранить запрос</label><input type="reset" value="Отмена" id="but-res-image" class="but-simple" />
+                            <label id="save">Сохранить запрос</label><input type="reset" value="Очистить" id="but-res-image" class="but-simple" />
                         </div>
                     </div>
                 </form>
@@ -487,14 +490,14 @@
                             <div class="col-lg-5"></div>
                         </div>
                     </div>
-                    <div class="search-box-footer">                        
+                    <div id="foot2" class="search-box-footer">                        
                         <div class="search-box-footer-inner">
                             <input type="submit" value="Показать" />                            
                             <img src="images/glass.png" />
                         </div>
-                        <span style="position:absolute; right:5%; bottom:40%;"><a href="javascript://" id="Ext2" onclick="openExtend('panel2', 'Ext2', 'rs2', 'extBar2')">Расширенный поиск</a></span>
+                        <span style="position:absolute; right:5%; bottom:40%;"><a href="javascript://" id="Ext2" onclick="openExtend('panel2', 'Ext2', 'rs2', 'extBar2', 'foot2')">Расширенный поиск</a></span>
                         <div id="rs2"class="res-save" style="display:none;">
-                            <label id="save">Сохранить запрос</label><input type="reset" value="Отмена" id="but-res-image" class="but-simple" />
+                            <label id="save">Сохранить запрос</label><input type="reset" value="Очистить" id="but-res-image" class="but-simple" />
                         </div>
                     </div>
                 </form>
@@ -676,14 +679,14 @@
                         </div>
                     </div>
 
-                    <div class="search-box-footer">
+                    <div id="foot3" class="search-box-footer">
                         <div class="search-box-footer-inner">
                             <input type="submit" value="Показать" />
                             <img src="images/glass.png" />
                         </div>
-                        <span style="position:absolute; right:5%; bottom:40%;"><a href="javascript://" id="Ext3" onclick="openExtend('panel3', 'Ext3', 'rs3', 'extBar3')">Расширенный поиск</a></span>
+                        <span style="position:absolute; right:5%; bottom:40%;"><a href="javascript://" id="Ext3" onclick="openExtend('panel3', 'Ext3', 'rs3', 'extBar3','foot3')">Расширенный поиск</a></span>
                         <div id="rs3" class="res-save" style="display:none;">
-                            <label id="save">Сохранить запрос</label><input type="reset" value="Отмена" id="but-res-image" class="but-simple" />
+                            <label id="save">Сохранить запрос</label><input type="reset" value="Очистить" id="but-res-image" class="but-simple" />
                         </div>
                     </div>
                 </form>
@@ -787,14 +790,14 @@
                             <div class="col-lg-5"></div>
                         </div>
                     </div>
-                    <div class="search-box-footer">
+                    <div id="foot4" class="search-box-footer">
                         <div class="search-box-footer-inner">
                             <input type="submit" value="Показать" />
                             <img src="images/glass.png" />
                         </div>
-                        <span style="position:absolute; right:5%; bottom:40%;"><a href="javascript://" id="Ext4" onclick="openExtend('panel4', 'Ext4', 'rs4', 'extBar4')">Расширенный поиск</a></span>
+                        <span style="position:absolute; right:5%; bottom:40%;"><a href="javascript://" id="Ext4" onclick="openExtend('panel4', 'Ext4', 'rs4', 'extBar4','foot4')">Расширенный поиск</a></span>
                         <div id="rs4" class="res-save" style="display:none;">
-                            <label id="save">Сохранить запрос</label><input type="reset" value="Отмена" id="but-res-image" class="but-simple" />
+                            <label id="save">Сохранить запрос</label><input type="reset" value="Очистить" id="but-res-image" class="but-simple" />
                         </div>
                     </div>
             </form>
@@ -951,14 +954,14 @@
                             <div class="col-lg-5"></div>
                         </div>
                     </div>
-                    <div class="search-box-footer">
+                    <div id="foot5" class="search-box-footer">
                         <div class="search-box-footer-inner">
                             <input type="submit" value="Показать" />
                             <img src="images/glass.png" />
                         </div>
-                        <span style="position:absolute; right:5%; bottom:40%;"><a href="javascript://" id="Ext5" onclick="openExtend('panel5', 'Ext5', 'rs5', 'extBar5')">Расширенный поиск</a></span>
+                        <span style="position:absolute; right:5%; bottom:40%;"><a href="javascript://" id="Ext5" onclick="openExtend('panel5', 'Ext5', 'rs5', 'extBar5','foot5')">Расширенный поиск</a></span>
                         <div id="rs5" class="res-save" style="display:none;">
-                            <label id="save">Сохранить запрос</label><input type="reset" value="Отмена" id="but-res-image" class="but-simple" />
+                            <label id="save">Сохранить запрос</label><input type="reset" value="Очистить" id="but-res-image" class="but-simple" />
                         </div>
                     </div>
                 </form>
