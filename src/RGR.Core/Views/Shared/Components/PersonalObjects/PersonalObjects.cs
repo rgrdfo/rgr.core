@@ -18,7 +18,7 @@ namespace RGR.Core.Views.Shared.Components
 
         public async Task<IViewComponentResult> InvokeAsync(IEnumerable<ShortPassport> Source)
         {
-            var grouped1 = Source.GroupBy(l => l["Type"]);
+            var grouped1 = Source.GroupBy(l => l["TypeId"]);
             var grouped = grouped1.Select(l => l.ToList());
 
             return View(await Task.Run(() => Render(grouped)));
@@ -71,6 +71,9 @@ namespace RGR.Core.Views.Shared.Components
                 sb.Append($"<h5><b> Новых совпадений по объектам:{(flats != null ? flats.Count() : 0)} </b ></h5>");
                 foreach (var flat in flats)
                 {
+                    DateTime date = (DateTime?)flat["Date"] ?? DateTime.MinValue;
+                    string DateToShow = (date != DateTime.MinValue) ? date.ToString("dd.MM.yyyy") : "н/д";
+
                     sb.Append($"<div class=\"object-conteiner\"><div class=\"account-box-head\">");
                     sb.Append($"<div class=\"row\"><div class=\"col-lg-3\">Адрес</div>");
                     sb.Append($"<div class=\"col-lg-1\"><label>Дата</label></div>");
@@ -82,7 +85,7 @@ namespace RGR.Core.Views.Shared.Components
 
                     sb.Append($"<div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1>{flat["Address"]}<br/>{flat["City"]}</h1></div>");
                     //sb.Append($"< img src =\"{flat["Logo"]}\"></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><h1>{flat["Date"]}</h1><br />ID: {flat["Id"]:0000000}</div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{DateToShow}</h1><br />ID: {flat["Id"]:0000000}</div>");
                     sb.Append($"<div class=\"col-lg-1\"><h1>{flat["Price"]: ### ### ###} ₽</h1><br />{flat["PricePerSquare"]:### ###.##} ₽ / м²</div>");
                     sb.Append($"<div class=\"col-lg-2\"><h1>{flat["Rooms"]}-комнатная</h1><br/>{flat["HouseMaterial"]}<br/>{flat["HouseType"]}</div>");
                     sb.Append($"<div class=\"col-lg-1\"><h1>{flat["Area"]} м²</h1><br />кухня: {flat["KitchenArea"]} м²<br />жилая: {flat["LivingArea"]} м²</div>");
@@ -262,12 +265,12 @@ namespace RGR.Core.Views.Shared.Components
             else
             {
                 var sb = new StringBuilder("<div id=\"bodyResult\"><div class=\"tab-content\">");
-                var rooms = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Room));
-                var flats = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Flat));
-                var houses = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.House));
-                var lands = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Land));
-                var garages = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Garage));
-                var offices = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Office));
+                var rooms = grouped.FirstOrDefault(g => g.Any(f => (long)f["TypeId"] == (long)EstateTypes.Room));
+                var flats = grouped.FirstOrDefault(g => g.Any(f => (long)f["TypeId"] == (long)EstateTypes.Flat));
+                var houses = grouped.FirstOrDefault(g => g.Any(f => (long)f["TypeId"] == (long)EstateTypes.House));
+                var lands = grouped.FirstOrDefault(g => g.Any(f => (long)f["TypeId"] == (long)EstateTypes.Land));
+                var garages = grouped.FirstOrDefault(g => g.Any(f => (long)f["TypeId"] == (long)EstateTypes.Garage));
+                var offices = grouped.FirstOrDefault(g => g.Any(f => (long)f["TypeId"] == (long)EstateTypes.Office));
                 sb.Append(StringBuilderRoom(rooms));
                 sb.Append(StringBuilderHouse(houses));
                 sb.Append(StringBuilderLand(lands));

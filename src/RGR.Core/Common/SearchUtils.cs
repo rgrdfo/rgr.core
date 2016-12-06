@@ -235,6 +235,8 @@ namespace RGR.Core.Common
 
                     //Тип недвижимости
                     passport.Add("Type", ((EstateTypes)Estate.ObjectType).GetTypeName());
+                    //Индекс типа недвижимости
+                    passport.Add("TypeId", Estate.ObjectType);
                     //Индекс БД
                     passport.Add("Id", Estate.Id);
                     //Присвоить дату создания, если нет даты изменения

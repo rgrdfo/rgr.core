@@ -8,9 +8,9 @@ namespace RGR.Core.Common
 {
     public static class EstateUtils
     {
-        public static Comparer (this EstateObjects Source, EstateObjects Target)
-        {
+        //public static Comparer (this EstateObjects Source, EstateObjects Target)
+        //{
 
-        }
+        //}
     }
 }

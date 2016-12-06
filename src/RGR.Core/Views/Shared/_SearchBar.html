@@ -61,12 +61,100 @@
                     elems.forEach(function (elem) {
                         elem.style.visibility = "visible";
                     })
-
-
             }
         }
         
-        
+        //@* Диалог выбора районов *@
+    function showDistrictSelectionDialog() {
+        var yandexMap = districtsYandexMap;
+        yandexMap.geoObjects.each(function(obj) {
+            yandexMap.geoObjects.remove(obj);
+        });
+        var selectedDistricts = parseIdsStr($("#districtIds-hidden").val());
+        $.ajax({
+            type: 'POST',
+            url: '/search/districts',
+            data: {
+                cityId: $("#city-id-field").val()
+            },
+            success: function(data){
+                $.each(data.districts, function(index, item) {
+                    // Создаем объект геометрии
+                    var geometry = {s,
+                        type: 'Polygon',
+                        coordinates: item.coordinates
+                    };
+                    var options = {
+                        strokeWidth: 3,
+                        strokeColor: '#0000FF', 
+                        fillColor: '#FFFF00',
+                        fillOpacity: 0.3,
+                        draggable: false,
+                        hasHint: true
+                    };
+                    var polygon = new ymaps.GeoObject({geometry: geometry}, options);
+                    polygon.name = item.name;
+                    polygon.districtName = item.name;
+                    polygon.districtId = item.id;
+                    polygon.selected = false;
+                    for (var i = 0; i < selectedDistricts.length; i++) {
+                        var selId = selectedDistricts[i];
+                        if (selId == item.id) {
+                            polygon.selected = true;
+                            break;
+                        }
+                    }
+                    polygon.events.add("click",function(event) {
+                        if (!event.originalEvent.target.selected) {
+                            event.originalEvent.target.options.set("fillColor", "#FF0000");
+                            event.originalEvent.target.selected = true;
+                        } else {
+                            event.originalEvent.target.options.set("fillColor", "#0275BE");
+                            event.originalEvent.target.selected = false;
+                        }
+                        updateSelectedDistricts();
+                    });
+                    yandexMap.geoObjects.add(polygon);
+                    updateSelectedDistricts();
+                });
+            },
+            error: function(){
+
+            },
+            dataType: 'json'
+        });
+        var dialog = $("#select-districts-dialog").dialog({
+            autoOpen: true,
+            resizable: false,
+            modal: true,
+            width: 625,
+            buttons: {
+                "Выбрать": function () {
+                    var idsStr = "";
+                    var idsArray = [];
+                    yandexMap.geoObjects.each(function(obj) {
+                        if (obj.selected) {
+                            idsStr += obj.districtId + ",";
+                            idsArray.push(obj.districtId);
+                        }
+                    });
+                    $("#districtIds-hidden").val(idsStr);
+                    $("#district-names-field").val(idsArray).change().multiselect("refresh");
+                    dialog.dialog("close");
+                },
+                "Отмена": function () {
+                    dialog.dialog("close");
+                }
+            },
+            open: function () {
+                setTimeout(function () {
+                    yandexMap.container.fitToViewport();
+                    yandexMap.setBounds(yandexMap.geoObjects.getBounds());
+                },1000);
+                
+            }
+        });
+    }
     </script>
 </head>
 
@@ -240,7 +328,11 @@
                                     <option value="8">Кировский</option>
                                     <option value="9">Краснофлотский</option>
                                 </select>
+                                <span class="link" id="district-map-selection" onclick="showDistrictSelectionDialog()">
+                                    На карте
+                                </span>
                             </div>
+                            <!--<div class="col-lg-6">/div>-->
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
@@ -968,13 +1060,22 @@
             </div>
         </div>
     </div>
-</div>        
+</div>     
 
 
-
-            
-        
-
-
-
-
+<!--@* Диалог выбора районов города *@-->
+<div class="dialog" id="select-districts-dialog" title="Выбор районов города" style="display: none">
+    <div id="districts-yandex-map" style="width: 600px; height: 500px">
+    </div>
+    <p>
+        Выбранные районы: <span id="selected-districts"></span>
+    </p>
+</div>
+<!--@* Диалог выбора жилых массивов города *@-->
+<div class="dialog" id="select-area-dialog" title="Выбор массивов района" style="display: none">
+    <div id="area-yandex-map" style="width: 600px; height: 500px">
+    </div>
+    <p>
+        Выбранные жил. массивы: <span id="selected-areas"></span>
+    </p>
+</div>   

@@ -233,7 +233,7 @@ namespace RGR.Core.Views.Helpers
             //Оценка состояния объекта
             sb.Append($"<div class=\"col-lg-6\"><p>Состояние</p></div>");
             sb.Append($"<div class=\"col-lg-6\"><p>{passport.ObjectStateAssessment}</p></div>");
-            //Проведен �?нтернет
+            //Проведен �?нтернет
             sb.Append($"<div class=\"col-lg-6\"><p>Связь</p></div>");
             sb.Append($"<div class=\"col-lg-6\"><p>{passport.Internet}</p></div>");
             sb.Append($"</div></div></div>");
@@ -294,7 +294,7 @@ namespace RGR.Core.Views.Helpers
 
                 sb.Append($"<div class=\"inner-body-result\"><div class=\"row\">");
                 sb.Append($"<div class=\"col-lg-4\"><div><a class=\"quickbox\" href=\"{link}\"><img src=\"{link}\" class=\"img-quickbox\"></a></div></div>");
-                sb.Append($"<div class=\"col-lg-4\"><a href=\"javascript://\" onclick=\"drawPlacemark({obj["Latitude"].ToString().Replace(',', '.')},{obj["Logitude"].ToString().Replace(',','.')},'{obj["Address"]}');return false;\"><h1><span>Объект, {obj["Area"]} м²</span></h1></a><br/>{obj["Address"]}</br>");
+                sb.Append($"<div class=\"col-lg-4\"><a href=\"javascript://\" onclick=\"drawPlacemark({obj["Latitude"].ToString().Replace(',', '.')},{obj["Logitude"].ToString().Replace(',','.')},'{obj["Address"]}');return false;\"><h1><span>{obj["Type"]}, {obj["Area"]} м²</span></h1></a><br/>{obj["Address"]}</br>");
                 //sb.Append($"<div class=\"col-lg-4\"><a href=\"javascript://\" onclick=\"drawPlacemark('{obj["Latitude"]}','{obj["Logitude"]}','{obj["Address"]}');return false;\"><h1><span>Объект, {obj["Area"]} м²</span></h1></a><br/>{obj["Address"]}</br>");
                 sb.Append($"<div class=\"row\"><div class=\"col-lg-6\" style=\"padding:0;\">{DateToShow}</div><div class=\"col-lg-6\"style=\"padding:0;\"><h5>ID: {obj["Id"]}</h5></div></div></div>");
                 sb.Append($"<div class=\"col-lg-4\"><h1>{obj["Price"]: ### ### ###} ₽</h1><br /><h5>{obj["PricePerSquare"]:### ###.##} ₽ / м²</h5></div>");                
