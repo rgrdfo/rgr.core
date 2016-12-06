@@ -5,3 +5,6 @@
 *.suo
 /.vs/
 /.vs/*
+/src/RGR.Core/wwwroot/images/CompanyLogos/*
+/src/RGR.Core/wwwroot/images/ObjectPhotos/*
+/src/RGR.Core/wwwroot/images/UserPhotos/*

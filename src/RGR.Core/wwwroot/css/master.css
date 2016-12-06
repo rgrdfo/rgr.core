@@ -30,19 +30,25 @@ a, input[type="submit"] {
     font-family: HelveticaNeueCyr_Roman;
     src: url(../fonts/HelveticaNeueCyr-Roman.otf);
    }
+@font-face {
+    font-family: HelveticaNeueCyr_Thin;
+    src: url(../fonts/HelveticaNeueCyr-Thin.otf);
+   }
+@font-face {
+    font-family: HelveticaNeueCyr_Light;
+    src: url(../fonts/HelveticaNeueCyr-Light.otf);
+   }
 
 * {
   margin: 0;
   padding: 0;
 }
 
-body {
-    
-}
+
 html,
 body {       
     background-color: #f5f5f5;
-    margin: 0;
+    margin: 0;    
 }
 html,
 body,
@@ -53,40 +59,51 @@ body,
     font-family: HelveticaNeueCyr_Roman;   
 }
 .header{
-    background-color: #f5f5f5;    
-    height: 110px;
+    background-color: #f6f6f6;    
+    height: 100%;
     margin-top: 0;
     margin-bottom:0;
     position: relative;
     flex: 0 1 auto;
-    font-family: HelveticaNeueCyr_Roman;
+    font-family: HelveticaNeueCyr_Roman;    
+
 }
+
 
 /*------Шапка-----*/
 
 nav {
-    background-color: #f5f5f5;
+    background-color: #f6f6f6;
     max-width: 1170px;
     min-width: 980px;
     /*margin: 0 14%;*/
     padding: 0px 0;
     overflow-y: hidden;
     overflow-x: hidden;
-    height: 100%;
+    height: 110px;
     font-weight:200;
-    font-size: 11pt;    
+    font-size: 14px;    
+}
+nav li .row > .col-lg-12 {
+    height:23px;
+    padding: 0;
 }
 
 nav ul li:nth-of-type(2),
 nav ul li:nth-of-type(3),
 nav ul li:nth-of-type(4),
 nav ul li:nth-of-type(5)
- {    padding-top: 30px;    }
+ {    padding-top: 30px;    
+
+}
 
 nav ul li:nth-of-type(6) {padding-top: 35px;}
 
 nav ul li:nth-of-type(7) {
-    padding-top: 15px;
+    padding-top: 10px;
+}
+nav ul li:nth-of-type(8) {
+    margin-top: -10px;   
 }
 nav li a, nav li a:focus,  nav li a:active 
  {   
@@ -94,17 +111,17 @@ nav li a, nav li a:focus,  nav li a:active
    text-decoration: none;
    outline: none;
    font-weight:200;
-   font-family: HelveticaNeueCyr_Roman;
+   font-family: HelveticaNeueCyr_Roman;   
 }
 nav li a:hover
 {
     color: #477ab8;
 }
-nav li span {
-    font-size: 11pt;  
-    color: #477ab8;
-    width: 100%;
-    height: auto;
+nav ul li:nth-of-type(2) a,
+nav ul li:nth-of-type(3) a,
+nav ul li:nth-of-type(4) a,
+nav ul li:nth-of-type(5) a{
+    padding: 15px 7px;
 }
 
 .logo-box {
@@ -236,8 +253,8 @@ li a:hover:after{
 .login-button{
     display:block;    
     height: auto;
-    width: auto;    
-    background-color: transparent;
+    width: 100px;    
+    background-color: #f7f7f7;
     border: 1px solid #c1c1c1;
     border-radius: 5px;   
     color: #477ab8;
@@ -283,9 +300,8 @@ li a:hover:after{
     color: #516f8c;
     
 }*/
- /*////////////////////////*/
 
- 
+ /*////////////////////////*/ 
 @media screen and (max-width:574px) {
   .logo-box {
     float: none;
@@ -318,6 +334,7 @@ li a:hover:after{
       content: none;
     }
 }
+
 /*Каруселька*/
 .carousel {
   position: relative;

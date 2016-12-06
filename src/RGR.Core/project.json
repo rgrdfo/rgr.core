@@ -24,7 +24,8 @@
     "Microsoft.NETCore.App": { "version":"1.0.1", "type": "platform" },
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.0.1",
-    "BundlerMinifier.Core": "2.2.281"
+    "BundlerMinifier.Core": "2.2.281",
+    "System.Interactive.Async": "3.0.0"
   },
 
   "tools": {
