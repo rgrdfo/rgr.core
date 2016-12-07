@@ -1,4 +1,5 @@
 ﻿<head>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
     <script>        
         function openExtend(panel,label,div,extend, footer) {
                         
@@ -60,98 +61,307 @@
             }
         }
         
+        ymaps.ready();
+
         //@* Диалог выбора районов *@
-    function showDistrictSelectionDialog() {
-        var yandexMap = districtsYandexMap;
-        yandexMap.geoObjects.each(function(obj) {
-            yandexMap.geoObjects.remove(obj);
-        });
-        var selectedDistricts = parseIdsStr($("#districtIds-hidden").val());
-        $.ajax({
-            type: 'POST',
-            url: '/search/districts',
-            data: {
-                cityId: $("#city-id-field").val()
-            },
-            success: function(data){
-                $.each(data.districts, function(index, item) {
-                    // Создаем объект геометрии
-                    var geometry = {s,
-                        type: 'Polygon',
-                        coordinates: item.coordinates
-                    };
-                    var options = {
-                        strokeWidth: 3,
-                        strokeColor: '#0000FF', 
-                        fillColor: '#FFFF00',
-                        fillOpacity: 0.3,
-                        draggable: false,
-                        hasHint: true
-                    };
-                    var polygon = new ymaps.GeoObject({geometry: geometry}, options);
-                    polygon.name = item.name;
-                    polygon.districtName = item.name;
-                    polygon.districtId = item.id;
-                    polygon.selected = false;
-                    for (var i = 0; i < selectedDistricts.length; i++) {
-                        var selId = selectedDistricts[i];
-                        if (selId == item.id) {
-                            polygon.selected = true;
-                            break;
+        function showDistrictSelectionDialog() {
+            var districtsYandexMap = new ymaps.Map("select-districts-dialog", {
+                center: [48.48888324, 135.08322577],
+                zoom: 10
+            });
+            var yandexMap = districtsYandexMap;
+            alert(1);
+            yandexMap.geoObjects.each(function (obj) {
+                yandexMap.geoObjects.remove(obj);
+            });
+            alert(2);
+            //var selectedDistricts = parseIdsStr($("#districtIds-hidden").val());
+            alert(2);
+            $.ajax({
+                type: 'POST',
+                url: '/search/districts',
+                data: {
+                    cityId: $("#city-id-field").val()
+                },
+                success: function (data) {
+                    $.each(data.districts, function (index, item) {
+                        // Создаем объект геометрии
+                        var geometry = {
+                            s,
+                                type: 'Polygon',
+                                coordinates: item.coordinates
+                        };
+                        var options = {
+                            strokeWidth: 3,
+                            strokeColor: '#0000FF',
+                            fillColor: '#FFFF00',
+                            fillOpacity: 0.3,
+                            draggable: false,
+                            hasHint: true
+                        };
+                        var polygon = new ymaps.GeoObject({ geometry: geometry }, options);
+                        polygon.name = item.name;
+                        polygon.districtName = item.name;
+                        polygon.districtId = item.id;
+                        polygon.selected = false;
+                        for (var i = 0; i < selectedDistricts.length; i++) {
+                            var selId = selectedDistricts[i];
+                            if (selId == item.id) {
+                                polygon.selected = true;
+                                break;
+                            }
                         }
-                    }
-                    polygon.events.add("click",function(event) {
-                        if (!event.originalEvent.target.selected) {
-                            event.originalEvent.target.options.set("fillColor", "#FF0000");
-                            event.originalEvent.target.selected = true;
-                        } else {
-                            event.originalEvent.target.options.set("fillColor", "#0275BE");
-                            event.originalEvent.target.selected = false;
-                        }
+                        polygon.events.add("click", function (event) {
+                            if (!event.originalEvent.target.selected) {
+                                event.originalEvent.target.options.set("fillColor", "#FF0000");
+                                event.originalEvent.target.selected = true;
+                            } else {
+                                event.originalEvent.target.options.set("fillColor", "#0275BE");
+                                event.originalEvent.target.selected = false;
+                            }
+                            updateSelectedDistricts();
+                        });
+                        yandexMap.geoObjects.add(polygon);
                         updateSelectedDistricts();
                     });
-                    yandexMap.geoObjects.add(polygon);
-                    updateSelectedDistricts();
-                });
-            },
-            error: function(){
-
-            },
-            dataType: 'json'
-        });
-        var dialog = $("#select-districts-dialog").dialog({
-            autoOpen: true,
-            resizable: false,
-            modal: true,
-            width: 625,
-            buttons: {
-                "Выбрать": function () {
-                    var idsStr = "";
-                    var idsArray = [];
-                    yandexMap.geoObjects.each(function(obj) {
-                        if (obj.selected) {
-                            idsStr += obj.districtId + ",";
-                            idsArray.push(obj.districtId);
-                        }
-                    });
-                    $("#districtIds-hidden").val(idsStr);
-                    $("#district-names-field").val(idsArray).change().multiselect("refresh");
-                    dialog.dialog("close");
                 },
-                "Отмена": function () {
-                    dialog.dialog("close");
+                error: function () {
+
+                },
+                dataType: 'json'
+            });
+            alert(3);
+            var dialog = $("#select-districts-dialog").dialog({
+                autoOpen: true,
+                resizable: false,
+                modal: true,
+                width: 625,
+                buttons: {
+                    "Выбрать": function () {
+                        var idsStr = "";
+                        var idsArray = [];
+                        yandexMap.geoObjects.each(function (obj) {
+                            if (obj.selected) {
+                                idsStr += obj.districtId + ",";
+                                idsArray.push(obj.districtId);
+                            }
+                        });
+                        $("#districtIds-hidden").val(idsStr);
+                        $("#district-names-field").val(idsArray).change().multiselect("refresh");
+                        dialog.dialog("close");
+                    },
+                    "Отмена": function () {
+                        dialog.dialog("close");
+                    }
+                },
+                open: function () {
+                    setTimeout(function () {
+                        yandexMap.container.fitToViewport();
+                        yandexMap.setBounds(yandexMap.geoObjects.getBounds());
+                    }, 1000);
+
                 }
-            },
-            open: function () {
-                setTimeout(function () {
-                    yandexMap.container.fitToViewport();
-                    yandexMap.setBounds(yandexMap.geoObjects.getBounds());
-                },1000);
-                
+            });
+        }
+        //@* Обновляет выбранные районы *@
+        function updateSelectedDistricts() {
+            var selectedNames = "";
+            districtsYandexMap.geoObjects.each(function (obj) {
+                if (obj.selected) {
+                    selectedNames += obj.districtName + ", ";
+                    obj.options.set("fillColor", "#FF0000");
+                }
+            });
+            $("#selected-districts").text(selectedNames);
+        }
+
+        //@* Обновляет выбранные жил массивы *@
+        function updateSelectedAreas() {
+            var selectedNames = "";
+            areasYandexMap.geoObjects.each(function (obj) {
+                if (obj.selected) {
+                    selectedNames += obj.areaName + ", ";
+                    obj.options.set("fillColor", "#FF0000");
+                }
+            });
+            $("#selected-areas").text(selectedNames);
+        }
+
+        //@* Парсит строку идентификаторов и возвращает ее в виде массива *@
+        function parseIdsStr(str) {
+            var parts = str.split(',');
+            var result = [];
+            $.each(parts, function (index, item) {
+                if (item != "") {
+                    result.push(parseInt(item));
+                }
+            });
+            return result;
+        }
+
+        //@* Байндим изменение города *@
+        $("#city-id-field").change(function () {
+            var val = $(this).val();
+            $("#areas-fields-wrapper").hide();
+            if (val == -1) {
+                $("#district-fields-wrapper").hide();
+                $("#street-fields-wrapper").hide();
+            } else {
+                $("#district-fields-wrapper").show().find("#district-names-field").remove();
+                $("#district-fields-wrapper").find(".ui-multiselect").remove();
+                $.ajax({
+                    type: 'GET',
+                    url: '/search/districts-selector',
+                    data: {
+                        cityId: val
+                    },
+                    dataType: 'html',
+                    success: function (responseText) {
+                        $("#districtIds-hidden").val("").after(responseText);
+                        $("#district-names-field").multiselect({
+                            noneSelectedText: 'Выберите значения из списка',
+                            selectedList: 4,
+                            maxWidth: 317
+                        });
+                    },
+                    error: function () {
+                        alert("Ошибка на сервере. Обновите страницу");
+                    }
+                });
             }
         });
-    }
+        ////@* Байндим изменение района *@
+        //$("#district-names-field").live("change", function () {
+        //    var val = $(this).val();
+        //    var ids = "";
+        //    if (val == null) {
+        //        val = [];
+        //    }
+        //    $.each(val, function (index, item) {
+        //        ids += item + ",";
+        //    });
+        //    $("#districtIds-hidden").val(ids);
+        //    $("#area-ids-hidden").val("");
+        //    if (val != null && val.length == 1) {
+        //        $("#areas-fields-wrapper").show();
+        //        $("#area-names-field").remove();
+        //        $("#areas-fields-wrapper").find(".ui-multiselect").remove();
+        //        $.ajax({
+        //            type: 'GET',
+        //            url: '/search/areas-selector',
+        //            data: {
+        //                districtId: val[0]
+        //            },
+        //            dataType: 'html',
+        //            success: function (responseText) {
+        //                $("#area-ids-hidden").val("").after(responseText);
+        //                $("#area-names-field").multiselect({
+        //                    noneSelectedText: 'Выберите значения из списка',
+        //                    selectedList: 4,
+        //                    maxWidth: 317
+        //                });
+        //            },
+        //            error: function () {
+        //                alert("Ошибка на сервере. Обновите страницу");
+        //            }
+        //        });
+        //    } else {
+        //        $("#areas-fields-wrapper").hide();
+        //        $("#street-fields-wrapper").hide();
+        //    }
+        //});
+        ////@* Байндинг селектора массивов *@
+        //$("#area-names-field").live("change", function () {
+        //    var val = $(this).val();
+        //    var ids = "";
+        //    if (val == null) {
+        //        val = [];
+        //    }
+        //    $.each(val, function (index, item) {
+        //        ids += item + ",";
+        //    });
+        //    $("#area-ids-hidden").val(ids);
+        //    $("#street-ids-hidden").val("");
+        //    if (val != null && val.length > 0) {
+        //        $("#street-fields-wrapper").show();
+        //        $("#street-names-field").remove();
+        //        $("#street-fields-wrapper").find(".ui-multiselect").remove();
+        //        $.ajax({
+        //            type: 'GET',
+        //            url: '/search/streets-selector',
+        //            data: {
+        //                areaIds: ids
+        //            },
+        //            dataType: 'html',
+        //            success: function (responseText) {
+        //                $("#street-ids-hidden").val("").after(responseText);
+        //                $("#street-names-field").multiselect({
+        //                    noneSelectedText: 'Выберите значения из списка',
+        //                    selectedList: 12,
+        //                    maxWidth: 700
+        //                });
+        //            },
+        //            error: function () {
+        //                alert("Ошибка на сервере. Обновите страницу");
+        //            }
+        //        });
+        //    } else {
+        //        $("#street-fields-wrapper").hide();
+        //    }
+        //});
+        ////@* Байндинг селектора массивов *@
+        //$("#street-names-field").live("change", function () {
+        //    var val = $(this).val();
+        //    var ids = "";
+        //    $.each(val, function (index, item) {
+        //        ids += item + ",";
+        //    });
+        //    $("#street-ids-hidden").val(ids);
+        //});
+
+        //@* Обработка добавления *@
+        $("#add-criteria-action").click(function () {
+            showAddCriteriaDialog();
+            return false;
+        });
+
+        //@* Обработка удаления критериев *@
+        $("#delete-criterias-action").click(function () {
+            var ids = getSelectedTableItems();
+            $.each(ids, function (index, item) {
+                var selector = "#criterias-table tbody tr[name='" + item + "']";
+                $(selector).remove();
+            });
+            updateCriteriasTable();
+            return false;
+        });
+
+        //@* Сохранение поиска *@
+        $("#save-search-action").click(function () {
+            showSaveSearchDialog();
+            return false;
+        });
+
+        //@* Восстановлене поиска  *@
+        $("#load-search-action").click(function () {
+            showLoadSearchDialog();
+            return false;
+        });
+
+        ////@* Редактирование районов *@
+        //$("#district-ids-field").live("click", function () {
+        //    showDistrictSelectionDialog();
+        //});
+
+        ////@* Редактирование массивов *@
+        //$("#area-ids-field").live("click", function () {
+        //    showAreaSelectionDialog();
+        //});
+
+        
     </script>
+    <script src="/js/easydropdown/src/jquery.easydropdown.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/js/easydropdown/themes/easydropdown.css" />
 </head>
 
 <div class="search-bar">
@@ -171,7 +381,7 @@
                 <form action="search">
                     <!--asp-action="search" asp-controller="search"-->
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-lg-4" id="first-col">
                             <div class="search-box-inner-radio">
                                 <input name="objType" id="sh1" type="radio" value="2" checked /><label id="lsh1" onclick="checkEstate('sh1')" for="sh1">Квартира</label><input name="objType" id="sh2" type="radio" value="1" /><label id="lsh2" for="sh2" onclick="checkEstate('sh2')">Комната</label>
                             </div>
@@ -195,7 +405,7 @@
                                 <div class="search-box-inner-radio-numb">
                                     <div name="only-for-flat" class="radio_numb_panel1">
                                         <span>Комнат</span>
-                                        <input name="room1" id="n1" type="checkbox" /><label for="n1">1</label><input name="room2" id="n2" type="checkbox" /><label for="n2">2</label><input name="room3" id="n3" type="checkbox" /><label for="n3">3</label><input name="room4" id="n4" type="checkbox" /><label for="n4">4 и более</label>
+                                        <input name="room1" id="n1" type="checkbox" checked/><label for="n1">1</label><input name="room2" id="n2" type="checkbox" /><label for="n2">2</label><input name="room3" id="n3" type="checkbox" /><label for="n3">3</label><input name="room4" id="n4" type="checkbox" /><label for="n4">4 и более</label>
                                     </div>
                                 </div>
                             </div>
@@ -206,7 +416,7 @@
                     </div>
                     <div class="search-box-line">
                         <div class="search-box-inner-text">
-                            <span style="padding-right: 15px;">Цена от</span><input name="priceFrom" id="pr1_p1" type="text"><span>до</span><input name="priceTo" id="pr2_p1" type="text"><span>₽</span>
+                            <span style="padding-right: 10px;">Цена от</span><input name="priceFrom" id="pr1_p1" type="text"><span>до</span><input name="priceTo" id="pr2_p1" type="text"><span>₽</span>
                         </div>
                     </div>
                     <div id="extBar1" class="extended" style="display: none;">
@@ -216,8 +426,8 @@
                                 <input class="input-text-search-solid" name="sqTotal" id="at1" type="text" disabled value="Общая" /><input class="input-text-search-empty" name="sqFrom" id="at2" type="text" placeholder="от" />
                                 <span>до</span><input class="input-text-search-empty" name="sqTo" id="at3" type="text" /><span>м²</span>
                             </div>
-                            <div name="only-for-flat" class="col-lg-3"><input class="input-text-search-solid" name="areaLife" id="al1" type="text" disabled value="Жилая" /><input class="input-text-search-empty" name="sqLivFrom" id="al2" type="text" placeholder="от" /></div>
-                            <div class="col-lg-3"><span>до</span><input class="input-text-search-empty" name="sqLivTo" id="al3" type="text" /><span>м²</span></div>
+                            <div class="col-lg-3"><input class="input-text-search-solid" name="areaLife" id="al1" type="text" disabled value="Жилая" /><input class="input-text-search-empty" name="sqLivFrom" id="al2" type="text" placeholder="от" /></div>
+                            <div  id="col-no-padding" class="col-lg-2"><span>до</span><input class="input-text-search-empty" name="sqLivTo" id="al3" type="text" /><span>м²</span></div>
                         </div>
 
                         <div class="row">
@@ -239,15 +449,15 @@
                             </div>
                             <div class="col-lg-2" id="col-check">
                                 <div class="add-object-checkbox">
-                                    <input name="noFirstFloor" type="checkbox" value="&" id="fnf" /><label for="fnf">Не первый</label>
+                                    <input name="noFirstFloor" type="checkbox" value="&" id="fnf" /><label class="indent-check" for="fnf">Не первый</label>
                                 </div>
                             </div>
                             <div class="col-lg-2" id="col-check">
                                 <div class="add-object-checkbox">
-                                    <input name="noLastFloor" type="checkbox" value="&" id="fnl" /><label for="fnl">Не последний</label>
+                                    <input name="noLastFloor" type="checkbox" value="&" id="fnl" /><label class="indent-check" for="fnl">Не последний</label>
                                 </div>
                             </div>
-                            <div class="col-lg-5" style="padding-left: 0;">
+                            <div class="col-lg-5">
                                 <input class="input-text-search-solid" name="houseFllor" id="hf1" type="text" disabled value="В доме" /><input class="input-text-search-empty" name="houseFllor" id="hf2" type="text" placeholder="от" />
                                 <span>до</span><input class="input-text-search-empty" name="houseFllor" id="hf3" type="text" /><span>этажей</span>
                             </div>
@@ -255,7 +465,7 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Удобства</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="wc">
+                                <select class="dropdown" name="wc">
                                     <option value="any">Любой санузел</option>
                                     <option value="adj">Совмещенный санузел</option>
                                     <option value="sep">Раздельный санузел</option>
@@ -263,15 +473,15 @@
                             </div>
                             <div class="col-lg-8" id="col-check">
                                 <div class="add-object-checkbox">
-                                    <input name="blPresent" type="checkbox" value="on" id="blc" /><label for="blc">Балкон / Лоджия</label>
+                                    <input name="blPresent" type="checkbox" value="on" id="blc" /><label class="indent-check" for="blc">Балкон / Лоджия</label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="houseType">
-                                    <option value="" disabled selected style='display:none;'>Тип дома</option>
+                                <select class="dropdown" name="houseType">
+                                    <option value="" class="label">Тип дома</option>
                                     <option value="bldBarak">ж.н.к.</option>
                                     <option value="bldDorm">м/с (общежитие)</option>
                                     <option value="bldStal">"Сталинка"</option>
@@ -282,8 +492,8 @@
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="houseMat">
-                                    <option value="" disabled selected style='display:none;'>Материал постройки</option>
+                                <select class="dropdown" name="houseMat">
+                                    <option value="" class="label">Материал постройки</option>
                                     <option value="matWood">Дерево</option>
                                     <option value="matBrick">Кирпич</option>
                                     <option value="matPanel">Панель</option>
@@ -292,8 +502,8 @@
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="objState">
-                                    <option value="" disabled selected style='display:none;'>Состояние</option>
+                                <select class="dropdown" name="objState">
+                                    <option value="" class="label">Состояние</option>
                                     <option value="stAfterBuilders">После строителей</option>
                                     <option value="stCapRepair">Требуется кап.ремонт</option>
                                     <option value="stCosRepair&">Требуется космет.ремонт</option>
@@ -308,15 +518,15 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Адрес</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="CityId">
-                                    <option value="" disabled selected style='display:none;'>Город</option>
+                                <select class="dropdown" name="CityId">
+                                    <option value="" class="label">Город</option>
                                     <option value="4">Хабаровск</option>
                                     <option value="&">-</option>
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
                             <div class="col-lg-6">
-                                <input class="search-select-large" name="DistrictId" type="text" /><input type="text" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" disabled="" value="Выбрать на карте"/>                                     
+                                <input class="search-select-large" name="DistrictId" type="text" /><a href="javascript://" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" return false;>Выбрать на карте</a>
                             </div>                            
                             <div class="col-lg-1"></div>
                         </div>
@@ -347,7 +557,7 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Показать</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="dropdown">
                                     <option value="&">За все время</option>
                                     <option value="&">За сегодня</option>
                                     <option value="&">За неделю</option>
@@ -427,8 +637,8 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Удобства</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="water">
-                                    <option value="" disabled selected style='display:none;'>Вода</option>
+                                <select class="dropdown" name="water">
+                                    <option value="" class="label">Вода</option>
                                     <option value="wtrHotCenter">Горячая (центр.)</option>
                                     <option value="wtrHotAuton">Горячая (автоном.)</option>
                                     <option value="wtrColdCenter">Холодная (центр.)</option>
@@ -438,16 +648,16 @@
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="electro">
-                                    <option value="" disabled selected style='display:none;'>Электричество</option>
+                                <select class="dropdown" name="electro">
+                                    <option value="" class="label">Электричество</option>
                                     <option value="elSupplied">Подключено</option>
                                     <option value="elConnected">Подведено</option>
                                     <option value="elPossible">Возможно подведение</option>
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="heat">
-                                    <option value="" disabled selected style='display:none;'>Отопление</option>
+                                <select class="dropdown" name="heat">
+                                    <option value="" class="label">Отопление</option>
                                     <option value="heatCentral">Центральное</option>
                                     <option value="heatFuel">Автономное (газ)</option>
                                     <option value="heatGas">Автономное (электр.)</option>
@@ -460,8 +670,8 @@
                         <div class="row">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="sewer">
-                                    <option value="" disabled selected style='display:none;'>Канализация</option>
+                                <select class="dropdown" name="sewer">
+                                    <option value="" class="label">Канализация</option>
                                     <option value="sewCent">Центральная</option>
                                     <option value="sewAuto">Автономная</option>
                                     <option value="sewSham">Шамбо</option>
@@ -469,8 +679,8 @@
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="houseMat">
-                                    <option value="" disabled selected style='display:none;'>Материал постройки</option>
+                                <select class="dropdown" name="houseMat">
+                                    <option value="" class="label">Материал постройки</option>
                                     <option value="matWood">Дерево</option>
                                     <option value="matBrick">Кирпич</option>
                                     <option value="matPanel">Панель</option>
@@ -479,8 +689,8 @@
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="objState">
-                                    <option value="" disabled selected style='display:none;'>Состояние</option>
+                                <select class="dropdown" name="objState">
+                                    <option value="" class="label">Состояние</option>
                                     <option value="stAfterBuilders">После строителей</option>
                                     <option value="stCapRepair">Требуется кап.ремонт</option>
                                     <option value="stCosRepair&">Требуется космет.ремонт</option>
@@ -495,8 +705,8 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Адрес</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="CityId">
-                                    <option value="" disabled selected style='display:none;'>Город</option>
+                                <select class="dropdown" name="CityId">
+                                    <option value="" class="label">Город</option>
                                     <option value="4">Хабаровск</option>
                                     <option value="&">-</option>
                                 </select>
@@ -534,7 +744,7 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Показать</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="dropdown">
                                     <option value="&">За все время</option>
                                     <option value="&">За сегодня</option>
                                     <option value="&">За неделю</option>
@@ -594,10 +804,10 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <ul class="search-box-inner-select">
-                                    <li>
-                                        Особенности расположения
+                                    <li  style="padding: 0px; text-align:center;">
+                                        <font size="2">Особенности расположения</font>
                                         <ul class="inner-select">
                                             <li id="inner_sel_li"><input style="width: auto;" name="lndApp" id="с1" type="checkbox" checked value="lndAppPers" /><label>Индивидуальное жилищное строительство</label></li>
                                             <li><input style="width: auto;" name="lndApp" id="с2" type="checkbox" value="lndAppDach" /><label>Дачное строительство</label></li>
@@ -606,7 +816,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col-lg-2">
+                            <div class="col-lg-3">
                                 <div class="search-box-inner-text"><input style="width:80%; color: #84abbf;" name="id" id="i1" type="text" placeholder="Идентификатор" /></div>
                             </div>
                         </div>
@@ -627,8 +837,8 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Удобства</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="water">
-                                    <option value="" disabled selected style='display:none;'>Вода</option>
+                                <select class="dropdown" name="water">
+                                    <option value="" class="label">Вода</option>
                                     <option value="wtrHotCenter">Горячая (центр.)</option>
                                     <option value="wtrHotAuton">Горячая (автоном.)</option>
                                     <option value="wtrColdCenter">Холодная (центр.)</option>
@@ -638,16 +848,16 @@
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="electro">
-                                    <option value="" disabled selected style='display:none;'>Электричество</option>
+                                <select class="dropdown" name="electro">
+                                    <option value="" class="label">Электричество</option>
                                     <option value="elSupplied">Подключено</option>
                                     <option value="elConnected">Подведено</option>
                                     <option value="elPossible">Возможно подведение</option>
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="heat">
-                                    <option value="" disabled selected style='display:none;'>Отопление</option>
+                                <select class="dropdown" name="heat">
+                                    <option value="" class="label">Отопление</option>
                                     <option value="heatCentral">Центральное</option>
                                     <option value="heatFuel">Автономное (газ)</option>
                                     <option value="heatGas">Автономное (электр.)</option>
@@ -661,8 +871,8 @@
                         <div class="row">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="sewer">
-                                    <option value="" disabled selected style='display:none;'>Канализация</option>
+                                <select class="dropdown" name="sewer">
+                                    <option value="" class="label">Канализация</option>
                                     <option value="sewCent">Центральная</option>
                                     <option value="sewAuto">Автономная</option>
                                     <option value="sewSham">Шамбо</option>
@@ -674,8 +884,8 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Адрес</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="CityId">
-                                    <option value="" disabled selected style='display:none;'>Город</option>
+                                <select class="dropdown" name="CityId">
+                                    <option value="" class="label">Город</option>
                                     <option value="4">Хабаровск</option>
                                     <option value="&">-</option>
                                 </select>
@@ -713,7 +923,7 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Показать</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="dropdown">
                                     <option value="&">За все время</option>
                                     <option value="&">За сегодня</option>
                                     <option value="&">За неделю</option>
@@ -775,8 +985,8 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Адрес</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="CityId">
-                                    <option value="" disabled selected style='display:none;'>Город</option>
+                                <select class="dropdown" name="CityId">
+                                    <option value="" class="label">Город</option>
                                     <option value="4">Хабаровск</option>
                                     <option value="&">-</option>
                                 </select>
@@ -814,7 +1024,7 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Показать</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="dropdown">
                                     <option value="&">За все время</option>
                                     <option value="&">За сегодня</option>
                                     <option value="&">За неделю</option>
@@ -893,17 +1103,17 @@
                                 <input class="input-text-search-empty" name="minFloor" id="f6" type="text" />
                                 <span>по</span><input class="input-text-search-empty" name="maxFloor" id="f7" type="text" />
                             </div>                            
-                            <div class="col-lg-5">
+                            <div class="col-lg-7" style="padding-top:0;">
                                 <input class="input-text-search-solid" name="houseFllor" id="hf1" type="text" disabled value="В здании" /><input class="input-text-search-empty" name="minHouseFloors" id="hf2" type="text" placeholder="от" />
                                 <span>до</span><input class="input-text-search-empty" name="maxHouseFloors" id="hf3" type="text" /><span>этажей</span>
                             </div>
-                            <div class="col-lg-4"></div>
+                            <div class="col-lg-2"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="houseMat">
-                                    <option value="" disabled selected style='display:none;'>Материал постройки</option>
+                                <select class="dropdown" name="houseMat">
+                                    <option value="" class="label">Материал постройки</option>
                                     <option value="matWood">Дерево</option>
                                     <option value="matBrick">Кирпич</option>
                                     <option value="matPanel">Панель</option>
@@ -912,8 +1122,8 @@
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="objState">
-                                    <option value="" disabled selected style='display:none;'>Состояние</option>
+                                <select class="dropdown" name="objState">
+                                    <option value="" class="label">Состояние</option>
                                     <option value="stAfterBuilders">После строителей</option>
                                     <option value="stCapRepair">Требуется кап.ремонт</option>
                                     <option value="stCosRepair&">Требуется космет.ремонт</option>
@@ -928,8 +1138,8 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Адрес</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small" name="CityId">
-                                    <option value="" disabled selected style='display:none;'>Город</option>
+                                <select class="dropdown" name="CityId">
+                                    <option value="" class="label">Город</option>
                                     <option value="4">Хабаровск</option>
                                     <option value="&">-</option>
                                 </select>
@@ -967,7 +1177,7 @@
                         <div class="row">
                             <div class="col-lg-1"><span>Показать</span></div>
                             <div class="col-lg-3">
-                                <select class="search-select-small">
+                                <select class="dropdown">
                                     <option value="&">За все время</option>
                                     <option value="&">За сегодня</option>
                                     <option value="&">За неделю</option>
