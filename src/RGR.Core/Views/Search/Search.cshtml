@@ -34,14 +34,7 @@
             myMap = new ymaps.Map("search-result-map", {
                 center: [48.48888324, 135.08322577],
                 zoom: 12
-            });
-
-            //myPlacemark = new ymaps.Placemark([48.48888324, 135.08322577], {
-            //    hintContent: 'РГР ДФО',
-            //    balloonContent: 'ул. Карла Маркса, 65-102А'
-            //});
-
-            //myMap.geoObjects.add(myPlacemark);           
+            });    
         }
 
         function drawPlacemark(latitude, longitude, address) {
@@ -56,18 +49,6 @@
             myMap.panTo([myMap.center], { fluing: 1 });
         }        
 
-        //function findLocation(str) {
-        //    var geocoder = ymaps.geocode(str);
-        //    geocoder.Then(
-        //        function (res) {
-        //            map.geoObjects.add(res.geoObjects)
-        //            throw (":)");
-        //        },
-        //            function (err) {
-        //                throw ":(";
-        //            }
-        //            );
-        //}
     </script>
    
     <script type="text/javascript">
@@ -85,6 +66,8 @@
         });
     </script>
    
+
+
     <link rel="stylesheet" href="~/js/quickbox/qb/qb.css">
     <script type="text/javascript" src="~/js/quickbox/qb/js/qb.js"></script>
 </head>
@@ -92,6 +75,7 @@
 <div class="search-bar">
     @SearchBar.Render()
 </div>
+
 <div class="content-inner">
     <div id="result-search">
         <h4>Показать: </h4>
