@@ -35,19 +35,18 @@ label
     float:none;
     width: 50%;
     /*left:23%;*/
-    top: 45px;
-    font-size: 11pt;    
+    top: 45px;      
 }
 .search-bar .nav-tabs li{
     background-color: transparent;
     border: none;     
-    margin: 0;    
+    margin: 0;        
 }
 .search-bar .nav-tabs li a{
     outline: none;
     border-radius: 5px 18px 0px 0;    
     text-decoration:none !important;
-    padding: 10px 25px 10px 10px;
+    padding: 15px 25px 10px 25px;
     color: #fff !important;    
 }
 .search-bar .nav-tabs > li.active > a  {     
@@ -168,7 +167,7 @@ label
 
  .search-box-line { 
      float: left;       
-     height: 40px;     
+     height: 40px;          
  }
  .search-box-line span {
      padding: 10px 10px;
@@ -178,15 +177,23 @@ label
      float: left;
      color: #fff;     
  }
+#panel1,
+#panel2,
+#panel3,
+#panel4,
+#panel5
+ {
+   padding-left:40px;
+}
 
 #panel1 .search-box-line input,
 #panel2 .search-box-line input {width: 25%;}
 #panel3 .search-box-line input,
 #panel4 .search-box-line input,
-#panel5 .search-box-line input {width: 27%;}
+#panel5 .search-box-line input {width: 26%;}
 
-#panel1 .search-box-line {position: absolute; width: 66%; top:80px; left: 34%;}
-#panel2 .search-box-line {position: relative;}
+#panel1 .search-box-line {position: absolute; width: 66%; top:80px; left: 38%;}
+#panel2 .search-box-line {position: relative; padding-left: 8px;}
 #panel2 .search-box-line span {padding: 10px; min-width: 15%;}
 .radio_numb_panel1 {
     margin-left: -20px;    
@@ -319,31 +326,11 @@ label
     margin-top: 25px;
 }
 
-/*.search-box-inner-select input:checked ~label {
-    background: yellow;
-}*/
-
-
-/*
-}
-.inner-select label:before{
-    content: "";
-	display: inline-block;
-	width: 20px;
-	height: 20px;
-	margin: 0 10px;
-	position: absolute;
-	left: 0;    	
-	background-color: transparent;       
-    border-radius: 5px;
-    border: 1px solid #cdcdcd;
-    
-}*/
 
   /*-----Расширенный поиск-----*/
   .extended {      
       position:absolute;
-      width:100%;
+      width:100%;      
   }
   .extended .row {width:100%;}
   .extended .row > div {
@@ -372,6 +359,9 @@ label
       background-color: transparent;
       border: 1px solid #559abd;
   }
+  #col-no-padding {
+      padding-left:0;
+  }
 
   .search-select-large {
       border-radius: 5px 0 0 5px;
@@ -380,7 +370,7 @@ label
   }  
 
   .search-map-select-button {      
-      box-shadow:0 6px 2px -4px #eff0f0 inset;
+      box-shadow: 0 6px 2px -4px #eff0f0 inset;
       background-color: #559abd;
       border: 1.5px solid #14304c;
       border-radius: 0 5px 5px 0;
@@ -388,8 +378,11 @@ label
       width:33%;
       text-align: center;                 
   }
-  .search-map-select-button:hover {
+  .search-map-select-button:hover, .search-map-select-button:focus {
+      text-decoration:none;
+      color: #14304c;  
       cursor: pointer; 
+      outline: none;
   }
   .search-map-select-button:active{
       box-shadow: -2px -1px 5px #eff0f0 inset,
@@ -402,11 +395,11 @@ label
 }
 .extended  div[id="col-check"] {
     padding: 17px 0 10px 15px;
-
 }
-  .extended  #at1, #at2, #at3, #ak1, #ak2, #ak3, #hf1, #hf2, #hf3 {width: 25%;}
-  .extended  #al1, #al2 {width: 50%;}
-  .extended  #al3 {width: 55%;}
+  .extended  #at1, #at2, #at3, #ak1, #ak2, #ak3 {width: 25%;}
+  .extended  #al2, #al3  {width: 55%;}
+  .extended  #al1 {width: 45%;}
+  .extended #panel5 #hf1, #hf2, #hf3 {width: 15%;}
   .extended #at1,#ak1,#al1, #hf1 {border-radius: 5px 0 0 5px; border-right:none;}
   .extended #at2,#ak2,#al2, #hf2 {border-radius: 0 5px 5px 0 !important;}
   .extended input[name="minFloor"] {width: 35%;}   
@@ -415,22 +408,35 @@ label
 .extended > label[for="hf1"] {
     text-align: right;
 }
-.extended .add-object-checkbox label:not([class="indent-check"]) {
-    margin-left: 15px;
-    padding: 5px 0;  
-}
+/*.extended .add-object-checkbox label:not([class="indent-check"]) {
+    margin-left: 10px;
+    padding: 7px;  
+}*/
 
 .extended select {
     border: 1px  solid #559abd !important;
     color: #fff !important;
 }
+.extended div[class="col-lg-1"] > span {
+    position: relative;
+    top: 10px;
+
+}
 .indent-check {
     margin-left: 35px;
 }
-.extended > label[class="indent-check"]::before {left: 25px !important;}
+.extended .add-object-checkbox input[type=checkbox] + label[class="indent-check"]::before  {
+    left: 20px !important;
+    background-image: url(/images/ico-check-off-empty.png);
+}
+
 .search-select-small,  .extended input[name="rielt"] {width:95%;}
 .extended .input-text-search-large { width: 99%; }
 
+.extended  input[name="houseFllor"]{
+    width:20%;
+    padding: 10px 5px;
+}
 .res-save
 {    
     position:absolute; 
