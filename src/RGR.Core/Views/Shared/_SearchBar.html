@@ -41,11 +41,7 @@
                 foot.style.height = '80px';
             }
         }
-
-        //Селекты 
-        function styleSelect() {
-            var wc = document.getElementsByName
-        }
+        
         //Управление вкладками
         function checkEstate(id) {
             id = document.getElementById(id);
@@ -319,37 +315,22 @@
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
-                            <div class="col-lg-5">
-                                <select class="search-select-large" name="DistrictId">
-                                    <option value="" disabled selected style='display:none;'>Выберите район</option>
-                                    <option value="5">Индустриальный</option>
-                                    <option value="6">Железнодорожный</option>
-                                    <option value="7">Центральный</option>
-                                    <option value="8">Кировский</option>
-                                    <option value="9">Краснофлотский</option>
-                                </select>
-                                <span class="link" id="district-map-selection" onclick="showDistrictSelectionDialog()">
-                                    На карте
-                                </span>
-                            </div>
-                            <!--<div class="col-lg-6">/div>-->
+                            <div class="col-lg-6">
+                                <input class="search-select-large" name="DistrictId" type="text" /><input type="text" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" disabled="" value="Выбрать на карте"/>                                     
+                            </div>                            
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Массив</span></div>
-                            <div class="col-lg-5">
-                                <select class="search-select-large">
-                                    <option value="" disabled selected style='display:none;'>Выберите массив</option>
-                                    <option value="&">-</option>
-                                    <option value="&">-</option>
-                                </select>
+                            <div class="col-lg-6">
+                                <input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />                                    
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Улица</span></div>
-                            <div class="col-lg-5">
-                                <input class="input-text-search-empty" name="streets" id="st1" type="text" placeholder="Введите улицу" />
+                            <div class="col-lg-6">
+                                <input class="input-text-search-large" name="streets" id="st1" type="text"/>
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
@@ -521,33 +502,22 @@
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
-                            <div class="col-lg-5">
-                                <select class="search-select-large" name="DistrictId">
-                                    <option value="" disabled selected style='display:none;'>Выберите район</option>
-                                    <option value="5">Индустриальный</option>
-                                    <option value="6">Железнодорожный</option>
-                                    <option value="7">Центральный</option>
-                                    <option value="8">Кировский</option>
-                                    <option value="9">Краснофлотский</option>
-                                </select>
+                            <div class="col-lg-6">
+                                <input type="text" class="search-select-large" name="DistrictId" /><input type="text" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" disabled="" value="Выбрать на карте" />
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Массив</span></div>
-                            <div class="col-lg-5">
-                                <select class="search-select-large">
-                                    <option value="" disabled selected style='display:none;'>Выберите массив</option>
-                                    <option value="&">-</option>
-                                    <option value="&">-</option>
-                                </select>
+                            <div class="col-lg-6">
+                                <input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />                                    
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Улица</span></div>
-                            <div class="col-lg-5">
-                                <input class="input-text-search-empty" name="streets" id="st1" type="text" placeholder="Введите улицу" />
+                            <div class="col-lg-6">
+                                <input class="input-text-search-large" name="streets" id="st1" type="text" />
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
@@ -711,33 +681,22 @@
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
-                            <div class="col-lg-5">
-                                <select class="search-select-large" name="DistrictId">
-                                    <option value="" disabled selected style='display:none;'>Выберите район</option>
-                                    <option value="5">Индустриальный</option>
-                                    <option value="6">Железнодорожный</option>
-                                    <option value="7">Центральный</option>
-                                    <option value="8">Кировский</option>
-                                    <option value="9">Краснофлотский</option>
-                                </select>
+                            <div class="col-lg-6">
+                                <input type="text" class="search-select-large" name="DistrictId" /><input type="text" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" disabled="" value="Выбрать на карте" />
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Массив</span></div>
-                            <div class="col-lg-5">
-                                <select class="search-select-large">
-                                    <option value="" disabled selected style='display:none;'>Выберите массив</option>
-                                    <option value="&">-</option>
-                                    <option value="&">-</option>
-                                </select>
+                            <div class="col-lg-6">
+                                <input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Улица</span></div>
-                            <div class="col-lg-5">
-                                <input class="input-text-search-empty" name="streets" id="st1" type="text" placeholder="Введите улицу" />
+                            <div class="col-lg-6">
+                                <input class="input-text-search-large" name="streets" id="st1" type="text"/>
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
@@ -823,33 +782,22 @@
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
-                            <div class="col-lg-5">
-                                <select class="search-select-large" name="DistrictId">
-                                    <option value="" disabled selected style='display:none;'>Выберите район</option>
-                                    <option value="5">Индустриальный</option>
-                                    <option value="6">Железнодорожный</option>
-                                    <option value="7">Центральный</option>
-                                    <option value="8">Кировский</option>
-                                    <option value="9">Краснофлотский</option>
-                                </select>
+                            <div class="col-lg-6">
+                                <input type="text" class="search-select-large" name="DistrictId" /><input type="text" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" disabled="" value="Выбрать на карте" />
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Массив</span></div>
-                            <div class="col-lg-5">
-                                <select class="search-select-large">
-                                    <option value="" disabled selected style='display:none;'>Выберите массив</option>
-                                    <option value="&">-</option>
-                                    <option value="&">-</option>
-                                </select>
+                            <div class="col-lg-6">
+                                <input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Улица</span></div>
-                            <div class="col-lg-5">
-                                <input class="input-text-search-empty" name="streets" id="st1" type="text" placeholder="Введите улицу" />
+                            <div class="col-lg-6">
+                                <input class="input-text-search-large" name="streets" id="st1" type="text"/>
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
@@ -987,33 +935,22 @@
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
-                            <div class="col-lg-5">
-                                <select class="search-select-large" name="DistrictId">
-                                    <option value="" disabled selected style='display:none;'>Выберите район</option>
-                                    <option value="5">Индустриальный</option>
-                                    <option value="6">Железнодорожный</option>
-                                    <option value="7">Центральный</option>
-                                    <option value="8">Кировский</option>
-                                    <option value="9">Краснофлотский</option>
-                                </select>
+                            <div class="col-lg-6">
+                                <input type="text" class="search-select-large" name="DistrictId" /><input type="text" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" disabled="" value="Выбрать на карте" />
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Массив</span></div>
-                            <div class="col-lg-5">
-                                <select class="search-select-large">
-                                    <option value="" disabled selected style='display:none;'>Выберите массив</option>
-                                    <option value="&">-</option>
-                                    <option value="&">-</option>
-                                </select>
+                            <div class="col-lg-6">
+                                <input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Улица</span></div>
-                            <div class="col-lg-5">
-                                <input class="input-text-search-empty" name="streets" id="st1" type="text" placeholder="Введите улицу" />
+                            <div class="col-lg-6">
+                                <input class="input-text-search-large" name="streets" id="st1" type="text"/>
                             </div>
                             <div class="col-lg-1"></div>
                         </div>

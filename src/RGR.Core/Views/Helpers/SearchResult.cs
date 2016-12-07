@@ -115,21 +115,21 @@ namespace RGR.Core.Views.Helpers
             var link = (photos.Any()) ? photos.First() : "";
 
             return $"<div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{Obj["Address"]}<br/>{Obj["City"]}</span></h1>"+
-                   $"<div><a class=\"quickbox\" href=\"{link}\"><img src=\"{link}\" class=\"img-quickbox\"></a>{QuickboxImg(photos)}</div></div> " +
+                   $"<div><a class=\"quickbox\" href=\"{link}\"><img src=\"{link}\" class=\"img-quickbox\"></a></div></div> " +   /*{QuickboxImg(photos)}*/
                    $"<div class=\"col-lg-1\"><h1>{DateToShow}</h1><br />ID: {Obj["Id"]:0000000}</div>" +
                    $"<div class=\"col-lg-1\"><h1>{Obj["Price"]: ### ### ###} ₽</h1><br />{Obj["PricePerSquare"]:### ###.##} ₽ / м²</div>";
         }
 
-        public static HtmlString QuickboxImg (IEnumerable<string> photos)
-        {
+        //public static HtmlString QuickboxImg (IEnumerable<string> photos)
+        //{
             
-            StringBuilder sb = new StringBuilder();            
-            for (var p=1; p<photos.ToList().Count; p++)
-            {
-                sb.Append($"<a style=\"display:none;\" class=\"quickbox\" href=\"{p}\"><img src=\"{p}\" class=\"img-quickbox\"></a>");
-            }
-            return new HtmlString(sb.ToString());
-        }
+        //    StringBuilder sb = new StringBuilder();            
+        //    for (var p=1; p<photos.ToList().Count; p++)
+        //    {
+        //        sb.Append($"<a style=\"display:none;\" class=\"quickbox\" href=\"{p}\"><img src=\"{p}\" class=\"img-quickbox\"></a>");
+        //    }
+        //    return new HtmlString(sb.ToString());
+        //}
 
        
 

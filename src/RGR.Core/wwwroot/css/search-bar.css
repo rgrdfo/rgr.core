@@ -351,19 +351,52 @@ label
       text-align: left;
   }
 
-  .extended .input-text-search-empty, .input-text-search-solid {
+  .input-text-search-empty, 
+  .input-text-search-solid,
+  .search-map-select-button,
+  .search-select-large,
+  .input-text-search-large {
       position: relative;
       height: 40px;      
-      border-radius: 5px;
-      color: #fff;
-      background-color: transparent;
-      border: 1px solid #559abd;
-      padding: 10px;        
+      border-radius: 5px;    
+      padding: 10px;             
   }
   .input-text-search-solid {
       color: #84abbf;
-      background-color: #2f5e82;  
+      background-color: #2f5e82;
+      border: 1px solid #559abd;
+      text-align:center;               
   }
+  .input-text-search-empty, .search-select-large, .input-text-search-large {
+      color: #fff;
+      background-color: transparent;
+      border: 1px solid #559abd;
+  }
+
+  .search-select-large {
+      border-radius: 5px 0 0 5px;
+      border-right:none;
+      width:66%;
+  }  
+
+  .search-map-select-button {      
+      box-shadow:0 6px 2px -4px #eff0f0 inset;
+      background-color: #559abd;
+      border: 1.5px solid #14304c;
+      border-radius: 0 5px 5px 0;
+      color: #14304c;      
+      width:33%;
+      text-align: center;                 
+  }
+  .search-map-select-button:hover {
+      cursor: pointer; 
+  }
+  .search-map-select-button:active{
+      box-shadow: -2px -1px 5px #eff0f0 inset,
+                  1px 1px 2px rgba(0,0,0,0.5);
+  }
+  
+
 .extended > div[class="col-lg-1"] {
     padding: 20px 0 10px 15px !important;
 }
@@ -396,7 +429,7 @@ label
 }
 .extended > label[class="indent-check"]::before {left: 25px !important;}
 .search-select-small,  .extended input[name="rielt"] {width:95%;}
-.search-select-large, .extended input[name="street"] {width:97.5%;}
+.extended .input-text-search-large { width: 99%; }
 
 .res-save
 {    
