@@ -49,6 +49,9 @@ namespace RGR.Core.Controllers
             watch.Stop();
             ViewData["Timer"] = new HtmlString($"<br/><b>Время поиска:</b> {watch.Elapsed.TotalSeconds:0.00} с <br/>");
 
+            //TODO: Заменить на сортировку в представлении
+            ViewData["OrderBy"] = Request.Query.ContainsKey("order") ? (string)Request.Query["order"] : "Price";
+
             return View();
         }
 
@@ -56,7 +59,7 @@ namespace RGR.Core.Controllers
         [Authorize]
         public async Task<IActionResult> SaveRequest(SaveRequestModel model)
         {
-            string TODO = "Тестовая версия!!";
+            //string TODO = "Тестовая версия!!";
             var requests = await db.SearchRequests.ToArrayAsync();
             var uri = Request.Query["query"].ToString();
 
@@ -77,29 +80,6 @@ namespace RGR.Core.Controllers
             }
 
             return RedirectToAction("Index", "Home");
-
-            //model.Query = (Request.Query.ContainsKey("query")) ? Request.Query["query"].ToString() : "";
-            //ViewData["Query"] = model.Query;
-            //if (ModelState.IsValid)
-            //{
-            //    var request = new SearchRequests()
-            //    {
-            //        UserId = SessionUtils.GetUserId(HttpContext.Session),
-            //        Title = model.Caption,
-            //        SearchUrl = model.Query,
-            //        TimesUsed = 0,
-            //        DateCreated = DateTime.UtcNow
-            //    };
-            //    if (request.UserId < 1)
-            //        ModelState.AddModelError("", "Ошибка сохранения запроса: некорректный индекс пользователя!");
-            //    else
-            //    {
-            //        db.SearchRequests.Add(request);
-            //        await db.SaveChangesAsync();
-            //        return RedirectToAction("Index", "Home");
-            //    }
-            //}
-            //return View(model);
         }
 
         public async Task<IActionResult> Info()
@@ -666,7 +646,7 @@ namespace RGR.Core.Controllers
                 }
 
                 //Тип дома
-                if (Request.Query.ContainsKey("houseType") )
+                if (Request.Query.ContainsKey("houseType") && !string.IsNullOrEmpty(Request.Query["houseType"]))
                     //|| //Жильё низкого качества, барак
                     //Request.Query.ContainsKey("bldDorm") || //Малосемейка, общежитие
                     //Request.Query.ContainsKey("bldStal") || //Сталинка
@@ -688,7 +668,7 @@ namespace RGR.Core.Controllers
                 }
 
                 //Материал постройки
-                if (Request.Query.ContainsKey("houseMat"))
+                if (Request.Query.ContainsKey("houseMat") && !string.IsNullOrEmpty(Request.Query["houseMat"]))
                 {
                     if (!(
                         (Request.Query["houseMat"] == "matWood"  && curMain.BuildingMaterial.Contains("61")) ||
@@ -705,7 +685,7 @@ namespace RGR.Core.Controllers
                     )) return false;
                 }
 
-                if (Request.Query.ContainsKey("objState"))
+                if (Request.Query.ContainsKey("objState") && !string.IsNullOrEmpty(Request.Query["objState"]))
                 //|| //После строителей
                 //    Request.Query.ContainsKey("stCapRepair") || //Требуется капитальный ремонт
                 //    Request.Query.ContainsKey("stCosRepair") || //Требуется косметический ремонт

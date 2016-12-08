@@ -66,7 +66,9 @@
         });
     </script>
    
-
+    @{ 
+        var orderingField = (ViewData.ContainsKey("OrderBy")) ? ViewData["OrderBy"] : "Price";
+    }
 
     <link rel="stylesheet" href="~/js/quickbox/qb/qb.css">
     <script type="text/javascript" src="~/js/quickbox/qb/js/qb.js"></script>
@@ -86,7 +88,7 @@
         <div class="tab-content">
             <div id="searchType1" class="tab-pane  in active">
                 <div class="search-result-row-md">
-                    @await Component.InvokeAsync("SearchResultMap", new { Result = objects, OrderingField = "Price" })
+                    @await Component.InvokeAsync("SearchResultMap", new { Result = objects, OrderingField = orderingField })
                 </div>
                 <div class="search-result-row-md">
                     <div class="sticky" id="search-result-map"></div>
@@ -95,7 +97,7 @@
             <div id="searchType2" class="tab-pane">
                 <div class="search-result-box">
                     @SearchResult.HeadResult((EstateTypes)ViewData["Type"])
-                    @await Component.InvokeAsync("SearchResultRenderer", new { Result = objects, Type = ViewData["Type"], OrderingField = "Price" })
+                    @await Component.InvokeAsync("SearchResultRenderer", new { Result = objects, Type = ViewData["Type"], OrderingField = orderingField })
                 </div>
             </div>
         </div>
