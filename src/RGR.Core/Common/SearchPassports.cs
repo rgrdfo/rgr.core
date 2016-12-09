@@ -29,259 +29,6 @@ namespace RGR.Core.Common
         }
     }
     
-    //public class SuitableEstate : IEnumerable<ShortPassport>
-    //{
-    //    [JsonIgnore]
-    //    public List<Addresses> Addresses { get; set; }
-    //    [JsonIgnore]
-    //    public List<ObjectMainProperties> MainProps { get; set; }
-    //    [JsonIgnore]
-    //    public List<ObjectAdditionalProperties> AddtProps { get; set; }
-    //    [JsonIgnore]
-    //    public List<GeoCities> Cities { get; set; }
-    //    [JsonIgnore]
-    //    public List<GeoStreets> Streets { get; set; }
-    //    [JsonIgnore]
-    //    public List<DictionaryValues> DictValues { get; set; }
-    //    [JsonIgnore]
-    //    public List<Companies> Companies { get; set; }
-    //    [JsonIgnore]
-    //    public List<Users> Users { get; set; }
-    //    [JsonIgnore]
-    //    public List<ObjectMedias> Medias { get; set; }
-    //    [JsonIgnore]
-    //    public List<ObjectRatingProperties> Ratings { get; set; }
-    //    [JsonIgnore]
-    //    public List<ObjectCommunications> Communications { get; set; }
-    //    [JsonIgnore]
-    //    public List<StoredFiles> Files { get; set; }
-
-    //    public EstateTypes EstateType;
-
-    //    [JsonRequired]
-    //    private List<ShortPassport> passports = new List<ShortPassport>();
-    //    private const string NA = "";
-
-    //    [JsonIgnore]
-    //    private ObjectMainProperties mainProp;
-    //    [JsonIgnore]
-    //    private ObjectAdditionalProperties addtProp;
-    //    [JsonIgnore]
-    //    private Addresses dbAddress;
-    //    [JsonIgnore]
-    //    private GeoStreets street;
-    //    [JsonIgnore]
-    //    private string streetName;
-    //    [JsonIgnore]
-    //    private string city;
-    //    [JsonIgnore]
-    //    private double? price;
-    //    [JsonIgnore]
-    //    private double? area;
-    //    [JsonIgnore]
-    //    private Users agent;
-    //    [JsonIgnore]
-    //    private Companies company;
-    //    [JsonIgnore]
-    //    private ObjectRatingProperties rating;
-    //    [JsonIgnore]
-    //    private ObjectCommunications landComm;
-    //    [JsonIgnore]
-    //    private IEnumerable<string> photos;
-    //    [JsonIgnore]
-    //    private string logo;
-
-    //    /// <summary>
-    //    /// Добавляет в список результатов паспорт, заполненный на основании объекта недвижимости
-    //    /// </summary>
-    //    /// <param name="Object">Объект недвижимости, на основании которого строится паспорт</param>
-    //    public void Add(EstateObjects Estate)
-    //    {
-    //        if ((short)EstateType != Estate.ObjectType)
-    //            throw new ArgumentException($"Попытка добавить в последовательность объект недвижимости несоответствующего типа ({(EstateTypes)Estate.ObjectType})! Данный экземпляр принимает \"{EstateType}\".");
-
-    //        var passport  = new ShortPassport();
-
-    //        mainProp = MainProps.FirstOrDefault(m => m.ObjectId == Estate.Id);
-    //        addtProp = AddtProps.FirstOrDefault(a => a.ObjectId == Estate.Id);
-    //        dbAddress = Addresses.FirstOrDefault(a => a.ObjectId == Estate.Id);  
-    //        street = Streets.FirstOrDefault(s => s.Id == dbAddress.StreetId);
-    //        streetName = (street != null) ? street.Name : NA;
-    //        city = Cities.FirstOrDefault(c => c.Id == dbAddress.CityId).Name;
-    //        price = mainProp.Price;
-    //        area = mainProp.TotalArea;
-    //        agent = Users.FirstOrDefault(u => u.Id == Estate.Id);
-    //        company = Companies.FirstOrDefault(c => c.Id == Estate.Id);
-    //        photos = Medias.Where(m => m.ObjectId == Estate.Id).Select(p => 
-    //        {
-    //            var id = long.Parse(p.MediaUrl.Split('/').Last());
-    //            return StorageUtils.GetFileViewPath(id, Files);
-    //        });
-    //        logo = (company != null) ? 
-    //            ((!string.IsNullOrEmpty(company.LogoImageUrl)) ? 
-    //                StorageUtils.GetFileViewPath(long.Parse(company.LogoImageUrl.Split('/').Last()), Files) :
-    //                NA) :
-    //            NA;
-
-    //        //Индекс БД
-    //        passport.Add("Id", Estate.Id);
-    //        //Присвоить дату создания, если нет даты изменения
-    //        passport.Add("Date",  (Estate.DateModified == null) ? Estate.DateCreated : Estate.DateModified);
-    //        //Демонстрируемый адрес
-    //        passport.Add("Address", (streetName != null) ? $"{streetName}, {dbAddress.House}" : NA);
-    //        //Город
-    //        passport.Add("City", city);
-    //        //Цена
-    //        passport.Add("Price", price);
-    //        //Общая площадь
-    //        passport.Add("Area", area);
-    //        //Цена за квадрат
-    //        passport.Add("PricePerSquare", (price != null && area != null) ? $"{price / area : ### 000.00}" : NA);
-    //        //Телефон агента
-    //        passport.Add("AgentPhone", (agent != null) ? agent.Phone : NA);
-    //        //Агенство
-    //        passport.Add("Agency", (company != null) ? company.Name : NA);
-    //        //Список фотографий объекта
-    //        passport.Add("Photos", (photos.Any()) ? photos : default(string[]));
-    //        //Логотип агенства
-    //        if (logo != NA) passport.Add("Logo", logo);
-    //        //Координаты
-    //        passport.Add("Latitude", dbAddress.Latitude);
-    //        passport.Add("Logitude", dbAddress.Logitude);
-
-    //        if (EstateType == EstateTypes.Room || EstateType == EstateTypes.Flat || EstateType == EstateTypes.Office || EstateType == EstateTypes.House)
-    //        {
-    //            #region Общие поля для офиса, комнаты, дома и квартиры
-    //            rating = Ratings.FirstOrDefault(r => r.Id == Estate.Id);
-
-    //            //Материал постройки
-    //            passport.Add("HouseMaterial", ((mainProp.BuildingMaterial != null) ? DictValues.GetFromIds(mainProp.BuildingMaterial) : NA));
-    //            //Тип дома
-    //            passport.Add("HouseType", (mainProp.BuildingType != null) ? DictValues.First(d => d.Id == mainProp.BuildingType).Value : NA);
-    //            //Площадь кухни
-    //            passport.Add("KitchenArea", mainProp.KitchenFloorArea);
-    //            //Этажей в здании
-    //            passport.Add("FloorCount", mainProp.TotalFloors);
-    //            //Текущий этаж
-    //            passport.Add("Floor", mainProp.FloorNumber);
-    //            //Санузел
-    //            passport.Add("WC", (rating == null) ? NA : ((rating.Wc != null) ? DictValues.GetFromIds(rating.Wc) : NA));
-
-    //            //Краткое описание
-    //            passport.Add("Description", (mainProp.ShortDescription == null) ? NA : (mainProp.ShortDescription.Length <= 55) ? mainProp.ShortDescription :
-    //                mainProp.ShortDescription.Remove(49) + " (...)");
-    //            #endregion
-    //        }
-                
-    //        if (EstateType == EstateTypes.Land || EstateType == EstateTypes.Office || EstateType == EstateTypes.House )
-    //        {
-    //            #region Общие для участка, дома и офиса поля
-    //            landComm = Communications.FirstOrDefault(c => c.Id == Estate.Id);
-
-    //            //отопление
-    //            passport.Add("Heating", (landComm != null) ? ((landComm.Heating != "305") ? "есть" : "нет") : NA);
-    //            passport.Add("Water", (landComm != null) ? ((landComm.Water != "205") ? "есть" : "нет") : NA);
-    //            passport.Add("Electricy", (landComm != null) ? ((landComm.Electricy != "167") ? "есть" : "нет") : NA);
-    //            passport.Add("Sewer", (landComm != null) ? ((landComm.Sewer != 312) ? "есть" : "нет") : NA);
-    //            #endregion
-    //        }
-            
-    //        if (EstateType == EstateTypes.Land)
-    //        {
-    //            //Назначение участка
-    //            passport.Add("Purpose", mainProp.LandAssignment ?? NA);
-    //        }
-
-    //        if (EstateType == EstateTypes.Office)
-    //        {
-    //            #region Специфичные для офиса поля
-    //            passport.Add("Purpose", DictValues.GetFromIds(mainProp.ObjectAssignment) ?? NA);
-    //            passport.Add("Category", NA); //TODO
-    //            passport.Add("Specifics", NA);//TODO
-    //            #endregion
-    //        }
-
-    //        if (EstateType == EstateTypes.Flat || EstateType == EstateTypes.House)
-    //        {
-    //            #region Общие для квартиры и дома поля
-    //            //Число комнат
-    //            passport.Add("Rooms", addtProp.RoomsCount);
-    //            //Жилая площадь
-    //            passport.Add("LivingArea", mainProp.ActualUsableFloorArea);
-    //            #endregion
-    //        }
-
-    //        if (EstateType == EstateTypes.Garage)
-    //        {
-    //            passport.Add("HouseMaterial", DictValues.GetFromIds(mainProp.BuildingMaterial) ?? NA);
-    //        }
-
-    //        if (EstateType == EstateTypes.Unset)
-    //            throw new ArgumentException("Как ты этого добился, демон?!");
-
-    //        passports.Add(passport);
-    //    }
-
-    //    /// <summary>
-    //    /// Генерирует набор паспортов на основе набора объектов недвижимости
-    //    /// </summary>
-    //    /// <param name="Range"></param>
-    //    public void AddRange(IEnumerable<EstateObjects> Range)
-    //    {
-    //        foreach (var item in Range)
-    //        {
-    //            Add(item);
-    //        }
-    //    }
-
-    //    public SuitableEstate()
-    //    {
-    //        passports = new List<ShortPassport>();
-    //    }
-
-    //    ///// <summary>
-    //    ///// Инициализирует новый экземпляр последовательности на основе списка паспортов
-    //    ///// </summary>
-    //    ///// <param name="list"></param>
-    //    //public SuitableEstate (List<ShortPassport> list)
-    //    //{
-    //    //    passports = list;
-    //    //}
-
-    //    public void Clear()
-    //    {
-    //        passports.Clear();
-    //    }
-
-    //    /// <summary>
-    //    /// Сортирует представленные последовательностью паспорта по заданному ключу и возвращает отсортированную последовательность
-    //    /// </summary>
-    //    /// <typeparam name="T">Тип ключа сортировки</typeparam>
-    //    /// <param name="keySelector">Метод, предоставляющий ключ</param>
-    //    /// <returns></returns>
-    //    public SuitableEstate OrderBy<T>(Func<ShortPassport, T> keySelector)
-    //    {
-    //        passports = passports.OrderBy(keySelector).ToList();
-    //        return this;
-    //    }
-
-    //    public IEnumerator<ShortPassport> GetEnumerator()
-    //    {
-    //        foreach (var passport in passports)
-    //        {
-    //            yield return passport;
-    //        }
-    //    }
-    //    private IEnumerator GetEnumerator1()
-    //    {
-    //        return this.GetEnumerator();
-    //    }
-    //    IEnumerator IEnumerable.GetEnumerator()
-    //    {
-    //        return GetEnumerator1();
-    //    }
-    //}
-
     /// <summary>
     /// Полная карточка объекта, содержащая всю информацию, необходимую для демонстрации подробных сведений
     /// </summary>
@@ -463,7 +210,14 @@ namespace RGR.Core.Common
         public string MeterElectricy;
         public string Release;
         public string Internet;
-
+        //Координаты
+        public double Latitude;
+        public double Longitude;
+        public string Agent;
+        public string Agency;
+        public string AgentPhone;
+        public DateTime UpdateTime;
+        public bool ElevatorPresent;
 
         public static async Task<FullPassport> GetAsync(rgrContext db, EstateObjects Estate)
         {
@@ -591,6 +345,14 @@ namespace RGR.Core.Common
             passport.MeterElectricy = (comm != null) ? BoolToYesNo(comm.HasElectricyMeter) : NA;
             passport.Release = main.ReleaseInfo ?? NA;
             passport.Internet = (comm != null) ? BoolToYesNo(comm.HasInternet) : NA;
+            passport.Latitude = addr.Latitude ?? 0;
+            passport.Longitude = addr.Logitude ?? 0;
+            passport.Agency = cmpany.Name;
+            passport.Agent = $"{user.FirstName} {user.SurName} {user.LastName}";
+            passport.AgentPhone = user.Phone;
+            passport.UpdateTime = Estate.DateModified ?? Estate.DateCreated ?? default(DateTime);
+            //passport.ElevatorPresent = rating.el
+
 
             return passport;
         }

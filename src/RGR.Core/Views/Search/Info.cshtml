@@ -1,13 +1,32 @@
-﻿@using RGR.Core.Common.Enums;
+﻿@using RGR.Core.Common;
 @using RGR.Core.Controllers;
 @using RGR.Core.Views.Helpers;
-
 @using Newtonsoft.Json;
 @using Microsoft.AspNetCore.Html;
 @using System.Text;
 
 @{
     ViewData["Title"] = "Карточка объекта";
+}
+
+@{ 
+    var pasport = JsonConvert.DeserializeObject<FullPassport>((string)ViewData["Data"]);
+    <script>              
+
+        function initResultMap(ymaps) {
+            
+            var myMap = new ymaps.Map("full-result-map", {
+                center: [48.48888324, 135.08322577],
+                zoom: 12
+            });
+            var myPlacemark = new ymaps.Placemark([48.48888324, 135.08322577], {
+                hideIconOnBalloonOpen: false,
+                style: "default#bluePoint"
+            });
+            myMap.geoObjects.add(myPlacemark);
+        }
+        
+    </script>
 }
 <div class="content-inner">    
     <div class="search-result">

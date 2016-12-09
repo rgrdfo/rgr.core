@@ -120,18 +120,20 @@ namespace RGR.Core.Views.Helpers
                    $"<div class=\"col-lg-1\"><h1>{Obj["Price"]: ### ### ###} ₽</h1><br />{Obj["PricePerSquare"]:### ###.##} ₽ / м²</div>";
         }
 
-        //public static HtmlString QuickboxImg (IEnumerable<string> photos)
-        //{
-            
-        //    StringBuilder sb = new StringBuilder();            
-        //    for (var p=1; p<photos.ToList().Count; p++)
-        //    {
-        //        sb.Append($"<a style=\"display:none;\" class=\"quickbox\" href=\"{p}\"><img src=\"{p}\" class=\"img-quickbox\"></a>");
-        //    }
-        //    return new HtmlString(sb.ToString());
-        //}
+        public static HtmlString QuickboxImg(IEnumerable<string> photos)
+        {
 
-       
+            StringBuilder sb = new StringBuilder();
+            for (var p = 1; p < photos.ToList().Count; p++)
+            {
+                sb.Append($"<div class=\"col-lg-3\">");
+                sb.Append($"<a class=\"quickbox\" href=\"{p}\"><img src=\"{p}\" class=\"img-quickbox\"></a>");
+                sb.Append($"</div>");
+            }
+            return new HtmlString(sb.ToString());
+        }
+
+
 
         public static string CommonEnd(ShortPassport Obj)
         {
@@ -187,12 +189,15 @@ namespace RGR.Core.Views.Helpers
         public static HtmlString FullResult(string Source)
         {              
 
-           StringBuilder sb = new StringBuilder("<div class=\"search-result\">");         
+           StringBuilder sb = new StringBuilder("");         
 
-            var passport = JsonConvert.DeserializeObject<FullPassport>(Source);         
+            var passport = JsonConvert.DeserializeObject<FullPassport>(Source);
+            //var photos;
 
-
-            sb.Append($"<div class=\"search-result-row-lg\"><div class=\"obj-descript\">{passport.FullDescription}</div>");
+            sb.Append($"<h1>{passport.EstateType}: {passport.Address}, {passport.TotalSquare} м²</h1>");
+            sb.Append($"<div class=\"search-result-row-lg\"><div class=\"row\"></div>");
+            sb.Append($"<div id=\"full-result-map\"></div>"); /*onload =\"drawPlacemark({passport.Latitude}, {passport.Longitude}, {passport.Address})\"*/
+            sb.Append($"<div class=\"obj-descript\">{passport.FullDescription}</div>");
 
             //----- Заголовки -----//
             sb.Append($"<div class=\"row\"><div class=\"col-lg-6 first-col\"><h1>Кварира</h1></div><div class=\"col-lg-6 first-col\"><h1>Дом</h1></div>");           
@@ -266,9 +271,9 @@ namespace RGR.Core.Views.Helpers
             sb.Append($"<div class=\"col-lg-6\"><p>Лифт</p></div>");
             sb.Append($"<div class=\"col-lg-6\"><p>&&&&</p></div>");
 
-            sb.Append("</div></div></div>");            
-            sb.Append($"</div></div>");            
-            sb.Append("</div>");
+            sb.Append($"</div></div></div>");            
+            sb.Append($"</div>");
+            sb.Append($"</div>");
             return new HtmlString((sb.ToString()));
         }
 
