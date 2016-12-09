@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RGR.Core.Common;
@@ -30,11 +31,6 @@ namespace RGR.Core.Controllers
         //Поиск
         public async Task<IActionResult> Search()
         {
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-
-            //HtmlString s;
-
             EstateTypes EstateType;
             byte estateType;
             if (!byte.TryParse(Request.Query["objType"], out estateType) && estateType < 6)
@@ -44,13 +40,18 @@ namespace RGR.Core.Controllers
 
             ViewData["Type"] = EstateType;
             ViewData["Result"] = await GetObjects(EstateType);
-            //ViewData["Context"] = db;
 
-            watch.Stop();
-            ViewData["Timer"] = new HtmlString($"<br/><b>Время поиска:</b> {watch.Elapsed.TotalSeconds:0.00} с <br/>");
-
-            //TODO: Заменить на сортировку в представлении
             ViewData["OrderBy"] = Request.Query.ContainsKey("order") ? (string)Request.Query["order"] : "Price";
+
+            //Строка URI для формирования запроса сортировки
+            string uri = Request.QueryString.ToString();
+            if (Request.Query.ContainsKey("order"))
+            {
+                var query = QueryHelpers.ParseQuery(uri);
+                query.Remove("order");
+                uri = "?" + query.Select(q => $"{q.Key}={q.Value}&").Flatten();
+            }
+            ViewData["Uri"] = Request.Host + Request.Path + uri;
 
             return View();
         }
@@ -85,7 +86,7 @@ namespace RGR.Core.Controllers
         public async Task<IActionResult> Info()
         {
             if (!Request.Query.ContainsKey("id"))
-                throw new ArgumentException("Необъодимо указать индекс объекта!");
+                throw new ArgumentException("Необходимо указать индекс объекта!");
 
             long id;
             if (!long.TryParse(Request.Query["id"], out id))
