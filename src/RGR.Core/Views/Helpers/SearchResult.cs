@@ -148,8 +148,8 @@ namespace RGR.Core.Views.Helpers
         {
             var sb = new StringBuilder("<div class=\"search-box-head\">");
             sb.Append($"<div class=\"row\"><div class=\"col-lg-3\"><a href=\"http://{Uri}&order=Address\">Адрес</a></div>");            
-            sb.Append($"<div class=\"col-lg-1\"><a href=\"http://{Uri}&order=Date\">Дата</a></div></div>");
-            sb.Append($"<div class=\"col-lg-1\"><a href=\"http://{Uri}&order=Price\">Цена</a></div></div>");
+            sb.Append($"<div class=\"col-lg-1\"><a href=\"http://{Uri}&order=Date\">Дата</a></div>");
+            sb.Append($"<div class=\"col-lg-1\"><a href=\"http://{Uri}&order=Price\">Цена</a></div>");
             switch (EstateType)
             {
                 case EstateTypes.Flat:
