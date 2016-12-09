@@ -173,7 +173,7 @@ li a:hover:after{
     max-width: 1305px;
     min-width:980px;    
     font-family: HelveticaNeueCyr_Roman;
-    min-height:calc(100vh-120px);
+    /*min-height:calc(100vh-120px);*/
     position: relative;
 }
 

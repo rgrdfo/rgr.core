@@ -7,14 +7,13 @@
 
 @{
     ViewData["Title"] = "Карточка объекта";
+    var pasport = JsonConvert.DeserializeObject<FullPassport>((string)ViewData["Data"]);
 }
 
-@{ 
-    var pasport = JsonConvert.DeserializeObject<FullPassport>((string)ViewData["Data"]);
-    <script>              
-
+@{
+    <script>
         function initResultMap(ymaps) {
-            
+
             var myMap = new ymaps.Map("full-result-map", {
                 center: [48.48888324, 135.08322577],
                 zoom: 12
@@ -25,10 +24,10 @@
             });
             myMap.geoObjects.add(myPlacemark);
         }
-        
+
     </script>
 }
-<div class="content-inner">    
+<div class="content-inner">
     <div class="search-result">
         @SearchResult.FullResult((string)ViewData["Data"])
         @SearchResult.RightBarResult((string)ViewData["Data"])

@@ -272,7 +272,7 @@ namespace RGR.Core.Views.Helpers
             sb.Append($"<div class=\"col-lg-6\"><p>&&&&</p></div>");
 
             sb.Append($"</div></div></div>");            
-            sb.Append($"</div>");
+            sb.Append($"<div style=\"clear: both; \"></div></div>");
             sb.Append($"</div>");
             return new HtmlString((sb.ToString()));
         }
@@ -281,8 +281,22 @@ namespace RGR.Core.Views.Helpers
         {
             StringBuilder sb = new StringBuilder("<div class=\"search-result-row-sm\">");
             var passport = JsonConvert.DeserializeObject<FullPassport>(Source);
-            sb.Append($"<div class=\"row\"><div class=\"col-lg-12\"><h1>{passport.Price} ₽</h1><h5>₽ / м²</h5></div>");
-            sb.Append($"<div class=\"col-lg-12\"><h5>ID: {passport.Id}:</h5><h5></h5></div></div></div>");
+            sb.Append($"<div class=\"row\"><div class=\"col-lg-12\"><h1>{passport.Price} ₽ <a href=\"#\"><img src=\"images/Info/ico-change.png\"/></a></h1><h5>₽ / м²</h5></div>");
+            sb.Append($"<div class=\"col-lg-12\">Торг. Договор. Ипотека.</div>");
+            sb.Append($"<div class=\"col-lg-12\" id=\"col-no-border\"><div class=\"row\"><div class=\"col-lg-3\"><img src=\"images/no-photo-small.png\" /></div><div class=\"col-lg-9\">{passport.Agency}</div></div></div>");
+            sb.Append($"<div class=\"col-lg-12\" id=\"col-no-border\"><div class=\"row\"><div class=\"col-lg-3\"><img src=\"images/no-photo-small.png\" /></div><div class=\"col-lg-9\"><h5>Агент:</h5>{passport.Agent}</div></div></div>");
+            sb.Append($"<div class=\"col-lg-12\" style=\"padding-left: calc(30%); padding-top:0;\"><p>{passport.AgentPhone}</p><a href=\"#\"><img src=\"images/Info/ico-back-call.png\"/><span>Заказать обратный звонок</span></a><a href=\"#\"><img src=\"images/Info/ico-leave-request.png\"/><span>Оставить заявку на просмотр</span></a></div>");
+            sb.Append($"<div class=\"col-lg-12\" id=\"col-no-border\"><h5>ID: {passport.Id}:</h5><h5>Обновлено: {passport.UpdateTime}</h5></div>");
+            //Колонки с ссылками
+            sb.Append($"<div class=\"col-lg-12\" id=\"col-no-border\"><div id=\"full-result-ico-row\" class=\"row\">");            
+            sb.Append($"<div class=\"col-lg-1\"></div><div class=\"col-lg-1\"></div>");
+            sb.Append($"<div class=\"col-lg-1\"><a href=\"#\"><img src=\"images/Info/ico-facebook.png\" /></a></div>");
+            sb.Append($"<div class=\"col-lg-1\"><a href=\"#\"><img src=\"images/Info/ico-twiter.png\" /></a></div>");
+            sb.Append($"<div class=\"col-lg-1\"><a href=\"#\"><img src=\"images/Info/ico-vk.png\" /></a></div>");
+            sb.Append($"<div class=\"col-lg-1\"><a href=\"#\"><img src=\"images/Info/ico-ocl.png\" /></a></div>");
+            sb.Append($"<div class=\"col-lg-1\"><a href=\"#\"><img src=\"images/Info/ico-let.png\" /></a></div>");
+            sb.Append($"<div class=\"col-lg-1\"></div><div class=\"col-lg-1\"></div></div></div>");
+            sb.Append($"<div class=\"col-lg-12\" id=\"full-result-col-but\"><a href=\"#\" class=\"but-personal\">Редактировать</a></div></div></div>");
             return new HtmlString((sb.ToString()));
         }
 
