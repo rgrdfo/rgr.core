@@ -96,7 +96,7 @@
             </div>
             <div id="searchType2" class="tab-pane">
                 <div class="search-result-box">
-                    @SearchResult.HeadResult((EstateTypes)ViewData["Type"])
+                    @SearchResult.HeadResult((EstateTypes)ViewData["Type"], (string)ViewData["Uri"])
                     @await Component.InvokeAsync("SearchResultRenderer", new { Result = objects, Type = ViewData["Type"], OrderingField = orderingField })
                 </div>
             </div>
