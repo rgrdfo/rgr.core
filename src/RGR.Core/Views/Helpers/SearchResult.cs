@@ -144,40 +144,40 @@ namespace RGR.Core.Views.Helpers
                    "</div>";
 
         }
-        public static HtmlString HeadResult(EstateTypes EstateType)
+        public static HtmlString HeadResult(EstateTypes EstateType, string Uri)
         {
             var sb = new StringBuilder("<div class=\"search-box-head\">");
-            sb.Append($"<div class=\"row\"><div class=\"col-lg-3\"><a href=\"#\">Адрес</a></div>");            
-            sb.Append($"<div class=\"col-lg-1\"><label>Дата</label></div>");
-            sb.Append($"<div class=\"col-lg-1\"><label>Цена</label></div>");
+            sb.Append($"<div class=\"row\"><div class=\"col-lg-3\"><a href=\"http://{Uri}&order=Address\">Адрес</a></div>");            
+            sb.Append($"<div class=\"col-lg-1\"><a href=\"http://{Uri}&order=Date\">Дата</a></div></div>");
+            sb.Append($"<div class=\"col-lg-1\"><a href=\"http://{Uri}&order=Price\">Цена</a></div></div>");
             switch (EstateType)
             {
                 case EstateTypes.Flat:
-                    sb.Append($"<div class=\"col-lg-2\"><label>Комнаты</label></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><label>Площадь</label></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><label>Этажность</label></div></div></div>");
+                    sb.Append($"<div class=\"col-lg-2\"><a href=\"http://{Uri}&order=Rooms\">Комнаты</a></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><a href=\"http://{Uri}&order=Area\">Площадь</a></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><a href=\"http://{Uri}&order=Floor\">Этажность</a></div></div></div>");
                     break;
                 case EstateTypes.Room:
                     sb.Append($"<div class=\"col-lg-2\"><label>Тип</label></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><label>Площадь</label></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><label>Этажность</label></div></div></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><a href=\"http://{Uri}&order=Area\">Площадь</a></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><a href=\"http://{Uri}&order=Floor\">Этажность</a></div></div></div>");
                     break;
                 case EstateTypes.House:
-                    sb.Append($"<div class=\"col-lg-2\"><label>Комнаты</label></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><label>Площадь</label></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><label>Этажность</label></div></div></div>");
+                    sb.Append($"<div class=\"col-lg-2\"><a href=\"http://{Uri}&order=Rooms\">Комнаты</a></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><a href=\"http://{Uri}&order=Area\">Площадь</a></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><a href=\"http://{Uri}&order=Floor\">Этажность</a></div></div></div>");
                     break;
                 case EstateTypes.Garage:
                     sb.Append($"<div class=\"col-lg-3\"><label>Тип</label></div>");
-                    sb.Append($"<div class=\"col-lg-3\"><label>Площадь</label></div></div></div>");
+                    sb.Append($"<div class=\"col-lg-3\"><a href=\"http://{Uri}&order=Area\">Площадь</a></div></div></div>");
                     break;
                 case EstateTypes.Land:
-                    sb.Append($"<div class=\"col-lg-3\"><label>Площадь</label></div>");
-                    sb.Append($"<div class=\"col-lg-3\"><label>Этажей</label></div></div></div>");
+                    sb.Append($"<div class=\"col-lg-3\"><a href=\"http://{Uri}&order=Area\">Площадь</a></div>");
+                    sb.Append($"<div class=\"col-lg-3\"><a href=\"http://{Uri}&order=FloorCount\">Этажей</a></div></div></div>");
                     break;
                 case EstateTypes.Office:
-                    sb.Append($"<div class=\"col-lg-3\"><label>Площадь</label></div>");
-                    sb.Append($"<div class=\"col-lg-3\"><label>Этажей</label></div></div></div>");
+                    sb.Append($"<div class=\"col-lg-3\"><a href=\"http://{Uri}&order=Area\">Площадь</a></div>");
+                    sb.Append($"<div class=\"col-lg-3\"><a href=\"http://{Uri}&order=FloorCount\">Этажей</a></div></div></div>");
                     break;
             }            
             
