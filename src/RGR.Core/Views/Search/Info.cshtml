@@ -11,18 +11,23 @@
 }
 
 @{
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
     <script>
-        function initResultMap(ymaps) {
+        ymaps.ready(initFullResult);
+        var mapFullResult,
+            markFullResult;
 
-            var myMap = new ymaps.Map("full-result-map", {
-                center: [48.48888324, 135.08322577],
-                zoom: 12
+        function initFullResult() {
+
+            mapFullResult = new ymaps.Map("full-result-map", {
+                center: [@pasport.Latitude.ToString().Replace(',','.'), @pasport.Longitude.ToString().Replace(',', '.')],
+                zoom: 14
             });
-            var myPlacemark = new ymaps.Placemark([48.48888324, 135.08322577], {
+            markFullResult = new ymaps.Placemark([@pasport.Latitude.ToString().Replace(',','.'), @pasport.Longitude.ToString().Replace(',', '.')], {
                 hideIconOnBalloonOpen: false,
                 style: "default#bluePoint"
             });
-            myMap.geoObjects.add(myPlacemark);
+            mapFullResult.geoObjects.add(markFullResult);
         }
 
     </script>
@@ -30,6 +35,6 @@
 <div class="content-inner">
     <div class="search-result">
         @SearchResult.FullResult((string)ViewData["Data"])
-        @SearchResult.RightBarResult((string)ViewData["Data"])
+        @SearchResult.RightBarResult((string)ViewData["Data"])        
     </div>    
 </div>

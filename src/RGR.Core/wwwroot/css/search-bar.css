@@ -285,6 +285,19 @@ label
 .search-box-inner-select li:hover > ul{
     display: block;
 }
+
+.search-box-inner-select .add-object-checkbox input[type=checkbox] + label::before {
+    left:-20px;
+    top: 5px;
+}
+
+.extended .inner-select li {
+    padding-top: 15px;
+}
+.extended.search-box-inner-select .add-object-checkbox input[type=checkbox] + label::before {
+   left:-50px;
+    top: -10px;
+}
  .inner-select {
     display: none;
     text-align: left;     
@@ -305,7 +318,8 @@ label
     padding: 0 20px;
 }
 .inner-select input{
-    display: block !important;
+    /*display: block !important;*/
+    display: none;
     position: absolute;    
     top: 17%;
     left: 10px;
@@ -314,12 +328,12 @@ label
 .inner-select label {
     height:auto;  
     position: absolute;    
-    left:8%;    
-    /*width: 100%;*/    
+    left:8%;        
     border: none !important;  
     padding:0; 
     white-space: pre-line;
     line-height: 1em;
+    margin-left: 10px;
 }
 #inner_sel_li {
     border-top: 1px solid #559abd;

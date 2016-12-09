@@ -390,11 +390,11 @@
                                     <li>
                                         Тип комнат
                                         <ul class="inner-select">
-                                            <li id="inner_sel_li"><input name="roomSep" id="rt1" type="checkbox" value="on" /><label>Раздельные</label></li>
-                                            <li><input name="roomAdj" id="rt2" type="checkbox" value="on" /><label>Смежные</label></li>
-                                            <li><input name="roomBoth" id="rt3" type="checkbox" value="on" /><label>Смежно-раздельные</label></li>
-                                            <li><input name="roomIkar" id="rt4" type="checkbox" value="on" /><label>"Икарус"</label></li>
-                                            <li><input name="roomFree" id="rt5" type="checkbox" value="on" /><label>Свободная планировка</label></li>
+                                            <li class="add-object-checkbox" id="inner_sel_li"><input name="roomSep" id="rt1" type="checkbox" value="on" /><label for="rt1">Раздельные</label></li>
+                                            <li class="add-object-checkbox"><input name="roomAdj" id="rt2" type="checkbox" value="on" /><label for="rt2">Смежные</label></li>
+                                            <li class="add-object-checkbox"><input name="roomBoth" id="rt3" type="checkbox" value="on" /><label for="rt3">Смежно-раздельные</label></li>
+                                            <li class="add-object-checkbox"><input name="roomIkar" id="rt4" type="checkbox" value="on" /><label for="rt4">"Икарус"</label></li>
+                                            <li class="add-object-checkbox"><input name="roomFree" id="rt5" type="checkbox" value="on" /><label for="rt5">Свободная планировка</label></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -527,6 +527,18 @@
                             <div class="col-lg-1"><span>Район</span></div>
                             <div class="col-lg-6">
                                 <input class="search-select-large" name="DistrictId" type="text" /><a href="javascript://" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" return false;>Выбрать на карте</a>
+                                <!--<ul class="search-box-inner-select">
+                                    <li>
+                                        Выберите район
+                                        <ul class="inner-select">
+                                            <li class="add-object-checkbox" id="inner_sel_li"><input name="roomSep" id="rh1" type="checkbox" value="on" /><label for="rh1">Центральный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomAdj" id="rh2" type="checkbox" value="on" /><label for="rh2">Краснофлотский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomBoth" id="rh3" type="checkbox" value="on" /><label for="rh3">Кировский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomIkar" id="rh4" type="checkbox" value="on" /><label for="rh4">Индустриальный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomFree" id="rh5" type="checkbox" value="on" /><label for="rh5">Железнодорожный</label></li>
+                                        </ul>
+                                    </li>
+                                </ul>-->
                             </div>                            
                             <div class="col-lg-1"></div>
                         </div>
@@ -534,6 +546,18 @@
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Массив</span></div>
                             <div class="col-lg-6">
                                 <input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />                                    
+                                <!--<ul class="search-box-inner-select">
+                                    <li>
+                                        Тип комнат
+                                        <ul class="inner-select">
+                                            <li class="add-object-checkbox" id="inner_sel_li"><input name="roomSep" id="rh1" type="checkbox" value="on" /><label for="rh1">Центральный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomAdj" id="rh2" type="checkbox" value="on" /><label for="rh2">Краснофлотский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomBoth" id="rh3" type="checkbox" value="on" /><label for="rh3">Кировский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomIkar" id="rh4" type="checkbox" value="on" /><label for="rh4">Индустриальный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomFree" id="rh5" type="checkbox" value="on" /><label for="rh5">Железнодорожный</label></li>
+                                        </ul>
+                                    </li>
+                                </ul>--> 
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
@@ -785,9 +809,9 @@
                                     <li>
                                         Категория
                                         <ul class="inner-select">
-                                            <li id="inner_sel_li"><input style="width: auto;" name="lndApp" id="с1" type="checkbox" checked value="lndAppPers" /><label>Индивидуальное жилищное строительство</label></li>
-                                            <li><input style="width: auto;" name="lndApp" id="с2" type="checkbox" value="lndAppDach" /><label>Дачное строительство</label></li>
-                                            <li><input style="width: auto;" name="lndApp" id="с3" type="checkbox" value="lndAppLPH" /><label>ЛПХ</label></li>
+                                            <li class="add-object-checkbox" id="inner_sel_li"><input style="width: auto;" name="lndApp" id="сor1" type="checkbox" checked value="lndAppPers" /><label for="сor1">Индивидуальное жилищное строительство</label></li>
+                                            <li class="add-object-checkbox"><input style="width: auto;" name="lndApp" id="сor2" type="checkbox" value="lndAppDach" /><label for="сor2">Дачное строительство</label></li>
+                                            <li class="add-object-checkbox"><input style="width: auto;" name="lndApp" id="сor3" type="checkbox" value="lndAppLPH" /><label for="сor3">ЛПХ</label></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -797,9 +821,9 @@
                                     <li>
                                         Назначение
                                         <ul class="inner-select">
-                                            <li id="inner_sel_li"><input style="width: auto;" name="lndApp" id="с1" type="checkbox" checked value="lndAppPers" /><label>Индивидуальное жилищное строительство</label></li>
-                                            <li><input style="width: auto;" name="lndApp" id="с2" type="checkbox" value="lndAppDach" /><label>Дачное строительство</label></li>
-                                            <li><input style="width: auto;" name="lndApp" id="с3" type="checkbox" value="lndAppLPH" /><label>ЛПХ</label></li>
+                                            <li class="add-object-checkbox" id="inner_sel_li"><input style="width: auto;" name="lndApp" id="сor4" type="checkbox" checked value="lndAppPers" /><label for="сor4">Индивидуальное жилищное строительство</label></li>
+                                            <li class="add-object-checkbox"><input style="width: auto;" name="lndApp" id="сor5" type="checkbox" value="lndAppDach" /><label for="сor5">Дачное строительство</label></li>
+                                            <li class="add-object-checkbox"><input style="width: auto;" name="lndApp" id="сor6" type="checkbox" value="lndAppLPH" /><label for="сor6">ЛПХ</label></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -809,9 +833,9 @@
                                     <li  style="padding: 0px; text-align:center;">
                                         <font size="2">Особенности расположения</font>
                                         <ul class="inner-select">
-                                            <li id="inner_sel_li"><input style="width: auto;" name="lndApp" id="с1" type="checkbox" checked value="lndAppPers" /><label>Индивидуальное жилищное строительство</label></li>
-                                            <li><input style="width: auto;" name="lndApp" id="с2" type="checkbox" value="lndAppDach" /><label>Дачное строительство</label></li>
-                                            <li><input style="width: auto;" name="lndApp" id="с3" type="checkbox" value="lndAppLPH" /><label>ЛПХ</label></li>
+                                            <li class="add-object-checkbox"  id="inner_sel_li"><input style="width: auto;" name="lndApp" id="сor7" type="checkbox" checked value="lndAppPers" /><label for="сor7">Индивидуальное жилищное строительство</label></li>
+                                            <li class="add-object-checkbox"><input style="width: auto;" name="lndApp" id="сor8" type="checkbox" value="lndAppDach" /><label for="сor8">Дачное строительство</label></li>
+                                            <li class="add-object-checkbox"><input style="width: auto;" name="lndApp" id="сor9" type="checkbox" value="lndAppLPH" /><label for="сor9">ЛПХ</label></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -1067,9 +1091,9 @@
                                 <ul class="search-box-inner-select">
                                     <li>Назначение
                                         <ul class="inner-select">
-                                            <li id="inner_sel_li"><input style="width: auto;" name="lndApp" id="с1" type="checkbox" checked value="lndAppPers" /><label>Индивидуальное жилищное строительство</label></li>
-                                            <li><input style="width: auto;" name="lndApp" id="с2" type="checkbox" value="lndAppDach" /><label>Дачное строительство</label></li>
-                                            <li><input style="width: auto;" name="lndApp" id="с3" type="checkbox" value="lndAppLPH" /><label>ЛПХ</label></li>
+                                            <li class="add-object-checkbox"  id="inner_sel_li"><input style="width: auto;" name="lndApp" id="с1" type="checkbox" checked value="lndAppPers" /><label for="с1">Индивидуальное жилищное строительство</label></li>
+                                            <li class="add-object-checkbox"><input style="width: auto;" name="lndApp" id="с2" type="checkbox" value="lndAppDach" /><label for="с2">Дачное строительство</label></li>
+                                            <li class="add-object-checkbox"><input style="width: auto;" name="lndApp" id="с3" type="checkbox" value="lndAppLPH" /><label for="с3">ЛПХ</label></li>
                                         </ul>
                                     </li>
                                 </ul>
