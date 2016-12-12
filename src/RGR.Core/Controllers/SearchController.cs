@@ -488,7 +488,8 @@ namespace RGR.Core.Controllers
                     (Request.Query["water"] == "wtrColdCenter" && curComm.Water.Contains("318")) ||
                     (Request.Query["water"] == "wtrColdWell" && curComm.Water.Contains("316")) ||
                     (Request.Query["water"] == "wtrSummer" && curComm.Water.Contains("372")) ||
-                    (Request.Query["water"] == "wtrNone" && curComm.Water.Contains("205"))
+                    (Request.Query["water"] == "wtrNone" && curComm.Water.Contains("205")) ||
+                    string.IsNullOrEmpty(Request.Query["water"])
                     )) return false;
                 }
 
@@ -498,7 +499,8 @@ namespace RGR.Core.Controllers
                     if(!( 
                     (Request.Query["electro"] == "elSupplied" && curComm.Electricy.Contains("167")) ||
                     (Request.Query["electro"] == "elConnected" && curComm.Electricy.Contains("168")) ||
-                    (Request.Query["electro"] == "elPossible" && curComm.Electricy.Contains("169"))
+                    (Request.Query["electro"] == "elPossible" && curComm.Electricy.Contains("169")) ||
+                     string.IsNullOrEmpty(Request.Query["electro"])
                     )) return false;
                 }
 
@@ -647,14 +649,7 @@ namespace RGR.Core.Controllers
                 }
 
                 //Тип дома
-                if (Request.Query.ContainsKey("houseType") && !string.IsNullOrEmpty(Request.Query["houseType"]))
-                    //|| //Жильё низкого качества, барак
-                    //Request.Query.ContainsKey("bldDorm") || //Малосемейка, общежитие
-                    //Request.Query.ContainsKey("bldStal") || //Сталинка
-                    //Request.Query.ContainsKey("bldHrush") || //Хрущ
-                    //Request.Query.ContainsKey("bldBrovi") || //Брежневки (улучшенной планировки)
-                    //Request.Query.ContainsKey("bldNew") || //Новая планировка
-                    //Request.Query.ContainsKey("bldFree")) //Индивидуальная планировка
+                if (Request.Query.ContainsKey("houseType"))
                 {
                     if (!(
                         (Request.Query["houseType"] == "bldBarak" && curMain.HouseType == 138) ||
@@ -664,12 +659,13 @@ namespace RGR.Core.Controllers
                         (Request.Query["houseType"] == "bldBrovi" && curMain.HouseType == 145) || // Будем считать, что улучшенки
                         (Request.Query["houseType"] == "bldBrovi" && curMain.HouseType == 137) || // и брежневки - одно и то же
                         (Request.Query["houseType"] == "bldNew" && curMain.HouseType == 142) ||
-                        (Request.Query["houseType"] == "bldFree" && curMain.HouseType == 139)
+                        (Request.Query["houseType"] == "bldFree" && curMain.HouseType == 139) ||
+                        (string.IsNullOrEmpty(Request.Query["houseType"]))
                      )) return false;
                 }
 
                 //Материал постройки
-                if (Request.Query.ContainsKey("houseMat") && !string.IsNullOrEmpty(Request.Query["houseMat"]))
+                if (Request.Query.ContainsKey("houseMat"))
                 {
                     if (!(
                         (Request.Query["houseMat"] == "matWood"  && curMain.BuildingMaterial.Contains("61")) ||
@@ -682,11 +678,12 @@ namespace RGR.Core.Controllers
                         (Request.Query["houseMat"] == "matOther" && curMain.BuildingMaterial.Contains("63")) || //МЕТАЛЛ
                         (Request.Query["houseMat"] == "matOther" && curMain.BuildingMaterial.Contains("64")) || //Бетонные блоки
                         (Request.Query["houseMat"] == "matOther" && curMain.BuildingMaterial.Contains("69")) || //Пенобетон
-                        (Request.Query["houseMat"] == "matOther" && curMain.BuildingMaterial.Contains("70"))    //Туфоблок
+                        (Request.Query["houseMat"] == "matOther" && curMain.BuildingMaterial.Contains("70")) || //Туфоблок
+                        (string.IsNullOrEmpty(Request.Query["houseMat"]))
                     )) return false;
                 }
 
-                if (Request.Query.ContainsKey("objState") && !string.IsNullOrEmpty(Request.Query["objState"]))
+                if (Request.Query.ContainsKey("objState"))
                 //|| //После строителей
                 //    Request.Query.ContainsKey("stCapRepair") || //Требуется капитальный ремонт
                 //    Request.Query.ContainsKey("stCosRepair") || //Требуется косметический ремонт
@@ -704,7 +701,8 @@ namespace RGR.Core.Controllers
                         (Request.Query["objState"] == "stPassably"      && curRtng.CommonState == 90) || //Нормальное
                         (Request.Query["objState"] == "stGood"          && curRtng.CommonState == 91) ||
                         (Request.Query["objState"] == "stGreat"         && curRtng.CommonState == 92) ||
-                        (Request.Query["objState"] == "stEuro"          && curRtng.CommonState == 93)
+                        (Request.Query["objState"] == "stEuro"          && curRtng.CommonState == 93) ||
+                        string.IsNullOrEmpty(Request.Query["objState"])
                     )) return false;
                 }
                 #endregion
