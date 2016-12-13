@@ -117,7 +117,7 @@ namespace RGR.Core.Views.Helpers
             return $"<div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{Obj["Address"]}<br/>{Obj["City"]}</span></h1>"+
                    $"<div><a class=\"quickbox\" href=\"{link}\"><img src=\"{link}\" class=\"img-quickbox\"></a></div></div> " +   /*{QuickboxImg(photos)}*/
                    $"<div class=\"col-lg-1\"><h1>{DateToShow}</h1><br />ID: {Obj["Id"]:0000000}</div>" +
-                   $"<div class=\"col-lg-1\"><h1>{Obj["Price"]: ### ### ###} ₽</h1><br />{Obj["PricePerSquare"]:### ###.##} ₽ / м²</div>";
+                   $"<div class=\"col-lg-1\"><h1>{Obj["Price"]: ### ### ###} ₽</h1><br />{Obj["PricePerSquare"]:### ###.##} <font class=\"ruble\">₽</font> / м²</div>";
         }
 
         public static HtmlString QuickboxImg(IEnumerable<string> photos)
@@ -281,7 +281,7 @@ namespace RGR.Core.Views.Helpers
         {
             StringBuilder sb = new StringBuilder("<div class=\"search-result-row-sm\">");
             var passport = JsonConvert.DeserializeObject<FullPassport>(Source);
-            sb.Append($"<div class=\"row\"><div class=\"col-lg-12\"><h1>{passport.Price} ₽ <a href=\"#\"><img src=\"images/Info/ico-change.png\"/></a></h1><h5>₽ / м²</h5></div>");
+            sb.Append($"<div class=\"row\"><div class=\"col-lg-12\"><h1>{passport.Price:### ### ###} <font class=\"ruble\">₽</font> <a href=\"#\"><img src=\"images/Info/ico-change.png\"/></a></h1><h5>{passport.PricePerSqMetter:### ###.##}<font class=\"ruble\">₽</font> / м²</h5></div>");
             sb.Append($"<div class=\"col-lg-12\">Торг. Договор. Ипотека.</div>");
             sb.Append($"<div class=\"col-lg-12\" id=\"col-no-border\"><div class=\"row\"><div class=\"col-lg-3\"><img src=\"images/no-photo-small.png\" /></div><div class=\"col-lg-9\">{passport.Agency}</div></div></div>");
             sb.Append($"<div class=\"col-lg-12\" id=\"col-no-border\"><div class=\"row\"><div class=\"col-lg-3\"><img src=\"images/no-photo-small.png\" /></div><div class=\"col-lg-9\"><h5>Агент:</h5>{passport.Agent}</div></div></div>");
@@ -310,13 +310,19 @@ namespace RGR.Core.Views.Helpers
                 string DateToShow = (date != DateTime.MinValue) ? date.ToString("d MMM yy") : "н/д";
                 var photos = obj["Photos"] != null ? ((JArray)obj["Photos"]).Select(j => j.ToObject<string>()) : new List<string>();
                 var link = (photos.Any()) ? photos.First() : "images/img-exam.png";
-
                 sb.Append($"<div class=\"inner-body-result\"><div class=\"row\">");
                 sb.Append($"<div class=\"col-lg-4\"><div><a class=\"quickbox\" href=\"{link}\"><img src=\"{link}\" class=\"img-quickbox\"></a></div></div>");
-                sb.Append($"<div class=\"col-lg-4\"><a href=\"javascript://\" onclick=\"drawPlacemark({obj["Latitude"].ToString().Replace(',', '.')},{obj["Logitude"].ToString().Replace(',','.')},'{obj["Address"]}');return false;\"><h1><span>{obj["Type"]}, {obj["Area"]} м²</span></h1></a><br/>{obj["Address"]}</br>");
-                //sb.Append($"<div class=\"col-lg-4\"><a href=\"javascript://\" onclick=\"drawPlacemark('{obj["Latitude"]}','{obj["Logitude"]}','{obj["Address"]}');return false;\"><h1><span>Объект, {obj["Area"]} м²</span></h1></a><br/>{obj["Address"]}</br>");
-                sb.Append($"<div class=\"row\"><div class=\"col-lg-6\" style=\"padding:0;\">{DateToShow}</div><div class=\"col-lg-6\"style=\"padding:0;\"><h5>ID: {obj["Id"]}</h5></div></div></div>");
-                sb.Append($"<div class=\"col-lg-4\"><h1>{obj["Price"]: ### ### ###} ₽</h1><br /><h5>{obj["PricePerSquare"]:### ###.##} ₽ / м²</h5></div>");                
+                if (obj["Type"].ToString()=="Квартира")
+                {
+                    sb.Append($"<div class=\"col-lg-4\"><a href=\"javascript://\" onclick=\"drawPlacemark({obj["Latitude"].ToString().Replace(',', '.')},{obj["Logitude"].ToString().Replace(',', '.')},'{obj["Address"]}');return false;\"><h1><span>{obj["Rooms"]}-комнатная , {obj["Area"]} м²</span></h1></a><br/>{obj["Address"]}</br>");
+                    //sb.Append($"<div class=\"col-lg-4\"><a href=\"javascript://\" onclick=\"drawPlacemark('{obj["Latitude"]}','{obj["Logitude"]}','{obj["Address"]}');return false;\"><h1><span>Объект, {obj["Area"]} м²</span></h1></a><br/>{obj["Address"]}</br>");
+                }
+                else
+                {
+                    sb.Append($"<div class=\"col-lg-4\"><a href=\"javascript://\" onclick=\"drawPlacemark({obj["Latitude"].ToString().Replace(',', '.')},{obj["Logitude"].ToString().Replace(',', '.')},'{obj["Address"]}');return false;\"><h1><span>{obj["Type"]} , {obj["Area"]} м²</span></h1></a><br/>{obj["Address"]}</br>");
+                }
+                sb.Append($"<div class=\"row\"><div class=\"col-lg-6\">{DateToShow}</div><div class=\"col-lg-6\" style=\"color: #c3c3c3;\">ID: {obj["Id"]}</div></div></div>");
+                sb.Append($"<div class=\"col-lg-4\"><h1 style=\"height:36px; margin:0;\">{obj["Price"]: ### ### ###} <font class=\"ruble\">₽</font></h1><font style=\"color: #c3c3c3;\">{obj["PricePerSquare"]:### ###.##} <font class=\"ruble\">₽</font> / м²</font></div>");                
                 sb.Append($"</div></div>");
             }
             sb.Append($"</div>");

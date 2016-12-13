@@ -14,6 +14,8 @@
     var objects = SearchResult.Deserialize((string)ViewData["Result"]);
 }
 
+
+
 <head>
 
     <style>
@@ -84,13 +86,23 @@
         <ul id="search-objects-tabs" class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#searchType1">На карте</a></li>
             <li><a data-toggle="tab" href="#searchType2">Список</a></li>
-        </ul>
+        </ul>        
         <div class="tab-content">
             <div id="searchType1" class="tab-pane  in active">
+                <div class="sort-select">
+                    <h4>Сортировать: </h4>
+                    <select class="dropdown">
+                        <option>по дате добавления</option>
+                        <option>по цене (дешевле)</option>
+                        <option>по цене (дороже)</option>
+                        <option>по кол-ву комнат(по возрастанию)</option>
+                        <option>по общей площади (по убыванию)</option>
+                    </select>
+                </div>
                 <div class="search-result-row-md">
                     @await Component.InvokeAsync("SearchResultMap", new { Result = objects, OrderingField = orderingField })
                 </div>
-                <div class="search-result-row-md">
+                <div class="search-result-row-md" style="padding:10px;">
                     <div class="sticky" id="search-result-map"></div>
                 </div>
             </div>
