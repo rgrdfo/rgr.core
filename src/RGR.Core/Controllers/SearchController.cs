@@ -651,15 +651,18 @@ namespace RGR.Core.Controllers
                 //Тип дома
                 if (Request.Query.ContainsKey("houseType"))
                 {
+                    if (curMain?.HouseType == null)
+                        return false;
+
                     if (!(
                         (Request.Query["houseType"] == "bldBarak" && curMain.HouseType == 138) ||
-                        (Request.Query["houseType"] == "bldDorm" && curMain.HouseType == 143) ||
-                        (Request.Query["houseType"] == "bldStal" && curMain.HouseType == 144) ||
+                        (Request.Query["houseType"] == "bldDorm"  && curMain.HouseType == 143) ||
+                        (Request.Query["houseType"] == "bldStal"  && curMain.HouseType == 144) ||
                         (Request.Query["houseType"] == "bldHrush" && curMain.HouseType == 146) ||
                         (Request.Query["houseType"] == "bldBrovi" && curMain.HouseType == 145) || // Будем считать, что улучшенки
                         (Request.Query["houseType"] == "bldBrovi" && curMain.HouseType == 137) || // и брежневки - одно и то же
-                        (Request.Query["houseType"] == "bldNew" && curMain.HouseType == 142) ||
-                        (Request.Query["houseType"] == "bldFree" && curMain.HouseType == 139) ||
+                        (Request.Query["houseType"] == "bldNew"   && curMain.HouseType == 142) ||
+                        (Request.Query["houseType"] == "bldFree"  && curMain.HouseType == 139) ||
                         (string.IsNullOrEmpty(Request.Query["houseType"]))
                      )) return false;
                 }
@@ -667,6 +670,9 @@ namespace RGR.Core.Controllers
                 //Материал постройки
                 if (Request.Query.ContainsKey("houseMat"))
                 {
+                    if (curMain?.BuildingMaterial == null)
+                        return false;
+
                     if (!(
                         (Request.Query["houseMat"] == "matWood"  && curMain.BuildingMaterial.Contains("61")) ||
                         (Request.Query["houseMat"] == "matBrick" && curMain.BuildingMaterial.Contains("62")) ||
@@ -692,6 +698,9 @@ namespace RGR.Core.Controllers
                 //    Request.Query.ContainsKey("stGreat") || //Отличное
                 //    Request.Query.ContainsKey("stEuro")) //"Евроремонт"
                 {
+                    if (curRtng?.CommonState == null)
+                        return false;
+
                     if (!(
                         (Request.Query["objState"] == "stAfterBuilders" && curRtng.CommonState == 85) ||
                         (Request.Query["objState"] == "stCapRepair"     && curRtng.CommonState == 86) ||
