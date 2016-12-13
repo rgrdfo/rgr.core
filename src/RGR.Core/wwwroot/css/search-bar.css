@@ -27,15 +27,15 @@ label
 
 
 /*-----------Вкладки------------*/
-.search-bar .nav-tabs{
-    position: relative;    
+.search-bar .nav-tabs{        
     background-color:transparent;
     text-align: center;
     font-weight: 300;
     float:none;
-    width: 50%;
-    /*left:23%;*/
-    top: 45px;      
+    width: 900px;     
+    margin: auto;
+    position: relative;
+    top: 45px; left: 0; bottom: 0; right: 0;    
 }
 .search-bar .nav-tabs li{
     background-color: transparent;
@@ -67,45 +67,33 @@ label
     display: none;
 }
 
-.search-box-inner {
-    position: relative;
+.search-box-inner {    
     height: 240px;
     background-color: #22496d;
     border-radius: 0 8px 8px 8px !important;    
     margin-bottom: 10px;
-    text-align: center; 
-    /*width:50%;*/
-    width: 900px;     
-    top: 45px;  
-    z-index: 100;          
+    text-align: center;     
+    width: 900px;
+    z-index: 100;
+    margin: auto;
+    position: relative;
+    top: 45px; left: 0; bottom: 0; right: 0;          
 }
 @media screen and (max-width: 1600px) {
-    .header nav {margin: 0 15%;}
-    .header nav ul li {margin-left:20px;}    
-    .search-box-inner, .search-bar .nav-tabs {left: 21.5%;}
+    /*.header nav {margin: 0 15%;}*/       
     .content-inner {margin: 20px 12%;}    
+}
+@media screen and (max-width: 1362px) {
+    .header nav ul li:nth-of-type(8) {display:none; }
+    .content-inner {margin: 20px 12%;}
 }
 @media screen and (max-width: 1280px) {
-    .header nav {margin: 0 10%;}
-    .header nav ul li {margin-left:10px;}
-    .header nav ul li:nth-of-type(8) {display:none; }
-    .search-box-inner, .search-bar .nav-tabs {left: 15%;}
     .content-inner {margin: 20px 12%;}    
 }
-@media screen and (max-width: 1024px) {
-    .header nav {margin: 0 6%;}
-    .header nav ul li {margin-left:10px;}
-    .header nav ul li:nth-of-type(8) {display:none; }
-    .header nav ul li:nth-of-type(7) {display:none; }
-    .search-box-inner, .search-bar .nav-tabs {left: 6%;}
+@media screen and (max-width: 1024px) {    
     .content-inner {margin: 20px 6%;}    
 }
-@media screen and (max-width: 980px) {
-    .header nav {margin: 0 4%;}
-    .header nav ul li {margin-left:5px;}
-    .header nav ul li:nth-of-type(8) {display:none; }
-    .header nav ul li:nth-of-type(7) {display:none; }
-    .search-box-inner, .search-bar .nav-tabs {left: 4%;}
+@media screen and (max-width: 980px) {    
     .content-inner {margin: 20px 4%;}    
 }
 

@@ -38,6 +38,10 @@ a, input[type="submit"] {
     font-family: HelveticaNeueCyr_Light;
     src: url(../fonts/HelveticaNeueCyr-Light.otf);
    }
+@font-face {
+    font-family: PTSans;
+    src: url(../fonts/PTSans.ttf);
+}
 
 * {
   margin: 0;
@@ -75,15 +79,25 @@ body,
 nav {
     background-color: #f6f6f6;
     max-width: 1170px;
-    min-width: 980px;
-    /*margin: 0 14%;*/
+    min-width: 980px;        
     padding: 0px 0;
     overflow-y: hidden;
     overflow-x: hidden;
     height: 110px;
     font-weight:200;
-    font-size: 14px;    
+    font-size: 14px;
+        
+    margin: auto;
+    position: relative;
+    top: 0; left: 0; bottom: 0; right: 0;    
 }
+nav ul[class^="nav"]{
+    position: relative;
+    margin:0;
+    left: 50px;
+    width: auto;
+}
+
 nav li .row > .col-lg-12 {
     height:23px;
     padding: 0;
@@ -139,7 +153,6 @@ nav ul li:nth-of-type(5) a{
 ul {
   margin: 0;
   list-style: none;
-  float: right;
   line-height: 70px;
   text-align:center;
 }
@@ -150,8 +163,9 @@ a {
 }
 li {
   display: inline-block;
-  margin-left: 25px;
+  margin-left: 20px;  
 }
+
 
 li a:hover:after{
   width: 100%;
@@ -617,3 +631,7 @@ select:active, select:focus {
 }
 
 
+/*---Шрифт для символа рубля---*/
+.ruble {
+    font-family: PTSans;
+}
