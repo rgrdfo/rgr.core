@@ -139,14 +139,5 @@ namespace RGR.Core.Controllers
             return View();
         }
 
-        [Authorize]
-        public async Task<IActionResult> AddObject()
-        {   
-
-      
-            return View();
-        }
-
-
     }
 }
