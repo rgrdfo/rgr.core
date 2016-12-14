@@ -23,88 +23,94 @@ namespace RGR.Core.Views.Helpers
             var sb = new StringBuilder("<div id=\"bodyResult\">");
             //var DTO = JsonConvert.DeserializeObject<List<ShortPassport>>(Source);
             //var objects = JsonConvert.DeserializeObject<SuitableEstate>(Source);//new SuitableEstate(DTO)
-            
-
+            int i = 0;
+            sb.Append($"<div>");
             switch (Type)
             {
                 case EstateTypes.Flat:
                     foreach (var floor in objects)
-                    {                        
-                        sb.Append(CommonStart(floor));
-                        sb.Append($"<div class=\"col-lg-2\"><h1>{floor["Rooms"]}-комнатная</h1><br/>{floor["HouseMaterial"]}<br/>{floor["HouseType"]}</div>");
-                        sb.Append($"<div class=\"col-lg-1\"><h1>{floor["Area"]} м²</h1><br />кухня {floor["KitchenArea"]}<br />жилая {floor["LivingArea"]}</div>");
-                        sb.Append($"<div class=\"col-lg-1\"><h1>{floor["Floor"]} этаж из {floor["FloorCount"]}</h1><br />{floor["Description"]}</div>");       
+                    {
+                        int j = i++;
+                        sb.Append(CommonStart(floor, j));
+                        sb.Append($"<div class=\"col-lg-2\"><h1>{floor["Rooms"]}-комнатная</h1><font>материал:</font> {floor["HouseMaterial"]}<br/><font>состояние:</font> {floor["State"]}</div>");
+                        sb.Append($"<div class=\"col-lg-1\"><h1>{floor["Area"]} м²</h1><font>кухня:</font> {floor["KitchenArea"]} м²<br /><font>жилая:</font> {floor["LivingArea"]} м²</div>");
+                        sb.Append($"<div class=\"col-lg-1\"><h1>{floor["Floor"]} этаж из {floor["FloorCount"]}</h1><font>балкон: </font>{floor["Balcony"]}<br/><font>с/у: </font> {floor["WC"]}</div>");       
                         sb.Append(CommonEnd(floor));
-                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={floor["Id"]}\">Подробнее</a></div>");
+                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={floor["Id"]}\">Подробнее</a><div class=\"search-result-footer-inner\"><label>В избранные</label><input id=\"but-res-image\" class=\"but-simple\" value=\"Скрыть\" type=\"button\" onclick=\"deleteBlock('ibr-{j}')\"/></div></div></div>");
                     }
                     break;
 
                 case EstateTypes.Room:
                     foreach (var room in objects)
                     {
-                        sb.Append(CommonStart(room));
+                        int j = i++;
+                        sb.Append(CommonStart(room, i++));
                         sb.Append($"<div class=\"col-lg-2\">{room["HouseMaterial"]}<br/>{room["HouseType"]}</div>");
                         sb.Append($"<div class=\"col-lg-1\">{room["Area"]} м²<br />кухня {room["KitchenArea"]}<br /></div>");
                         sb.Append($"<div class=\"col-lg-1\">{room["Floor"]} этаж из {room["FloorCount"]}<br />{room["Description"]}</div>");
                         sb.Append(CommonEnd(room));
-                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={room["Id"]}\">Подробнее</a></div>");
+                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={room["Id"]}\">Подробнее</a><div class=\"search-result-footer-inner\"><label>В избранные</label><input id=\"but-res-image\" class=\"but-simple\" value=\"Скрыть\" type=\"button\" onclick=\"deleteBlock('ibr-{j}')\"/></div></div></div>");
                     }
                     break;
 
                 case EstateTypes.Garage:
                     foreach (var garage in objects)
-                    {                    
-                        sb.Append(CommonStart(garage));
+                    {
+                        int j = i++;
+                        sb.Append(CommonStart(garage, i++));
                         sb.Append($"<div class=\"col-lg-3\">Гараж<br />материал: {garage["HouseMaterial"]}</div>");
                         sb.Append($"<div class=\"col-lg-3\">{garage["Area"]:###.##} м²</div>");
                         sb.Append(CommonEnd(garage));
-                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={garage["Id"]}\">Подробнее</a></div>");
+                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={garage["Id"]}\">Подробнее</a></div></div>");
                     }
                     break;
 
                 case EstateTypes.House:
                     foreach (var house in objects)
                     {
-                        sb.Append(CommonStart(house));
+                        int j = i++;
+                        sb.Append(CommonStart(house, i++));
                         sb.Append($"<div class=\"col-lg-2\">{house["Rooms"]}-комн.<br />материал: {house["HouseMaterial"]}<br/>состояние: {house["State"]}<br/>отопление: {house["Heating"]}<br/>вода: {house["Water"]}<br/>электричество: {house["Electricy"]}<br/>канализация: {house["Sewer"]}</div>");
                         sb.Append($"<div class=\"col-lg-1\">{house["Area"]:###.##} м²<br />кухня: {house["KitchenArea"]} м²<br/>жилая: {house["LivingArea"]} м²</div>");
                         sb.Append($"<div class=\"col-lg-1\">{house["FloorCount"]}<br />балкон: {house["BalconyIsPresent"]}<br/>санузел: {house["WC"]}</div>");
                         sb.Append(CommonEnd(house));
-                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={house["Id"]}\">Подробнее</a></div>");
+                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={house["Id"]}\">Подробнее</a><div class=\"search-result-footer-inner\"><label>В избранные</label><input id=\"but-res-image\" class=\"but-simple\" value=\"Скрыть\" type=\"button\" onclick=\"deleteBlock('ibr-{j}')\"/></div></div></div>");
                     }
                     break;
 
                 case EstateTypes.Land:
                     //var lands = JsonConvert.DeserializeObject<SuitableEstate>(Source);
                     foreach (var land in objects)
-                    {                    
-                        sb.Append(CommonStart(land));
+                    {
+                        int j = i++;
+                        sb.Append(CommonStart(land, i++));
                         sb.Append($"<div class=\"col-lg-3\">{land["Area"]:###.##} м²<br /><br/>отопление: {land["Heating"]}<br/>вода: {land["Water"]}<br/>электричество: {land["Electricy"]}<br/>канализация: {land["Sewer"]}</div>");
                         sb.Append($"<div class=\"col-lg-3\">{land["Purpose"]}<br />{land["Category"]}<br />{land["Specifics"]}</div>");
                         sb.Append(CommonEnd(land));
-                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={land["Id"]}\">Подробнее</a></div>");
+                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={land["Id"]}\">Подробнее</a><div class=\"search-result-footer-inner\"><label>В избранные</label><input id=\"but-res-image\" class=\"but-simple\" value=\"Скрыть\" type=\"button\" onclick=\"deleteBlock('ibr-{j}')\"/></div></div></div>");
                     }
                     break;
 
                 case EstateTypes.Office:
                     foreach (var office in objects)
-                    {                        
-                        sb.Append(CommonStart(office));
+                    {
+                        int j = i++;
+                        sb.Append(CommonStart(office, i++));
                         sb.Append($"<div class=\"col-lg-3\">{office["Area"]:###.##} м²<br />материал: {office["HouseMaterial"]}<br />состояние: {office["State"]}</div>");
                         sb.Append($"<div class=\"col-lg-3\">{office["FloorCount"]}<br /><br/>отопление: {office["Heating"]}<br/>вода: {office["Water"]}<br/>электричество: {office["Electricy"]}<br/>канализация: {office["Sewer"]}</div>");
                         sb.Append(CommonEnd(office));
-                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={office["Id"]}\">Подробнее</a></div>");
+                        sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={office["Id"]}\">Подробнее</a><div class=\"search-result-footer-inner\"><label>В избранные</label><input id=\"but-res-image\" class=\"but-simple\" value=\"Скрыть\" type=\"button\" onclick=\"deleteBlock('ibr-{j}')\"/></div></div></div>");
                     }
                     break;
 
                 default:
                     throw new ArgumentException("Указан некорректный тип недвижимости");
             }            
-            sb.Append($"</div>");
+            sb.Append($"</div></div>");
             return new HtmlString(sb.ToString());
         }
 
-        public static string CommonStart(ShortPassport Obj)
+        public static string CommonStart(ShortPassport Obj, int i)
         {
             //TODO: Список фотографий объекта!!!11
 
@@ -114,10 +120,10 @@ namespace RGR.Core.Views.Helpers
             var photos = Obj["Photos"] != null ? ((JArray)Obj["Photos"]).Select(j => j.ToObject<string>()) : new List<string>();
             var link = (photos.Any()) ? photos.First() : "";
 
-            return $"<div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{Obj["Address"]}<br/>{Obj["City"]}</span></h1>"+
+            return $"<div id=\"ibr-{i}\" class=\"inner-body-result\" onmouseover=\"visibleFunction(this.id)\" onmouseout=\"hiddenFunction(this.id)\"><div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{Obj["Address"]}<br/>{Obj["City"]}</span></h1>"+
                    $"<div><a class=\"quickbox\" href=\"{link}\"><img src=\"{link}\" class=\"img-quickbox\"></a></div></div> " +   /*{QuickboxImg(photos)}*/
-                   $"<div class=\"col-lg-1\"><h1>{DateToShow}</h1><br />ID: {Obj["Id"]:0000000}</div>" +
-                   $"<div class=\"col-lg-1\"><h1>{Obj["Price"]: ### ### ###} ₽</h1><br />{Obj["PricePerSquare"]:### ###.##} <font class=\"ruble\">₽</font> / м²</div>";
+                   $"<div class=\"col-lg-1\"><h1>{DateToShow}</h1><font>ID: {Obj["Id"]:0000000}</font></div>" +
+                   $"<div class=\"col-lg-1\"><h1>{Obj["Price"]: ### ### ###} ₽</h1><font>{Obj["PricePerSquare"]:### ###.##} <font class=\"ruble\">₽</font> / м²</font></div>";
         }
 
         public static HtmlString QuickboxImg(IEnumerable<string> photos)
@@ -147,7 +153,7 @@ namespace RGR.Core.Views.Helpers
         public static HtmlString HeadResult(EstateTypes EstateType, string Uri)
         {
             var sb = new StringBuilder("<div class=\"search-box-head\">");
-            sb.Append($"<div class=\"row\"><div class=\"col-lg-3\"><a href=\"http://{Uri}&order=Address\">Адрес</a></div>");            
+            sb.Append($"<div class=\"row\"><div class=\"col-lg-3\"><a href=\"http://{Uri}&order=Address\" onclick=\"stayActive(searchType2)\">Адрес</a></div>");            
             sb.Append($"<div class=\"col-lg-1\"><a href=\"http://{Uri}&order=Date\">Дата</a></div>");
             sb.Append($"<div class=\"col-lg-1\"><a href=\"http://{Uri}&order=Price\">Цена</a></div>");
             switch (EstateType)
@@ -286,7 +292,7 @@ namespace RGR.Core.Views.Helpers
             sb.Append($"<div class=\"col-lg-12\" id=\"col-no-border\"><div class=\"row\"><div class=\"col-lg-3\"><img src=\"images/no-photo-small.png\" /></div><div class=\"col-lg-9\">{passport.Agency}</div></div></div>");
             sb.Append($"<div class=\"col-lg-12\" id=\"col-no-border\"><div class=\"row\"><div class=\"col-lg-3\"><img src=\"images/no-photo-small.png\" /></div><div class=\"col-lg-9\"><h5>Агент:</h5>{passport.Agent}</div></div></div>");
             sb.Append($"<div class=\"col-lg-12\" style=\"padding-left: calc(30%); padding-top:0;\"><p>{passport.AgentPhone}</p><a href=\"#\"><img src=\"images/Info/ico-back-call.png\"/><span>Заказать обратный звонок</span></a><a href=\"#\"><img src=\"images/Info/ico-leave-request.png\"/><span>Оставить заявку на просмотр</span></a></div>");
-            sb.Append($"<div class=\"col-lg-12\" id=\"col-no-border\"><h5>ID: {passport.Id}:</h5><h5>Обновлено: {passport.UpdateTime}</h5></div>");
+            sb.Append($"<div class=\"col-lg-12\" id=\"col-no-border\"><h5>ID: {passport.Id}</h5><h5>Обновлено: {passport.UpdateTime}</h5></div>");
             //Колонки с ссылками
             sb.Append($"<div class=\"col-lg-12\" id=\"col-no-border\"><div id=\"full-result-ico-row\" class=\"row\">");            
             sb.Append($"<div class=\"col-lg-1\"></div><div class=\"col-lg-1\"></div>");

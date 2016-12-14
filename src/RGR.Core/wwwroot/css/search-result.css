@@ -5,6 +5,7 @@
     text-align: left;
     font-weight:600;
     color: #a6a6a6;
+    background-color: #fff;
 }
 .search-box-head a,
 .search-box-head a:hover,
@@ -36,7 +37,7 @@
  }
  .search-result-box {
      margin: 10px;
-     background: #fff;
+     /*background: #fff;*/
      border-radius: 8px;
      font-size: 8pt;
  }
@@ -72,7 +73,7 @@
 
   }
   #bodyResult h1{
-      font-size: 13pt;
+      font-size: 12pt;
       margin-top: 0;
       font-family: HelveticaNeueCyr_Light;
   }
@@ -81,6 +82,28 @@
        font-size: 14px;
        padding: 0;
        margin: 0;
+   }
+
+   #bodyResult > div > .inner-body-result {
+       margin: 0 0 10px 0;
+       background-color: #fff;
+       border-radius: 5px;
+       font-size: 13px;       
+   }
+   #bodyResult > div > .inner-body-result font {
+       color: #919191;
+   }
+   #bodyResult > div > .inner-body-result:nth-of-type(1) {border-radius: 0 0 5px 5px;}
+
+   #bodyResult > div > .inner-body-result h1 {
+       min-height: 70px;
+   }
+
+   #bodyResult > div > .inner-body-result a,
+ .inner-body-result a:active,
+ .inner-body-result a:hover,
+ .inner-body-result a:focus {
+       color: #559abd;
    }
 
  .search-result-box .col-lg-1 {width:12.5%;}
@@ -94,6 +117,7 @@
     padding: 30px 25%;
     font-size: 11pt;
     border-bottom: 2px solid #eff0f0;
+    position: relative;
 }
 .search-result-footer a,
 .search-result-footer a:hover,
@@ -102,6 +126,14 @@
     margin-left: 20%;
     color: #559abd;
     text-decoration: none;
+}
+.search-result-footer a[href^="Info"]::after {
+    content: "";
+    background: url(/images/ico-info.png);
+    top: -8px; left: 70px; right:0; bottom:0;
+    height:37px;
+    width: 38px;
+    position: absolute;
 }
 .search-result-box p{
     font-size: 10pt;
@@ -161,6 +193,9 @@
 .search-result-row-sm .row {
     border: none;
 } 
+.search-result-row-lg .search-result-box {
+    background-color: #fff;
+}
 
 .search-result-row-sm .row .col-lg-12 > .row > div {
     border-bottom: none;
@@ -212,6 +247,7 @@
     position: relative;
     min-height: 510px;
 }
+ 
  #bodyResult > .inner-body-result {
     background-color: #fff;
     margin: 10px; 
@@ -319,4 +355,40 @@
 .sort-select h4 {
     margin-top: -10px;
     
+}
+
+.search-result-footer-inner {
+    position: absolute;
+    top: 15px; left: 65%; right:0; bottom:0;
+    display: none;    
+    width: auto;
+    font-weight:400;  
+}
+.search-result-footer-inner input {
+    width: 150px;
+    border-color: #e8e8e8;    
+}
+.search-result-footer-inner input:active {
+    border: 1.5px outset rgba(210,210,210,0.3);
+}
+.search-result-footer-inner #but-res-image {
+    background: #e8e8e8 url(/images/add-object/ico-add-cancel.png) 15% no-repeat;
+}
+.search-result-footer-inner label {
+    color: #559abd;
+    position: relative;
+    margin-right: 30px;
+}
+.search-result-footer-inner label::before {
+    content: "";
+    background: url(/images/ico-star-empty.png);
+    top: 0px; left: -20px; right:0; bottom:0;
+    height:18px;
+    width: 20px;
+    position: absolute;
+}
+
+.search-result-footer-inner label:hover {
+    cursor: pointer;
+    text-decoration: solid;
 }

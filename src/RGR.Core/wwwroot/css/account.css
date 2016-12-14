@@ -502,9 +502,8 @@ input[type=checkbox] {
 
 .but-simple {
     color: #559abd;
-    font-family: HelveticaNeueCyr_Medium;
-    background-color: #e8e8e8;
-    /*box-shadow: rgba(0,0,0,0.5) 0px 2px 1.5px;*/
+    font-family: HelveticaNeueCyr_Roman;
+    background-color: #e8e8e8;    
     height: 40px;
     width: auto;
     border-radius: 5px;

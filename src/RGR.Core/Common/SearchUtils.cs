@@ -258,7 +258,7 @@ namespace RGR.Core.Common
                     //Список фотографий объекта
                     passport.Add("Photos", (photos != null && photos.Any()) ? photos : null);
                     //Логотип агентства
-                    if (logo != NA) passport.Add("Logo", logo);
+                    if (logo != NA) passport.Add("Logo", logo);                           
                     //Координаты
                     passport.Add("Latitude", dbAddress.Latitude);
                     passport.Add("Logitude", dbAddress.Logitude);
@@ -282,8 +282,11 @@ namespace RGR.Core.Common
                         //Текущий этаж
                         passport.Add("Floor", mainProp.FloorNumber);
                         //Санузел
-                        passport.Add("WC", (rating == null) ? NA : ((rating.Wc != null) ? DictValues.GetFromIds(rating.Wc) : NA));
-
+                        passport.Add("WC", (rating == null) ? "нет" : ((rating.Wc != null) ? DictValues.GetFromIds(rating.Wc) : NA));
+                        //Состояние
+                        passport.Add("State", (rating.CommonState != null) ? DictValues.Single(v => v.Id == rating.CommonState).Value : NA);
+                        //Балкон
+                        passport.Add("Balcony", (addtProp.BalconiesCount != null && addtProp.BalconiesCount > 0) ? "есть" : (addtProp.BalconiesCount==0) ? "нет" : NA);
                         //Краткое описание
                         passport.Add("Description", (mainProp.ShortDescription == null) ? NA : (mainProp.ShortDescription.Length <= 55) ? mainProp.ShortDescription :
                             mainProp.ShortDescription.Remove(49) + " (...)");

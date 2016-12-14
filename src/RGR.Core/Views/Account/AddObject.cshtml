@@ -8,6 +8,26 @@
 
 @{
     <script src="https://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=tr-TR" type="text/javascript"></script>
+    <script>
+        //Формирование запроса
+        $(function () {
+            $("#addObject").submit(function () {
+                var formData = {
+                    "name": $("#id").val()
+                    , "name": $("#id").val()
+                };
+                $.ajax({
+                    url: 'dataparser.php'
+                    , type: 'POST'
+                    , data: 'jsonData=' + $.toJSON(formData)
+                    , success: function (res) {
+                        alert(res);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
     
 }
 <head>
@@ -43,7 +63,7 @@
                         <div class="tab-content">
                             @*////Подвкладка Комната////*@
                             <div id="addTypeFlat1" class="tab-pane in active">
-                                <form action="*">
+                                <form method="post" action="#" id="addObjects">
                                     <input type="hidden" name="objType" value="1">
                                     <h4>Адрес</h4>
                                     <input type="text" id="add-adress" name="input-add-middle" placeholder="Введите адрес" onchange="change()" required />

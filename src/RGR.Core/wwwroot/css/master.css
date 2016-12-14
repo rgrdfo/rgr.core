@@ -73,8 +73,28 @@ body,
 
 }
 
+/*-------Media------*/
 
-/*------иряър-----*/
+@media screen and (max-width: 1600px) {
+    /*.header nav {margin: 0 15%;}*/       
+    .content-inner {margin: 20px 12%;}    
+}
+@media screen and (max-width: 1362px) {
+    /*.header nav ul li:nth-of-type(8) {display:none; }*/
+    .content-inner {margin: 20px 12%;}
+}
+/*@media screen and (max-width: 1280px) {
+    .content-inner {margin: 20px 12%;}    
+}*/
+@media screen and (max-width: 1024px) {    
+    .content-inner {margin: 20px 6%;}    
+}
+@media screen and (max-width: 980px) {    
+    .content-inner {margin: 20px 4%;}    
+}
+
+
+/*------Header-----*/
 
 nav {
     background-color: #f6f6f6;
@@ -163,7 +183,7 @@ a {
 }
 li {
   display: inline-block;
-  margin-left: 20px;  
+  margin-left: 15px;  
 }
 
 
