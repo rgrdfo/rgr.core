@@ -339,7 +339,7 @@ namespace RGR.Core.Controllers
                 var curAddr = estate.Addresses.FirstOrDefault();//(addr.FirstOrDefault(m => m.ObjectId == estate.Id));
                 var curComm = estate.ObjectCommunications.FirstOrDefault();
                 var curRtng = estate.ObjectRatingProperties.FirstOrDefault();
-
+                
                 if (curMain == null) return false;
 
                 #region Фильтрация некорректных записей

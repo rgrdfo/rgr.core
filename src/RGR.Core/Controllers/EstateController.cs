@@ -88,7 +88,7 @@ namespace RGR.Core.Controllers
             Main.MortgagePossibility = Draft.Hypothec;
             Main.BuildingMaterial = Draft.BuildingMaterial;
             Main.FloorMaterial = Draft.CellingMaterial;
-
+            Main.HasParking = Draft.HasParking;
             Main.HasPhotos = Draft.Photos?.Count > 0;
 
             if (Draft.BuildYear == null)
