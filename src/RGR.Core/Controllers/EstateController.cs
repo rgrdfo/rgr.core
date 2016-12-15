@@ -76,6 +76,7 @@ namespace RGR.Core.Controllers
                                 c.SurName == ClientName[2])
                             ?.Id ?? -1;
 
+            #region ObjectMainPropetries
             var Main = Estate.ObjectMainProperties.First();
             Main.Security = new string[2] { Draft.Guard ? "10" : null, Draft.Alarm ? "11" : null }
                             .Aggregate((result, current) => string.IsNullOrEmpty(result) ? current : result += $",{current}");
@@ -86,23 +87,68 @@ namespace RGR.Core.Controllers
             Main.KitchenFloorArea = Draft.KitchenArea;
             Main.MortgagePossibility = Draft.Hypothec;
             Main.BuildingMaterial = Draft.BuildingMaterial;
+            Main.FloorMaterial = Draft.CellingMaterial;
+
             Main.HasPhotos = Draft.Photos?.Count > 0;
 
             if (Draft.BuildYear == null)
                 Main.BuildingPeriod = null;
             else
             {
-                Main.BuildingPeriod =
+                Main.BuildingPeriod = 
                              Draft.BuildYear <= 1917 ? 103 :
                              Draft.BuildYear >= 1918 && Draft.BuildYear <= 1953 ? 104 :
                              Draft.BuildYear >= 1954 && Draft.BuildYear <= 1965 ? 105 :
                              Draft.BuildYear >= 1966 && Draft.BuildYear <= 1991 ? 106 :
                              107;
             }
-            
-           
+
+            Main.HouseType = Draft.HouseType;
+            Main.Price = Draft.Price;
+            Main.FloorNumber = Draft.FloorNumber;
+            Main.TotalFloors = Draft.FloorCount;
+            Main.MultilistingBonus = Draft.Bonus;
+            Main.MultilistingBonusType = Draft.BonusIsAbsolute ? 356 : 355;
+            Main.ContactPersonId = Draft.ContactUserId;
+            Main.ContactCompanyId = db.Companies
+                                    .Include(c => c.Users)
+                                    .FirstOrDefault(c => c.Users
+                                                            .Select(u => u.Id)
+                                                            .Contains(Draft.ContactUserId)
+                                    )?.Id;
+            Main.FullDescription = Draft.Description;
+            #endregion
+
+            #region ObjectAdditionalPropetries
+            var Addt = Estate.ObjectAdditionalProperties.First();
+
+            Addt.BuildingYear = Draft.BuildYear;
+            Addt.BalconiesCount = Draft.BalconiesCount;
+            Addt.LoggiasCount = Draft.LogiasCount;
+            Addt.RoomsCount = Draft.RoomsCount;
+            Addt.RoomPlanning = Draft.RoomsType;
+            Addt.AgreementType = Draft.ContractType;
+            Addt.AgreementNumber = Draft.ContractNumber;
+            Addt.AgreementStartDate = Draft.ContractDate;
+            Addt.AgreementEndDate = Draft.ContractEndDate;
+            Addt.Comission = Draft.Comission.ToString();
 
 
+            #endregion
+
+            #region ObjectRatingProperties
+            var Rating = Estate.ObjectRatingProperties.First();
+
+            Rating.Kitchen = Draft.Kitchen;
+            Rating.CommonState = Draft.State;
+            Rating.Wc = Draft.SeparatedWC ? "226" : "227";
+            #endregion
+
+            await db.SaveChangesAsync();
+
+            //TODO: валидация
+
+            return RedirectToAction("Personal", "Account");
         }
     }
 }
