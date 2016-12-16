@@ -1,6 +1,20 @@
 ﻿@using RGR.Core.Views.Helpers;
 @using RGR.Core.Common;
 @using RGR.Core.Common.Enums;
+@using Microsoft.AspNetCore.Html;
+@using System.Text;
+
+@functions{
+    public HtmlString RenderUserList()
+    {
+        var sb = new StringBuilder("");
+        foreach(var user in (IEnumerable<string>)ViewData["Users"])
+        {
+            sb.Append($"<option value={user}>{user}</option>");
+        }
+        return new HtmlString(sb.ToString());
+    }
+}
 
 @{
     ViewData["Title"] = "Добавление объекта";
@@ -9,7 +23,7 @@
 @{
     <script src="https://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=tr-TR" type="text/javascript"></script>
 
-    <script>
+    @*<script>
         //Формирование запроса
         $(function () {
             $("#addObject").submit(function () {
@@ -71,8 +85,8 @@
                 return false;
             });
         });
-    </script>
-    
+    </script>*@
+
 }
 <head>
     <script src="~/js/upload-1.js"></script>
@@ -350,7 +364,7 @@
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <h5>Контактное лицо</h5>
-                                            <select id="add-contactPersonId" name="ContactUser"></select>
+                                            <select id="add-contactPersonId" name="ContactUser">@RenderUserList()</select>
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Объект относится к клиенту</h5>
