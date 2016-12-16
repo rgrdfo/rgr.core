@@ -29,27 +29,123 @@
                 <div id="account_p1" class="tab-pane in active  ">
                     <form action="search">
                         <h3>Мой офис</h3>
-                        <div class="row">
-                            <div class="col-lg-6"> <h4>Мои объекты</h4></div>
-                            <div class="col-lg-6"></div>
-                        </div>
-                        <div class="row">
+                        <div class="row" id="group-pers">
                             <div class="col-lg-6">
-                                <table class="account-office-table">
-                                    <tr>
-                                        <th>Тип</th>
-                                        <th>Количество</th>
-                                        <th>Совпадения</th>
-                                    </tr>
-                                    <tr><td>Квартиры, комнаты</td><td>{statRoomsFlats}</td><td>  @*Совпадения*@</td></tr>
-                                    <tr><td>Дома, коттеджи</td><td>{statHouses}</td><td>@*Совпадения*@</td></tr>
-                                    <tr><td>Участки</td><td>{statGarages}</td><td>@*Совпадения*@</td></tr>
-                                    <tr><td>Гаражи</td><td>{statLands}</td><td>@*Совпадения*@</td></tr>
-                                    <tr style="border: none;"><td>Для бизнеса</td><td>{statOffices}</td><td>@*Совпадения*@</td></tr>
-                                </table>
+                                <div class="row">
+                                    <div class="col-lg-12"><h4>Мои объекты</h4></div>
+                                    <div class="col-lg-12">
+                                        <table class="account-office-table">
+                                            <tr>
+                                                <th>Тип</th>
+                                                <th>Количество</th>
+                                                <th>Совпадения</th>
+                                            </tr>
+                                            <tr><td><span><a href="#">Квартиры, комнаты</a></span></td><td><label>1</label></td><td>  @*Совпадения*@</td></tr>
+                                            <tr><td><span><a href="#">Дома, коттеджи</a></span></td><td>@*{statHouses}*@</td><td>@*Совпадения*@</td></tr>
+                                            <tr><td><span><a href="#">Участки</a></span></td><td>@*{statGarages}*@</td><td>@*Совпадения*@</td></tr>
+                                            <tr><td><span><a href="#">Гаражи</a></span></td><td>@*{statLands}*@</td><td>@*Совпадения*@</td></tr>
+                                            <tr style="border: none;"><td><span><a href="#">Для бизнеса</a></span></td><td>@*{statOffices}*@</td><td>@*Совпадения*@</td></tr>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-6"></div>
+                            <div class="col-lg-6">
+                                <div class="col-lg-12"><h4>Мои запросы</h4></div>
+                                <div class="col-lg-12">
+                                    <table class="account-office-table">
+                                        <tr>
+                                            <th>Тип</th>
+                                            <th>Количество</th>
+                                            <th>Совпадения</th>
+                                        </tr>
+                                        <tr><td><span><a href="#">Квартиры, комнаты</a></span></td><td>@*{statRoomsFlats}*@</td><td>  @*Совпадения*@</td></tr>
+                                        <tr><td><span><a href="#">Дома, коттеджи</a></span></td><td>@*{statHouses}*@</td><td>@*Совпадения*@</td></tr>
+                                        <tr><td><span><a href="#">Участки</a></span></td><td>@*{statGarages}*@</td><td>@*Совпадения*@</td></tr>
+                                        <tr><td><span><a href="#">Гаражи</a></span></td><td>@*{statLands}*@</td><td>@*Совпадения*@</td></tr>
+                                        <tr style="border: none;"><td><span><a href="#">Для бизнеса</a></span></td><td>@*{statOffices}*@</td><td>@*Совпадения*@</td></tr>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
+                        <div class="row" id="group-comp">
+                            <div class="col-lg-6" id="obj-comp">
+                                <div class="row">
+                                    <div class="col-lg-12"><h4>Объекты компании</h4></div>
+                                    <div class="col-lg-12">
+                                        <table class="account-office-table">
+                                            <tr>
+                                                <th>Тип</th>
+                                                <th>Количество</th>
+                                                <th>Совпадения</th>
+                                            </tr>
+                                            <tr><td><span><a href="#">Квартиры, комнаты</a></span></td><td>@*{statRoomsFlats}*@</td><td>  @*Совпадения*@</td></tr>
+                                            <tr><td><span><a href="#">Дома, коттеджи</a></span></td><td>@*{statHouses}*@</td><td>@*Совпадения*@</td></tr>
+                                            <tr><td><span><a href="#">Участки</a></span></td><td>@*{statGarages}*@</td><td>@*Совпадения*@</td></tr>
+                                            <tr><td><span><a href="#">Гаражи</a></span></td><td>@*{statLands}*@</td><td>@*Совпадения*@</td></tr>
+                                            <tr style="border: none;"><td><span><a href="#">Для бизнеса</a></span></td><td>@*{statOffices}*@</td><td>@*Совпадения*@</td></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" id="que-comp">
+                                <div class="row">
+                                    <div class="col-lg-12"><h4>Запросы компании</h4></div>
+                                    <div class="col-lg-12">
+                                        <table class="account-office-table">
+                                            <tr>
+                                                <th>Тип</th>
+                                                <th>Количество</th>
+                                                <th>Совпадения</th>
+                                            </tr>
+                                            <tr><td><span><a href="#">Квартиры, комнаты</a></span></td><td>@*{statRoomsFlats}*@</td><td>  @*Совпадения*@</td></tr>
+                                            <tr><td><span><a href="#">Дома, коттеджи</a></span></td><td>@*{statHouses}*@</td><td>@*Совпадения*@</td></tr>
+                                            <tr><td><span><a href="#">Участки</a></span></td><td>@*{statGarages}*@</td><td>@*Совпадения*@</td></tr>
+                                            <tr><td><span><a href="#">Гаражи</a></span></td><td>@*{statLands}*@</td><td>@*Совпадения*@</td></tr>
+                                            <tr style="border: none;"><td><span><a href="#">Для бизнеса</a></span></td><td>@*{statOffices}*@</td><td>@*Совпадения*@</td></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="group-all">
+                            <div class="col-lg-6" id="obj-all">
+                                <div class="row">
+                                    <div class="col-lg-12"><h4>Все объекты</h4></div>
+                                    <div class="col-lg-12">
+                                        <table class="account-office-table">
+                                            <tr>
+                                                <th>Тип</th>
+                                                <th>Количество</th>                                                
+                                            </tr>
+                                            <tr><td><span><a href="#">Квартиры, комнаты</a></span></td><td>@*{statRoomsFlats}*@</td></tr>
+                                            <tr><td><span><a href="#">Дома, коттеджи</a></span></td><td>@*{statHouses}*@</td></tr>
+                                            <tr><td><span><a href="#">Участки</a></span></td><td>@*{statGarages}*@</td></tr>
+                                            <tr><td><span><a href="#">Гаражи</a></span></td><td>@*{statLands}*@</td></tr>
+                                            <tr style="border: none;"><td><span><a href="#">Для бизнеса</a></span></td><td>@*{statOffices}*@</td></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" id="que-all">
+                                <div class="row">
+                                    <div class="col-lg-12"><h4>Все запросы</h4></div>
+                                    <div class="col-lg-12">
+                                        <table class="account-office-table">
+                                            <tr>
+                                                <th>Тип</th>
+                                                <th>Количество</th>
+                                            </tr>
+                                            <tr><td><span><a href="#">Квартиры, комнаты</a></span></td><td>@*{statRoomsFlats}*@</td></tr>
+                                            <tr><td><span><a href="#">Дома, коттеджи</a></span></td><td>@*{statHouses}*@</td></tr>
+                                            <tr><td><span><a href="#">Участки</a></span></td><td>@*{statGarages}*@</td></tr>
+                                            <tr><td><span><a href="#">Гаражи</a></span></td><td>@*{statLands}*@</td></tr>
+                                            <tr style="border: none;"><td><span><a href="#">Для бизнеса</a></span></td><td>@*{statOffices}*@</td></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
 

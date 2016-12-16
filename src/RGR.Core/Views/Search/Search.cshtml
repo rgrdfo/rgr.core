@@ -36,7 +36,13 @@
             myMap = new ymaps.Map("search-result-map", {
                 center: [48.48888324, 135.08322577],
                 zoom: 14
-            });    
+            });
+            var myPlacemark = new ymaps.Placemark([48.48888324, 135.08322577], {
+                balloonContent: "Офис РГРДФО",
+                hideIconOnBalloonOpen: false,
+                style: "default#bluePoint"                 
+            });
+            myMap.geoObjects.add(myPlacemark);
         }
 
         function drawPlacemark(latitude, longitude, address) {
@@ -78,13 +84,33 @@
     <script>
         function visibleFunction(id) {           
             var elem = String(id);
-            var block = document.querySelector('#'+elem + ' .search-result-footer > .search-result-footer-inner');
-            block.style.display = 'inline-block';
+            var flag = elem[0] + elem[1] + elem[2];
+            if (flag == "ibr")
+            {
+                var block = document.querySelector('#' + elem + ' .search-result-footer > .search-result-footer-inner');
+                block.style.display = 'inline-block';
+            }
+            else if (flag == "imr") {
+                var block = document.querySelector('#' + elem + ' .row > .col-lg-4 > .search-map-footer');
+                block.style.display = 'inline-block';
+                var cancel = document.querySelector('#' + elem + ' .search-map-cancel');
+                cancel.style.display = 'inline-block';
+            }
+            
         }
         function hiddenFunction(id) {
             var elem = String(id);
-            var block = document.querySelector('#' + elem + ' .search-result-footer > .search-result-footer-inner');
-            block.style.display = 'none';
+            var flag = elem[0] + elem[1] + elem[2];
+            if (flag == "ibr") {
+                var block = document.querySelector('#' + elem + ' .search-result-footer > .search-result-footer-inner');
+                block.style.display = 'none';
+            }
+            else if (flag == "imr") {
+                var block = document.querySelector('#' + elem + ' .row > .col-lg-4 > .search-map-footer');
+                block.style.display = 'none';
+                var cancel = document.querySelector('#' + elem + ' .search-map-cancel');
+                cancel.style.display = 'none';
+            }
         }
         function deleteBlock(id) {
             var elem = document.getElementById(id);

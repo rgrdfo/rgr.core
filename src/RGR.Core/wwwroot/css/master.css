@@ -79,6 +79,9 @@ body,
     /*.header nav {margin: 0 15%;}*/       
     .content-inner {margin: 20px 12%;}    
 }
+@media screen and (max-width: 1450px) {
+    #bodyResult div[id^="imr"] a > h1{font-size:11pt;}
+}
 @media screen and (max-width: 1362px) {
     /*.header nav ul li:nth-of-type(8) {display:none; }*/
     .content-inner {margin: 20px 12%;}

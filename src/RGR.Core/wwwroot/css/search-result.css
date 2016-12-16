@@ -262,7 +262,7 @@
      text-decoration: none;
      outline: none;
  }
- .inner-body-result:active, .inner-body-result:hover {
+ .inner-body-result:focus, .inner-body-result:hover {
      box-shadow: 0 0 7px 2px rgba(0,0,0,0.1);
  }
  .inner-body-result .row .col-lg-4 > .row .col-lg-6 {
@@ -374,12 +374,19 @@
 .search-result-footer-inner #but-res-image {
     background: #e8e8e8 url(/images/add-object/ico-add-cancel.png) 15% no-repeat;
 }
-.search-result-footer-inner label {
+.search-result-footer-inner label,
+.search-map-footer label {
     color: #559abd;
     position: relative;
     margin-right: 30px;
+    cursor: pointer;
 }
-.search-result-footer-inner label::before {
+.search-map-footer label {
+    margin-left:15px;
+    margin-top:6px;    
+}
+.search-result-footer-inner label::before, 
+.search-map-footer label::before {
     content: "";
     background: url(/images/ico-star-empty.png);
     top: 0px; left: -20px; right:0; bottom:0;
@@ -388,7 +395,22 @@
     position: absolute;
 }
 
-.search-result-footer-inner label:hover {
-    cursor: pointer;
+/*.search-result-footer-inner label:hover
+.search-map-footer label:hover {    
     text-decoration: solid;
+}*/
+.box-numb {
+    position: absolute;
+    top:0; right:0;    
+}
+.search-map-cancel {
+    position: absolute;
+    top:10px; right:10px; 
+    display: none;
+    cursor: pointer;
+}
+
+.search-map-footer {
+    position: relative;
+    display: none;
 }
