@@ -294,28 +294,28 @@ namespace RGR.Core.Views.Shared.Components
             }
             else
             {
-                var rooms = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Room));
-                var flats = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Flat));
-                var houses = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.House));
-                var lands = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Land));
-                var garages = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Garage));
-                var offices = grouped.FirstOrDefault(g => g.Any(f => (long)f["Type"] == (long)EstateTypes.Office));
+                var rooms = grouped.FirstOrDefault(g => g.Any(f => (long)f ["TypeId"] == (long)EstateTypes.Room));
+                var flats = grouped.FirstOrDefault(g => g.Any(f => (long)f  ["TypeId"] == (long)EstateTypes.Flat));
+                var houses = grouped.FirstOrDefault(g => g.Any(f => (long)f ["TypeId"] == (long)EstateTypes.House));
+                var lands = grouped.FirstOrDefault(g => g.Any(f => (long)f  ["TypeId"] == (long)EstateTypes.Land));
+                var garages = grouped.FirstOrDefault(g => g.Any(f => (long)f["TypeId"] == (long)EstateTypes.Garage));
+                var offices = grouped.FirstOrDefault(g => g.Any(f => (long)f["TypeId"] == (long)EstateTypes.Office));                
                 switch (flag)
                 {
                     case 1:
-                        count = rooms.Count() + flats.Count();
+                        count = (rooms?.Count() ?? 0) + (flats?.Count() ?? 0);
                         return count;
                     case 2:
-                        count = houses.Count();
+                        count = houses?.Count() ?? 0;
                         return count;
                     case 3:
-                        count = garages.Count();
+                        count = garages?.Count() ?? 0;
                         return count;
                     case 4:
-                        count = lands.Count();
+                        count = lands?.Count() ?? 0;
                         return count;
                     case 5:
-                        count = offices.Count();
+                        count = offices?.Count() ?? 0;
                         return count;
                     default:
                         throw new ArgumentException("Указан некорректный тип недвижимости");

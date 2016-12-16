@@ -129,7 +129,7 @@
 }
 .account-office-table td label::after {
     position: absolute;
-    left: 15px;        
+    left: 110%;        
     content: "";    
 	background: url(/images/ico-plus.png) no-repeat;
     display: inline-block;        
@@ -338,8 +338,7 @@
 
     /*---Формы---*/
 
-    .add-object-inner input[type="text"],
-    .add-object-inner input[type="number"],
+    .add-object-inner input[type="text"],    
     .add-objects-content select,
      .extended select,
     .add-object-inner textarea,
@@ -373,9 +372,7 @@
     .add-object-inner input[type="text"]:focus,
     .add-object-inner input[type="text"]:active,
     .add-object-inner textarea:focus,
-    .add-object-inner textarea:active,
-    .add-object-inner input[type="number"]:focus,
-    .add-object-inner input[type="number"]:active
+    .add-object-inner textarea:active    
     {
         background-color: #fff;
         color: #559abd;        
@@ -384,12 +381,12 @@
     }      
      
     
-    .add-object-inner input[name="input-add-middle"] { width: 50%; }
+    .add-object-inner input[class="input-add-middle"] { width: 50%; }
 
-    .add-object-inner input[name="input-add-small"],
+    .add-object-inner input[class="input-add-small"],
     .add-objects-content select  { width: 90%; }
 
-    .add-object-inner input[name="input-add-double"] { width: 45%; }
+    .add-object-inner input[class="input-add-double"] { width: 45%; }
 
     .add-object-inner input[type="radio"] { display: none; }
     

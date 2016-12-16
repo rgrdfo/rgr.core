@@ -258,17 +258,19 @@ label
 }
 
 .search-box-inner-select .add-object-checkbox input[type=checkbox] + label::before {
-    left:-20px;
+    left: -20px;
     top: 5px;
 }
 
 .extended .inner-select li {
     padding-top: 15px;
 }
-.extended.search-box-inner-select .add-object-checkbox input[type=checkbox] + label::before {
-   left:-50px;
-    top: -10px;
+.extended .search-box-inner-select .add-object-checkbox input[type=checkbox] + label::before {
+   left: -30px;
+    top: -5px;
 }
+
+
  .inner-select {
     display: none;
     text-align: left;     
@@ -310,6 +312,7 @@ label
     border-top: 1px solid #559abd;
     margin-top: 25px;
 }
+
 
 
   /*-----Расширенный поиск-----*/

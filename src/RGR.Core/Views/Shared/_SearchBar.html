@@ -525,9 +525,9 @@
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
-                            <div class="col-lg-6">
-                                <input class="search-select-large" name="DistrictId" type="text" /><a href="javascript://" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" return false;>Выбрать на карте</a>
-                                <!--<ul class="search-box-inner-select">
+                            <div class="col-lg-6" id="raion">
+                                <!--<input class="search-select-large" name="DistrictId" type="text" /><a href="javascript://" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" return false;>Выбрать на карте</a>-->
+                                <ul class="search-box-inner-select">
                                     <li>
                                         Выберите район
                                         <ul class="inner-select">
@@ -538,17 +538,17 @@
                                             <li class="add-object-checkbox"><input name="roomFree" id="rh5" type="checkbox" value="on" /><label for="rh5">Железнодорожный</label></li>
                                         </ul>
                                     </li>
-                                </ul>-->
+                                </ul>
                             </div>                            
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Массив</span></div>
-                            <div class="col-lg-6">
-                                <input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />                                    
-                                <!--<ul class="search-box-inner-select">
+                            <div class="col-lg-6"  id="masiv">
+                                <!--<input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />-->                                    
+                                <ul class="search-box-inner-select">
                                     <li>
-                                        Тип комнат
+                                        Выберите массив
                                         <ul class="inner-select">
                                             <li class="add-object-checkbox" id="inner_sel_li"><input name="roomSep" id="rh1" type="checkbox" value="on" /><label for="rh1">Центральный</label></li>
                                             <li class="add-object-checkbox"><input name="roomAdj" id="rh2" type="checkbox" value="on" /><label for="rh2">Краснофлотский</label></li>
@@ -557,7 +557,7 @@
                                             <li class="add-object-checkbox"><input name="roomFree" id="rh5" type="checkbox" value="on" /><label for="rh5">Железнодорожный</label></li>
                                         </ul>
                                     </li>
-                                </ul>--> 
+                                </ul> 
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
@@ -736,15 +736,39 @@
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
-                            <div class="col-lg-6">
-                                <input type="text" class="search-select-large" name="DistrictId" /><input type="text" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" disabled="" value="Выбрать на карте" />
+                            <div class="col-lg-6" id="raion">
+                                <!--<input class="search-select-large" name="DistrictId" type="text" /><a href="javascript://" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" return false;>Выбрать на карте</a>-->
+                                <ul class="search-box-inner-select">
+                                    <li>
+                                        Выберите район
+                                        <ul class="inner-select">
+                                            <li class="add-object-checkbox" id="inner_sel_li"><input name="roomSep" id="rh1" type="checkbox" value="on" /><label for="rh1">Центральный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomAdj" id="rh2" type="checkbox" value="on" /><label for="rh2">Краснофлотский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomBoth" id="rh3" type="checkbox" value="on" /><label for="rh3">Кировский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomIkar" id="rh4" type="checkbox" value="on" /><label for="rh4">Индустриальный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomFree" id="rh5" type="checkbox" value="on" /><label for="rh5">Железнодорожный</label></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Массив</span></div>
-                            <div class="col-lg-6">
-                                <input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />                                    
+                            <div class="col-lg-6" id="masiv">
+                                <!--<input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />-->
+                                <ul class="search-box-inner-select">
+                                    <li>
+                                        Выберите массив
+                                        <ul class="inner-select">
+                                            <li class="add-object-checkbox" id="inner_sel_li"><input name="roomSep" id="rh1" type="checkbox" value="on" /><label for="rh1">Центральный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomAdj" id="rh2" type="checkbox" value="on" /><label for="rh2">Краснофлотский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomBoth" id="rh3" type="checkbox" value="on" /><label for="rh3">Кировский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomIkar" id="rh4" type="checkbox" value="on" /><label for="rh4">Индустриальный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomFree" id="rh5" type="checkbox" value="on" /><label for="rh5">Железнодорожный</label></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
@@ -915,15 +939,39 @@
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
-                            <div class="col-lg-6">
-                                <input type="text" class="search-select-large" name="DistrictId" /><input type="text" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" disabled="" value="Выбрать на карте" />
+                            <div class="col-lg-6" id="raion">
+                                <!--<input class="search-select-large" name="DistrictId" type="text" /><a href="javascript://" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" return false;>Выбрать на карте</a>-->
+                                <ul class="search-box-inner-select">
+                                    <li>
+                                        Выберите район
+                                        <ul class="inner-select">
+                                            <li class="add-object-checkbox" id="inner_sel_li"><input name="roomSep" id="rh1" type="checkbox" value="on" /><label for="rh1">Центральный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomAdj" id="rh2" type="checkbox" value="on" /><label for="rh2">Краснофлотский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomBoth" id="rh3" type="checkbox" value="on" /><label for="rh3">Кировский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomIkar" id="rh4" type="checkbox" value="on" /><label for="rh4">Индустриальный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomFree" id="rh5" type="checkbox" value="on" /><label for="rh5">Железнодорожный</label></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Массив</span></div>
-                            <div class="col-lg-6">
-                                <input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />
+                            <div class="col-lg-6" id="masiv">
+                                <!--<input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />-->
+                                <ul class="search-box-inner-select">
+                                    <li>
+                                        Выберите массив
+                                        <ul class="inner-select">
+                                            <li class="add-object-checkbox" id="inner_sel_li"><input name="roomSep" id="rh1" type="checkbox" value="on" /><label for="rh1">Центральный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomAdj" id="rh2" type="checkbox" value="on" /><label for="rh2">Краснофлотский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomBoth" id="rh3" type="checkbox" value="on" /><label for="rh3">Кировский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomIkar" id="rh4" type="checkbox" value="on" /><label for="rh4">Индустриальный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomFree" id="rh5" type="checkbox" value="on" /><label for="rh5">Железнодорожный</label></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
@@ -1016,15 +1064,39 @@
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
-                            <div class="col-lg-6">
-                                <input type="text" class="search-select-large" name="DistrictId" /><input type="text" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" disabled="" value="Выбрать на карте" />
+                            <div class="col-lg-6" id="raion">
+                                <!--<input class="search-select-large" name="DistrictId" type="text" /><a href="javascript://" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" return false;>Выбрать на карте</a>-->
+                                <ul class="search-box-inner-select">
+                                    <li>
+                                        Выберите район
+                                        <ul class="inner-select">
+                                            <li class="add-object-checkbox" id="inner_sel_li"><input name="roomSep" id="rh1" type="checkbox" value="on" /><label for="rh1">Центральный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomAdj" id="rh2" type="checkbox" value="on" /><label for="rh2">Краснофлотский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomBoth" id="rh3" type="checkbox" value="on" /><label for="rh3">Кировский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomIkar" id="rh4" type="checkbox" value="on" /><label for="rh4">Индустриальный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomFree" id="rh5" type="checkbox" value="on" /><label for="rh5">Железнодорожный</label></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Массив</span></div>
-                            <div class="col-lg-6">
-                                <input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />
+                            <div class="col-lg-6" id="masiv">
+                                <!--<input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />-->
+                                <ul class="search-box-inner-select">
+                                    <li>
+                                        Выберите массив
+                                        <ul class="inner-select">
+                                            <li class="add-object-checkbox" id="inner_sel_li"><input name="roomSep" id="rh1" type="checkbox" value="on" /><label for="rh1">Центральный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomAdj" id="rh2" type="checkbox" value="on" /><label for="rh2">Краснофлотский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomBoth" id="rh3" type="checkbox" value="on" /><label for="rh3">Кировский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomIkar" id="rh4" type="checkbox" value="on" /><label for="rh4">Индустриальный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomFree" id="rh5" type="checkbox" value="on" /><label for="rh5">Железнодорожный</label></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
@@ -1169,15 +1241,39 @@
                                 </select>
                             </div>
                             <div class="col-lg-1"><span>Район</span></div>
-                            <div class="col-lg-6">
-                                <input type="text" class="search-select-large" name="DistrictId" /><input type="text" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" disabled="" value="Выбрать на карте" />
+                            <div class="col-lg-6" id="raion">
+                                <!--<input class="search-select-large" name="DistrictId" type="text" /><a href="javascript://" id="district-map-selection" onclick="showDistrictSelectionDialog()" class="search-map-select-button" return false;>Выбрать на карте</a>-->
+                                <ul class="search-box-inner-select">
+                                    <li>
+                                        Выберите район
+                                        <ul class="inner-select">
+                                            <li class="add-object-checkbox" id="inner_sel_li"><input name="roomSep" id="rh1" type="checkbox" value="on" /><label for="rh1">Центральный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomAdj" id="rh2" type="checkbox" value="on" /><label for="rh2">Краснофлотский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomBoth" id="rh3" type="checkbox" value="on" /><label for="rh3">Кировский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomIkar" id="rh4" type="checkbox" value="on" /><label for="rh4">Индустриальный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomFree" id="rh5" type="checkbox" value="on" /><label for="rh5">Железнодорожный</label></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-1"></div><div class="col-lg-3"></div><div class="col-lg-1"><span>Массив</span></div>
-                            <div class="col-lg-6">
-                                <input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />
+                            <div class="col-lg-6" id="masiv">
+                                <!--<input class="search-select-large" type="text" /><input type="text" class="search-map-select-button" disabled="" value="Выбрать на карте" />-->
+                                <ul class="search-box-inner-select">
+                                    <li>
+                                        Выберите массив
+                                        <ul class="inner-select">
+                                            <li class="add-object-checkbox" id="inner_sel_li"><input name="roomSep" id="rh1" type="checkbox" value="on" /><label for="rh1">Центральный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomAdj" id="rh2" type="checkbox" value="on" /><label for="rh2">Краснофлотский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomBoth" id="rh3" type="checkbox" value="on" /><label for="rh3">Кировский</label></li>
+                                            <li class="add-object-checkbox"><input name="roomIkar" id="rh4" type="checkbox" value="on" /><label for="rh4">Индустриальный</label></li>
+                                            <li class="add-object-checkbox"><input name="roomFree" id="rh5" type="checkbox" value="on" /><label for="rh5">Железнодорожный</label></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                             <div class="col-lg-1"></div>
                         </div>
