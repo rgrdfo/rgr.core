@@ -2,6 +2,7 @@
 /// <reference path="js/add-object.js" />
 /// <reference path="js/easydropdown/jquery.easydropdown.min.js" />
 /// <reference path="js/easydropdown/src/jquery.easydropdown.js" />
+/// <reference path="js/jquery.unobtrusive-ajax.min.js" />
 /// <reference path="js/map.js" />
 /// <reference path="js/quickbox/highlight/etc.js" />
 /// <reference path="js/quickbox/highlight/highlight.js" />
