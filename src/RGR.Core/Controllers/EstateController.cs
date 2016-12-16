@@ -54,7 +54,7 @@ namespace RGR.Core.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateDraft([FromBody] NewEstateDTO Draft)
+        public async Task<IActionResult> CreateDraft(NewEstateDTO Draft)
         {
             var ClientName = Draft.Client?.Split(' ') ?? new string[0];
 
@@ -66,7 +66,7 @@ namespace RGR.Core.Controllers
                 .Include(e => e.Addresses)
                 .First(e => e.Id == Draft.EstateId);
 
-            Estate.UserId = Draft.ContactUserId;
+            //Estate.UserId = HttpContext.Session.GetUserId();
             Estate.ObjectType = Draft.EstateType;
             Estate.ClientId = db.Clients
                             .FirstOrDefault(c =>
@@ -109,12 +109,13 @@ namespace RGR.Core.Controllers
             Main.TotalFloors = Draft.FloorCount;
             Main.MultilistingBonus = Draft.Bonus;
             Main.MultilistingBonusType = Draft.BonusIsAbsolute ? 356 : 355;
-            Main.ContactPersonId = Draft.ContactUserId;
+            long id = db.Users.GetIdByName(Draft.ContactUser) ?? HttpContext.Session.GetUserId();
+            Main.ContactPersonId = id;
             Main.ContactCompanyId = db.Companies
                                     .Include(c => c.Users)
                                     .FirstOrDefault(c => c.Users
                                                             .Select(u => u.Id)
-                                                            .Contains(Draft.ContactUserId)
+                                                            .Contains(id)
                                     )?.Id;
             Main.FullDescription = Draft.Description;
             #endregion
@@ -129,9 +130,18 @@ namespace RGR.Core.Controllers
             Addt.RoomPlanning = Draft.RoomsType;
             Addt.AgreementType = Draft.ContractType;
             Addt.AgreementNumber = Draft.ContractNumber;
-            Addt.AgreementStartDate = Draft.ContractDate;
-            Addt.AgreementEndDate = Draft.ContractEndDate;
             Addt.Comission = Draft.Comission.ToString();
+
+            if (Draft.ContractDate == default(DateTime))
+                Addt.AgreementStartDate = null;
+            else
+                Addt.AgreementStartDate = Draft.ContractDate;
+
+            if (Draft.ContractEndDate == default(DateTime))
+                Addt.AgreementEndDate = null;
+            else
+                Addt.AgreementEndDate = Draft.ContractEndDate;
+
 
 
             #endregion

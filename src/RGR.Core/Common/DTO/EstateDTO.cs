@@ -70,7 +70,7 @@ namespace RGR.Core.Common.DTO
         public double Bonus { get; set; }
 
         //Контакты
-        public long ContactUserId { get; set; }
+        public string ContactUser { get; set; }
         public string Client { get; set; }
     }
 }
