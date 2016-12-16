@@ -49,6 +49,10 @@ namespace RGR.Core.Controllers
 
             await db.SaveChangesAsync();
 
+            ViewData["Cities"] = db.GeoCities.ToDictionary(c => c.Id, c => c.Name);
+            ViewData["Users"] = db.Users
+                            .Where(u => u.CompanyId == HttpContext.Session.GetUser(db).CompanyId)
+                            .Select(u => $"{u.LastName} {u.FirstName} {u.SurName}");
             ViewData["EstateId"] = Estate.Id;
             return View();
         }
