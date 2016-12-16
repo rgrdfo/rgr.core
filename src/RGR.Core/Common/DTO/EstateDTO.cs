@@ -27,7 +27,7 @@ namespace RGR.Core.Common.DTO
         public byte FloorCount { get; set; }
         public bool Guard { get; set; }
         public bool Alarm { get; set; }
-        public bool TerrirtoryClosed { get; set; }
+        public bool Concierge { get; set; }
         public bool TerritoryClosed { get; set; }
         public bool ElevatorPassenger { get; set; }
         public bool ElevatorCargo { get; set; }

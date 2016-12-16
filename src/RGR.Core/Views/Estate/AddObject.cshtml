@@ -8,6 +8,7 @@
 
 @{
     <script src="https://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=tr-TR" type="text/javascript"></script>
+
     <script>
         //Формирование запроса
         $(function () {
@@ -16,14 +17,52 @@
                     "EstateId":@ViewData["EstateId"],
                     "CreatorId":@Context.Session.GetUserId(),
                     "EstateType":2,
+                    //TODO: Address!
+                    "HouseType":$("#add-houseType").val(),
+                    "BuildingMaterial":$("#add-buildingMat").val(),
+                    "CellingMaterial":$("#add-cellingMat").val(),
+                    "BuildYear":$("#add-year").val(),
+                    "FloorCount":$("#add-floorsCount").val(),
                     "HasParking":$("#add-parking").val(),
-                    "HouseType":$("#add-houseType").avl(),
-                    "name": $("#id").val()
-                    , "name": $("#id").val()
+                    "BuildYear":$("#add-year").val(),
+                    "Guard":$("#ad-o-sec1").val(),
+                    "Concierge":$("#ad-o-sec2").val(),
+                    "TerritoryClosed":$("#ad-o-sec3").val(),
+                    "ElevatorPassenger":$("#ad-o-lift1").val(),
+                    "ElevatorCargo":$("#ad-o-lift2").val(),
+                    "FloorNumber":$("#add-floor").val(),
+                    "RoomsCount":$("#add-roomsCount").val(),
+                    "RoomsForSaleCount":$("#add-sellRoomsCount").val(),
+                    "RoomsType":$("#add-roomsType").val(),
+                    "CommonArea":$("#add-areaTotal").val(),
+                    "RoomsArea":$("#add-areaLiving").val(),
+                    "KitchenArea":$("#add-areaKitchen").val(),
+                    "Kitchen":$("#add-kitchen").val(),
+                    "State":$("#add-flatState").val(),
+                    "SeparatedWC":$("#add-wc").val(),
+                    "BalconiesCount":$("#add-double1").val(),
+                    "LogiasCount":$("#add-double2").val(),
+                    "WindowsLookAt":$("#add-windowsLookAt").val(),
+                    "Description":$("#add-description").val(),
+                    //TODO:фотографии!
+                    "YouTubeLink":$("#add-video").val(),
+                    "Price":$("#add-price").val(),
+                    "Negotiable":$("#ad-o-sale1").val(),
+                    "Hypothec":$("#ad-o-sale2").val(),
+                    "Comission":$("#add-comission").val(),
+                    "PropertyType":$("#add-propertyType").val(),
+                    "ContractType":$("#add-contractType").val(),
+                    //TODO: Contract number and dates
+                    //TODO: Bonuses
+                    "ContactUserId":$("#add-contactPersonId").val(),
+                    "Client":$("#add-client").val()
                 };
+                event.preventDefault();
                 $.ajax({
-                    url: 'dataparser.php'
+                    url: 'Estate/CreateDraft'
                     , type: 'POST'
+                    , dataType: "json"
+                    , contentType : "application/json; charset=utf-8"
                     , data: 'jsonData=' + $.toJSON(formData)
                     , success: function (res) {
                         alert(res);
@@ -68,7 +107,7 @@
                         <div class="tab-content">
                             @*////Подвкладка Комната////*@
                             <div id="addTypeFlat1" class="tab-pane in active">
-                                <form method="post" action="#" id="addObjects">
+                                <form action="Estate/CreateDraft" method="post" id="addObjects">
                                     <input type="hidden" name="objType" value="1">
                                     <h4>Адрес</h4>
                                     <input type="text" id="add-adress" name="input-add-middle" placeholder="Введите адрес" onchange="change()" required />
@@ -91,7 +130,7 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Материал постройки</h5>
-                                            <select>
+                                            <select id="add-buildingMat">
                                                 <option value="61">Дерево</option>
                                                 <option value="62">Кирпич</option>
                                                 <option value="68">Панель</option>
@@ -102,7 +141,7 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Материал перекрытий</h5>
-                                            <select>
+                                            <select id="add-cellingMat">
                                                 <option value="58">Железобетон</option>
                                                 <option value="59">Металл</option>
                                                 <option value="60">Дерево</option>
@@ -110,14 +149,14 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Год постройки</h5>
-                                            <input type="text" name="input-add-small" />
+                                            <input type="number" name="input-add-small" id="add-year"/>
                                         </div>
 
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <h5>Этажность дома</h5>
-                                            <input type="text" name="input-add-small" />
+                                            <input type="number" name="input-add-small" id="add-floorsTotal"/>
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Парковка</h5>
@@ -149,12 +188,12 @@
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <h5>Этаж</h5>
-                                            <input type="text" name="input-add-small" />
+                                            <input type="number" name="input-add-small" id="add-floor"/>
                                         </div>
 
                                         <div class="col-lg-3">
                                             <h5>Количество комнат</h5>
-                                            <select>
+                                            <select id="add-roomsCount">
                                                 <option value=1>1</option>
                                                 <option value=2>2</option>
                                                 <option value=3>3</option>
@@ -162,7 +201,7 @@
                                                 <option value=5>5 и более</option>
                                             </select>
                                         </div>
-                                        <div class="col-lg-3">
+                                        <div class="col-lg-3" id="add-sellRoomsCount">
                                             <h5>Количество комнат на продажу</h5>
                                             <select>
                                                 <option value=1>1</option>
@@ -174,7 +213,7 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <h5 id="ico-quest"><label>Тип комнат</label></h5>
-                                            <select>
+                                            <select id="add-roomsType">
                                                 <option value=12>Раздельные</option>
                                                 <option value=13>Смежные</option>
                                                 <option value=14>Смежно-раздельные</option>
@@ -186,15 +225,15 @@
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <h5>Общая площадь (м²)</h5>
-                                            <input type="number" name="input-add-small" />
+                                            <input type="number" name="input-add-small" id="add-areaTotal"/>
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Площадь комнат(м²)</h5>
-                                            <input type="number" name="input-add-small" />
+                                            <input type="number" name="input-add-small" id="add-areaLiving"/>
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Кухня</h5>
-                                            <select>
+                                            <select id="add-kitchen">
                                                 <option value="188">Отдельная</option>
                                                 <option value="190">Проходная</option>
                                                 <option value=null>Нет</option>
@@ -202,13 +241,13 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Площадь кухни (м²)</h5>
-                                            <input type="number" name="input-add-small" />
+                                            <input type="number" name="input-add-small" id="add-areaKitchen"/>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <h5>Состояние</h5>
-                                            <select>
+                                            <select id="add-flatState">
                                                 <option value=85>После строителей</option>
                                                 <option value=86>Требуется кап.ремонт</option>
                                                 <option value=88>Требуется космет.ремонт</option>
@@ -220,18 +259,18 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Санузел</h5>
-                                            <select>
+                                            <select id="add-wc">
                                                 <option value=true>Раздельный</option>
                                                 <option value=false>Совмещенный</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Количество</h5>
-                                            <input type="text" id="add-double1" name="input-add-double" placeholder="Балконов" /><input type="text" id="add-double2" name="input-add-double" placeholder="Лоджий" />
+                                            <input type="number" id="add-double1" name="input-add-double" placeholder="Балконов" /><input type="number" id="add-double2" name="input-add-double" placeholder="Лоджий" />
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Окна выходят</h5>
-                                            <select>
+                                            <select id="add-windowsLookAt">
                                                 <option value="174">Во двор</option>
                                                 <option value=null>На улицу</option>
                                                 <option value=null>Во двор и на улицу</option>
@@ -242,7 +281,7 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <h5>Подробное описание объекта</h5>
-                                            <textarea type="text" maxlength="100000"></textarea>
+                                            <textarea type="text" maxlength="100000" id="add-description"></textarea>
                                         </div>
                                     </div>
                                     <h4>Фотографии</h4>
@@ -257,14 +296,14 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <h5>Ссылка на видео на YouTube</h5>
-                                            <input type="text" name="input-add-middle" />
+                                            <input type="text" name="input-add-middle" id="add-video"/>
                                         </div>
                                     </div>
                                     <h4>Условия сделки</h4>
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <h5>Цена</h5>
-                                            <input type="number" name="input-add-small" />
+                                            <input type="number" name="input-add-small" id="add-price"/>
                                         </div>
                                         <div class="col-lg-3" id="add-currency">
                                             <h5>Валюта</h5>
@@ -280,13 +319,13 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Комиссия по покупке</h5>
-                                            <input type="number" name="input-add-small" />
+                                            <input type="number" name="input-add-small" id="add-comission"/>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <h5>Вид собственности</h5>
-                                            <select>
+                                            <select id="add-propertyType">
                                                 <option value=238>Аренда</option>
                                                 <option value=319>Бессрочное пользование</option>
                                                 <option value=320>Долевое участие (право требования)</option>
@@ -297,7 +336,7 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Тип договора</h5>
-                                            <select>
+                                            <select id="add-contractType">
                                                 <option value=265>Без договора</option>
                                                 <option value=266>Договор</option>
                                                 <option value=354>Мультилистинг</option>
@@ -310,11 +349,11 @@
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <h5>Контактное лицо</h5>
-                                            <select></select>
+                                            <select id="add-contactPersonId"></select>
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Объект относится к клиенту</h5>
-                                            <input type="text" name="input-add-small" placeholder="Начните вводить имя.." />
+                                            <input type="text" name="input-add-small" id="add-client" placeholder="Начните вводить имя.." />
                                         </div>
                                         <div class="col-lg-3"></div>
                                         <div class="col-lg-3"></div>
