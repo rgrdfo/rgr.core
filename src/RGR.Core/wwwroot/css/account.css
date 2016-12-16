@@ -157,22 +157,32 @@
 
  /*-------- Вывод объектов-----*/
 
+ #bodyResult .tab-content h2 {      
+       font-size: 14px;  
+       margin: 0;
+       margin-left: -15px;
+ }
  .object-conteiner {
      background-color: #fff;
-     border-radius: 8px;
-     margin: 10px 0;
-     box-shadow: 0px 2px 7px rgba(0,0,0,0.5);
+     border-radius: 5px !important;
+     margin: 10px 0;     
+ }
+ .object-conteiner font {color: #919191;}
+ .object-conteiner h1 > font {color: inherit;}
+ .object-conteiner:hover {
+    box-shadow: 0 0 7px 2px rgba(0,0,0,0.1);
  }
   .account-block #bodyResult h1 
   {
       font-size: 12pt;
       margin: 0;
+      height: 25px;
   }
   .account-block #bodyResult .col-lg-1 {width:12.5%; height: 170px;}
   .account-block #bodyResult .col-lg-2 {width:15%; height: 170px;}
   .account-block #bodyResult .col-lg-3 {width: 20%; height: 170px;}
 
-
+  .account-box-head {border-radius: 5px 5px 0 0;}
 
   .account-block .account-box-head .col-lg-1,
    .account-block .account-box-head .col-lg-2,
@@ -217,12 +227,19 @@
   .objects-inner ul li a[href="#typeObj6"] {border-radius: 0 5px 5px 0;}
 
 
+  a[id="show-obj-link"] {padding-left: 25px;}
+  a[id="show-obj-link"]::before {
+    content: "";
+    height:16px; width:16px;
+    background: url(/images/personal/ico-show-obj-link.png) no-repeat;
+    position: absolute;
+}
+
  /*---------Добавление---------*/
 
  .add-objects-content{
      color: #22496d;
-     min-width: 960px;
-    
+     min-width: 960px;    
  }
 
  .add-objects-content div[class^="col-lg"] {
@@ -234,8 +251,8 @@
      font-size: 15pt; 
      margin: 15px 0;                
  }
-   .add-objects-content h5{
-       font-size: 12pt;
+  .add-objects-content h5{
+       font-size: 12pt;       
    }
 
    .add-objects-content h6 {

@@ -644,14 +644,14 @@ li a:hover:after{
 }
 
 /*-----Обработка focus и active-----*/ 
-input:active, input:focus,
+/*input:active, input:focus,
 a:active, a:focus,
 textarea:active, textarea:focus,
 button:active, button:focus,
 select:active, select:focus {
     outline: none;
 
-}
+}*/
 
 
 /*---Шрифт для символа рубля---*/

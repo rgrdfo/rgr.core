@@ -31,7 +31,7 @@ namespace RGR.Core.Views.Shared.Components
             var sb = new StringBuilder("<div id = \"typeObj1\" class=\"tab-pane in active \">");
             if (rooms != null)
             {
-                sb.Append($"<h5><b> Новых совпадений по объектам:{(rooms != null ? rooms.Count() : 0)} </b ></h5>");
+                sb.Append($"<div class=\"row\"><div class=\"col-lg-3\"><h2>Новых совпадений по объектам: <b>{(rooms != null ? rooms.Count() : 0)}</b></h2></div><div class=\"col-lg-4\"><span><a id=\"show-obj-link\" href=\"#\">Показать только объекты с совпадениями</a></span></div><div class=\"col-lg-5\"></div></div>");
                 foreach (var room in rooms)
                 {
                     sb.Append($"<div class=\"object-conteiner\"><div class=\"account-box-head\">");
@@ -45,12 +45,12 @@ namespace RGR.Core.Views.Shared.Components
 
                     sb.Append($"<div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1>{room["Address"]}<br/>{room["City"]}</h1></div>");
                     //sb.Append($"< img src =\"{room["Logo"]}\"></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><h1>{room["Date"]}</h1><br />ID: {room["Id"]:0000000}</div>");
-                    sb.Append($"<div class=\"col-lg-1\"><h1>{room["Price"]: ### ### ###} ₽</h1><br />{room["PricePerSquare"]:### ###.##} ₽ / м²</div>");
-                    sb.Append($"<div class=\"col-lg-2\">{room["HouseMaterial"]}<br/>{room["HouseType"]}</div>");
-                    sb.Append($"<div class=\"col-lg-1\">{room["Area"]} м²<br />кухня: {room["KitchenArea"]} м²<br /></div>");
-                    sb.Append($"<div class=\"col-lg-1\">{room["Floor"]} этаж из {room["FloorCount"]}<br />{room["Description"]}</div>");
-                    sb.Append($"<div class=\"col-lg-2\">{room["Agency"]}<br/>{room["AgentPhone"]}</div></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{room["Date"]}</h1><br /><font>ID: {room["Id"]:0000000}</font></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{room["Price"]: ### ### ###}  <font class=\"ruble\">₽</font> </h1><br /><font>{room["PricePerSquare"]:### ###.##}  <font class=\"ruble\">₽</font>  / м²</font></div>");
+                    sb.Append($"<div class=\"col-lg-2\"><h1></h1><br /><font>дом: </font>{room["HouseMaterial"]}<br/><font>тип: </font>{room["HouseType"]}<br/><font>состояние: </font>{room["State"]}</div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{room["Area"]} м²</h1><br /><font>кухня: </font> {room["KitchenArea"]} м²</div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{room["Floor"]} этаж из {room["FloorCount"]}</h1><br /><font>балкон: </font>{room["Balcony"]}<br/><font>с/у: </font> {room["WC"]}</div>");
+                    sb.Append($"<div class=\"col-lg-2\"><h1>{room["Agency"]}</h1><br/>{room["AgentPhone"]}</div></div>");
                     sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={room["Id"]}\">Подробнее</a></div></div>");
                 }
                 sb.Append($"</div>");
@@ -85,12 +85,12 @@ namespace RGR.Core.Views.Shared.Components
 
                     sb.Append($"<div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1>{flat["Address"]}<br/>{flat["City"]}</h1></div>");
                     //sb.Append($"< img src =\"{flat["Logo"]}\"></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><h1>{DateToShow}</h1><br />ID: {flat["Id"]:0000000}</div>");
-                    sb.Append($"<div class=\"col-lg-1\"><h1>{flat["Price"]: ### ### ###} ₽</h1><br />{flat["PricePerSquare"]:### ###.##} ₽ / м²</div>");
-                    sb.Append($"<div class=\"col-lg-2\"><h1>{flat["Rooms"]}-комнатная</h1><br/>{flat["HouseMaterial"]}<br/>{flat["HouseType"]}</div>");
-                    sb.Append($"<div class=\"col-lg-1\"><h1>{flat["Area"]} м²</h1><br />кухня: {flat["KitchenArea"]} м²<br />жилая: {flat["LivingArea"]} м²</div>");
-                    sb.Append($"<div class=\"col-lg-1\"><h1>{flat["Floor"]} этаж из {flat["FloorCount"]}</h1><br />{flat["Description"]}</div>");
-                    sb.Append($"<div class=\"col-lg-2\">{flat["Agency"]}<br/>{flat["AgentPhone"]}</div></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{DateToShow}</h1><br /><font>ID: {flat["Id"]:0000000}</font></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{flat["Price"]: ### ### ###}  <font class=\"ruble\">₽</font> </h1><br /><font>{flat["PricePerSquare"]:### ###.##}  <font class=\"ruble\">₽</font>  / м²</font></div>");
+                    sb.Append($"<div class=\"col-lg-2\"><h1>{flat["Rooms"]}-комнатная</h1><br/><font>дом:</font> {flat["HouseMaterial"]}<br/><font>материал:</font> {flat["HouseType"]}<br/><font>состояние:</font> {flat["State"]}</div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{flat["Area"]} м²</h1><br /><font>кухня:</font> {flat["KitchenArea"]} м²<br /><font>жилая:</font> {flat["LivingArea"]} м²</div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{flat["Floor"]} этаж из {flat["FloorCount"]}</h1><br/><font>балкон: </font>{flat["Balcony"]}<br/><font>комнаты: </font> {flat["Rooms"]}<br/><font>с/у: </font> {flat["WC"]}</div>");
+                    sb.Append($"<div class=\"col-lg-2\"><h1>{flat["Agency"]}</h1><br/>{flat["AgentPhone"]: # ### ###}</div></div>");
                     sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={flat["Id"]}\">Подробнее</a></div></div>");
                 }
                 sb.Append($"</div>");
@@ -123,12 +123,12 @@ namespace RGR.Core.Views.Shared.Components
 
                     sb.Append($"< div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{house["Address"]}<br/>{house["City"]}</span></h1></div>");
                     //sb.Append($"< img src =\"{house["Logo"]}\"></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><h1>{house["DateToShow"]}</h1><br />ID: {house["Id"]:0000000}</div>");
-                    sb.Append($"<div class=\"col-lg-1\"><h1>{house["Price"]: ### ### ###} ₽</h1><br />{house["PricePerSquare"]:### ###.##} ₽ / м²</div>");
-                    sb.Append($"<div class=\"col-lg-2\">{house["Rooms"]}-комн.<br />материал: {house["HouseMaterial"]}<br/>состояние: {house["State"]}<br/>отопление: {house["Heating"]}<br/>вода: {house["Water"]}<br/>электричество: {house["Electricy"]}<br/>канализация: {house["Sewer"]}</div>");
-                    sb.Append($"<div class=\"col-lg-1\">{house["Area"]:###.##} м²<br />кухня: {house["KitchenArea"]} м²<br/>жилая: {house["LivingArea"]} м²</div>");
-                    sb.Append($"<div class=\"col-lg-1\">{house["FloorCount"]}<br />балкон: {house["BalconyIsPresent"]}<br/>санузел: {house["WC"]}</div>");
-                    sb.Append($"<div class=\"col-lg-2\">{house["Agency"]}<br/>{house["AgentPhone"]}</div></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{house["DateToShow"]}</h1><br /><font>ID: <font>{house["Id"]:0000000}</font></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{house["Price"]: ### ### ###}  <font class=\"ruble\">₽</font> </h1><br /><font>{house["PricePerSquare"]:### ###.##}  <font class=\"ruble\">₽</font>  / м²</font></div>");
+                    sb.Append($"<div class=\"col-lg-2\"><h1>{house["Rooms"]}-комн.</h1<br /><font>дом:</font> {house["HouseMaterial"]}<br/><font>состояние: </font> {house["State"]}<br/><font>отопление: </font>{house["Heating"]}<br/><font>вода: </font> {house["Water"]}<br/><font>электричество: </font> {house["Electricy"]}<br/><font>канализация: </font> {house["Sewer"]}</div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{house["Area"]:###.##} м²</h1<br /><font>кухня: <.font> {house["KitchenArea"]} м²<br/><font>жилая: </font> {house["LivingArea"]} м²</div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{house["FloorCount"]}</h1<br /><font>балкон: </font>{house["Balcony"]}<br/><font>комнаты: </font> {house["Rooms"]}<br/><font>с/у: </font> {house["WC"]}</div>");
+                    sb.Append($"<div class=\"col-lg-2\"><h1>{house["Agency"]}</h1><br/>{house["AgentPhone"]}</div></div>");
                     sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={house["Id"]}\">Подробнее</a></div></div>");
                 }
                 sb.Append($"</div>");
@@ -163,11 +163,11 @@ namespace RGR.Core.Views.Shared.Components
 
                     sb.Append($"< div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{garage["Address"]}<br/>{garage["City"]}</span></h1>");
                     sb.Append($"< img src =\"{garage["Logo"]}\"></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><h1>{garage["DateToShow"]}</h1><br />ID: {garage["Id"]:0000000}</div>");
-                    sb.Append($"<div class=\"col-lg-1\"><h1>{garage["Price"]: ### ### ###} ₽</h1><br />{garage["PricePerSquare"]:### ###.##} ₽ / м²</div>");
-                    sb.Append($"<div class=\"col-lg-3\">Гараж<br />материал: {garage["garageMaterial"]}</div>");
-                    sb.Append($"<div class=\"col-lg-3\">{garage["Area"]:###.##} м²</div>");
-                    sb.Append($"<div class=\"col-lg-2\">{garage["Agency"]}<br/>{garage["AgentPhone"]}</div></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{garage["DateToShow"]}</h1><br /><font>ID: {garage["Id"]:0000000}</font></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{garage["Price"]: ### ### ###}  <font class=\"ruble\">₽</font> </h1><br /><font>{garage["PricePerSquare"]:### ###.##}  <font class=\"ruble\">₽</font>  / м²</font></div>");
+                    sb.Append($"<div class=\"col-lg-3\"><h1>Гараж</h1><br /><font>материал:</font> {garage["garageMaterial"]}</div>");
+                    sb.Append($"<div class=\"col-lg-3\"><h1>{garage["Area"]:###.##} м²</h1></div>");
+                    sb.Append($"<div class=\"col-lg-2\"><h1>{garage["Agency"]}</h1><br/>{garage["AgentPhone"]}</div></div>");
                     sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={garage["Id"]}\">Подробнее</a></div></div>");
 
                 }
@@ -200,11 +200,11 @@ namespace RGR.Core.Views.Shared.Components
 
                     sb.Append($"< div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{land["Address"]}<br/>{land["City"]}</span></h1>");
                     sb.Append($"< img src =\"{land["Logo"]}\"></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><h1>{land["DateToShow"]}</h1><br />ID: {land["Id"]:0000000}</div>");
-                    sb.Append($"<div class=\"col-lg-1\"><h1>{land["Price"]: ### ### ###} ₽</h1><br />{land["PricePerSquare"]:### ###.##} ₽ / м²</div>");
-                    sb.Append($"<div class=\"col-lg-3\">{land["Area"]:###.##} м²<br /><br/>отопление: {land["Heating"]}<br/>вода: {land["Water"]}<br/>электричество: {land["Electricy"]}<br/>канализация: {land["Sewer"]}</div>");
-                    sb.Append($"<div class=\"col-lg-3\">{land["Purpose"]}<br />{land["Category"]}<br />{land["Specifics"]}</div>");
-                    sb.Append($"<div class=\"col-lg-2\">{land["Agency"]}<br/>{land["AgentPhone"]}</div></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{land["DateToShow"]}</h1><br /><font>ID: {land["Id"]:0000000}</font></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{land["Price"]: ### ### ###} <font class=\"ruble\">₽</font> </h1><br /><font>{land["PricePerSquare"]:### ###.##}  <font class=\"ruble\">₽</font>  / м²</font></div>");
+                    sb.Append($"<div class=\"col-lg-3\"><h1>{land["Area"]:###.##} м²</h1><br /><br/><font>отопление: </font>{land["Heating"]}<br/><font>вода: </font> {land["Water"]}<br/><font>электричество: </font>{land["Electricy"]}<br/><font>канализация: </font>{land["Sewer"]}</div>");
+                    sb.Append($"<div class=\"col-lg-3\"><h1>{land["Purpose"]}</h1><br /><font>категория: </font>{land["Category"]}<br /><font>особенности расположения: </font>{land["Specifics"]}</div>");
+                    sb.Append($"<div class=\"col-lg-2\"><h1>{land["Agency"]}</h1><br/>{land["AgentPhone"]}</div></div>");
                     sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={land["Id"]}\">Подробнее</a></div></div>");
                 }
                 sb.Append($"</div>");
@@ -236,11 +236,11 @@ namespace RGR.Core.Views.Shared.Components
 
                     sb.Append($"< div class=\"row\"><div class=\"col-lg-3\" style=\"border-bottom:none;\"><h1><span>{office["Address"]}<br/>{office["City"]}</span></h1>");
                     sb.Append($"< img src =\"{office["Logo"]}\"></div>");
-                    sb.Append($"<div class=\"col-lg-1\"><h1>{office["DateToShow"]}</h1><br />ID: {office["Id"]:0000000}</div>");
-                    sb.Append($"<div class=\"col-lg-1\"><h1>{office["Price"]: ### ### ###} ₽</h1><br />{office["PricePerSquare"]:### ###.##} ₽ / м²</div>");
-                    sb.Append($"<div class=\"col-lg-3\">{office["Area"]:###.##} м²<br />материал: {office["HouseMaterial"]}<br />состояние: {office["State"]}</div>");
-                    sb.Append($"<div class=\"col-lg-3\">{office["FloorCount"]}<br /><br/>отопление: {office["Heating"]}<br/>вода: {office["Water"]}<br/>электричество: {office["Electricy"]}<br/>канализация: {office["Sewer"]}</div>");
-                    sb.Append($"<div class=\"col-lg-2\">{office["Agency"]}<br/>{office["AgentPhone"]}</div></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{office["DateToShow"]}</h1><br /><font>ID: {office["Id"]:0000000}</font></div>");
+                    sb.Append($"<div class=\"col-lg-1\"><h1>{office["Price"]: ### ### ###}  <font class=\"ruble\">₽</font> </h1><br /><font>{office["PricePerSquare"]:### ###.##}  <font class=\"ruble\">₽</font>  / м²</font></div>");
+                    sb.Append($"<div class=\"col-lg-3\"><h1>{office["Area"]:###.##} м²</h1><br /><font>дом: </font>{office["HouseMaterial"]}<br /><font>состояние: </font>{office["State"]}</div>");
+                    sb.Append($"<div class=\"col-lg-3\"><h1>{office["FloorCount"]}</h1><br /><br/><font>отопление: /font>{office["Heating"]}<br/><font>вода: </font>{office["Water"]}<br/><font>электричество: </font>{office["Electricy"]}<br/><font>канализация: </font>{office["Sewer"]}</div>");
+                    sb.Append($"<div class=\"col-lg-2\"><h1>{office["Agency"]}</h1><br/>{office["AgentPhone"]}</div></div>");
                     sb.Append($"<div class=\"search-result-footer\"><a href=\"Info?id={office["Id"]}\">Подробнее</a></div></div>");
                 }
                 sb.Append($"</div>");
