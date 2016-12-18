@@ -23,70 +23,6 @@
 @{
     <script src="https://api-maps.yandex.ru/2.0-stable/?load=package.full&lang=tr-TR" type="text/javascript"></script>
 
-    @*<script>
-        //Формирование запроса
-        $(function () {
-            $("#addObject").submit(function () {
-                var formData = {
-                    "EstateId":@ViewData["EstateId"],
-                    "CreatorId":@Context.Session.GetUserId(),
-                    "EstateType":2,
-                    //TODO: Address!
-                    "HouseType":$("#add-houseType").val(),
-                    "BuildingMaterial":$("#add-buildingMat").val(),
-                    "CellingMaterial":$("#add-cellingMat").val(),
-                    "BuildYear":$("#add-year").val(),
-                    "FloorCount":$("#add-floorsCount").val(),
-                    "HasParking":$("#add-parking").val(),
-                    "BuildYear":$("#add-year").val(),
-                    "Guard":$("#ad-o-sec1").val(),
-                    "Concierge":$("#ad-o-sec2").val(),
-                    "TerritoryClosed":$("#ad-o-sec3").val(),
-                    "ElevatorPassenger":$("#ad-o-lift1").val(),
-                    "ElevatorCargo":$("#ad-o-lift2").val(),
-                    "FloorNumber":$("#add-floor").val(),
-                    "RoomsCount":$("#add-roomsCount").val(),
-                    "RoomsForSaleCount":$("#add-sellRoomsCount").val(),
-                    "RoomsType":$("#add-roomsType").val(),
-                    "CommonArea":$("#add-areaTotal").val(),
-                    "RoomsArea":$("#add-areaLiving").val(),
-                    "KitchenArea":$("#add-areaKitchen").val(),
-                    "Kitchen":$("#add-kitchen").val(),
-                    "State":$("#add-flatState").val(),
-                    "SeparatedWC":$("#add-wc").val(),
-                    "BalconiesCount":$("#add-double1").val(),
-                    "LogiasCount":$("#add-double2").val(),
-                    "WindowsLookAt":$("#add-windowsLookAt").val(),
-                    "Description":$("#add-description").val(),
-                    //TODO:фотографии!
-                    "YouTubeLink":$("#add-video").val(),
-                    "Price":$("#add-price").val(),
-                    "Negotiable":$("#ad-o-sale1").val(),
-                    "Hypothec":$("#ad-o-sale2").val(),
-                    "Comission":$("#add-comission").val(),
-                    "PropertyType":$("#add-propertyType").val(),
-                    "ContractType":$("#add-contractType").val(),
-                    //TODO: Contract number and dates
-                    //TODO: Bonuses
-                    "ContactUserId":$("#add-contactPersonId").val(),
-                    "Client":$("#add-client").val()
-                };
-                event.preventDefault();
-                $.ajax({
-                    url: 'Estate/CreateDraft'
-                    , type: 'POST'
-                    , dataType: "json"
-                    , contentType : "application/json; charset=utf-8"
-                    , data: 'jsonData=' + $.toJSON(formData)
-                    , success: function (res) {
-                        alert(res);
-                    }
-                });
-                return false;
-            });
-        });
-    </script>*@
-
 }
 <head>
     <script src="~/js/upload-1.js"></script>
@@ -125,7 +61,7 @@
                                     <input type="hidden" name="EstateType" value=2>
                                     <input type="hidden" name="EstateId" value=@ViewData["EstateId"]>
                                     <h4>Адрес</h4>
-                                    <input type="text" id="add-adress" class="input-add-middle" placeholder="Например: г. Хабаровск, ул. Ленина, 123 - 45" onchange="change()" required />
+                                    <input type="text" id="add-adress" class="input-add-middle" name="Address" placeholder="Например: г. Хабаровск, ул. Ленина, 123 - 45" onchange="change()" required />
                                     <div id="map-block"></div>
                                     <h4>Информация по дому</h4>
                                     <div class="row">

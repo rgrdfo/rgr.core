@@ -1,0 +1,16 @@
+﻿{
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=LITTLEONE\\SQLMELPOANN;Initial Catalog=RDV_prod2;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;"
+    //"Data Source=RAVENHOG-3\\SQLEXPRESS;Initial Catalog=RDV_test;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+    //"Data Source=LITTLEONE\\SQLMELPOANN;Initial Catalog=RDV_prod2;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+  },
+  "Logging": {
+    "IncludeScopes": false,
+    "LogLevel": {
+      "Default": "Debug",
+      "System": "Information",
+      "Microsoft": "Information"
+    }
+  }
+}
+
