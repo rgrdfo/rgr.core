@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     var dropZone = $('#add-photo');
-    var maxFileSize = 5000000; // максимальный размер файла - 5 мб.
+    var maxFileSize = 1048576; // максимальный размер файла - 1 мб.
     var maxFiles = 20; // максимальное количество - 20 шт.
     var dataArray = [];
 

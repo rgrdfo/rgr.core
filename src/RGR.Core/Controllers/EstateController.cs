@@ -82,121 +82,121 @@ namespace RGR.Core.Controllers
                                 c.SurName == ClientName[2])
                             ?.Id ?? -1;
 
-            #region Разбор адреса
-            var Address = Estate.Addresses.First();
+            //#region Разбор адреса
+            //var Address = Estate.Addresses.First();
 
-            var cities = db.GeoCities.ToDictionary(c => c.Name.Split(',')[0], c => c.Id);
+            //var cities = db.GeoCities.ToDictionary(c => c.Id, c => c.Name.Split(',')[0]);
 
-            var parser = new Parser()
-            {
-                Keywords = cities.Keys.ToArray(),
-                Letters = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя1234567890",
-                Separators = ",-.",
-                Digits = "",
-                Brackets = ""
-            };
+            //var parser = new Parser()
+            //{
+            //    Keywords = cities.Values.ToArray(),
+            //    Letters = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя1234567890",
+            //    Separators = ",-.",
+            //    Digits = "",
+            //    Brackets = ""
+            //};
 
-            bool CityDefined = false;
-            bool DefiningStreet = false;
-            bool DefiningHouse = false;
-            bool DefiningFlat = false;
+            //bool CityDefined = false;
+            //bool DefiningStreet = false;
+            //bool DefiningHouse = false;
+            //bool DefiningFlat = false;
 
-            var tokens = parser.Parse(Draft.Address).Where(t => t.Category != Category.Space);
+            //var tokens = parser.Parse(Draft.Address).Where(t => t.Category != Category.Space);
 
-            IEnumerable<long> districts;
-            IEnumerable<long> areas;
-            var  streets = new Dictionary<string, long>();
+            //IEnumerable<long> districts;
+            //IEnumerable<long> areas;
+            //var  streets = new Dictionary<string, long>();
 
-            var sb = new StringBuilder("");
+            //var sb = new StringBuilder("");
 
-            foreach (var token in tokens)
-            {
-                if (token.Category == Category.Keyword && !CityDefined)
-                {
-                    if (cities.Keys.Contains(token.Lexeme))
-                    {
-                        CityDefined = true;
-                        Address.CityId = cities[token.Lexeme];
-                        districts = db.GeoDistricts
-                            .Where(g => g.CityId == Address.CityId)
-                            .Select(g => g.Id);
-                        areas = db.GeoResidentialAreas
-                            .Where(a => districts.Contains(a.DistrictId))
-                            .Select(a => a.Id);
-                        streets = db.GeoStreets
-                            .Where(s => areas.Contains(s.AreaId))
-                            .ToDictionary(s => s.Name, s => s.Id);
+            //foreach (var token in tokens)
+            //{
+            //    if (token.Category == Category.Keyword && !CityDefined)
+            //    {
+            //        if (cities.Values.Contains(token.Lexeme))
+            //        {
+            //            CityDefined = true;
+            //            Address.CityId = cities.First(c => c.Value == token.Lexeme).Key;
+            //            districts = db.GeoDistricts
+            //                .Where(g => g.CityId == Address.CityId)
+            //                .Select(g => g.Id);
+            //            areas = db.GeoResidentialAreas
+            //                .Where(a => districts.Contains(a.DistrictId))
+            //                .Select(a => a.Id);
+            //            streets = db.GeoStreets
+            //                .Where(s => areas.Contains(s.AreaId))
+            //                .ToDictionary(s => s.Name, s => s.Id);
 
-                        DefiningStreet = true;
+            //            DefiningStreet = true;
 
-                        continue;
-                    }
+            //            continue;
+            //        }
 
-                    if (token.Lexeme == "," && CityDefined && !DefiningStreet)
-                        continue;
+            //        if (token.Lexeme == "," && CityDefined && !DefiningStreet)
+            //            continue;
 
-                    if (CityDefined && DefiningStreet)
-                    {
-                        switch (token.Lexeme)
-                        {
-                            case "ул.":
-                            case "улица":
-                                break;
+            //        if (CityDefined && DefiningStreet)
+            //        {
+            //            switch (token.Lexeme)
+            //            {
+            //                case "ул.":
+            //                case "улица":
+            //                    break;
 
-                            case ",":
-                            case "д":
-                            case "дом":
-                                DefiningStreet = false;
-                                break;
+            //                case ",":
+            //                case "д":
+            //                case "дом":
+            //                    DefiningStreet = false;
+            //                    break;
 
-                            default:
-                                sb.Append($"{(sb.ToString() == "" ? "" : " ")}{token}");
-                                break;
-                        }
-                    }
+            //                default:
+            //                    sb.Append($"{(sb.ToString() == "" ? "" : " ")}{token}");
+            //                    break;
+            //            }
+            //        }
 
-                    if (DefiningStreet && !DefiningHouse)
-                    {
-                        foreach (var street in streets)
-                        {
-                            if (street.Key.Contains(sb.ToString()))
-                            {
-                                Address.StreetId = street.Value;
-                                DefiningHouse = true;
-                                sb.Clear();
-                                continue;
-                            }
-                        }
-                    }
+            //        if (DefiningStreet && !DefiningHouse)
+            //        {
+            //            foreach (var street in streets)
+            //            {
+            //                if (street.Key.Contains(sb.ToString()))
+            //                {
+            //                    Address.StreetId = street.Value;
+            //                    DefiningHouse = true;
+            //                    sb.Clear();
+            //                    continue;
+            //                }
+            //            }
+            //        }
 
-                    if (DefiningHouse && !DefiningFlat)
-                    {
-                        switch (token.Lexeme)
-                        {
-                            case "-":
-                            case "кв":
-                            case "квартира":
-                                DefiningHouse = false;
-                                DefiningFlat = true;
-                                Address.House = sb.ToString();
-                                continue;
+            //        if (DefiningHouse && !DefiningFlat)
+            //        {
+            //            switch (token.Lexeme)
+            //            {
+            //                case "-":
+            //                case "кв":
+            //                case "квартира":
+            //                    DefiningHouse = false;
+            //                    DefiningFlat = true;
+            //                    Address.House = sb.ToString();
+            //                    continue;
 
-                            default:
-                                sb.Append($"{(sb.ToString() == "" ? "" : " ")}{token}");
-                                break;
-                        }
-                    }
+            //                default:
+            //                    sb.Append($"{(sb.ToString() == "" ? "" : " ")}{token}");
+            //                    break;
+            //            }
+            //        }
 
-                    if (DefiningFlat)
-                    {
-                        Address.Flat = token.Lexeme;
-                    }
-                }
-            }
+            //        if (DefiningFlat)
+            //        {
+            //            Address.Flat = token.Lexeme;
+            //        }
+            //    }
+            //}
 
-            Address.Latitude = Draft.Latitude;
-            Address.Logitude = Draft.Longitude;
-            #endregion
+            //Address.Latitude = Draft.Latitude;
+            //Address.Logitude = Draft.Longitude;
+            //#endregion
 
 
             #region ObjectMainPropetries

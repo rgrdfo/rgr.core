@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     var dropZone = $('#add-photo'),
-        maxFileSize = 5000000; // максимальный размер файла - 5 мб.
+        maxFileSize = 1048576; // максимальный размер файла - 5 мб.
     var maxFiles = 20; // максимальное количество - 20 шт.
     var dataArray = [];
 
@@ -41,6 +41,8 @@
             else {
                 // Передаем массив с файлами в функцию загрузки на предпросмотр
                 addImage(files);
+                // И отправляем их на сервер
+                send(files);
             }           
 
         } else {
@@ -57,5 +59,26 @@
             $('#photo-row').append('<div id="img-' + files[i] + '" class="col-lg-3" style="background:url(' + src + ') no-repeat; background-size:cover;"></div>');        
             
         }
+    }
+
+    //отправка файлов на сервер
+    function send(files) {
+        var data = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            data.append(files[i].name, files[i])
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Storage/UploadMedia",
+            contentType: false,
+            processData: false,
+            success: function (message) {
+                alert(message);
+            },
+            error: function () {
+                alert("Ошибка загрузки файла!");
+            }
+        })
     }
 });
