@@ -71,6 +71,7 @@
         $.ajax({
             type: "POST",
             url: "/Storage/UploadMedia",
+            data: data,
             contentType: false,
             processData: false,
             success: function (message) {

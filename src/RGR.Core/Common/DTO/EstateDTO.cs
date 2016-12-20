@@ -13,6 +13,7 @@ namespace RGR.Core.Common.DTO
         //Общее
         public short EstateType { get; set; }
         public string Address { get; set; }
+        public string YandexAddress { get; set; }
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
         //public string City { get; set; }
