@@ -64,9 +64,13 @@
                 document.getElementById('addLong').value = coords[1];
                 //document.getElementById('addYAddr').value = res.geoObjects.get(0).properties.get('text');                
                 geoResult = res.geoObjects.get(0);
-                var local = geoResult.getLocalities();
+                var local = geoResult.getLocalities()[0];
+                var inlocal = (geoResult.getLocalities()[1]!= null ? geoResult.getLocalities()[1] : "" );
                 var thor = geoResult.getThoroughfare();
                 var prem = geoResult.getPremiseNumber();
+                var adm = geoResult.getAdministrativeAreas();
+                document.getElementById('adm').value = adm;
+                document.getElementById('inloc').value = inlocal;
                 document.getElementById('loc').value = local;
                 document.getElementById('thor').value = thor;
                 document.getElementById('prem').value = prem;               
@@ -76,21 +80,6 @@
                 alert(err);
             });
     }
-
-    //Определение адреса по координатам
-    //function getAddr(coordinares) {
-    //    alert(coordinates);
-    //    var geocoder = ymaps.geocode(coordinates);
-    //    alert(geocoder);
-    //    geocoder.then(
-    //        function (res) {
-    //            alert(res.geoObjects.get(0))
-
-    //        },
-    //        function (err) {
-    //            alert(err);
-    //        });
-        //}
 
     function ajaxCoordsObject()
     {
@@ -116,10 +105,11 @@
 
 <div class="content-inner">
     <div class="add-objects-content">
-        <h3>Добавить объект #@ViewData["EstateId"]</h3>
+        <h3>Добавить объект #@ViewData["EstateId"]</h3>        
         <div class="head-separator">
             <h4>Тип объекта</h4><div id="separ1" class="separator"></div>
         </div>
+        <a id="popup" runat="server">Test modal</a>
         <div class="add-object-inner">
             @*Основные вкладки*@
             <ul id="add-objects-tabs" class="nav nav-tabs">
@@ -129,31 +119,32 @@
                 <li><a data-toggle="tab" href="#addTypeObj4">Участок</a></li>
                 <li><a data-toggle="tab" href="#addTypeObj5">Для бизнеса</a></li>
             </ul>
-
             <div class="tab-content">
                 @*////Вкладка Квартира////*@
                 <div id="addTypeObj1" class="tab-pane in active">
                     <ul id="add-flat-tabs" class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#addTypeFlat1">Квартира</a></li>
                         <li><a data-toggle="tab" href="#addTypeFlat2">Комната</a></li>                        
-                    </ul>
+                    </ul>                    
                     <div class="inner-content">
                         <div class="tab-content">
                             @*////Подвкладка Квартира////*@
                             <div id="addTypeFlat1" class="tab-pane in active">
                                 <form action="Estate/Publish" method="post" id="addObjects">
-                                    <input type="hidden" id="loc" name="City"/>
+                                    <input type="hidden" id="adm" name="Region" />
+                                    <input type="hidden" id="loc" name="City" />
+                                    <input type="hidden" id="inloc" name="District" />
                                     <input type="hidden" id="thor" name="Street" />
                                     <input type="hidden" id="prem" name="House" />
-                                    <input type="hidden" id="addLat" name="Latitude"/>
-                                    <input type="hidden" id="addLong" name="Longitude"/>                                    
+                                    <input type="hidden" id="addLat" name="Latitude" />
+                                    <input type="hidden" id="addLong" name="Longitude" />
                                     <input type="hidden" name="EstateType" value=2>
-                                    <input type="hidden" name="EstateId" value=@ViewData["EstateId"]>
+                                    <input type="hidden" name="EstateId" value=@ViewData["EstateId"]>                                    
                                     <h4>Адрес</h4>
                                     <div class="row">
                                         <div class="col-lg-6"><input type="text" id="add-adress" class="input-add-small" name="Address" onblur="ymaps.ready(getGeoCode(document.getElementById('add-adress').value))" placeholder="Например: г. Хабаровск, ул. Ленина, 123" required /></div>
-                                        <div class="col-lg-6"><input type="text" style="width:40%;" name="FlatNumber" placeholder="Введите номер квартиры" /></div>
-                                    </div>                                    
+                                        <div class="col-lg-6"><input type="text" style="width:40%;" name="FlatNumber" placeholder="Введите номер квартиры" required /></div>
+                                    </div>
                                     <div id="map-block"></div>
                                     <h4>Информация по дому</h4>
                                     <div class="row">
@@ -192,14 +183,14 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Год постройки</h5>
-                                            <input type="number" class="input-add-small" id="add-year" name="BuildYear"/>
+                                            <input type="number" class="input-add-small" id="add-year" name="BuildYear" />
                                         </div>
 
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <h5>Этажность дома</h5>
-                                            <input type="number" class="input-add-small" id="add-floorsTotal" name="FloorCount"/>
+                                            <input type="number" class="input-add-small" id="add-floorsTotal" name="FloorCount" />
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Парковка</h5>
@@ -214,16 +205,16 @@
                                         <div class="col-lg-3">
                                             <h5>Безопасность</h5>
                                             <div class="add-object-checkbox">
-                                                <input class="security" type="checkbox" value="true" id="ad-o-sec1" name="Guard"/><label for="ad-o-sec1">Охрана</label>
-                                                <input class="security" type="checkbox" value="true" id="ad-o-sec2" name="Concierge"/><label for="ad-o-sec2">Консьерж</label>
-                                                <input class="security" type="checkbox" value="true" id="ad-o-sec3" name="TerritoryClosed"/><label for="ad-o-sec3">Закрытая территория</label>
+                                                <input class="security" type="checkbox" value="true" id="ad-o-sec1" name="Guard" /><label for="ad-o-sec1">Охрана</label>
+                                                <input class="security" type="checkbox" value="true" id="ad-o-sec2" name="Concierge" /><label for="ad-o-sec2">Консьерж</label>
+                                                <input class="security" type="checkbox" value="true" id="ad-o-sec3" name="TerritoryClosed" /><label for="ad-o-sec3">Закрытая территория</label>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Лифт</h5>
                                             <div class="add-object-checkbox">
-                                                <input class="lift" type="checkbox" value="true" id="ad-o-lift1" name="ElevatorPassenger"/><label for="ad-o-lift1">Пассажирский</label>
-                                                <input class="lift" type="checkbox" value="true" id="ad-o-lift2" name="ElevatorCargo"/><label for="ad-o-lift2">Грузовой</label>
+                                                <input class="lift" type="checkbox" value="true" id="ad-o-lift1" name="ElevatorPassenger" /><label for="ad-o-lift1">Пассажирский</label>
+                                                <input class="lift" type="checkbox" value="true" id="ad-o-lift2" name="ElevatorCargo" /><label for="ad-o-lift2">Грузовой</label>
                                             </div>
                                         </div>
                                     </div>
@@ -231,7 +222,7 @@
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <h5>Этаж</h5>
-                                            <input type="number" class="input-add-small" id="add-floor" name="FloorNumber"/>
+                                            <input type="number" class="input-add-small" id="add-floor" name="FloorNumber" />
                                         </div>
 
                                         <div class="col-lg-3">
@@ -268,11 +259,11 @@
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <h5>Общая площадь (м²)</h5>
-                                            <input type="number" class="input-add-small" id="add-areaTotal" name="CommonArea"/>
+                                            <input type="number" class="input-add-small" id="add-areaTotal" name="CommonArea" />
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Площадь комнат(м²)</h5>
-                                            <input type="number" class="input-add-small" id="add-areaLiving" name="RoomsArea"/>
+                                            <input type="number" class="input-add-small" id="add-areaLiving" name="RoomsArea" />
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Кухня</h5>
@@ -284,7 +275,7 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Площадь кухни (м²)</h5>
-                                            <input type="number" class="input-add-small" id="add-areaKitchen" name="KitchenArea"/>
+                                            <input type="number" class="input-add-small" id="add-areaKitchen" name="KitchenArea" />
                                         </div>
                                     </div>
                                     <div class="row">
@@ -329,24 +320,24 @@
                                     </div>
                                     <h4>Фотографии</h4>
                                     <div id="add-photo">
-                                        <p>Перетащите сюда файлы или <label><input type="file" accept="image/jpeg,image/png,image/gif" multiple  id="add-but" onclick="defaultUploadBtn()" /><span>выберите на компьютере</span></label></p>
+                                        <p>Перетащите сюда файлы или <label><input type="file" accept="image/jpeg,image/png,image/gif" multiple id="add-but" onclick="defaultUploadBtn()" /><span>выберите на компьютере</span></label></p>
                                         <h6>Максимальное количество фотографий — 20. Максимальный размер фотографии — 1 МБ.</h6>
                                         <div id="list-block">
-                                            <div id="photo-row" class="row"></div>                                            
+                                            <div id="photo-row" class="row"></div>
                                         </div>
                                     </div>
                                     <h4>Видео</h4>
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <h5>Ссылка на видео на YouTube</h5>
-                                            <input type="text" class="input-add-middle" id="add-video" name="YouTubeLink"/>
+                                            <input type="text" class="input-add-middle" id="add-video" name="YouTubeLink" />
                                         </div>
                                     </div>
                                     <h4>Условия сделки</h4>
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <h5>Цена</h5>
-                                            <input type="number" class="input-add-small" id="add-price" name="Price"/>
+                                            <input type="number" class="input-add-small" id="add-price" name="Price" />
                                         </div>
                                         <div class="col-lg-3" id="add-currency">
                                             <h5>Валюта</h5>
@@ -355,14 +346,14 @@
                                         <div class="col-lg-3">
                                             <div class="add-object-checkbox" id="add-sale">
                                                 <div class="row">
-                                                    <div class="col-lg-5"><input class="sale" type="checkbox" id="ad-o-sale1" name="Negotiable" value=true/><label for="ad-o-sale1">Торг</label></div>
-                                                    <div class="col-lg-5"><input class="sale" type="checkbox" id="ad-o-sale2" name="Hypothec" value=true/><label for="ad-o-sale2">Ипотека</label></div>
+                                                    <div class="col-lg-5"><input class="sale" type="checkbox" id="ad-o-sale1" name="Negotiable" value=true /><label for="ad-o-sale1">Торг</label></div>
+                                                    <div class="col-lg-5"><input class="sale" type="checkbox" id="ad-o-sale2" name="Hypothec" value=true /><label for="ad-o-sale2">Ипотека</label></div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <h5>Комиссия по покупке</h5>
-                                            <input type="number" class="input-add-small" id="add-comission" name="Comission"/>
+                                            <input type="number" class="input-add-small" id="add-comission" name="Comission" />
                                         </div>
                                     </div>
                                     <div class="row">
@@ -409,11 +400,18 @@
                                         </div>
                                         <div class="col-lg-2"></div><div class="col-lg-2"></div>
                                     </div>
+                                    @*////Modal window////*@
+                                    @*<ajaxToolkit:ModalPopupExtender id="ModalPopup" runat="server"
+                                                                    TargetControlID="popup"
+                                                                    PopupControlID="panEdit"
+                                                                    BackgroundCssClass="modal-background"
+                                                                    CancelControlID="btnCancel"
+                                                                    PopupDragHandleControlID="panEdit">
 
-
-
-
-
+                                        <asp:Panel id="panEdit" runat="server" CssClass="modal-window">
+                                            <h1>Объекту #@ViewData["EstateId"] успешно установлен статус Активный</h1>
+                                        </asp:Panel>
+                                    </ajaxToolkit:ModalPopupExtender>*@
                                 </form>                            
                             </div>
                             @*////Подвкладка Квартира////*@
