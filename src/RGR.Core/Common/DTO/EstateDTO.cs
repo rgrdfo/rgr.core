@@ -22,7 +22,7 @@ namespace RGR.Core.Common.DTO
         //public string Street { get; set; }
         //public string HouseNumber { get; set; }
         public bool HasParking { get; set; }
-
+        
         //Информация по дому
         public long HouseType { get; set; }
         public string BuildingMaterial { get; set; }
