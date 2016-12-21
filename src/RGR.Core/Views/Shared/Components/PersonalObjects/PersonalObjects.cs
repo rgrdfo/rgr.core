@@ -31,7 +31,7 @@ namespace RGR.Core.Views.Shared.Components
             var sb = new StringBuilder("<div id = \"typeObj1\" class=\"tab-pane in active \">");
             if (rooms != null)
             {
-                sb.Append($"<div class=\"row\"><div class=\"col-lg-3\"><h2>Новых совпадений по объектам: <b>{(rooms != null ? rooms.Count() : 0)}</b></h2></div><div class=\"col-lg-4\"><span><a id=\"show-obj-link\" href=\"#\">Показать только объекты с совпадениями</a></span></div><div class=\"col-lg-5\"></div></div>");
+                sb.Append($"<h5> Новых совпадений по объектам: <b>{(rooms != null ? rooms.Count() : 0)} </b></h5>");
                 foreach (var room in rooms)
                 {
                     sb.Append($"<div class=\"object-conteiner\"><div class=\"account-box-head\">");
@@ -68,7 +68,7 @@ namespace RGR.Core.Views.Shared.Components
             var sb = new StringBuilder("<div id = \"typeObj2\" class=\"tab-pane \">");
             if (flats != null)
             {
-                sb.Append($"<h5><b> Новых совпадений по объектам:{(flats != null ? flats.Count() : 0)} </b ></h5>");
+                sb.Append($"<h5> Новых совпадений по объектам: <b>{(flats != null ? flats.Count() : 0)} </b ></h5>");
                 foreach (var flat in flats)
                 {
                     DateTime date = (DateTime?)flat["Date"] ?? DateTime.MinValue;
@@ -109,7 +109,7 @@ namespace RGR.Core.Views.Shared.Components
             var sb = new StringBuilder("<div id = \"typeObj3\" class=\"tab-pane\">");
             if (houses != null)
             {
-                sb.Append($"< h5 >< b > Новых совпадений по объектам:{(houses != null ? houses.Count() : 0)} </ b ></ h5 >");
+                sb.Append($"< h5 > Новых совпадений по объектам: <b>{(houses != null ? houses.Count() : 0)} </ b ></ h5 >");
                 foreach (var house in houses)
                 {
                     sb.Append($"<div class=\"object-conteiner\"><div class=\"search-box-head\">");
@@ -150,7 +150,7 @@ namespace RGR.Core.Views.Shared.Components
             var sb = new StringBuilder("<div id = \"typeObj4\" class=\"tab-pane\">");
             if (garages != null)
             {
-                sb.Append($"< h5 >< b > Новых совпадений по объектам:{(garages != null ? garages.Count() : 0)} </ b ></ h5 >");
+                sb.Append($"< h5 > Новых совпадений по объектам: <b>{(garages != null ? garages.Count() : 0)} </ b ></ h5 >");
                 foreach (var garage in garages)
                 {
                     sb.Append($"<div class=\"object-conteiner\"><div class=\"account-box-head\">");
@@ -187,7 +187,7 @@ namespace RGR.Core.Views.Shared.Components
             var sb = new StringBuilder("<div id = \"typeObj5\" class=\"tab-pane\">");
             if (lands != null)
             {
-                sb.Append($"< h5 >< b > Новых совпадений по объектам:{(lands != null ? lands.Count() : 0)} </ b ></ h5 >");
+                sb.Append($"< h5 > Новых совпадений по объектам: <b>{(lands != null ? lands.Count() : 0)} </ b ></ h5 >");
                 foreach (var land in lands)
                 {
                     sb.Append($"<div class=\"object-conteiner\"><div class=\"account-box-head\">");
@@ -223,7 +223,7 @@ namespace RGR.Core.Views.Shared.Components
             var sb = new StringBuilder("<div id = \"typeObj6\" class=\"tab-pane\">");
             if (offices != null)
             {
-                sb.Append($"< h5 >< b > Новых совпадений по объектам:{(offices != null ? offices.Count() : 0)} </ b ></ h5 >");
+                sb.Append($"< h5 >Новых совпадений по объектам: <b>{(offices != null ? offices.Count() : 0)} </ b ></ h5 >");
                 foreach (var office in offices)
                 {
                     sb.Append($"<div class=\"object-conteiner\"><div class=\"account-box-head\">");

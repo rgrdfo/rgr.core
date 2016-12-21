@@ -565,3 +565,21 @@ input[type=checkbox] {
     width: 23%;
 }
 
+/*-----Modal window-----*/
+
+.modal-background {
+   background-color: rgba(0,0,0,0.5);
+   opacity: 0.5;   
+}
+.modal-window {
+    width: 600px;
+    height: 150px;
+    background-color: #c4e793;
+    border-radius: 5px;
+    box-shadow: 1px -2px 3px rgba(0,0,0,0.5);
+}
+.modal-window h1 {
+    font-family: HelveticaNeueCyr_Light;
+    font-size: 14pt;
+}
+
