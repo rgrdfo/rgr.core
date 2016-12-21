@@ -53,6 +53,9 @@
 .dropdown:hover{
 	box-shadow: 0 0 5px rgba(0,0,0,.15);
 }
+#addObjects .dropdown:hover {
+    box-shadow: 0 0 5px rgba(85,154,189, 0.5);
+}
 
 .dropdown.focus{
 	box-shadow: 0 0 5px rgba(51,102,248,.4);
@@ -147,7 +150,8 @@
 .search-box .dropdown .selected::after {
     box-shadow: inset -55px 0 25px -20px #21496c;
 }
-#result-search .dropdown .selected::after {
+#result-search .dropdown .selected::after,
+#addObjects .dropdown .selected::after {
     box-shadow: inset -55px 0 25px -20px #f6f6f6;
 }
 
@@ -226,27 +230,35 @@
 	color: #fff;
 }
 
-#result-search .dropdown {
-    width: 300px;
+#result-search .dropdown,
+#addObjects .dropdown {    
     border: 1px  solid #c3c3c3;
     float:left;
     height: 42px;
     margin: 0 5px;
 }
+ #result-search .dropdown {
+    width: 300px;
+}
 #result-search .dropdown .selected,
-#result-search .dropdown li {
+#result-search .dropdown li ,
+#addObjects .dropdown .selected,
+#addObjects .dropdown li{
     color: #559abd;
     padding: 12px;    
 }
-#result-search .dropdown div {
+#result-search .dropdown div,
+#addObjects .dropdown div {
     background-color: #f6f6f6;
 	border: 1px solid #c3c3c3;
     border-top: 1px solid #c3c3c3;    
 }
-#result-search .dropdown ul {
+#result-search .dropdown ul,
+#addObjects .dropdown ul {
     padding: 0;
 }
-#result-search .dropdown li.focus {
+#result-search .dropdown li.focus
+#addObjects .dropdown li.focus {
     background: #fff;
 	position: relative;
 	z-index: 3;

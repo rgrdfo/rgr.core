@@ -1,4 +1,7 @@
-﻿.login {
+﻿
+/*/////For Personal, AddObject, Login and Register/////*/
+
+.login {
     height: 100%;
 }
 .account-block {
@@ -79,9 +82,6 @@
     padding: 10px 15px;
     text-decoration: none;
 }
-
-
-
 #account_p2 #account_r1 .search-box-inner-radio label:nth-of-type(1) {border-radius: 5px 0 0 5px;}
 #account_p2 #account_r1 .search-box-inner-radio label:nth-of-type(2) {border-radius: 0; border-left:none;}
 #account_p2 #account_r1 .search-box-inner-radio label:nth-of-type(3) {border-radius: 0 5px 5px 0; border-left:none;}
@@ -153,9 +153,7 @@
     font-size: 15pt;
 }
 
-
-
- /*-------- Вывод объектов-----*/
+ /*--------Display object-----*/
 
  #bodyResult .tab-content h2 {      
        font-size: 14px;  
@@ -235,7 +233,7 @@
     position: absolute;
 }
 
- /*---------Добавление---------*/
+ /*---------Insert---------*/
 
  .add-objects-content{
      color: #22496d;
@@ -265,7 +263,7 @@
        padding: 7px 0;
    }
  
- /*---Разделитель---*/
+ /*---Separator---*/
  
  .separator {
      width: 80%;
@@ -336,7 +334,7 @@
        padding-top: 60px;
    }
 
-    /*---Формы---*/
+    /*---Forms---*/
 
     .add-object-inner input[type="text"],
     .add-object-inner input[type="number"],    
@@ -514,7 +512,7 @@ input[type=checkbox] {
 /*------------*/
 #add-sale {padding-top: 30px;}
 
-/*------Кнопки------*/
+/*------Buttons------*/
 
 .add-objects-content input[type="submit"]::content 
 {
