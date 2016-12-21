@@ -150,7 +150,10 @@
                                     <input type="hidden" name="EstateType" value=2>
                                     <input type="hidden" name="EstateId" value=@ViewData["EstateId"]>
                                     <h4>Адрес</h4>
-                                    <input type="text" id="add-adress" class="input-add-middle" name="Address" onblur="ymaps.ready(getGeoCode(document.getElementById('add-adress').value))" placeholder="Например: г. Хабаровск, ул. Ленина, 123 - 45" required />
+                                    <div class="row">
+                                        <div class="col-lg-6"><input type="text" id="add-adress" class="input-add-small" name="Address" onblur="ymaps.ready(getGeoCode(document.getElementById('add-adress').value))" placeholder="Например: г. Хабаровск, ул. Ленина, 123 - 45" required /></div>
+                                        <div class="col-lg-6"><input type="text" style="width:40%;" name="add-numbFlat" placeholder="Введите номер квартиры" /></div>
+                                    </div>                                    
                                     <div id="map-block"></div>
                                     <h4>Информация по дому</h4>
                                     <div class="row">
