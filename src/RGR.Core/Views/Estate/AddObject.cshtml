@@ -59,10 +59,18 @@
         geocoder.then(
             function (res) {
                 map.geoObjects.add(res.geoObjects);
-                var coords = res.geoObjects.get(0).geometry.getCoordinates();
-                document.getElementById('addLat').value = coords(0);
-                document.getElementById('addLong').value = coords(1);
-                document.getElementById('addYAddr').value = res.geoObjects.get(0).properties.get('text');
+                var coords = res.geoObjects.get(0).geometry.getCoordinates();                
+                document.getElementById('addLat').value = coords[0];
+                document.getElementById('addLong').value = coords[1];
+                //document.getElementById('addYAddr').value = res.geoObjects.get(0).properties.get('text');                
+                geoResult = res.geoObjects.get(0);
+                var local = geoResult.getLocalities();
+                var thor = geoResult.getThoroughfare();
+                var prem = geoResult.getPremiseNumber();
+                document.getElementById('loc').value = local;
+                document.getElementById('thor').value = thor;
+                document.getElementById('prem').value = prem;               
+                 
             },
             function (err) {
                 alert(err);
@@ -82,8 +90,24 @@
     //        function (err) {
     //            alert(err);
     //        });
-    //}
+        //}
+
+    function ajaxCoordsObject()
+    {
+        $.ajax({
+            type: "GET",
+            url: "http://geocode-maps.yandex.ru/1.x/",
+            data: 'geocode=' + lng + ',' + lat + '&format=json&kind=house&results=2&key=_здесь_нужен_АПИ_ключ_яндекс_',
+            dataType: "JSON", timeout: 30000, async: false,
+            error: function (xhr) {
+                rescont += 'Ошибка геокодирования: ' + xhr.status + ' ' + xhr.statusText;
+            }
+        });
+        
+    }
     </script>
+
+
 
     <script src="~/js/upload-1.js"></script>
     @*<script src="~/js/add-object.js"></script>*@
@@ -118,9 +142,11 @@
                             @*////Подвкладка Квартира////*@
                             <div id="addTypeFlat1" class="tab-pane in active">
                                 <form action="Estate/Publish" method="post" id="addObjects">
-                                    <input type="hidden" id="addLat" name="Latitude">
-                                    <input type="hidden" id="addLong" name="Longitude">
-                                    <input type="hidden" id="addYAddr" name="YandexAddress">
+                                    <input type="hidden" id="loc" name="Localities"/>
+                                    <input type="hidden" id="thor" name="Thoroughfare" />
+                                    <input type="hidden" id="prem" name="PremiseNumber" />
+                                    <input type="hidden" id="addLat" name="Latitude"/>
+                                    <input type="hidden" id="addLong" name="Longitude"/>                                    
                                     <input type="hidden" name="EstateType" value=2>
                                     <input type="hidden" name="EstateId" value=@ViewData["EstateId"]>
                                     <h4>Адрес</h4>
@@ -321,7 +347,7 @@
                                         </div>
                                         <div class="col-lg-3" id="add-currency">
                                             <h5>Валюта</h5>
-                                            <input type="radio" name="input-add-currency" id="ruble" value="&" /><label for="ruble">₽</label><input type="radio" name="input-add-currency" id="dollar" value="&" /><label for="dollar">$</label><input type="radio" name="input-add-currency" id="euro" value="&" /><label for="euro">€</label>
+                                            <input type="radio" name="input-add-currency" id="ruble" value="&" /><label for="ruble"><font class="ruble">₽</font></label><input type="radio" name="input-add-currency" id="dollar" value="&" /><label for="dollar"><font class="ruble">$</font></label><input type="radio" name="input-add-currency" id="euro" value="&" /><label for="euro"><font class="ruble">€</font></label>
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="add-object-checkbox" id="add-sale">

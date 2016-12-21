@@ -338,7 +338,8 @@
 
     /*---Формы---*/
 
-    .add-object-inner input[type="text"],    
+    .add-object-inner input[type="text"],
+    .add-object-inner input[type="number"],    
     .add-objects-content select,
      .extended select,
     .add-object-inner textarea,
@@ -372,7 +373,9 @@
     .add-object-inner input[type="text"]:focus,
     .add-object-inner input[type="text"]:active,
     .add-object-inner textarea:focus,
-    .add-object-inner textarea:active    
+    .add-object-inner textarea:active,
+    .add-object-inner input[type="number"]:focus,
+    .add-object-inner input[type="number"]:active   
     {
         background-color: #fff;
         color: #559abd;        

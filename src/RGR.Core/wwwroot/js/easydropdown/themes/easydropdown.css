@@ -39,7 +39,11 @@
     width: 95%;
     border: 1px  solid #559abd;
 }
-
+#addObjects .dropdown
+{
+    width: 90%;
+    border: 1px  solid #c3c3c3;
+}
 
 .dropdown.open{
 	z-index: 2;
@@ -73,6 +77,8 @@
 .search-box .dropdown.open .carat{background-image: url(/images/ico-arrow-down.png);}
 #result-search .dropdown .carat {background-image: url(/images/ico-arrow-up-grey.png);}
 #result-search .dropdown.open .carat { background-image: url(/images/ico-arrow-down-grey.png);}
+#addObjects .dropdown .carat {background-image: url(/images/ico-arrow-up.png);}
+#addObjects .dropdown.open .carat { background-image: url(/images/ico-arrow-down.png);}
 
 .dropdown.disabled .carat{
 	border-top-color: #999;
