@@ -14,13 +14,14 @@ namespace RGR.Core.Common.DTO
         public short EstateType { get; set; }
         public string Address { get; set; }
         public string YandexAddress { get; set; }
-        public double? Latitude { get; set; }
-        public double? Longitude { get; set; }
-        //public string City { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+        public string City { get; set; }
         //public string District { get; set; }
         //public string Area { get; set; }
-        //public string Street { get; set; }
-        //public string HouseNumber { get; set; }
+        public string Street { get; set; }
+        public string House { get; set; }
+        public string FlatNumber { get; set; }
         public bool HasParking { get; set; }
         
         //Информация по дому

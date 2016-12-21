@@ -11,6 +11,8 @@ using RGR.Core.Common;
 using Microsoft.EntityFrameworkCore;
 using Eastwing.Parser;
 using System.Text;
+using RGR.Core.Controllers.Estate;
+using System.Globalization;
 
 namespace RGR.Core.Controllers
 {
@@ -82,122 +84,35 @@ namespace RGR.Core.Controllers
                                 c.SurName == ClientName[2])
                             ?.Id ?? -1;
 
-            //#region Разбор адреса
-            //var Address = Estate.Addresses.First();
+            #region Разбор адреса
+            var Address = Estate.Addresses.First();
 
-            //var cities = db.GeoCities.ToDictionary(c => c.Id, c => c.Name.Split(',')[0]);
+            Address.CityId = db.GeoCities.FirstOrDefault(c => c.Name.Contains(Draft.City))?.Id ?? -1;
+            if (Address.CityId == -1)
+                throw new ArgumentException("Ошибка определения населённого пункта");
 
-            //var parser = new Parser()
-            //{
-            //    Keywords = cities.Values.ToArray(),
-            //    Letters = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя1234567890",
-            //    Separators = ",-.",
-            //    Digits = "",
-            //    Brackets = ""
-            //};
+            var rd = db.GeoCities.First(c => c.Id == Address.CityId).RegionDistrictId;
+            Address.RegionId = db.GeoRegionDistricts.First(d => d.Id == rd).RegionId;
+            Address.CountryId = db.GeoRegions.First(r => r.Id == Address.RegionId).CountryId;
 
-            //bool CityDefined = false;
-            //bool DefiningStreet = false;
-            //bool DefiningHouse = false;
-            //bool DefiningFlat = false;
+            var street = Draft.Street.TrimStart("улица ".ToCharArray());
+            Address.StreetId = db.GeoStreets.FirstOrDefault(s => s.Name.Contains(street))?.Id ?? -1;
+            Address.DistrictResidentialAreaId = db.GeoStreets.First(s => s.Id == Address.StreetId).AreaId;
+            Address.CityDistrictId = db.GeoResidentialAreas.First(a => a.Id == Address.DistrictResidentialAreaId).DistrictId;
 
-            //var tokens = parser.Parse(Draft.Address).Where(t => t.Category != Category.Space);
+            Address.House = Draft.House;
+            Address.Flat = Draft.FlatNumber;
 
-            //IEnumerable<long> districts;
-            //IEnumerable<long> areas;
-            //var  streets = new Dictionary<string, long>();
+            var sep = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
 
-            //var sb = new StringBuilder("");
+            Address.Latitude = Convert.ToDouble(Draft.Latitude.Replace(".", sep));
+            if (Address.Latitude == 0)
+                Address.Latitude = null;
 
-            //foreach (var token in tokens)
-            //{
-            //    if (token.Category == Category.Keyword && !CityDefined)
-            //    {
-            //        if (cities.Values.Contains(token.Lexeme))
-            //        {
-            //            CityDefined = true;
-            //            Address.CityId = cities.First(c => c.Value == token.Lexeme).Key;
-            //            districts = db.GeoDistricts
-            //                .Where(g => g.CityId == Address.CityId)
-            //                .Select(g => g.Id);
-            //            areas = db.GeoResidentialAreas
-            //                .Where(a => districts.Contains(a.DistrictId))
-            //                .Select(a => a.Id);
-            //            streets = db.GeoStreets
-            //                .Where(s => areas.Contains(s.AreaId))
-            //                .ToDictionary(s => s.Name, s => s.Id);
-
-            //            DefiningStreet = true;
-
-            //            continue;
-            //        }
-
-            //        if (token.Lexeme == "," && CityDefined && !DefiningStreet)
-            //            continue;
-
-            //        if (CityDefined && DefiningStreet)
-            //        {
-            //            switch (token.Lexeme)
-            //            {
-            //                case "ул.":
-            //                case "улица":
-            //                    break;
-
-            //                case ",":
-            //                case "д":
-            //                case "дом":
-            //                    DefiningStreet = false;
-            //                    break;
-
-            //                default:
-            //                    sb.Append($"{(sb.ToString() == "" ? "" : " ")}{token}");
-            //                    break;
-            //            }
-            //        }
-
-            //        if (DefiningStreet && !DefiningHouse)
-            //        {
-            //            foreach (var street in streets)
-            //            {
-            //                if (street.Key.Contains(sb.ToString()))
-            //                {
-            //                    Address.StreetId = street.Value;
-            //                    DefiningHouse = true;
-            //                    sb.Clear();
-            //                    continue;
-            //                }
-            //            }
-            //        }
-
-            //        if (DefiningHouse && !DefiningFlat)
-            //        {
-            //            switch (token.Lexeme)
-            //            {
-            //                case "-":
-            //                case "кв":
-            //                case "квартира":
-            //                    DefiningHouse = false;
-            //                    DefiningFlat = true;
-            //                    Address.House = sb.ToString();
-            //                    continue;
-
-            //                default:
-            //                    sb.Append($"{(sb.ToString() == "" ? "" : " ")}{token}");
-            //                    break;
-            //            }
-            //        }
-
-            //        if (DefiningFlat)
-            //        {
-            //            Address.Flat = token.Lexeme;
-            //        }
-            //    }
-            //}
-
-            //Address.Latitude = Draft.Latitude;
-            //Address.Logitude = Draft.Longitude;
-            //#endregion
-
+            Address.Logitude = Convert.ToDouble(Draft.Longitude.Replace(".", sep));
+            if (Address.Logitude == 0)
+                Address.Logitude = null;
+            #endregion
 
             #region ObjectMainPropetries
             var Main = Estate.ObjectMainProperties.First();
@@ -279,9 +194,37 @@ namespace RGR.Core.Controllers
 
             await db.SaveChangesAsync();
 
-            //TODO: валидация
+            var validationResult = await Estate.ValidateAsync(db);
+            switch (validationResult)
+            {
+                case ValidationCode.Ok:
+                    Estate.Status = (short)EstateStatuses.Active;
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Personal", "Account");
 
-            return RedirectToAction("Personal", "Account");
+                case ValidationCode.Replace:
+                    Estate.Status = (short)EstateStatuses.Active;
+                    await db.SaveChangesAsync();
+                    return new ContentResult() { Content = "Объект создан успешно, но заместил собой ранее существовавший объект" };
+
+                case ValidationCode.ZeroNumber:
+                    return new ContentResult() { Content = "Номер квартиры не может состоять из нулей!" };
+
+                case ValidationCode.ObjectExists:
+                    return new ContentResult() { Content = "Ваш объект оставлен в статусе \"Черновик\"" };
+
+                case ValidationCode.ContractObjectExists:
+                    return new ContentResult() { Content = "Ваш договорной объект оставлен в статусе \"Черновик\"" };
+
+                case ValidationCode.ContractRequired:
+                    return new ContentResult() { Content = "Требуется указать номер и дату договора!" };
+
+                default:
+                    throw new ArgumentException("Некорректный код валидации");
+            }
+            
+
+
         }
     }
 }
