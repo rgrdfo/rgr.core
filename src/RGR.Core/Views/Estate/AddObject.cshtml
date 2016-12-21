@@ -10,7 +10,7 @@
         var sb = new StringBuilder("");
         foreach(var user in (IEnumerable<string>)ViewData["Users"])
         {
-            sb.Append($"<option value={user}>{user}</option>");
+            sb.Append($"<option value=\"{user}\">{user}</option>");
         }
         return new HtmlString(sb.ToString());
     }
@@ -142,7 +142,7 @@
                                     <input type="hidden" name="EstateId" value=@ViewData["EstateId"]>                                    
                                     <h4>Адрес</h4>
                                     <div class="row">
-                                        <div class="col-lg-6"><input type="text" id="add-adress" class="input-add-small" name="Address" onblur="ymaps.ready(getGeoCode(document.getElementById('add-adress').value))" placeholder="Например: г. Хабаровск, ул. Ленина, 123" required /></div>
+                                        <div class="col-lg-6"><input type="text" id="add-adress" class="input-add-small" name="Address" onblur="ymaps.ready(getGeoCode(document.getElementById('add-adress').value))" placeholder="Например: г. Хабаровск, ул. Карла Маркса, 65" required /></div>
                                         <div class="col-lg-6"><input type="text" style="width:40%;" name="FlatNumber" placeholder="Введите номер квартиры" required /></div>
                                     </div>
                                     <div id="map-block"></div>
@@ -337,7 +337,7 @@
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <h5>Цена</h5>
-                                            <input type="number" class="input-add-small" id="add-price" name="Price" />
+                                            <input type="number" class="input-add-small" id="add-price" name="Price" required/>
                                         </div>
                                         <div class="col-lg-3" id="add-currency">
                                             <h5>Валюта</h5>
