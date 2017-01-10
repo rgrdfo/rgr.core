@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RGR.Core.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace RGR.API
 {
@@ -27,6 +29,21 @@ namespace RGR.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // получение строки подключения из файла конфигурации
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+
+            // добавление контекста rgrContext в качестве сервиса в приложение
+            services.AddDbContext<rgrContext>(options =>
+                options.UseSqlServer(connection));
+
+            //Кэш памяти и сессии
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.CookieName = ".RGR.Core.Session";
+                options.IdleTimeout = TimeSpan.FromHours(1);
+            });
+
             // Add framework services.
             services.AddMvc();
         }

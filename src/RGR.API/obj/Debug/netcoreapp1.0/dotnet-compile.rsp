@@ -1,12 +1,12 @@
---temp-output:C:\Users\eastwing\projects\rgr.core\src\RGR.API\obj\Release\netcoreapp1.0\
---out:C:\Users\eastwing\projects\rgr.core\src\RGR.API\bin\Release\netcoreapp1.0\RGR.API.dll
---define:RELEASE
+--temp-output:C:\Users\eastwing\projects\rgr.core\src\RGR.API\obj\Debug\netcoreapp1.0\
+--out:C:\Users\eastwing\projects\rgr.core\src\RGR.API\bin\Debug\netcoreapp1.0\RGR.API.dll
+--define:DEBUG
 --define:TRACE
 --define:NETCOREAPP1_0
 --suppress-warning:CS1701
 --suppress-warning:CS1702
 --suppress-warning:CS1705
---optimize:True
+--optimize:False
 --emit-entry-point:True
 --output-name:RGR.API
 --file-version:1.0.0.0
@@ -180,7 +180,7 @@
 --reference:C:\Users\eastwing\.nuget\packages\System.Threading.Timer\4.3.0\ref\netstandard1.2\System.Threading.Timer.dll
 --reference:C:\Users\eastwing\.nuget\packages\System.Xml.ReaderWriter\4.3.0\ref\netstandard1.3\System.Xml.ReaderWriter.dll
 --reference:C:\Users\eastwing\.nuget\packages\System.Xml.XDocument\4.3.0\ref\netstandard1.3\System.Xml.XDocument.dll
---resource:"C:\Users\eastwing\projects\rgr.core\src\RGR.API\obj\Release\netcoreapp1.0\RGR.APIdotnet-compile.deps.json",RGR.API.deps.json
+--resource:"C:\Users\eastwing\projects\rgr.core\src\RGR.API\obj\Debug\netcoreapp1.0\RGR.APIdotnet-compile.deps.json",RGR.API.deps.json
 C:\Users\eastwing\projects\rgr.core\src\RGR.API\Extenders.cs
 C:\Users\eastwing\projects\rgr.core\src\RGR.API\Parser.cs
 C:\Users\eastwing\projects\rgr.core\src\RGR.API\Program.cs
