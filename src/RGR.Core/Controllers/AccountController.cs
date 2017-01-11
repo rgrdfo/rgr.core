@@ -51,7 +51,8 @@ namespace RGR.Core.Controllers
                 else
                     ModelState.AddModelError(string.Empty, "Проверьте логин и пароль!");
             }
-            return View(model);
+            // return View(model);
+            return new OkResult();
         }
         [HttpGet]
         public IActionResult Register()
@@ -89,7 +90,8 @@ namespace RGR.Core.Controllers
                 else
                     ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
-            return View(model);
+            //return View(model);
+            return new OkResult();
         }
 
         /// <summary>
@@ -126,7 +128,8 @@ namespace RGR.Core.Controllers
         {
             await HttpContext.Authentication.SignOutAsync("Cookies");
             HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Account");
+            //return RedirectToAction("Login", "Account");
+            return new OkResult();
         }
 
         [Authorize]
