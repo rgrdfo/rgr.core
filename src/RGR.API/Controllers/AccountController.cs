@@ -54,9 +54,9 @@ namespace RGR.API.Controllers
         {
             // создание одного claim
             var claims = new List<Claim>
-                    {
-                        new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
-                    };
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+            };
             // создание объекта ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
                 ClaimsIdentity.DefaultRoleClaimType);
