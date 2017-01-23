@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="slick.css">
+	<!--[if lt IE 9]> 
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script> 
+	<![endif]-->
+	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="js/slick.min.js"></script>
+	<script src="js/common.js"></script>
+</head>
+<body>
+	<header class="header">
+		<div class="wrap">
+			<div class="logo">
+				<a href="/"><img src="img/logo.jpg"></a>
+			</div>
+			<nav class="top-menu">
+				<ul>
+					<li><a href="#">О нас</a></li>
+					<li><a href="#">Члены РДВ</a></li>
+					<li><a href="#">Учебный центр</a></li>
+					<li><a href="#">Контакты</a></li>
+					<li><a href="#" class="login"><img src="img/login.jpg"> Войти</a></li>
+				</ul>
+			</nav>
+			<div class="right-logo">
+				<a href="#"><img src="img/logo2.jpg"></a>
+			</div>
+			<div class="phone">
+				<span>(495)123−45−67</span>
+				<a href="#">Заказать обратный звонок</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</header>
+	<nav class="main-menu">
+		<div class="wrap">
+			<ul>
+				<li><a href="#" class="active">Мой офис</a></li>
+				<li><a href="#">Мои объекты </a></li>
+				<li><a href="#">Мои запросы</a></li>
+				<li><a href="#">Моя компания</a></li>
+			</ul>
+			<div class="user-block">
+				<i></i><span>realtor@example.com</span>
+				<div class="sub-menu">
+					<ul>
+						<li><a href="#">Мой профиль</a></li>
+						<li><a href="#">Настройки</a></li>
+						<li><a href="#">Выйти</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</nav>
+	<div class="wrap">
+		<div class="navi">
+			<a href="/"><img src="img/home.jpg"></a> <span></span> <a href="#">Личный кабинет</a> <span></span> Мои объекты
+		</div>
+		<h1>Добавить объект</h1>
+		<div class="cabinet-zag"><span>Тип объектов</span></div>
+		<nav class="objects-menu">
+			<ul>
+				<li><a href="#">Квартира</a></li>
+				<li><a href="#" class="active">Дом</a></li>
+				<li><a href="#">Участок</a></li>
+				<li><a href="#">Гараж</a></li>
+				<li><a href="#">Для бизнеса</a></li>
+			</ul>
+			<ul class="second">
+				<li><a href="#" class="active">Дом, коттедж</a></li>
+				<li><a href="#">Таунхаус</a></li>
+			</ul>
+			<div class="clear"></div>
+		</nav>
+		<div class="cabinet-zag"><span>Адрес</span></div>
+		<input type="text" class="adress-inp" placeholder="Введите адрес">
+		<div class="cabinet-map">
+			<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?sid=XZH2Bli_HZSMtgEmntsz6n4El9IzB8qE&amp;width=100%&amp;height=400&amp;lang=ru_RU&amp;sourceType=constructor&amp;scroll=true"></script>
+		</div>
+		<div class="cabinet-zag big"><span>Информация по участку</span></div>
+		<div>
+			<div class="cabinet-form-item">
+				Площадь участка<br/>
+				<select><option>20 соток</option><option>20 соток</option></select>
+			</div>
+			<div class="cabinet-form-item">
+				Назначение земли<br/>
+				<select><option>Выбрать</option><option>Выбрать</option></select>
+			</div>
+			<div class="cabinet-form-item">
+				Зона застройки<br/>
+				<input type="text">
+			</div>
+			<div class="cabinet-form-item">
+				Особенности расположения<br/>
+				<select><option>Выбрать</option><option>Выбрать</option></select>
+			</div>
+		</div>
+		<div>
+			<div class="cabinet-form-item">
+				Расстояние до города (км)<br/>
+				<input type="text" value="20">
+			</div>
+		</div>
+		<div class="cabinet-zag big"><span>Информация по дому</span></div>
+		<div>
+			<div class="cabinet-form-item">
+				Тип строения<br/>
+				<select><option>коттедж</option><option>коттедж</option></select>
+			</div>
+			<div class="cabinet-form-item">
+				Материал постройки<br/>
+				<select><option>дерево</option><option>дерево</option></select>
+			</div>
+			<div class="cabinet-form-item">
+				Год постройки<br/>
+				<input type="text">
+			</div>
+			<div class="cabinet-form-item">
+				Состояние<br/>
+				<select><option>после строителей</option><option>после строителей</option></select>
+			</div>
+		</div>
+		<div>
+			<div class="cabinet-form-item">
+				Площадь дома (м²)<br/>
+				<input type="text" value="12">
+			</div>
+			<div class="cabinet-form-item">
+				Этажей в доме<br/>
+				<input type="text">
+			</div>
+			<div class="cabinet-form-item">
+				Количество комнат<br/>
+				<input type="text">
+			</div>
+		</div>
+		<div>
+			<div class="cabinet-form-item">
+				Санузел<br/>
+				<input type="text" value="12">
+			</div>
+			<div class="cabinet-form-item selects">
+				Канализация<br/>
+				<span class="chb active"></span> централизованная<br/>
+				<span class="chb"></span> автономная<br/>
+				<span class="chb active"></span> шамбо
+			</div>
+			<div class="cabinet-form-item selects big">
+				Водоснабжение<br/>
+				<div class="col">
+					<span class="chb active"></span> горячая (центр.)<br/>
+					<span class="chb"></span> горячая (автономное)<br/>
+					<span class="chb active"></span> холодная (центр.)
+				</div>
+				<div class="col">
+					<span class="chb active"></span> холодная (колодец/скважина)<br/>
+					<span class="chb"></span> летний водопровод
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="cabinet-form-item">
+				Электричество<br/>
+				<select><option>Есть</option><option>Есть</option></select>
+			</div>
+			<div class="cabinet-form-item selects">
+				Отопление<br/>
+				<span class="chb active"></span> центральное<br/>
+				<span class="chb"></span> автономное (газ)<br/>
+				<span class="chb active"></span> автономное (электрическое)<br/>
+				<span class="chb active"></span> автономное (дрова / уголь)
+			</div>
+			<div class="cabinet-form-item selects">
+				Дополнительно<br/>
+				<span class="chb active"></span> Баня<br/>
+				<span class="chb"></span> Бассейн<br/>
+				<span class="chb active"></span> Гараж<br/>
+				<span class="chb active"></span> Терраса
+			</div>
+		</div>
+		<div class="cabinet-zag big"><span>Описание</span></div>
+		<div>
+			<div class="cabinet-form-item big">
+				Подробное описание объекта<br/>
+				<textarea></textarea>
+			</div>
+		</div>
+		<div class="cabinet-zag big"><span>Фотографии</span></div>
+		<div class="cabinet-upload-photos">
+			<div class="top-text">
+				Перетащите сюда файлы или <a href="#">выберите на компьютере</a>
+			</div>
+			<div class="middle-text">
+				Максимальное количество фотографий — 20. Максимальный размер фотографии — 5 МБ.
+			</div>
+			<div class="list">
+				<div class="item">
+					<div class="image">
+						<img src="img/photo2.jpg">
+						<a href="#" class="delete"></a>
+					</div>
+					Основная фотография
+				</div>
+				<div class="item">
+					<div class="image">
+						<img src="img/photo2.jpg">
+						<div class="in_process">
+							<div class="slider">
+								<span class="success" style="width: 80%;"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="image">
+						<img src="img/photo2.jpg">
+						<a href="#" class="delete"></a>
+					</div>
+				</div>
+				<div class="item">
+					<div class="upload">
+						<a href="#"></a>
+						<div class="error">Ошибка загрузки фото</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="image">
+						<img src="img/photo2.jpg">
+						<a href="#" class="delete"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="cabinet-zag big"><span>Видео</span></div>
+		<div>
+			<div class="cabinet-form-item big">
+				Ссылка на видео на YouTube<br/>
+				<input type="text" class="big">
+			</div>
+		</div>
+		<div class="cabinet-zag big"><span>Видео</span></div>
+		<div>
+			<div class="cabinet-form-item">
+				Цена<br/>
+				<input type="text">
+			</div>
+			<div class="cabinet-form-item">
+				Валюта<br/>
+				<ul>
+					<li><a href="#" class="active">&#x584;</a></li>
+					<li><a href="#">&#36;</a></li>
+					<li><a href="#">&euro;</a></li>
+				</ul>
+			</div>
+			<div class="cabinet-form-item selects">
+				<span class="chb active"></span> Торг
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<span class="chb"></span> Ипотека
+			</div>
+			<div class="cabinet-form-item">
+				Комиссия по покупке<br/>
+				<select><option>Выбрать</option><option>Выбрать</option></select>
+			</div>
+		</div>
+		<div>
+			<div class="cabinet-form-item">
+				Вид собственности<br/>
+				<select><option>Аренда</option><option>Аренда</option></select>
+			</div>
+			<div class="cabinet-form-item">
+				Тип договора<br/>
+				<select><option>Выбрать</option><option>Выбрать</option></select>
+			</div>
+		</div>
+		<div class="cabinet-zag big"><span>Контакты</span></div>
+		<div>
+			<div class="cabinet-form-item">
+				Контактное лицо<br/>
+				<select><option>Андрей Андреев</option><option>Андрей Андреев</option></select>
+			</div>
+			<div class="cabinet-form-item">
+				Объект относится к клиену<br/>
+				<input type="text">
+			</div>
+		</div>
+		<div class="cabinet-buttons">
+			<button class="b1"><img src="img/btn_2.png"> Опубликовать</button>
+			<button class="b2"><img src="img/btn_1.png"> Отменить</button>
+			<div class="message">
+				<img src="img/saved.jpg"> Сохранено как черновик в 14:23
+			</div>
+		</div>
+	</div>
+	<footer class="footer">
+		<div class="wrap">
+			<div class="logo">
+				<a href="/"><img src="img/flogo.jpg"></a>
+				<p>
+					© 2007-2013 Некоммерческое Партнерство "Риэлторы Дальнего Востока"<br/>
+					Юридический адрес: г. Хабаровск, ул. Ленинградская 44, офис 502
+				</p>
+			</div>
+			<nav>
+				<ul>
+					<li><a href="#">О нас</a></li>
+					<li><a href="#">Члены РДВ</a></li>
+					<li><a href="#">Учебный центр</a></li>
+				</ul>
+			</nav>
+			<div class="clear"></div>
+		</div>
+	</footer>
+</body>
+</html>
