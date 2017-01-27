@@ -27,6 +27,26 @@ namespace RGR.API.Controllers
         //    return View();
         //}
 
+        [Authorize]
+        [HttpGet]
+        [Route("personal")]
+        public async Task<IActionResult> Personal()
+        {
+            var page = await PersonalPage.GenerateAsync(db, HttpContext.Session);
+            //TODO: поместить роль в page
+            //ViewData["RoleID"] = HttpContext.Session.GetRoleId();
+            return new JsonResult(page);
+        }
+
+        [Authorize]
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.Authentication.SignOutAsync("Cookies");
+            HttpContext.Session.Clear();
+            return new OkResult();
+        }
+
         [HttpPost]
         [Route("login")]
         [ValidateAntiForgeryToken]
