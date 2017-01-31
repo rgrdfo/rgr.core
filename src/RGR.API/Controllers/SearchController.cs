@@ -41,7 +41,7 @@ namespace RGR.API.Controllers
                 .Include(e => e.ObjectMedias)
                 .AsEnumerable();
 
-            relevant   = await Task.Run(() => relevant.Where(estate =>
+            relevant = await Task.Run(() => relevant.Where(estate =>
             {
                 var curMain = estate.ObjectMainProperties.FirstOrDefault();
                 var curAddt = estate.ObjectAdditionalProperties.FirstOrDefault();
