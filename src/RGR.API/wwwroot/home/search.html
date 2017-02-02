@@ -1,0 +1,192 @@
+﻿
+@using RGR.Core.Common.Enums;
+@using RGR.Core.Views.Helpers;
+@using Microsoft.AspNetCore.Http;
+
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Html;
+@using System.Text;
+
+@{
+    ViewData["Title"] = "Результаты поиска";
+}
+
+@{
+    var objects = SearchResult.Deserialize((string)ViewData["Result"]);
+}
+
+
+<head>
+
+    <style>
+        .sticky {
+            position: absolute;
+        }
+
+    </style>
+
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+    
+    <script type="text/javascript">
+        ymaps.ready(init);
+        var myMap,
+            myPlacemark;
+
+        function init() {
+            myMap = new ymaps.Map("search-result-map", {
+                center: [48.48888324, 135.08322577],
+                zoom: 14
+            });
+            var myPlacemark = new ymaps.Placemark([48.48888324, 135.08322577], {
+                balloonContent: "Офис РГРДФО",
+                hideIconOnBalloonOpen: false,
+                style: "default#bluePoint"                 
+            });
+            myMap.geoObjects.add(myPlacemark);
+        }
+
+        function drawPlacemark(latitude, longitude, address) {
+            myMap.geoObjects.removeAll();
+            var myPlacemark = new ymaps.Placemark([latitude, longitude], {
+                balloonContent: address,
+                hideIconOnBalloonOpen: false,
+                style: "default#bluePoint"
+            });
+            myMap.geoObjects.add(myPlacemark);   
+            myMap.center = [latitude, longitude];
+            myMap.panTo([myMap.center], { fluing: 1 });
+        }        
+
+    </script>
+   
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var offset = $('#search-result-map').offset();
+            var topPadding = 0;
+            $(window).scroll(function () {
+                if ($(window).scrollTop() > offset.top) {
+                    $('#search-result-map').stop().animate({ marginTop: $(window).scrollTop() - offset.top + topPadding });
+                }
+                else {
+                    $('#search-result-map').stop().animate({ marginTop: 0 });
+                }
+            });
+        });
+    </script>
+   @*@Context.Session.SetString("SearchPage", "Full");*@
+
+    @{ 
+        var orderingField = (ViewData.ContainsKey("OrderBy")) ? ViewData["OrderBy"] : "Price";
+    }
+
+    <link rel="stylesheet" href="~/js/quickbox/qb/qb.css">
+    <script type="text/javascript" src="~/js/quickbox/qb/js/qb.js"></script>
+    <script>
+        function visibleFunction(id) {           
+            var elem = String(id);
+            var flag = elem[0] + elem[1] + elem[2];
+            if (flag == "ibr")
+            {
+                var block = document.querySelector('#' + elem + ' .search-result-footer > .search-result-footer-inner');
+                block.style.display = 'inline-block';
+            }
+            else if (flag == "imr") {
+                var block = document.querySelector('#' + elem + ' .row > .col-lg-4 > .search-map-footer');
+                block.style.display = 'inline-block';
+                var cancel = document.querySelector('#' + elem + ' .search-map-cancel');
+                cancel.style.display = 'inline-block';
+            }
+            
+        }
+        function hiddenFunction(id) {
+            var elem = String(id);
+            var flag = elem[0] + elem[1] + elem[2];
+            if (flag == "ibr") {
+                var block = document.querySelector('#' + elem + ' .search-result-footer > .search-result-footer-inner');
+                block.style.display = 'none';
+            }
+            else if (flag == "imr") {
+                var block = document.querySelector('#' + elem + ' .row > .col-lg-4 > .search-map-footer');
+                block.style.display = 'none';
+                var cancel = document.querySelector('#' + elem + ' .search-map-cancel');
+                cancel.style.display = 'none';
+            }
+        }
+        function deleteBlock(id) {
+            var elem = document.getElementById(id);
+            var inners = document.querySelectorAll('#' + id + '> div');
+            for (var i = 0; i < inners.length; i++) {
+                inners[i].remove();
+            }            
+            var div = document.createElement('div');  // создать новый тег div
+            div.innerHTML = 'Объект скрыт из результатов поиска.';  // его содержимое
+            elem.appendChild(div);  // поместить новый тег последним в div с id="raz" (вместо this.parentNode может быть любой другой элемент DOM)            
+            div.style.textAlign = 'center';
+            div.style.fontSize = '18pt';
+            div.style.color = '#c3c3c3';
+            div.style.fontFamily = 'HelveticaNeueCyr_Light';
+            div.style.padding = '50px';           
+        }
+        function stayActive(id) {
+            var elem = document.getElementById(id);
+            elem.classList.add("active");
+        }
+    </script>
+
+    <script type="text/javascript" language="javascript1.2">
+        function func()
+        {
+            if (document.location.search)
+            {
+                var re = new RegExp("\\?pos=", "g");
+                document.body.scrollTop = document.location.search.replace(re,"");
+            }
+        }
+    </script>
+</head>
+
+<div class="search-bar">
+    @SearchBar.Render()
+</div>
+
+<div class="content-inner">
+    <div id="result-search">
+        <h4>Показать: </h4>
+        <ul id="search-objects-tabs" class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#searchType1">На карте</a></li>
+            <li><a data-toggle="tab" href="#searchType2">Список</a></li>
+        </ul>        
+        <div class="tab-content">
+            <div id="searchType1" class="tab-pane  in active">
+                <div class="sort-select">
+                    <h4>Сортировать: </h4> 
+                    <select class="dropdown">
+                        <option>по дате добавления</option>
+                         @*<a href="http://@ViewData["Uri"]&order =Date"/>*@
+                        <option>по цене (дешевле)</option>
+                        <option>по цене (дороже)</option>
+                        <option>по кол-ву комнат (по возрастанию)</option>
+                        <option>по общей площади (по убыванию)</option>
+                    </select>
+                </div>
+                <div class="search-result-row-md">
+                    @await Component.InvokeAsync("SearchResultMap", new { Result = objects, OrderingField = orderingField })
+                </div>
+                <div class="search-result-row-md" style="padding:10px;">
+                    <div class="sticky" id="search-result-map"></div>
+                </div>
+            </div>
+            <div id="searchType2" class="tab-pane">
+                <div class="search-result-box">
+                    @SearchResult.HeadResult((EstateTypes)ViewData["Type"], (string)ViewData["Uri"])
+                    @await Component.InvokeAsync("SearchResultRenderer", new { Result = objects, Type = ViewData["Type"], OrderingField = orderingField })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

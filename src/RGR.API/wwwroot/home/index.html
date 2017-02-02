@@ -1,0 +1,26 @@
+﻿<!doctype html>
+<html ng-app="rgrApp">
+    <head>
+        <script src="../lib/jquery/dist/jquery.js"></script>
+
+        <link rel="stylesheet" href="../css/qb.css" />
+        <link rel="stylesheet" href="../css/style-modal.css" />
+        <link rel="stylesheet" href="../css/search-bar.css" />
+        <link rel="stylesheet" href="../css/search-result.css" />
+        <link rel="stylesheet" href="../css/master.css" />
+        <link rel="stylesheet" href="../css/account.css" />
+        <link rel="stylesheet" href="../css/site.css" />
+        <link rel="stylesheet" href="../js/lib/bootstrap/dist/css/bootstrap.css" />
+
+        <title>РГР ДФО - Главная</title>
+        <meta charset="utf-8">
+    </head>
+
+    <body>
+        <ng-include src="'_searchbar.html'">
+        <script src="../js/lib/angular.min.js"></script>
+        <script>
+            var rgrApp = angular.module('rgrApp', []);
+        </script>
+    </body>
+</html>
