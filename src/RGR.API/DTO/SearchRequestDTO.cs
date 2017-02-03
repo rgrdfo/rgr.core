@@ -10,7 +10,7 @@ namespace RGR.API.DTO
     {
         public short EstateType { get; set; } = (short) EstateTypes.Flat;
         public bool IsCottage { get; set; } = false;
-        public bool PricePerMetter { get; set; } = false;
+        public bool PricePerMetter { get; set; } = false; //Определяет, является ли указанная цена ценой за квадратный метр, или за всю площадь
         public double? PriceFrom { get; set; } = null;
         public double? PriceTo { get; set; } = null;
         public bool? Room1 { get; set; } = null;
