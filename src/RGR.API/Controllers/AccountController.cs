@@ -58,7 +58,7 @@ namespace RGR.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("login")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Login([FromBody] LoginDTO dto)
         {
             Users user = await db.Users.FirstOrDefaultAsync(u => u.Login.ToUpper() == dto.Email.ToUpper() && u.PasswordHash == dto.Password.GenerateMD5PasswordHash());
@@ -79,11 +79,16 @@ namespace RGR.API.Controllers
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpPost]
         [Route("register")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([FromBody] UserDTO dto)
         {
+            //Регистрировать пользователей может только администратор
+            if (HttpContext.Session.GetUser(db).RoleId != 4)
+                return new StatusCodeResult(403);
+
             var registered = db.Users.FirstOrDefault(u => u.Login.ToUpper() == dto.Email.ToUpper());
             if (registered != null)
                 return new StatusCodeResult(422);

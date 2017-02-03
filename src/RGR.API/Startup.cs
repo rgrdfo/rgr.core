@@ -21,6 +21,8 @@ namespace RGR.API
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+            string AppPath = env.ContentRootPath;
+            string wwwRootPath = env.WebRootPath;
             Configuration = builder.Build();
         }
 
@@ -55,6 +57,16 @@ namespace RGR.API
             loggerFactory.AddDebug();
 
             app.UseStaticFiles();
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "Cookies",
+                LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login"),
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
+            });
+
+            app.UseSession();
 
             app.UseMvc();
         }
