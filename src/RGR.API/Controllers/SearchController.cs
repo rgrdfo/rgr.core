@@ -12,7 +12,6 @@ using RGR.API.Common;
 
 namespace RGR.API.Controllers
 {
-    [Route("[controller]")]
     public class SearchController : Controller
     {
         private rgrContext db;
@@ -23,6 +22,7 @@ namespace RGR.API.Controllers
         }
 
         [HttpPost]
+        [Route("[controller]")]
         public async Task<IActionResult> Search([FromBody] SearchRequestDTO Request)
         {
             //var Request = JsonConvert.DeserializeObject<SearchRequestDTO>(RequestBody);
@@ -491,6 +491,25 @@ namespace RGR.API.Controllers
             var result = await Task.Run(() => new PassportConverter(db).GetShortPassports(relevant));
 
             return new ContentResult() { Content = JsonConvert.SerializeObject(result) };
+        }
+
+        [HttpGet]
+        [Route("object")]
+        public async Task<IActionResult> GetPassport()
+        {
+            if (!Request.Query.ContainsKey("id"))
+                return new StatusCodeResult(400);
+
+            long id;
+            if (!long.TryParse(Request.Query["id"], out id))
+                return new StatusCodeResult(400);
+
+            EstateObjects obj = db.EstateObjects.SingleOrDefault(e => e.Id == id);
+
+            if (obj == null)
+                return new StatusCodeResult(422);
+
+            return new JsonResult(await FullPassport.GetAsync(db, obj));
         }
     }
 }
